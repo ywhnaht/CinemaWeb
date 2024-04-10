@@ -1,0 +1,82 @@
+﻿@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/assets/css/signin.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <title>SignIn</title>
+</head>
+<body>
+    <div class="modal" id="js-modal" style="display: flex; overflow: hidden">
+        <div class="login-container" id="js-login-container">
+            <div class="form-container sign-up">
+                <form>
+                    <h1>Tạo Tài Khoản</h1>
+                    <input type="text" required placeholder="Name">
+                    <input type="email" required placeholder="Email">
+                    <input type="tel" required placeholder="Phone Number">
+                    <input type="date" required placeholder="">
+                    <input type="password" required placeholder="Password">
+                    <input type="password" required placeholder="Confirm Password">
+                    <button class="js-signup">Đăng Ký</button>
+                </form>
+            </div>
+
+            <div class="form-container sign-in">
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <h1>Đăng Nhập</h1>
+                    <input type="email" required placeholder="Email">
+                    <input type="password" required placeholder="Password">
+                    <a href="#">Quên mật khẩu?</a>
+                    <button class="js-signin">Đăng Nhập</button>
+                </form>
+            </div>
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <h1>Đã có tài khoản?</h1>
+                        <p>Đăng nhập với tài khoản đã có</p>
+                        <button class="hidden" id="js-login">Đăng Nhập</button>
+                    </div>
+                    <div class="toggle-panel toggle-right">
+                        <h1>Chưa có tài khoản?</h1>
+                        <p>Đăng ký tài khoản với thông tin cá nhân của bạn</p>
+                        <button class="hidden" id="js-register">Đăng Ký</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/assets/js/signin.js"></script>
+    @*<script>
+            const modal = document.querySelector('.js-modal');
+            const container = document.getElementById('js-login-container');
+            const registerBtn = document.getElementById('js-register');
+            const loginBtn = document.getElementById('js-login');
+
+            modal.addEventListener('click', () => {
+                window.location.href = ""
+            });
+
+            registerBtn.addEventListener('click', () => {
+                container.classList.add("active");
+            });
+
+            loginBtn.addEventListener('click', () => {
+                container.classList.remove("active");
+            });
+
+            container.addEventListener('click', (event) => {
+                event.stopPropagation()
+            })
+        </script>*@
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+</body>
+</html>
