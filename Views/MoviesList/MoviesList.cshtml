@@ -1,9 +1,4 @@
-﻿
-@{
-    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
-}
-
-@model IEnumerable<CinemaWeb.Models.movy>
+﻿@model IEnumerable<CinemaWeb.Models.movy>
 
 @section Phimdangchieu {
     @if (ViewBag.MovieList != null)
@@ -13,7 +8,7 @@
         {
             if (movie.movie_status == true && count < 4)
             {
-                <div class="col-md-3 sub-movie-list">
+                <div class="col-md-3">
                     <img src="@movie.url_image" alt="" class="img-fluid img-movie">
                     <button class="buy-ticket-btn btn">
                         <i class="ti-ticket"></i>
@@ -22,26 +17,6 @@
                     <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
                 </div>
                 count++;
-            }
-        }
-    }
-}
-
-@section AllPhimdangchieu {
-    @if (ViewBag.MovieList != null)
-    {
-        foreach (var movie in ViewBag.MovieList)
-        {
-            if (movie.movie_status == true)
-            {
-                <div class="col-md-3 sub-movie-list">
-                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                    <button class="buy-ticket-btn btn">
-                        <i class="ti-ticket"></i>
-                        Mua vé
-                    </button>
-                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
-                </div>
             }
         }
     }
@@ -55,7 +30,7 @@
         {
             if (movie.movie_status == false && count < 4)
             {
-                <div class="col-md-3 sub-movie-list">
+                <div class="col-md-3">
                     <img src="@movie.url_image" alt="" class="img-fluid img-movie">
                     <button class="buy-ticket-btn btn">
                         <i class="ti-ticket"></i>
@@ -68,4 +43,3 @@
         }
     }
 }
-

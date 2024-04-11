@@ -1,12 +1,14 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
     <title>Ohayou Cinema</title>
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
-    <link rel="stylesheet" href="~/assets/css/style.css">
+    <link rel="stylesheet" href="~/Areas/User/assets/css/userstyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -21,7 +23,7 @@
                         <img src="~/assets/images/subimg/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
                     </button>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <ul class="list-gr-1 list-group list-group-horizontal">
                         <li class="list-group-item movie-area">
                             Phim
@@ -30,76 +32,14 @@
                                 <li class="movie-sta-text-1 py-1"><a href="#">PHIM ĐANG CHIẾU</a></li>
                                 <div class="movie-list py-1">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <img src="~/assets/images/movie/exhuma.jpg" alt="" class="img-fluid img-movie">
-                                            <button class="buy-ticket-btn btn">
-                                                <i class="ti-ticket"></i>
-                                                Mua vé
-                                            </button>
-                                            <a href="#" class="text-dark-emphasis movie-name">Exhuma: Quật mộ trùng ma</a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <img src="~/assets/images/movie/kungfu-panda-4.jpg" alt="" class="img-fluid img-movie">
-                                            <button class="buy-ticket-btn btn">
-                                                <i class="ti-ticket"></i>
-                                                Mua vé
-                                            </button>
-                                            <a href="#" class="text-dark-emphasis movie-name">KungFu Panda 4</a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <img src="~/assets/images/movie/qu-co-thua-ke-2.jpg" alt="" class="img-fluid img-movie">
-                                            <button class="buy-ticket-btn btn">
-                                                <i class="ti-ticket"></i>
-                                                Mua vé
-                                            </button>
-                                            <a href="#" class="text-dark-emphasis movie-name">Quý cô thừa kế 2</a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <img src="~/assets/images/movie/dune-2.jpg" alt="" class="img-fluid img-movie">
-                                            <button class="buy-ticket-btn btn">
-                                                <i class="ti-ticket"></i>
-                                                Mua vé
-                                            </button>
-                                            <a href="#" class="text-dark-emphasis movie-name py-1">Dune 2</a>
-                                        </div>
+                                        @RenderSection("Phimdangchieu", required: false)
                                     </div>
                                 </div>
 
                                 <li class="movie-sta-text-2 py-1"><a href="#">PHIM SẮP CHIẾU</a></li>
                                 <div class="movie-list py-1">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <img src="~/assets/images/movie/exhuma.jpg" alt="" class="img-fluid img-movie">
-                                            <button class="buy-ticket-btn btn">
-                                                <i class="ti-ticket"></i>
-                                                Mua vé
-                                            </button>
-                                            <a href="#" class="text-dark-emphasis movie-name">Exhuma: Quật mộ trùng ma</a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <img src="~/assets/images/movie/kungfu-panda-4.jpg" alt="" class="img-fluid img-movie">
-                                            <button class="buy-ticket-btn btn">
-                                                <i class="ti-ticket"></i>
-                                                Mua vé
-                                            </button>
-                                            <a href="#" class="text-dark-emphasis movie-name">KungFu Panda 4</a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <img src="~/assets/images/movie/qu-co-thua-ke-2.jpg" alt="" class="img-fluid img-movie">
-                                            <button class="buy-ticket-btn btn">
-                                                <i class="ti-ticket"></i>
-                                                Mua vé
-                                            </button>
-                                            <a href="#" class="text-dark-emphasis movie-name">Quý cô thừa kế 2</a>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <img src="~/assets/images/movie/dune-2.jpg" alt="" class="img-fluid img-movie">
-                                            <button class="buy-ticket-btn btn">
-                                                <i class="ti-ticket"></i>
-                                                Mua vé
-                                            </button>
-                                            <a href="#" class="text-dark-emphasis movie-name py-1">Dune 2</a>
-                                        </div>
+                                        @RenderSection("Phimsapchieu", required: false)
                                     </div>
                                 </div>
                             </ul>
@@ -131,7 +71,6 @@
                             <ul class="sub-list-gr-1 list-group">
                                 <li><a href="#">Rạp Đà Nẵng</a></li>
                             </ul>
-
                         </li>
                     </ul>
                 </div>
@@ -140,30 +79,44 @@
                         <i class="search-icon ti-search"></i>
                     </button>
                 </div>
-                <div class="login-area col-md-2">
-                    <div class="show-login js-show-login">
-                        <div class="account-wrapper">
-                            <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
-                            <ul class="list-group account-list">
-                                <li class="list-group-item">
-                                    <a href="#">
-                                        <i class="fa-solid fa-id-badge account-icon"></i>
-                                        Tài Khoản
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="#">
-                                        <i class="fa-solid fa-list-ol account-icon"></i>
-                                        Lịch Sử
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="~/Home/SignOut" class="js-logout">
-                                        <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
-                                        Đăng Xuất
-                                    </a>
-                                </li>
-                            </ul>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserAccount/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#">
+                                                <i class="fa-solid fa-list-ol account-icon"></i>
+                                                Lịch Sử
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/logomini.png" alt="">
+                                Võ Lê Quyên
+                            </div>
+                            <div class="row1" style="font-size: small; font-weight: 500;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/icon-gift.190935e4.png" alt="">
+                                0 Star
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -173,7 +126,7 @@
 
     <div class="slider">
         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
+            <div class="carousel-indicators slider-btn">
                 <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
@@ -201,12 +154,30 @@
     </div>
     <div class="content">
         @RenderBody()
+        <ul class="stt-movie-list">
+            <span class="px-4">
+                PHIM
+            </span>
+            <li class="stt-movie-item">
+                <a class="nav-link text-dark-emphasis" href="">Đang chiếu</a>
+            </li>
+            <li class="stt-movie-item">
+                <a class="nav-link text-dark-emphasis" href="">Sắp chiếu</a>
+            </li>
+        </ul>
+        <div class="movie-list">
+            <div class="row">
+                @RenderSection("AllPhimdangchieu", required: false)
+            </div>
+
+        </div>
     </div>
     <div class="footer">
 
     </div>
-
+    <script src="~/assets/js/scripts.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
 

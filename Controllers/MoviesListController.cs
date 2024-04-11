@@ -1,17 +1,17 @@
-﻿using CinemaWeb.Controllers;
-using CinemaWeb.Models;
+﻿using CinemaWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace CinemaWeb.Areas.User.Controllers
+namespace CinemaWeb.Controllers
 {
-    public class UserHomeController : Controller
+    public class MoviesListController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
-        public ActionResult Index()
+        // GET: MoviesList
+        public ActionResult MoviesList()
         {
             List<movy> movielist = db.movies.ToList();
             DateTime currentDate = DateTime.Now.Date;
@@ -27,12 +27,6 @@ namespace CinemaWeb.Areas.User.Controllers
                 }
             }
             ViewBag.MovieList = movielist;
-            return View();
-        }
-
-        public ActionResult Account()
-        {
-            
             return View();
         }
     }

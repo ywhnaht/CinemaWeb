@@ -1,0 +1,377 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
+    <title>Ohayou Cinema</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="~/Areas/User/assets/css/userstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="header">
+        <div class="container-fluid  p-4">
+            <div class="row align-items-center">
+                <div class="col-md-2 px-5 py-1">
+                    <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                </div>
+                <div class="col-md-2 buyticket-area">
+                    <button type="button" class="buyticket-btn btn">
+                        <img src="~/assets/images/subimg/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-gr-1 list-group list-group-horizontal">
+                        <li class="list-group-item movie-area">
+                            Phim
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="movie-status list-group">
+                                <li class="movie-sta-text-1 py-1"><a href="#">PHIM ĐANG CHIẾU</a></li>
+                                <div class="movie-list py-1">
+                                    <div class="row">
+                                        @*@RenderSection("Phimdangchieu", required: false)*@
+                                    </div>
+                                </div>
+
+                                <li class="movie-sta-text-2 py-1"><a href="#">PHIM SẮP CHIẾU</a></li>
+                                <div class="movie-list py-1">
+                                    <div class="row">
+                                        @*@RenderSection("Phimsapchieu", required: false)*@
+                                    </div>
+                                </div>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Góc Điện Ảnh
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Thể loại phim</a></li>
+                                <li><a href="#">Diễn viên</a></li>
+                                <li><a href="#">Đạo diễn</a></li>
+                                <li><a href="#">Bình luận phim</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item event-list text-center">
+                            Sự Kiện
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Ưu đãi</a></li>
+                                <li><a href="#">Phim hay tháng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item ticket-price text-center">
+                            Rạp/Giá vé
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Rạp Đà Nẵng</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-1">
+                    <button class="search-btn btn">
+                        <i class="search-icon ti-search"></i>
+                    </button>
+                </div>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="#">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="#">
+                                                <i class="fa-solid fa-list-ol account-icon"></i>
+                                                Lịch Sử
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/logomini.png" alt="">
+                                Võ Lê Quyên
+                            </div>
+                            <div class="row1" style="font-size: small; font-weight: 500;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/icon-gift.190935e4.png" alt="">
+                                0 Star
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <header>
+                    <div class="row " style="margin-left: 50px;">
+                        <div class="col-auto">
+                            <img src="~/assets/images/subimg/account.png" alt="">
+                        </div>
+                        <div class="col-auto">
+                            <div class="row1 " style="font-weight: 600;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/logomini.png" alt="">
+                                Võ Lê Quyên
+                            </div>
+                            <div class="row1">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/icon-gift.190935e4.png" alt="">
+                                0 Star
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <div class="rating">
+                    <div class="rating-item" style=" font-weight: bold; color:dimgray;">
+                        Tổng chi tiêu năm 2024
+                        <span class="d">0đ</span>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-8">
+                            <div class="logo">
+                                <li class="logo-item1">
+                                    <img src="~/Areas/User/assets/images/logo/logomini.png" style="width: 30px; height:40px" alt="">
+                                </li>
+                                <li class="logo-item2">
+                                    <img src="~/Areas/User/assets/images/logo/silver.6313aa20.png" style="width: 30px; height:40px" alt="">
+                                </li>
+                                <li class="logo-item3">
+                                    <img src="~/Areas/User/assets/images/logo/gold.ff661579.png" style="width: 30px; height:40px" alt="">
+                                </li>
+
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                                    1
+                                </div>
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">2</div>
+
+                            </div>
+                            <div class="money">
+                                <li class="money-item1">
+                                    0đ
+                                </li>
+                                <li class="money-item2">
+                                    2.000.000đ
+                                </li>
+                                <li class="money-item3">
+                                    4.000.000đ
+                                </li>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <ul class="list">
+                        <li class="item">
+                            <a href="">HOTLINE HỖ TRỢ : 19002224(9:00-22:00)</a>
+                        </li>
+                        <li class="item">
+                            <a href="">Gmail: ohayoucinema@gmail.com</a>
+
+                        </li>
+                        <li class="item">
+                            <a href="">Câu hỏi thường gặp</a>
+
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="col-md-7">
+                <div class="row">
+                    <ul class="list_fc">
+                        <li class="list_item">
+                            <a href="#history" class="accordion-toggle" data-bs-toggle="collapse" data-bs-target="#history" aria-expanded="false">Lịch sử giao dịch</a>
+                        </li>
+                        <li class="list_item">
+                            <a href="#infor" class="accordion-toggle" data-bs-toggle="collapse" data-bs-target="#infor" aria-expanded="false">Thông tin cá nhân</a>
+                        </li>
+                        <li class="list_item">
+                            <a href="#noti" class="accordion-toggle" data-bs-toggle="collapse" data-bs-target="#noti" aria-expanded="false">Thông báo</a>
+                        </li>
+                        <li class="list_item">
+                            <a href="#gift" class="accordion-toggle" data-bs-toggle="collapse" data-bs-target="#gift" aria-expanded="false">Quà tặng</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="collapse history" id="history">
+                    <div class="row">
+                        <div class="col-md-2" style="margin-top: 0;">
+                            <img src="~/assets/images/movie/exhuma.jpg" alt="">
+                        </div>
+                        <div class="col-md-5">
+                            Exhuma: Quật mộ trùng ma
+                        </div>
+                        <div class="col-md-3">
+                            20:00h Thứ ba, 09/04/2024
+                        </div>
+                        <div class="col-md-2">
+                            <a href="#detail1" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail1" aria-expanded="false">Chi tiết</a>
+                        </div>
+                        <div class="modal" id="detail1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="col">
+                                        <div class="row1">
+                                            <img src="~/assets/images/movie/exhuma.jpg" alt="">
+                                            <p>Exhuma: Quật mộ trùng ma</p>
+                                        </div>
+                                        <div class="row2">
+                                            <p>Ohayou cenima</p>
+                                            <p>Suất 20:00 Thứ ba, 09/04/2024</p>
+                                        </div>
+                                        <div class="row3">
+                                            <p class="p">Ghế</p>
+                                            <p>D5, D6</p>
+                                        </div>
+                                        <div class="row4">
+                                            <div class="col">
+                                                <p class="p">Mã vé</p>
+                                                <p>WJHC3B5</p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="p">Giá</p>
+                                                <p>100.000đ</p>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" style="margin-top: 0;">
+                            <img src="~/assets/images/movie/kungfu-panda-4.jpg" alt="">
+                        </div>
+                        <div class="col-md-5">
+                            Kungfu Panda 4
+                        </div>
+                        <div class="col-md-3">
+                            20:00h Thứ hai, 08/04/2024
+                        </div>
+                        <div class="col-md-2">
+                            <a href="#detail2" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail2" aria-expanded="false">Chi tiết</a>
+                        </div>
+                        <div class="modal" id="detail2">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="col">
+                                        <div class="row1">
+                                            <img src="~/assets/images/movie/kungfu-panda-4.jpg" alt="">
+                                            <p>Kungfu Panda 4</p>
+                                        </div>
+                                        <div class="row2">
+                                            <p>Ohayou cenima</p>
+                                            <p>Suất 20:00 Thứ hai, 08/04/2024</p>
+                                        </div>
+                                        <div class="row3">
+                                            <p class="p">Ghế</p>
+                                            <p>H5</p>
+                                        </div>
+                                        <div class="row4">
+                                            <div class="col">
+                                                <p class="p">Mã vé</p>
+                                                <p>WJHC3B8</p>
+                                            </div>
+                                            <div class="col">
+                                                <p class="p">Giá</p>
+                                                <p>50.000đ</p>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse infor" id="infor">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <div class="form">
+                                    <input type="text" required placeholder="Võ Lê Quyên">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <div class="form">
+                                    <input type="text" required placeholder="volequyen11042005@gmail.com">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date of birth</label>
+                                <div class="form">
+                                    <input type="text" required placeholder="01/06/2004">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="phonnum">Phone number</label>
+                                <div class="form">
+                                    <input type="text" required placeholder="0916513682">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Password">Password</label>
+                                <div class="form">
+                                    <input type="text" required placeholder="12345678">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button class="update">Cập nhật</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="footer">
+
+    </div>
+    <script src="~/Areas/User/assets/js/userscripts.js"></script>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+

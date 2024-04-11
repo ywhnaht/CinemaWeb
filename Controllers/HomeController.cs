@@ -14,9 +14,24 @@ namespace CinemaWeb.Controllers
 {
     public class HomeController : Controller
     {
+        Cinema_Web_Entities db = new Cinema_Web_Entities();
         public ActionResult Index()
         {
-                return View();
+            List<movy> movielist = db.movies.ToList();
+            DateTime currentDate = DateTime.Now.Date;
+            foreach (var movie in movielist)
+            {
+                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
+                {
+                    movie.movie_status = true; // Đang chiếu
+                }
+                else
+                {
+                    movie.movie_status = false; // Sắp chiếu
+                }
+            }
+            ViewBag.MovieList = movielist;
+            return View();
         }
 
         [AllowAnonymous]
@@ -32,7 +47,6 @@ namespace CinemaWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SignIn(string email, string pass)
         {
-            Cinema_Web_Entities db = new Cinema_Web_Entities();
             var user = db.users.FirstOrDefault(x => x.email == email);
             if (user != null)
             {
@@ -65,7 +79,6 @@ namespace CinemaWeb.Controllers
         [HttpPost]
         public ActionResult SignUp(string name, string email, DateTime dateofbirth, string pass, string confirmpass)
         {
-            Cinema_Web_Entities db = new Cinema_Web_Entities();
             user newUser = new user();
             var _user = db.users.FirstOrDefault(x => x.email == email);
             if (_user != null)
