@@ -156,6 +156,19 @@
     color: #777777;
 }
 
+.login-btn {
+    font-size: 14px;
+    margin-left: -48px;
+    color: #777777;
+    border: none;
+}
+
+.login-btn:hover
+{
+    cursor: pointer;
+    color: #F26B38;
+}
+
 /*guest*/
 
 .list{
@@ -163,19 +176,36 @@
     list-style:none;
     margin-top: 30px; 
     margin-bottom: 30px;
+    padding-left: 0px;
 }
-.item{
+
+.item1{
     display: inline-block ;
     margin-right:40px;
     line-height: 2;
     font-size: 20px;
 }
 
-.item a{
+.item1 a{
     padding-top: 0%;
     background-color: white;
     border: white;
     color: #000;
+}
+.item{
+    padding-top: 5px;
+    display: inline-block ;
+    margin-right:40px;
+    line-height: 2;
+    font-size: 15px;
+}
+
+.item a{
+    text-decoration: none;
+    background-color: white;
+    border: white;
+    color: #000;
+    font-weight: bold;
 }
 
 .item a:hover{
@@ -195,13 +225,13 @@
 }
 
 .content{
-    margin-left: 145px;
-    margin-right: 145px;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 .list1 .col-md-3{
     position: relative;
-    padding-bottom: 35px;
+    padding-bottom: 40px;
 }
 
 .list1 .buy-ticket-btn {
@@ -234,11 +264,7 @@
 
 .list1 a{
     text-decoration: none;
+    font-size:inherit;
+    font-weight:600;
     color: #000;
-    font-weight: bold;
-
-}
-.js-login-btn:hover{
-    cursor: pointer;
-    color: #f29538;
 }
