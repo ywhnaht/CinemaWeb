@@ -365,7 +365,9 @@
     font-weight: 500;
     color:dimgray;
 }
-
+.form input{
+    pointer-events: none;
+}
 .form-group .form{
     margin-top: 10px;
 }
