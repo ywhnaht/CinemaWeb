@@ -204,10 +204,10 @@
 
 
 /*user*/
-
+/* 
 .container .col-md-5{
     background-color: gray;
-}
+} */
 
 .col-auto .icon
 {
@@ -318,10 +318,10 @@
 
 }
 
-.container .row .col-md-5
+/* .container .row .col-md-5
 {
     background-color: #fff;
-}
+} */
 .container .row{
     margin-bottom: 30px;
 }
@@ -450,3 +450,8 @@
 .modal .p{
     font-weight: normal;
 }
+
+/* .container {
+    background-color: #777777;
+    position: relative;
+} */
