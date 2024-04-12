@@ -1169,6 +1169,7 @@
     <Content Include="FE_Q\assets\js\bootstrap.js.map" />
     <Content Include="FE_Q\assets\js\bootstrap.min.js.map" />
     <Content Include="Areas\User\Views\UserAccount\UserProfile.cshtml" />
+    <Content Include="Areas\User\Views\UserHome\UserProfile.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

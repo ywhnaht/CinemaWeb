@@ -3,29 +3,60 @@
     Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
 }
 
-@model IEnumerable<CinemaWeb.Models.movy>
+@model CinemaWeb.Areas.User.Controllers.UserHomeController
+
+@{
+    CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
+}
+
+@section UserName {
+    <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+        <img class="icon" src="~/Areas/User/assets/images/logo/logomini.png" alt="">
+        @currentUser.full_name
+    </div>
+    <div class="row1" style="font-size: small; font-weight: 500;">
+        <img class="icon" src="~/Areas/User/assets/images/logo/icon-gift.190935e4.png" alt="">
+        0 Star
+    </div>
+}
 
 @section Phimdangchieu {
     @if (ViewBag.MovieList != null)
     {
         var count = 0;
+        var rowCount = 0;
         foreach (var movie in ViewBag.MovieList)
         {
-            if (movie.movie_status == true && count < 4)
+            if (count % 4 == 0)
             {
-                <div class="col-md-3 sub-movie-list">
-                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                    <button class="buy-ticket-btn btn">
-                        <i class="ti-ticket"></i>
-                        Mua vé
-                    </button>
-                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
-                </div>
-                count++;
+                if (rowCount > 0)
+                {
+                    @:</div> <!-- Close previous row -->
+                }
+                @:<div class="row">
+                    <!-- Open a new row -->
+                    rowCount++;
+                }
+                if (movie.movie_status == true && count < 4)
+                {
+                    <div class="col-md-3 sub-movie-list">
+                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                        <button class="buy-ticket-btn btn">
+                            <i class="ti-ticket"></i>
+                            Mua vé
+                        </button>
+                        <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                    </div>
+                    count++;
+                }
             }
+            if (rowCount > 0)
+            {
+            @:</div> <!-- Close the last row -->
         }
     }
 }
+
 
 @section AllPhimdangchieu {
     @if (ViewBag.MovieList != null)

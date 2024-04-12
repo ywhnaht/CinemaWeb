@@ -30,9 +30,22 @@ namespace CinemaWeb.Areas.User.Controllers
             return View();
         }
 
-        public ActionResult Account()
+        public ActionResult UserProfile()
         {
-            
+            List<movy> movielist = db.movies.ToList();
+            DateTime currentDate = DateTime.Now.Date;
+            foreach (var movie in movielist)
+            {
+                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
+                {
+                    movie.movie_status = true; // Đang chiếu
+                }
+                else
+                {
+                    movie.movie_status = false; // Sắp chiếu
+                }
+            }
+            ViewBag.MovieList = movielist;
             return View();
         }
     }

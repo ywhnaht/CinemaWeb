@@ -31,9 +31,7 @@
                             <ul class="movie-status list-group">
                                 <li class="movie-sta-text-1 py-1"><a href="#">PHIM ĐANG CHIẾU</a></li>
                                 <div class="movie-list py-1">
-                                    <div class="row">
-                                        @RenderSection("Phimdangchieu", required: false)
-                                    </div>
+                                    @RenderSection("Phimdangchieu", required: false)
                                 </div>
 
                                 <li class="movie-sta-text-2 py-1"><a href="#">PHIM SẮP CHIẾU</a></li>
@@ -87,7 +85,7 @@
                                     <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
                                     <ul class="list-group account-list">
                                         <li class="list-group-item">
-                                            <a href="/User/UserAccount/UserProfile">
+                                            <a href="/User/UserHome/UserProfile">
                                                 <i class="fa-solid fa-id-badge account-icon"></i>
                                                 Tài Khoản
                                             </a>
@@ -109,14 +107,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
-                                <img class="icon" src="~/Areas/User/assets/images/logo/logomini.png" alt="">
-                                Võ Lê Quyên
-                            </div>
-                            <div class="row1" style="font-size: small; font-weight: 500;">
-                                <img class="icon" src="~/Areas/User/assets/images/logo/icon-gift.190935e4.png" alt="">
-                                0 Star
-                            </div>
+                            @RenderSection("UserName", required: false)
                         </div>
                     </div>
                 </div>
@@ -173,9 +164,9 @@
         </div>
     </div>
     <div class="footer">
-
+        @RenderSection("UserProfile", required: false)
     </div>
-    <script src="~/assets/js/scripts.js"></script>
+    <script src="~/Areas/User/assets/js/userscripts.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
 
 </body>
