@@ -7,11 +7,12 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.buyticket-area {
+.header {
+    background-color: #fff;
 }
 
 .buyticket-btn {
-    font-size: 15px;
+    font-size: 20px;
     color: #fff;
     border: none;
 }
@@ -112,8 +113,8 @@
 }
 
 .img-movie {
-    margin-bottom: 10px;
-    border-radius: 8px;
+    padding-bottom: 10px;
+    transition: filter 0.3s ease;
 }
 
 .ti-ticket {
@@ -148,7 +149,8 @@
     }
 
 .search-icon {
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .search-btn {
@@ -164,26 +166,9 @@
     color: #f29538;
 }
 
-/* Login */
-.login-area {
-    display: flex;
-}
-
 .account-wrapper {
     position: relative;
 }
-
-.account-img {
-    width: 75px;
-    height: auto;
-    padding: 10px 20px;
-}
-
-/*.col-auto .icon {
-    width: 20px;
-    height: auto;
-    margin-right: 5px;
-}*/
 
 .account-list li:hover a {
     color: #F26B38;
@@ -209,99 +194,17 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.account-icon {
-    padding-right: 10px;
-}
 
 .account-wrapper:hover .account-list {
     display: block;
 }
 
-.g-star-img {
-    width: 100px;
-    height: auto;
-}
 
-/* Slider */
-.slider {
-    padding: 10px 40px;
-}
-
-.slider-btn {
-    z-index: 1;
-}
-
-.carousel-control-prev {
-    padding-right: 130px;
-}
-
-.carousel-control-next {
-    padding-left: 130px;
-}
-
-/* Content */
-
-
-.stt-movie-list {
-    display: inline-block;
-    list-style: none;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-.stt-movie-item {
-    display: inline-block;
-    margin-right: 40px;
-    /*line-height: 2;*/
-    font-size: 15px;
-}
-
-    .stt-movie-item a {
-        padding-top: 0%;
-        background-color: white;
-        text-decoration: none;
-        border: white;
-        color: #000;
-    }
-
-        .stt-movie-item a:hover {
-            background-color: white;
-            border: white;
-            color: rgba(3, 78, 162, 1);
-        }
-
-    .stt-movie-item:hover {
-        cursor: pointer;
-        color: rgba(3, 78, 162, 1);
-    }
-
-.movie-icon {
-    color: rgba(3, 78, 162, 1);
-}
-
-.now-playing {
-    padding-left: 2rem;
-    margin: auto;
-}
-
-up-coming {
-    margin-left: -3rem;
-}
-
-.content {
-    margin-left: 4rem;
-    margin-right: 4rem;
-}
-
-.movie-list a {
-    text-decoration: none;
-    color: #000;
-    font-weight: 500;
-}
-
-.container .col-md-5 {
+/*user*/
+/* 
+.container .col-md-5{
     background-color: gray;
-}
+} */
 
 .col-auto .icon {
     width: 20px;
@@ -400,10 +303,10 @@ up-coming {
     display: block;
 }
 
-.container .row .col-md-5 {
+/* .container .row .col-md-5
+{
     background-color: #fff;
-}
-
+} */
 .container .row {
     margin-bottom: 30px;
 }
@@ -524,3 +427,8 @@ up-coming {
 .modal .p {
     font-weight: normal;
 }
+
+/* .container {
+    background-color: #777777;
+    position: relative;
+} */

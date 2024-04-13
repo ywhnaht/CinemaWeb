@@ -64,12 +64,12 @@
     }
 }
 
-@section AllPhimsapchieu {
+@*@section AllPhimsapchieu {
     @if (ViewBag.MovieList != null)
     {
         foreach (var movie in ViewBag.MovieList)
         {
-            if (movie.movie_status == false)
+            if (movie.movie_status == true)
             {
                 <div class="col-md-3 sub-movie-list">
                     <img src="@movie.url_image" alt="" class="img-fluid img-movie">
@@ -82,4 +82,4 @@
             }
         }
     }
-}
+}*@
