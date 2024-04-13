@@ -203,11 +203,32 @@
 }
 
 
+
+
 /*user*/
-/* 
-.container .col-md-5{
-    background-color: gray;
-} */
+
+.box{
+    --tw-bg-opacity: 1;
+    background-color: rgb(249 249 249 / var(--tw-bg-opacity));
+    padding-top: 40px;
+}
+
+.left{
+    background-color: white;
+}
+
+.right .header-list{
+    --tw-bg-opacity: 1;
+    background-color: rgb(249 249 249 / var(--tw-bg-opacity));
+}
+
+.right .box-content{
+    background-color: white;
+}
+
+.user{
+    padding-top: 20px;
+}
 
 .col-auto .icon
 {
@@ -216,7 +237,7 @@
     margin-right: 5px;
 }
 
-.rating
+.content
 {
     margin-top: 60px;
 }
@@ -232,17 +253,16 @@
 }
 .logo-item1{
     display: inline-block;
-    margin-right: 120px;
+    margin-right: 130px;
 }
 
 .logo-item2{
     display: inline-block;
-    margin-right: 120px;
+    margin-right: 125px;
 }
 
 .logo-item3{
     display: inline-block;
-
 }
 
 .money
@@ -252,12 +272,12 @@
 .money-item1
 {
     display: inline-block;
-    margin-right: 70px;
+    margin-right: 90px;
 }
 .money-item2
 {
     display: inline-block;
-    margin-right: 40px;
+    margin-right: 50px;
 
 }
 .money-item3
@@ -310,7 +330,7 @@
     font-weight:500;
 }
 
-.container .col-md-2 img {
+.container-fluid .mv-img img{
 
     max-width: 100px;
     max-height: 90px;
@@ -318,22 +338,17 @@
 
 }
 
-/* .container .row .col-md-5
-{
-    background-color: #fff;
-} */
-.container .row{
+.history-box{
     margin-bottom: 30px;
 }
 
-
-.container .col-md-7 .col-md-5
+.mv-name
 {
     margin-top: 30px;
     font-weight: 500;
 }
 
-.container .col-md-7 .col-md-3
+.date
 {
     margin-top: 20px;
     font-size: small;
@@ -341,7 +356,7 @@
 
 }
 
-.container .col-md-7 .col-md-2 
+.bill
 {
     margin-top: 30px;
     font-size:small ;
@@ -349,12 +364,12 @@
     
 }
 
-.container .col-md-7 .col-md-2 a{
+.bill a{
     text-decoration: none;
     color: #F26B38;
 }
 
-.container .col-md-7 .col-md-2:hover
+.bill:hover
 {
     cursor: pointer;
 
@@ -370,10 +385,45 @@
     pointer-events: none;
 }    
 
+.form-group label{
+    font-size: small;;
+}
 
 .form-group .form{
     margin-top: 10px;
+
 }
+
+.form-group .form input{
+    width: 350px;
+    height: 38px;
+    --tw-bg-opacity: 1;
+    background-color: rgb(249 249 249 / var(--tw-bg-opacity));
+    border: gray;
+}
+
+.subform-group label{
+    font-size: small;;
+}
+
+.subform-group .subform{
+    margin-top: 10px;
+
+}
+
+.subform-group .subform input{
+    width: 300px;
+    height: 38px;
+    --tw-bg-opacity: 1;
+    background-color: rgb(249 249 249 / var(--tw-bg-opacity));
+    border:#000;
+}
+
+.subuser-infor-box{
+    background-color: white;
+}
+
+
 .update{
     background-color:#F26B38;
     color: #fff;

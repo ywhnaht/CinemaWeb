@@ -1,9 +1,8 @@
-
 const inforBtn = document.querySelector('.infor-btn');
 const historyBtn = document.querySelector('.history-btn');
 const updateBtn = document.querySelector('.update');
 const remove = document.querySelectorAll('.remove');  
-console.log(infor);
+console.log(history);
 const history = document.querySelector('.history');
 inforBtn.addEventListener('click', () => {
    history.classList.remove('show');
@@ -16,5 +15,4 @@ updateBtn.addEventListener('click', () => {
    for(var input of remove) {
        input.classList.remove('remove');
    }
-   
 });
