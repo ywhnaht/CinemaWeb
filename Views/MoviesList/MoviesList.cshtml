@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CinemaWeb.Models.movy>
+
+@section Phimdangchieu {
+    @if (ViewBag.MovieList != null)
+    {
+        var count = 0;
+        foreach (var movie in ViewBag.MovieList)
+        {
+            if (movie.movie_status == true && count < 4)
+            {
+                <div class="col-md-3">
+                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                    <button class="buy-ticket-btn btn">
+                        <i class="ti-ticket"></i>
+                        Mua vé
+                    </button>
+                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                </div>
+                count++;
+            }
+        }
+    }
+}
+
+@section Phimsapchieu {
+    @if (ViewBag.MovieList != null)
+    {
+        var count = 0;
+        foreach (var movie in ViewBag.MovieList)
+        {
+            if (movie.movie_status == false && count < 4)
+            {
+                <div class="col-md-3">
+                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                    <button class="buy-ticket-btn btn">
+                        <i class="ti-ticket"></i>
+                        Mua vé
+                    </button>
+                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                </div>
+                count++;
+            }
+        }
+    }
+}
