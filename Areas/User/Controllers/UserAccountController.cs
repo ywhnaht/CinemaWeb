@@ -22,29 +22,19 @@ namespace CinemaWeb.Areas.User.Controllers
         }
         public ActionResult UserProfile() 
         {
-            var result = from user in db.users
-                         join invoice in db.invoices on user.id equals invoice.user_id
-                         select new UserProfileViewModel
-                         {
-                             UserName = user.full_name,
-                             Email = user.email,
-                             DateOfBirth = (DateTime)user.date_of_birth,
-                             PhoneNum = user.user_phone,
-                             Password = user.user_password,
-                             TotalMoneySpent = (int)invoice.total_money
-                         };
-            ViewBag.result = result;
+            //var result = from user in db.users
+            //             join invoice in db.invoices on user.id equals invoice.user_id
+            //             select new UserProfileViewModel
+            //             {
+            //                 UserName = user.full_name,
+            //                 Email = user.email,
+            //                 DateOfBirth = (DateTime)user.date_of_birth,
+            //                 PhoneNum = user.user_phone,
+            //                 Password = user.user_password,
+            //                 TotalMoneySpent = (int)invoice.total_money
+            //             };
+            //ViewBag.result = result;
             return View();
-        }
-
-        public class UserProfileViewModel
-        {
-            public string UserName { get; set; }
-            public string Email { get; set; }
-            public DateTime DateOfBirth { get; set; }
-            public string PhoneNum { get; set; }
-            public string Password { get; set; }
-            public int TotalMoneySpent { get; set; }
         }
     }
 }
