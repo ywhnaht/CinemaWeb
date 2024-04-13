@@ -11,11 +11,11 @@ const history = document.querySelector('.history');
 // historyBtn.addEventListener('click', () => {
 //    document.querySelector('.show').classList.remove('show');
 // });
-updateBtn.addEventListener('click', () => {
-   for(var input of remove) {
-       input.classList.remove('remove');
-   }
-});
+// updateBtn.addEventListener('click', () => {
+//    for(var input of remove) {
+//        input.classList.remove('remove');
+//    }
+// });
 
 historyBtn.forEach(element => {
     element.addEventListener('click', () => {
