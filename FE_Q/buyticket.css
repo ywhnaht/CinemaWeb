@@ -90,7 +90,7 @@
     border-top: 0.2rem ridge #f58020;
 }
 .invoice {
-    margin-top: 20px;
+    margin-top: 1.25rem;
     border-top: 1px dashed #ccc;
 }
 
@@ -164,8 +164,8 @@ transition: all linear 0.5s;
 .pickDay {
     display: flex;
     justify-content: space-between; /* Canh giữa các button */
-    margin-bottom: 30px;
-    margin-top: -60px;
+    margin-bottom: 2rem;
+    margin-top: -3.75rem;
 }
 
 /* Button cho ngày */
@@ -174,7 +174,7 @@ transition: all linear 0.5s;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     transition: background-color 0.3s ease-in-out;
 }
 
@@ -185,13 +185,13 @@ transition: all linear 0.5s;
 
 /* Chữ trong button */
 .chooseDay {
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .pickTime {
     display: flex;
     justify-content: space-between; /* Canh giữa các button */
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
 }
 
 /* Button cho ngày */
@@ -200,7 +200,7 @@ transition: all linear 0.5s;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     transition: background-color 0.3s ease-in-out;
 }
 
@@ -211,7 +211,7 @@ transition: all linear 0.5s;
 
 /* Chữ trong button */
 .chooseTime{
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 h4{
