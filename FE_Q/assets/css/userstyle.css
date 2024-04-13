@@ -402,13 +402,13 @@
     border: gray;
 }
 
-.subform-group label{
-    font-size: small;;
+.subform-group{
+    margin-left: 25px;
+    margin-bottom: 15px;
 }
 
-.subform-group .subform{
-    margin-top: 10px;
-
+.subform-group label{
+    font-size: small;;
 }
 
 .subform-group .subform input{
@@ -419,10 +419,31 @@
     border:#000;
 }
 
-.subuser-infor-box{
-    background-color: white;
+.update-box{
+    width: 350px;
+    height: 450px;
+}
+.update-box p{
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
 }
 
+.updateBtn{  
+        background-color:#F26B38;
+        color: #fff;
+        font-size: 12px;
+        padding: 10px 45px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-top: 10px;
+        cursor: pointer;
+        margin-left: 65px;
+    
+}
 
 .update{
     background-color:#F26B38;
@@ -436,6 +457,7 @@
     text-transform: uppercase;
     margin-top: 10px;
     cursor: pointer;
+    
 }
 
 .modal-content .row1{
