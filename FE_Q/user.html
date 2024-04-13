@@ -22,7 +22,9 @@
                 </div>
                 <div class="col-md-2 buyticket-area">
                     <button type="button" class="buyticket-btn btn">
-                        <img src="assets/images/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
+                        <a href="buyticket.html">
+                            <img src="assets/images/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
+                        </a>    
                     </button>
                 </div>
                 <div class="col-md-4">
@@ -144,9 +146,11 @@
                                 <div class="account-wrapper">
                                     <img src="assets/images/account.png" alt="" class="img-fluid account-img">
                                     <ul class="list-group account-list">
-                                        <li class="list-group-item"><a href="#"><i class="fa-solid fa-id-badge account-icon"></i>
+                                        <li class="list-group-item">
+                                            <a href="#infor" class = "infor-btn accordion-toggle" data-bs-toggle="collapse" data-bs-target="#infor" aria-expanded="false"><i class="fa-solid fa-id-badge account-icon"></i>
                                             Tài Khoản</a></li>
-                                        <li class="list-group-item"><a href="#"><i class="fa-solid fa-list-ol account-icon"></i>
+                                        <li class="list-group-item">
+                                            <a href="#history" class="history-btn accordion-toggle" data-bs-toggle="collapse" data-bs-target="#history" aria-expanded="false"><i class="fa-solid fa-list-ol account-icon"></i>
                                             Lịch Sử</a></li>
                                         <li class="list-group-item"><a href="#" class="js-logout"><i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
                                             Đăng Xuất</a></li>
@@ -170,34 +174,34 @@
             </div>
         </div>       
     </div> 
-    <div class="container" >
-            <div class="row">
-                <div class="col-md-5">
+    <div class="container-fluid box" >
+            <div class="row ">
+                <div class="col-md-1"></div>
+                <div class="col-md-3 left">
                     <header>
-                        <div class="row" style="margin-left: 50px;">
+                        <div class="row user" style="margin-left: 50px;">
                             <div class="col-auto">
                                 <img src="assets/images/account.png" alt="">
                             </div>
                             <div class="col-auto">
-                                <div class="row1 " style="font-weight: 600;">
+                                <div class="row name" style="font-weight: 600;">
                                     <img class="icon" src="assets/images/logomini.png" alt="">
                                     Võ Lê Quyên
                                 </div>
-                                <div class="row1">
+                                <div class="row star">
                                     <img class="icon" src="assets/images/icon-gift.190935e4.png" alt="">
                                     0 Star
-                                </div>
-                                
+                                </div>                                
                             </div>          
                         </div>
                     </header>
-                    <div class="rating">
-                        <div class="rating-item" style=" font-weight: bold; color:dimgray;">
+                    <div class="content">
+                        <div class="content-item" style=" font-weight: bold; color:dimgray;">
                             Tổng chi tiêu năm 2024
                             <span class = "d">0đ</span>
                         </div>
-                        <div class="row ">
-                            <div class="col-md-8">
+                        <div class="row ranking">
+                            <div class="col">
                                 <div class="logo">
                                         <li class="logo-item1">
                                             <img src="assets/images/logomini.png" style = "width: 30px; height:40px"  alt="">
@@ -210,10 +214,10 @@
                                         </li>
                                     
                                 </div>
-                                <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">1
+                                <div class="progress" style="width: 100%;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
                                     </div>
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">2</div>
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                     
                                 </div>
                                 <div class="money">
@@ -247,170 +251,205 @@
                         </ul>
                     </div>
                 </div>
-
-            <div class="col-md-7">
-                <div class="row">
-                    <ul class="list_fc">
-                        <li class="list_item">
-                            <a href="#history" class="history-btn accordion-toggle" data-bs-toggle="collapse" data-bs-target="#history" aria-expanded="false">Lịch sử giao dịch</a>
-                        </li>
-                        <li class="list_item">
-                            <a href="#infor" class="infor-btn accordion-toggle" data-bs-toggle="collapse" data-bs-target="#infor" aria-expanded="false">Thông tin cá nhân</a>
-                        </li>
-                        <li class="list_item">
-                            <a href="#noti" class="accordion-toggle" data-bs-toggle="collapse" data-bs-target="#noti" aria-expanded="false">Thông báo</a>
-                        </li>
-                        <li class="list_item">
-                            <a href="#gift" class="accordion-toggle" data-bs-toggle="collapse" data-bs-target="#gift" aria-expanded="false">Quà tặng</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="collapse history" id="history">
-                    <div class="row">
-                        <div class="col-md-2" style="margin-top: 0;">
-                            <img src="assets/images/movie/exhuma.jpg" alt="">
-                        </div>
-                        <div class="col-md-5">
-                            Exhuma: Quật mộ trùng ma
-                        </div>
-                        <div class="col-md-3">
-                            20:00h Thứ ba, 09/04/2024
-                        </div>
-                        <div class="col-md-2">
-                            <a href="#detail1" class = "accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail1" aria-expanded="false">Chi tiết</a>
-                        </div>
-                        <div class="modal" id="detail1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="col">
-                                        <div class="row1">
-                                            <img src="assets/images/movie/exhuma.jpg" alt="">
-                                            <p>Exhuma: Quật mộ trùng ma</p>
-                                        </div>
-                                        <div class="row2">
-                                            <p>Ohayou cenima</p>
-                                            <p>Suất 20:00 Thứ ba, 09/04/2024</p>
-                                        </div>
-                                        <div class="row3">
-                                            <p class="p">Ghế</p>
-                                            <p>D5, D6</p>
-                                        </div>
-                                        <div class="row4">
+                <div class="col-md-1"></div>
+                <div class="col-md-6 right">
+                    <div class="row header_list">
+                        <ul class="list_fc">
+                            <li class="list_item">
+                                <a href="#history" class="history-btn accordion-toggle" data-bs-toggle="collapse" data-bs-target="#history" aria-expanded="false">Lịch sử giao dịch</a>
+                            </li>
+                            <li class="list_item">
+                                <a href="#infor" class="infor-btn accordion-toggle" data-bs-toggle="collapse" data-bs-target="#infor" aria-expanded="false">Thông tin cá nhân</a>
+                            </li>
+                            <li class="list_item">
+                                <a href="#noti" class="accordion-toggle" data-bs-toggle="collapse" data-bs-target="#noti" aria-expanded="false">Thông báo</a>
+                            </li>
+                            <li class="list_item">
+                                <a href="#gift" class="accordion-toggle" data-bs-toggle="collapse" data-bs-target="#gift" aria-expanded="false">Quà tặng</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="row box-content">
+                        <div class="collapse history" id="history">
+                            <div class="row history-box">
+                                <div class="col-md-2 mv-img" style="margin-top: 0;">
+                                    <img src="assets/images/movie/exhuma.jpg" alt="">
+                                </div>
+                                <div class="col-md-5 mv-name">
+                                    Exhuma: Quật mộ trùng ma
+                                </div>
+                                <div class="col-md-3 date">
+                                    20:00h Thứ ba, 09/04/2024
+                                </div>
+                                <div class="col-md-2 bill">
+                                    <a href="#detail1" class = "accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail1" aria-expanded="false">Chi tiết</a>
+                                </div>
+                                <div class="modal" id="detail1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
                                             <div class="col">
-                                                <p class="p">Mã vé</p>
-                                                <p>WJHC3B5</p>
+                                                <div class="row1">
+                                                    <img src="assets/images/movie/exhuma.jpg" alt="">
+                                                    <p>Exhuma: Quật mộ trùng ma</p>
+                                                </div>
+                                                <div class="row2">
+                                                    <p>Ohayou cenima</p>
+                                                    <p>Suất 20:00 Thứ ba, 09/04/2024</p>
+                                                </div>
+                                                <div class="row3">
+                                                    <p class="p">Ghế</p>
+                                                    <p>D5, D6</p>
+                                                </div>
+                                                <div class="row4">
+                                                    <div class="col">
+                                                        <p class="p">Mã vé</p>
+                                                        <p>WJHC3B5</p>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p class = "p">Giá</p>
+                                                        <p>100.000đ</p>
+                                                    </div>
+    
+                                                </div>
+                                    
                                             </div>
-                                            <div class="col">
-                                                <p class = "p">Giá</p>
-                                                <p>100.000đ</p>
-                                            </div>
-
                                         </div>
-                            
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row history-box">
+                                <div class="col-md-2 mv-img" style="margin-top: 0;">
+                                    <img src="assets/images/movie/kungfu-panda-4.jpg" alt="">
+                                </div>
+                                <div class="col-md-5 mv-name">
+                                    Kungfu Panda 4
+                                </div>
+                                <div class="col-md-3 date">
+                                    20:00h Thứ hai, 08/04/2024
+                                </div>
+                                <div class="col-md-2 bill">
+                                    <a href="#detail2" class = "accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail2" aria-expanded="false">Chi tiết</a>
+                                </div>
+                                <div class="modal" id="detail2">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="col">
+                                                <div class="row1">
+                                                    <img src="assets/images/movie/kungfu-panda-4.jpg" alt="">
+                                                    <p>Kungfu Panda 4</p>
+                                                </div>
+                                                <div class="row2">
+                                                    <p>Ohayou cenima</p>
+                                                    <p>Suất 20:00 Thứ hai, 08/04/2024</p>
+                                                </div>
+                                                <div class="row3">
+                                                    <p class="p">Ghế</p>
+                                                    <p>H5</p>
+                                                </div>
+                                                <div class="row4">
+                                                    <div class="col">
+                                                        <p class="p">Mã vé</p>
+                                                        <p>WJHC3B8</p>
+                                                    </div>
+                                                    <div class="col">
+                                                        <p class = "p">Giá</p>
+                                                        <p>50.000đ</p>
+                                                    </div>
+    
+                                                </div>
+                                    
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2" style="margin-top: 0;">
-                            <img src="assets/images/movie/kungfu-panda-4.jpg" alt="">
-                        </div>
-                        <div class="col-md-5">
-                            Kungfu Panda 4
-                        </div>
-                        <div class="col-md-3">
-                            20:00h Thứ hai, 08/04/2024
-                        </div>
-                        <div class="col-md-2">
-                            <a href="#detail2" class = "accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail2" aria-expanded="false">Chi tiết</a>
-                        </div>
-                        <div class="modal" id="detail2">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="col">
-                                        <div class="row1">
-                                            <img src="assets/images/movie/kungfu-panda-4.jpg" alt="">
-                                            <p>Kungfu Panda 4</p>
+                        <div class="collapse infor" id="infor">
+                            <div class="row user-infor-box">
+                                <div class="col box-left">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                    <div class="form remove">
+                                            <input type="text" required placeholder="Võ Lê Quyên">
                                         </div>
-                                        <div class="row2">
-                                            <p>Ohayou cenima</p>
-                                            <p>Suất 20:00 Thứ hai, 08/04/2024</p>
-                                        </div>
-                                        <div class="row3">
-                                            <p class="p">Ghế</p>
-                                            <p>H5</p>
-                                        </div>
-                                        <div class="row4">
-                                            <div class="col">
-                                                <p class="p">Mã vé</p>
-                                                <p>WJHC3B8</p>
-                                            </div>
-                                            <div class="col">
-                                                <p class = "p">Giá</p>
-                                                <p>50.000đ</p>
-                                            </div>
-
-                                        </div>
-                            
                                     </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <div class="form remove">
+                                            <input type="text" required placeholder="volequyen11042005@gmail.com">
+                                        </div>
+                                    </div>
+                                    
                                 </div>
+                                <div class="col box-right">
+                                    <div class="form-group">
+                                        <label for="date">Date of birth</label>
+                                        <div class="form remove">
+                                            <input type="text" required placeholder="01/06/2004">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Password">Password</label>
+                                        <div class="form remove">
+                                            <input type="text" required placeholder="12345678">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="update accordion-toggle " data-bs-toggle="modal" data-bs-target="#update" aria-expanded="false">Cập nhật</button>
+                                    </div>
+                                    <div class="modal" id = "update">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content update-box">
+                                                <p>NHẬP THÔNG TIN CHỈNH SỬA</p>
+                                                <div class="row user-infor-box">
+                                                    <div class="col box-left">
+                                                        <div class="subform-group">
+                                                            <label for="name">Name</label>
+                                                        <div class="subform">
+                                                                <input type="text" required placeholder="Võ Lê Quyên">
+                                                            </div>
+                                                        </div>
+                                                        <div class="subform-group">
+                                                            <label for="email">Email</label>
+                                                            <div class="subform">
+                                                                <input type="text" required placeholder="volequyen11042005@gmail.com">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="col box-right">
+                                                        <div class="subform-group">
+                                                            <label for="date">Date of birth</label>
+                                                            <div class="subform">
+                                                                <input type="text" required placeholder="01/06/2004">
+                                                            </div>
+                                                        </div>
+                                                        <div class="subform-group">
+                                                            <label for="Password">Password</label>
+                                                            <div class="subform">
+                                                                <input type="text" required placeholder="12345678">
+                                                            </div>
+                                                        </div>
+                                                        <div class="subform-group">
+                                                            <button class="updateBtn">Cập nhật</button>
+                                                        </div>                                                     
+                                                    </div>   
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+
+                                </div>   
                             </div>
                         </div>
+
                     </div>
                 </div>
-                <div class="collapse infor" id="infor">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                              <div class="form">
-                                    <input type="text" required placeholder="Võ Lê Quyên">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <div class="form">
-                                    <input type="text" required placeholder="volequyen11042005@gmail.com">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="date">Date of birth</label>
-                                <div class="form">
-                                    <input type="text" required placeholder="01/06/2004">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            
-                            <div class="form-group">
-                                <label for="phonnum">Phone number</label>
-                                <div class="form">
-                                    <input type="text" required placeholder="0916513682">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="Password">Password</label>
-                                <div class="form">
-                                    <input type="text" required placeholder="12345678">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button class="update">Cập nhật</button>
-                            </div>
-                        </div>   
-                    </div>
-                  
-
-                    </div>
-
-                    
-
-                </div>
+                <div class="col-md-1"></div>
 
             </div>   
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./assets/js/userscript.js"></script>
-
+    <script src="assets/js/userscript.js"></script>
 </body>
+</html>
