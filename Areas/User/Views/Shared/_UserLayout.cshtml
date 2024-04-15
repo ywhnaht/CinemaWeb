@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
     <title>Ohayou Cinema</title>
-    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="~/Areas/User/assets/css/userstyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -29,12 +29,19 @@
                             Phim
                             <i class="ti-angle-down down-btn"></i>
                             <ul class="movie-status list-group">
-                                <li class="movie-sta-text-1 py-1"><a href="#">PHIM ĐANG CHIẾU</a></li>
+                                <li class="movie-sta-text-1 py-1">
+                                    <i class="fa-solid fa-film"></i>
+                                    <a href="#">PHIM ĐANG CHIẾU</a>
+                                </li>
                                 <div class="movie-list py-1">
-                                    @RenderSection("Phimdangchieu", required: false)
+                                    <div class="row">
+                                        @RenderSection("Phimdangchieu", required: false)
+                                    </div>
                                 </div>
-
-                                <li class="movie-sta-text-2 py-1"><a href="#">PHIM SẮP CHIẾU</a></li>
+                                <li class="movie-sta-text-2 py-1">
+                                    <i class="fa-solid fa-film"></i>
+                                    <a href="#">PHIM SẮP CHIẾU</a>
+                                </li>
                                 <div class="movie-list py-1">
                                     <div class="row">
                                         @RenderSection("Phimsapchieu", required: false)
@@ -69,6 +76,7 @@
                             <ul class="sub-list-gr-1 list-group">
                                 <li><a href="#">Rạp Đà Nẵng</a></li>
                             </ul>
+
                         </li>
                     </ul>
                 </div>
@@ -91,7 +99,7 @@
                                             </a>
                                         </li>
                                         <li class="list-group-item">
-                                            <a href="#">
+                                            <a href="">
                                                 <i class="fa-solid fa-list-ol account-icon"></i>
                                                 Lịch Sử
                                             </a>
@@ -145,30 +153,38 @@
     </div>
     <div class="content">
         @RenderBody()
-        <ul class="stt-movie-list">
-            <span class="px-4">
-                PHIM
-            </span>
-            <li class="stt-movie-item">
-                <a class="nav-link text-dark-emphasis" href="">Đang chiếu</a>
-            </li>
-            <li class="stt-movie-item">
-                <a class="nav-link text-dark-emphasis" href="">Sắp chiếu</a>
-            </li>
-        </ul>
-        <div class="movie-list">
-            <div class="row">
-                @RenderSection("AllPhimdangchieu", required: false)
+        <div role="tabpanel">
+            <ul class="stt-movie-list list-group list-group-horizontal>
+                <li class="px-4 list-group-item">
+                    <i class="fa-solid fa-film movie-icon"></i>
+                    <span class="fw-bolder">PHIM</span>
+                </li>
+                <li class="stt-movie-item list-group-item fw-normal now-playing">
+                    <a href="#playing" class="active" data-bs-toggle="list" data-bs-target="#playing" role="tab">Đang chiếu</a>
+                </li>
+                <li class="stt-movie-item list-group-item fw-normal up-coming">
+                    <a href="#coming" data-bs-toggle="list" data-bs-target="#coming" role="tab">Sắp chiếu</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="movie-list tab-pane active" id="playing" role="tabpanel">
+                    <div class="row">
+                        @RenderSection("AllPhimdangchieu", required: false)
+                    </div>
+                </div>
+                <div class="movie-list tab-pane" id="coming" role="tabpanel">
+                    <div class="row">
+                        @RenderSection("AllPhimsapchieu", required: false)
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
     <div class="footer">
         @RenderSection("UserProfile", required: false)
     </div>
-    <script src="~/Areas/User/assets/js/userscripts.js"></script>
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-
+    @*<script src="~/Areas/User/assets/js/userscripts.js"></script>*@
+    <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

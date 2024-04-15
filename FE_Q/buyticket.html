@@ -22,7 +22,9 @@
                 </div>
                 <div class="col-md-2 buyticket-area">
                     <button type="button" class="buyticket-btn btn">
-                        <img src="assets/images/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
+                        <a href="buyticket.html">
+                            <img src="assets/images/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
+                        </a>
                     </button>
                 </div>
                 <div class="col-md-5">
@@ -156,16 +158,15 @@
                     <div class="row">
                         <div class="col-md">Chọn phim / Rạp / Suất</div>
                         <div class="col-md">Chọn ghế</div>
-                        <div class="col-md">Chọn thức ăn</div>
                         <div class="col-md">Thanh toán</div>
                         <div class="col-md">Xác nhận</div>
                     </div>
 
-                    <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height: 1px">
-                        <div class="progress-bar" style="width: 20%"></div>
+                    <div class="progress" role="progressbar" aria-label="Example 1px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 1px">
+                        <div class="progress-bar" style="width: 25%"></div>
                     </div>
-                    <div class="progress" role="progressbar" aria-label="Example 20px high" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="height: 10px">
-                        <div class="progress-bar" style="width: 20%"></div>
+                    <div class="progress" role="progressbar" aria-label="Example 20px high" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 3px">
+                        <div class="progress-bar" style="width: 25%"></div>
                     </div>
                 </div>
                 <div class="col-md-2"></div>
@@ -175,143 +176,153 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
-                        <div class="d-block">
-                            <div class="Pick">
-                                <h2>Chọn phim</h2>
-                            <button id="showList" class="ti-arrow-circle-down js-showList"></button>
-                            </div>
+                <div class="col-8">
+                    <div class="d-block">
+                        <div class="Pick">
+                            <h2>Chọn phim</h2>
+                        <button id="showList" class="ti-arrow-circle-down js-showList"></button>
                         </div>
-                        <div class="row2">
-                                <div class="col-md-3">
-                                    <img src="assets/images/movie/exhuma.jpg" alt="" class="img-fluid img-movie" >
-                                    <button class="btn">
-                                    </button>
-                                    <a href="#" class="text-dark-emphasis movie-name">Exhuma: Quật mộ trùng ma</a>
-                                </div>
-                                <div class="col-md-3">
-                                    <img src="assets/images/movie/kungfu-panda-4.jpg" alt="" class="img-fluid img-movie">
-                                    <button class="btn">
-                                    </button>
-                                    <a href="#" class="text-dark-emphasis movie-name">KungFu Panda 4</a>
-                                </div>
-                                <div class="col-md-3">
-                                    <img src="assets/images/movie/qu-co-thua-ke-2.jpg" alt="" class="img-fluid img-movie">
-                                    <button class="btn">
-                                    </button>
-                                    <a href="#" class="text-dark-emphasis movie-name">Quý cô thừa kế 2</a>
-                                </div>
-                                <div class="col-md-3">
-                                    <img src="assets/images/movie/dune-2.jpg" alt="" class="img-fluid img-movie">
-                                    <button class="btn">
-                                    </button>
-                                    <a href="#" class="text-dark-emphasis movie-name py-1">Dune 2</a>
-                                </div>
-                                <div class="col-md-3 py-4">
-                                    <img src="assets/images/movie/exhuma.jpg" alt="" class="img-fluid img-movie" >
-                                    <button class="btn">
-                                    </button>
-                                    <a href="#" class="text-dark-emphasis movie-name">Exhuma: Quật mộ trùng ma</a>
-                                </div>
-                                <div class="col-md-3 py-4">
-                                    <img src="assets/images/movie/kungfu-panda-4.jpg" alt="" class="img-fluid img-movie">
-                                    <button class="btn">
-                                    </button>
-                                    <a href="#" class="text-dark-emphasis movie-name">KungFu Panda 4</a>
-                                </div>
-                                <div class="col-md-3 py-4">
-                                    <img src="assets/images/movie/qu-co-thua-ke-2.jpg" alt="" class="img-fluid img-movie">
-                                    <button class="btn">
-                                    </button>
-                                    <a href="#" class="text-dark-emphasis movie-name">Quý cô thừa kế 2</a>
-                                </div>
-                                <div class="col-md-3 py-4">
-                                    <img src="assets/images/movie/dune-2.jpg" alt="" class="img-fluid img-movie">
-                                    <button class="btn">
-                                    </button>
-                                    <a href="#" class="text-dark-emphasis movie-name py-1">Dune 2</a>
-                                </div>
+                    </div>
+                    <div class="row ListMovie">
+                        <div class="col-md-3">
+                            <button class="btn" onclick="pickMovie()">
+                                <img src="assets/images/movie/exhuma.jpg" alt="" class="img-fluid" id="movieN1">
+                                <!-- <i class="ti-twitter"></i> -->
+                                <div class="text-dark-emphasis movie-name">Quật mộ trùng ma</div>
+                            </button>
                         </div>
-                        <div class="d-block">
-                            <div class="Pick">
-                                <h2>Chọn ngày</h2>
+                        <div class="col-md-3">
+                            <button class="btn" onclick="pickMovie()">
+                                <img src="assets/images/movie/kungfu-panda-4.jpg" alt="" class="img-fluid" id="movieN2">
+                                <!-- <i class="ti-twitter"></i> -->
+                                <div class="text-dark-emphasis movie-name" >KungFu Panda 4</div>
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn" onclick="pickMovie()">
+                                <img src="assets/images/movie/qu-co-thua-ke-2.jpg" alt="" class="img-fluid" id="movieN3">
+                                <!-- <i class="ti-twitter"></i> -->
+                                <div class="text-dark-emphasis movie-name">Quý cô thừa kế 2</div>
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn" onclick="pickMovie()">
+                                <img src="assets/images/movie/dune-2.jpg" alt="" class="img-fluid" id="movieN4" >
+                                <!-- <i class="ti-twitter"></i> -->
+                                <div class="text-dark-emphasis movie-name py-1">Dune 2</div>
+                            </button>
+                        </div>
+                        <div class="col-md-3 py-4">
+                            <button class="btn" onclick="pickMovie()">
+                                <img src="assets/images/movie/exhuma.jpg" alt="" class="img-fluid" id="movieN5" >
+                                <!-- <i class="ti-twitter"></i> -->
+                                <div class="text-dark-emphasis movie-name">Quật mộ trùng ma</div>
+                            </button>
+                        </div>
+                        <div class="col-md-3 py-4">
+                            <button class="btn" onclick="pickMovie()">
+                                <img src="assets/images/movie/kungfu-panda-4.jpg" alt="" class="img-fluid" id="movieN6">
+                                <!-- <i class="ti-twitter"></i> -->
+                                <div class="text-dark-emphasis movie-name">KungFu Panda 4</div>
+                            </button>
+                        </div>
+                        <div class="col-md-3 py-4">
+                            <button class="btn" onclick="pickMovie()">
+                                <img src="assets/images/movie/qu-co-thua-ke-2.jpg" alt="" class="img-fluid" id="movieN7">
+                                <!-- <i class="ti-twitter"></i> -->
+                                <div class="text-dark-emphasis movie-name">Quý cô thừa kế 2</div>
+                             </button>
+                        </div>
+                        <div class="col-md-3 py-4">
+                            <button class="btn" onclick="pickMovie()">
+                                <img src="assets/images/movie/dune-2.jpg" alt="" class="img-fluid" id="movieN8">
+                                <!-- <i class="ti-twitter"></i> -->
+                                <div class="text-dark-emphasis movie-name py-1">Dune 2</div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="d-block day">
+                        <div class="Pick">
+                            <h2>Chọn ngày</h2>
                             <button id="showDay" class="ti-arrow-circle-down js-showDay"></button>
+                        </div>
+                    </div>
+                    <div class="row dayList">
+                        <div class="col-8">
+                            <div class="row pickDay" id="day">
+                                <div class="col-md-3">
+                                    <button class="btnDay" onclick="pickDay()">
+                                        <div class="chooseDay" >Thứ sáu 12/04</div>
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btnDay" onclick="pickDay()">
+                                        <div class="chooseDay" >Thứ bảy 13/04</div>
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btnDay" onclick="pickDay()">
+                                        <div class="chooseDay" >Chủ nhật 14/04</div>
+                                    </button>
+                                </div>
                             </div>
-                        <div class="row dayList">
-                            <div class="col-8">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <p class="d-inline-flex gap-1">
-                                            <button type="button" class="btn" data-bs-toggle="button">Today 11/04 </button>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <p class="d-inline-flex gap-1">
-                                            <button type="button" class="btn" data-bs-toggle="button">Friday 12/04</button>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-1">
-                                        <p class="d-inline-flex gap-1">
-                                            <button type="button" class="btn" data-bs-toggle="button">Saturday 13/04</button>
-                                        </p>
-                                    </div>
-                                </div>
                             
-                           
+                            <h4>Chọn suất</h4>
     
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <p class="d-inline-flex gap-1">
-                                        <button type="button" class="btn" data-bs-toggle="button">12:30</button>
-                                    </p>
+                            <div class="row pickTime">
+                                <div class="col-md-3">
+                                    <button class="btnTime" onclick="pickTime()">
+                                        <div class="chooseTime" >9:45</div>
+                                    </button>
                                 </div>
-                                <div class="col-md-1">
-                                    <p class="d-inline-flex gap-1">
-                                        <button type="button" class="btn" data-bs-toggle="button">18:45</button>
-                                    </p>
+                                <div class="col-md-3">
+                                    <button class="btnTime" onclick="pickTime()">
+                                        <div class="chooseTime" >10:45</div>
+                                    </button>
                                 </div>
-                                <div class="col-md-1">
-                                    <p class="d-inline-flex gap-1">
-                                        <button type="button" class="btn" data-bs-toggle="button">19:45</button>
-                                    </p>
+                                <div class="col-md-3">
+                                    <button class="btnTime" onclick="pickTime()">
+                                        <div class="chooseTime" >19:45</div>
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btnTime" onclick="pickTime()">
+                                        <div class="chooseTime" >22:45</div>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <div class="col-4">
+                
+
+                <div class="col-1"></div>                 <!-- Chia khoảng cách giữa Chọn phim và Hóa đơn -->
+
+
+                <div class="col-3 reciept">                       
                     <div class="col">
-                        <div class="row">
-                            <img src="assets/images/movie/movie.pnj.svg" alt="" class="img-fluid img-movie" >
+                        <div class="row detail">
+                            <img id="noneMovie" src="assets/images/movie/movie.pnj.svg" alt="" class="img-fluid img-movie" >
+                            <div id="title"></div>
+                            <div id="date"></div>
+                            <div id="time"></div>
                             <div class="invoice">
-                                <div class="row">
-                                    <div class="col-md-12">-------------------------------------------------</div>
+                                <div class="row Money">
                                     <div class="col-md-6 clapperboard-icon">Tổng cộng: </div>
                                     <div class="col-md-6 total-amount">$0.00</div>
                                 </div>
                             </div>
                         </div>
                         <div class="button-">
-                            <a href="#" title="View Detail" class="fui-button-shiny-2"> quay lại</a>
+                            <a href="guest.html" title="View Detail" class="fui-button-shiny-2"> quay lại</a>
                             <a href="#" title="View Detail" class="fui-button-shiny-2"> tiếp tục</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>      
-
-            
-
-
-
-                
-
-                
-           
         </div>
-
     </div>
+    
     
     <div class="footer">
 
@@ -322,27 +333,7 @@
     
     <script src="assets/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-    document.getElementById("showList").addEventListener("click", function() {
-        var movieList = document.querySelector(".container .col-8");
-            if (movieList.style.display === "none") {
-                movieList.style.display = "block";
-        } else {
-        movieList.style.display = "none";
-        }
-    });
-    </script>
+    <script src="assets/js/buyticket.js"></script>
 
-    <script>
-    document.getElementById("showDay").addEventListener("click", function() {
-        var dayList = document.querySelector(".container .dayList");
-        if (dayList.style.display === "none") {
-            dayList.style.display = "block";
-        } else {
-            dayList.style.display = "none";
-        }
-    });
-    </script>
-    
 </body>
 </html>

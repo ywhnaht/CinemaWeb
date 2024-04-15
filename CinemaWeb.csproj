@@ -178,6 +178,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MoviesListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -260,6 +261,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\User\assets\css\profilestyle.css" />
     <Content Include="Areas\User\assets\css\userstyle.css" />
     <Content Include="Areas\User\assets\css\bootstrap-grid.css" />
     <Content Include="Areas\User\assets\css\bootstrap-grid.min.css" />
@@ -281,6 +283,7 @@
     <Content Include="Areas\User\assets\images\logo\icon-gift.190935e4.png" />
     <Content Include="Areas\User\assets\images\logo\logomini.png" />
     <Content Include="Areas\User\assets\images\logo\silver.6313aa20.png" />
+    <Content Include="Areas\User\assets\js\profilescript.js" />
     <Content Include="Areas\User\assets\js\userscripts.js" />
     <Content Include="assets\css\signin.css" />
     <Content Include="assets\css\layout.css" />
@@ -1169,6 +1172,7 @@
     <Content Include="FE_Q\assets\js\bootstrap.min.js.map" />
     <Content Include="Areas\User\Views\UserAccount\UserProfile.cshtml" />
     <Content Include="Areas\User\Views\UserHome\UserProfile.cshtml" />
+    <Content Include="Areas\User\Views\UserHome\HistoryTicket.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1214,6 +1218,7 @@
     <Content Include="Views\Home\SignIn.cshtml" />
     <Content Include="Views\Home\SignUp.cshtml" />
     <Content Include="Views\Shared\_LayoutPage1.cshtml" />
+    <Content Include="Views\MoviesList\MoviesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

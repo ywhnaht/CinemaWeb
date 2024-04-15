@@ -24,39 +24,23 @@
     @if (ViewBag.MovieList != null)
     {
         var count = 0;
-        var rowCount = 0;
         foreach (var movie in ViewBag.MovieList)
         {
-            if (count % 4 == 0)
+            if (movie.movie_status == true && count < 4)
             {
-                if (rowCount > 0)
-                {
-                    @:</div> <!-- Close previous row -->
-                }
-                @:<div class="row">
-                    <!-- Open a new row -->
-                    rowCount++;
-                }
-                if (movie.movie_status == true && count < 4)
-                {
-                    <div class="col-md-3 sub-movie-list">
-                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                        <button class="buy-ticket-btn btn">
-                            <i class="ti-ticket"></i>
-                            Mua vé
-                        </button>
-                        <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
-                    </div>
-                    count++;
-                }
+                <div class="col-md-3 sub-movie-list">
+                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                    <button class="buy-ticket-btn btn">
+                        <i class="ti-ticket"></i>
+                        Mua vé
+                    </button>
+                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                </div>
+                count++;
             }
-            if (rowCount > 0)
-            {
-            @:</div> <!-- Close the last row -->
         }
     }
 }
-
 
 @section AllPhimdangchieu {
     @if (ViewBag.MovieList != null)
@@ -100,3 +84,22 @@
     }
 }
 
+@section AllPhimsapchieu {
+    @if (ViewBag.MovieList != null)
+    {
+        foreach (var movie in ViewBag.MovieList)
+        {
+            if (movie.movie_status == false)
+            {
+                <div class="col-md-3 sub-movie-list">
+                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                    <button class="buy-ticket-btn btn">
+                        <i class="ti-ticket"></i>
+                        Mua vé
+                    </button>
+                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                </div>
+            }
+        }
+    }
+}

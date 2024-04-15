@@ -249,12 +249,12 @@
                     <div class="row">
                         <ul class="list-group list-group-horizontal list-group-side">
                             <li class="col-md-3 list-group-item">
-                                <a class="text-dark-emphasis fw-medium" href="#history-ticket" data-bs-toggle="list" data-bs-target="#history-ticket" role="tab">Lịch sử giao dịch</a>
+                                <a class="text-dark-emphasis fw-medium active" href="#history-ticket" data-bs-toggle="list" data-bs-target="#history-ticket" role="tab">Lịch sử giao dịch</a>
                             </li>
                             <li class="col-md-3 list-group-item">
-                                <a class="text-dark-emphasis fw-medium active" href="#profile-infor" data-bs-toggle="list" data-bs-target="#profile-infor" role="tab">Thông tin cá nhân</a>
+                                <a class="text-dark-emphasis fw-medium" href="#profile-infor" data-bs-toggle="list" data-bs-target="#profile-infor" role="tab">Thông tin cá nhân</a>
                             </li>
-                            <li class="col-md-3 list-group-item" style="padding-left: 3rem;">
+                            <li class="col-md-3 list-group-item">
                                 <a class="text-dark-emphasis fw-medium" href="#notice" data-bs-toggle="list" data-bs-target="#notice" role="tab">Thông báo</a>
                             </li>
                             <li class="col-md-3 list-group-item">
@@ -263,7 +263,7 @@
                         </ul>
                     </div>
                     <div class="tab-content">
-                        <div class="tab-pane" id="history-ticket" role="tabpanel">
+                        <div class="tab-pane active" id="history-ticket" role="tabpanel">
                             <div class="row text-center notice-text">
                                 <span>Lưu ý: chỉ hiển thị 10 giao dịch gần nhất</span>
                             </div>
@@ -364,7 +364,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane active py-3" id="profile-infor" role="tabpanel">
+                        <div class="tab-pane py-3" id="profile-infor" role="tabpanel">
                             <div class="row bg-white infor-detail">
                                 <div class="col-md-5 p-4 infor-col-1">
                                     <span>Họ và tên</span>
@@ -381,7 +381,7 @@
                                 </div>
                                 <div class="modal" id="update">
                                     <div class="modal-dialog">
-                                        <form method="post">
+                                        <form method="post" action="User/UserHome/UserProfile">
                                             <div class="modal-content update-box">
                                                 <p>NHẬP THÔNG TIN CHỈNH SỬA</p>
                                                 <div class="row user-infor-box">
@@ -414,7 +414,7 @@
                                                         </div>
                                                         <div class="text-center" style="color: #dd0707">
                                                             <span class="error-message"></span>
-                                                        </div> 
+                                                        </div>
                                                         <div class="subform-group">
                                                             <button class="updateBtn">Cập nhật</button>
                                                         </div>
@@ -432,43 +432,14 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
         <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
+        @*<script src="assets/js/profilescript.js"></script>*@
 
 </body>
 </html>
 
-<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $(".subform input").click(function () {
-            $(".error-message").text("");
-        });
-
-        $(".updateBtn").click(function (e) {
-            e.preventDefault();
-            var email = $("input[name='email']").val();
-            var pass = $("input[name='pass']").val();
-
-            $.ajax({
-                url: "/UserHome/UpdateInfor",
-                method: "POST",
-                data: { email: email, pass: pass },
-                success: function (response) {
-                    if (response.success) {
-                        var redirectUrl = response.redirectUrl;
-                        if (redirectUrl) {
-                            window.location.href = redirectUrl;
-                        }
-                    } else {
-                        // Nếu có lỗi, hiển thị thông báo lỗi
-                        $(".error-message").text(response.message);
-                    }
-                }
-            });
-        });
-    });
-</script>
 
 

@@ -35,7 +35,7 @@
 }
 
     .list-group-item:last-child {
-        border-right: none;
+        /*border-right: none;*/
     }
 
 .list-gr-1 {
@@ -112,8 +112,8 @@
 }
 
 .img-movie {
-    padding-bottom: 10px;
-    transition: filter 0.3s ease;
+    margin-bottom: 10px;
+    border-radius: 8px;
 }
 
 .ti-ticket {
@@ -464,7 +464,7 @@
 /* Content */
 
 .stt-movie-list {
-    display: flex;
+    display: inline-block;
     list-style: none;
     margin-top: 30px;
     margin-bottom: 30px;
@@ -480,63 +480,34 @@
 .stt-movie-item a {
     padding-top: 0%;
     background-color: white;
+    text-decoration: none;
     border: white;
     color: #000;
 }
 
-.stt-movie-item a:hover {
-    background-color: white;
-    border: white;
-    color: #F26B38;
-}
+    .stt-movie-item a:hover {
+        background-color: white;
+        border: white;
+        color: rgba(3, 78, 162, 1);
+    }
 
-.stt-movie-item a:active {
+/*.stt-movie-item a:active {
     color: #F26B38;
-}
+}*/
 
+    .stt-movie-item:hover {
+        cursor: pointer;
+        color: rgba(3, 78, 162, 1);
+    }
 
-.stt-movie-item:hover {
-    cursor: pointer;
-    color: #F26B38;
+.movie-icon {
+    color: rgba(3, 78, 162, 1);
 }
 
 .content {
-    margin-left: 145px;
-    margin-right: 145px;
+    margin-left: 4rem;
+    margin-right: 4rem;
 }
-/*
-.content-movie-list .movie-item {
-    position: relative;
-    padding-bottom: 35px;
-}
-
-.content-movie-list .buy-ticket-btn {
-    display: none;
-    border: none;
-    width: 120px;
-    height: 35px;
-    background-color: #F26B38;
-    color: #fff;
-    position: absolute;
-    left: 50%;
-    top: 45%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-}
-
-.content-movie-list .buy-ticket-btn:hover ~ .img-movie,
-.content-movie-list .img-movie:hover {
-    filter: brightness(65%);
-}
-
-.content-movie-list .img-movie:hover + .buy-ticket-btn,
-.content-movie-list .buy-ticket-btn:hover {
-    display: flex;
-}
-
-.content-movie-list .buy-ticket-btn:hover {
-    background-color: #f29538;
-}*/
 
 .movie-list a {
     text-decoration: none;
@@ -544,3 +515,11 @@
     font-weight: 500;
 }
 
+.now-playing {
+    padding-left: 2rem; 
+    margin: auto;
+}
+
+up-coming {
+    margin-left: -3rem;
+}
