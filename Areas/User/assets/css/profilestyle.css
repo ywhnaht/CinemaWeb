@@ -465,17 +465,24 @@
     padding-top: 5rem;
 } */
 
+.ticket-container {
+    display: flex;
+}
+
+.ticket-container {
+    transition: all 0.3s ease;
+}
+
+    .ticket-container:hover {
+        transform: scale(1.05);
+    }
+
 .ticket-detail {
     margin-bottom: 2rem;
     margin-right: 3rem;
-    transition: all 0.3s ease;
     cursor: pointer;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
-    .ticket-detail:hover {
-        transform: scale(1.05);
-    }
 
 .notice-text {
     font-size: 13px;
@@ -489,7 +496,7 @@
 
 .ticket-time-detail {
     font-size: 14px;
-    padding: 2rem 2rem;
+    display: flex;
 }
 
 .ticket-more-detail a {
@@ -556,5 +563,4 @@
         background-color: rgb(249 249 249 / 1);
         border: #000;
         border-radius: 8px;
-        padding-left: 1rem;
     }

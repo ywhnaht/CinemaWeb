@@ -111,6 +111,12 @@
     position: relative;
 }
 
+.movie-list a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+}
+
 .img-movie {
     margin-bottom: 10px;
     border-radius: 8px;
@@ -509,11 +515,7 @@
     margin-right: 4rem;
 }
 
-.movie-list a {
-    text-decoration: none;
-    color: #000;
-    font-weight: 500;
-}
+
 
 .now-playing {
     padding-left: 2rem; 
