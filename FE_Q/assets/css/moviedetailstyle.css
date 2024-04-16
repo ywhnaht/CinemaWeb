@@ -277,7 +277,8 @@
 .mv-trailer{
     background-color: #000;
     position: relative;
-    z-index: 1;
+    z-index: -1;
+    justify-content: center;
 }
 
 .mv-img
@@ -286,7 +287,7 @@
     
 }
 
-.playBtn
+.trailer-btn
 {
     position: absolute;
     top: 50%;
@@ -299,39 +300,39 @@
     width: 64px;
     height: 64px;
     color: transparent;
-
 }
-
-.mv-infor{
-    margin-top: 75px;
+.content{
+    padding-top: 26px;
+    margin-left: 150px;
+    margin-right: 150px;
 }
-
-.poster{
-        filter: drop-shadow(0 25px 25px rgba(0, 0, 0, .15));
-        border:red;
-        border-width: 2px;
-        padding: 0px;
+.conten-wrapper{
+    padding-top: 50px;
 }
 .mv-poster{
+    width: 280px;
     height: 400px;
-    width: 280px ;
+    z-index: 2;
+    margin-top: -75px;
+    filter: drop-shadow(0 25px 25px rgba(0, 0, 0, .15));
+    border: 2px solid white;
+    border-radius: .25rem;
 }
 
 .mv-name
 {
     font-size:25px;
     font-weight: 600;
-    margin-bottom: 25px;
 }
 
 .mv-time{
     font-size: small;
     font-weight: 600;
-    margin-bottom: 25px;
 }
 
 .duration{
     padding-right: 0px;
+    display: inline-block;
 }
 
 .release-date{
@@ -341,7 +342,7 @@
     color:#f29538;
 }
 .mv-rating{
-    margin-bottom: 25px;
+    margin-top: .5rem;
 }
 .rating {
     font-size: 20px;
@@ -398,7 +399,6 @@
 
 .type{
     border-radius: 5px;
-    border-color: gray;
 }
 .mv .row{
     margin-bottom: 20px;
@@ -416,7 +416,9 @@
 
 .type .btn{
     padding: 0px;
-    border: 1px solid gray;
+    border: 1px solid;
+    --tw-border-opacity: 1;
+    border-color: rgb(208 208 208 / var(--tw-border-opacity));
     justify-content: center;
     padding-left: 10px;
     padding-right: 10px;
@@ -426,6 +428,11 @@
 
 .type .btn:hover{
     border-color: #f29538;
+}
+
+.type .btn a{
+    font-size: .875rem;
+    font-style: normal;
 }
 
 .text{
@@ -465,7 +472,8 @@
     color: inherit;
     font-weight: 500;
 }
-.day .md {
+
+.active{
     background: #034ea2;
     border-radius: 5px;
     padding-top: 5px;
@@ -473,6 +481,16 @@
     padding-left: 0px;
     padding-right: 0px;
     color: white;
+}
+
+.default{
+    background: white;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+    color: black;
 }
 
 .day{
