@@ -1,0 +1,638 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.buyticket-btn  {
+    font-size: 15px;
+    color: #fff;
+    border: none;
+}
+
+.img-buy-btn {
+    width: 110px;
+    height: auto;
+}
+
+
+/* List */
+.list-group-horizontal {
+    border: none;
+    margin-left: -30px;
+    cursor: pointer;
+}
+
+.list-group-item {
+    border: none;
+    border-radius: 0;
+}
+.list-group-item:last-child {
+    border-right: none;
+}
+
+.list-gr-1 {
+    font-size: 14px;
+}
+
+.movie-area,
+.cinema-corner,
+.event-list,
+.ticket-price {
+    padding: 20px 10px;
+}
+
+.list-gr-1 li {
+    position: relative;
+}
+
+.list-gr-1 li:hover {
+    color: #F26B38;
+}
+
+.sub-list-gr-1 {
+    display: none;
+    min-width: 200px;
+    top: calc(100% + 0.5px);
+    left: -35px;
+    position: absolute;
+    z-index: 2;
+    background-color: #fff;
+    line-height: 2.4;
+    list-style-type: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.movie-area a,
+.sub-list-gr-1 a {
+    text-decoration: none;
+    color: #000;
+}
+
+.movie-area:hover .movie-status,
+.cinema-corner:hover .sub-list-gr-1,
+.event-list:hover .sub-list-gr-1,
+.ticket-price:hover .sub-list-gr-1
+ {
+    color: #F26B38;
+    display: block;
+}
+
+.movie-area li:hover a,
+.sub-list-gr-1 li:hover a {
+    color: #F26B38;
+}
+
+.down-btn {
+    font-size: 8px;
+}
+
+/* Movie-List */
+.movie-status {
+    display: none;
+    padding: 10px 20px;
+    min-width: 720px;
+    top: calc(100% + 0.5px);
+    left: -30px;
+    position: absolute;
+    z-index: 2;
+    background-color: #fff;
+    list-style-type: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.movie-list .col-md-3 {
+    position: relative;
+  
+}
+
+.img-movie {
+    padding-bottom: 10px;
+    transition: filter 0.3s ease;
+}
+
+.ti-ticket {
+    font-size: 15px;
+}
+
+.movie-list .buy-ticket-btn {
+    display: none;
+    border: none;
+    width: 120px; 
+    height: 35px;
+    background-color: #F26B38;
+    color: #fff;
+    position: absolute;
+    top: 43%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+.movie-list .buy-ticket-btn:hover ~ .img-movie,
+.movie-list .img-movie:hover {
+    filter: brightness(65%); 
+}
+
+.movie-list .img-movie:hover + .buy-ticket-btn,
+.movie-list .buy-ticket-btn:hover {
+    display: block;
+}
+
+.movie-list .buy-ticket-btn:hover {
+    background-color: #f29538;
+
+}
+
+.search-icon {
+    font-size: 14px;
+}
+
+.search-btn {
+    border: none;
+    padding-left: 34px;
+    color: #777777;
+}
+
+.login-btn {
+    font-size: 14px;
+    margin-left: -48px;
+    color: #777777;
+    border: none;
+}
+
+.login-btn:hover
+{
+    cursor: pointer;
+    color: #F26B38;
+}
+
+/*guest*/
+
+.list{
+    display: flex;
+    list-style:none;
+    margin-top: 30px; 
+    margin-bottom: 30px;
+    padding-left: 0px;
+}
+
+.item1{
+    display: inline-block ;
+    margin-right:40px;
+    line-height: 2;
+    font-size: 20px;
+}
+
+.item1 a{
+    padding-top: 0%;
+    background-color: white;
+    border: white;
+    color: #000;
+}
+.item{
+    padding-top: 5px;
+    display: inline-block ;
+    margin-right:40px;
+    line-height: 2;
+    font-size: 15px;
+}
+
+.item a{
+    text-decoration: none;
+    background-color: white;
+    border: white;
+    color: #000;
+    font-weight: bold;
+}
+
+.item a:hover{
+    background-color: white;
+    border: white;
+    color: #F26B38;
+}
+
+.item a:active{
+    color: #F26B38;
+}
+
+
+.item:hover{
+    cursor: pointer;
+    color: #F26B38;
+}
+
+.content{
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.list1 .col-md-3{
+    position: relative;
+    padding-bottom: 40px;
+}
+
+.list1 .buy-ticket-btn {
+    display: none;
+    border: none;
+    width: 120px; 
+    height: 35px;
+    background-color: #F26B38;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.list1 .buy-ticket-btn:hover ~ .img-movie,
+.list1 .img-movie:hover {
+    filter: brightness(65%); 
+}
+
+.list1 .img-movie:hover + .buy-ticket-btn,
+.list1 .buy-ticket-btn:hover {
+    display: block;
+}
+
+.list1 .buy-ticket-btn:hover {
+    background-color: #f29538;
+}
+
+.list1 a{
+    text-decoration: none;
+    font-size:inherit;
+    font-weight:600;
+    color: #000;
+}
+
+/*containers*/
+.wrapper{
+    padding: 0px;
+}
+
+.mv-trailer{
+    background-color: #000;
+    position: relative;
+    z-index: -1;
+    justify-content: center;
+}
+
+.mv-img
+{
+    padding-left: 400px;
+    
+}
+
+.trailer-btn
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 2rem;
+}
+
+.play-img{
+    width: 64px;
+    height: 64px;
+    color: transparent;
+}
+.content{
+    padding-top: 26px;
+    margin-left: 150px;
+    margin-right: 150px;
+}
+.conten-wrapper{
+    padding-top: 50px;
+}
+.mv-poster{
+    width: 280px;
+    height: 400px;
+    z-index: 2;
+    margin-top: -75px;
+    filter: drop-shadow(0 25px 25px rgba(0, 0, 0, .15));
+    border: 2px solid white;
+    border-radius: .25rem;
+}
+
+.mv-name
+{
+    font-size:25px;
+    font-weight: 600;
+}
+
+.mv-time{
+    font-size: small;
+    font-weight: 600;
+}
+
+.duration{
+    padding-right: 0px;
+    display: inline-block;
+}
+
+.release-date{
+    padding-left: 0px;
+}
+.rating :hover{
+    color:#f29538;
+}
+.mv-rating{
+    margin-top: .5rem;
+}
+.rating {
+    font-size: 20px;
+    text-decoration: none;
+    color: #000;
+}
+
+.rating .vote{
+    font-size: small;
+    color: dimgray;
+}
+
+.rating .vote:hover{
+    color: #f29538;
+}
+
+.d{
+    font-size: small;
+    font-weight: 400;
+    color: gray;
+    margin-right: 0;
+    padding-top: 0px;
+}
+.nation-item{
+    font-size: small;
+    color: #000;
+}
+
+
+.list-actor{
+
+    font-size: small;
+    padding-left: 0px;
+    padding-top: 3px;
+   
+}
+
+.list{
+    display: inline-block;
+    margin-top: 0px;
+    border-radius: 5px;
+    border-color: gray;
+
+}
+
+.list-item {
+    text-decoration: none;
+    margin-right: 0px;
+    border-radius: 1rem;
+    font-size: 14px;
+    color: black;
+   
+}
+
+.type{
+    border-radius: 5px;
+}
+.mv .row{
+    margin-bottom: 20px;
+}
+
+.list .btn{
+    padding: 0px;
+    border: 1px solid gray;
+    justify-content: center;
+}
+
+.list .btn:hover{
+    border-color: #f29538;
+}
+
+.type .btn{
+    padding: 0px;
+    border: 1px solid;
+    --tw-border-opacity: 1;
+    border-color: rgb(208 208 208 / var(--tw-border-opacity));
+    justify-content: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.type .btn:hover{
+    border-color: #f29538;
+}
+
+.type .btn a{
+    font-size: .875rem;
+    font-style: normal;
+}
+
+.text{
+    font-size: 1rem;
+    font-weight: 700;
+    display: inline-block;
+    border-left :solid;
+    --tw-border-opacity: 1;
+    border-color: rgb(3 78 162 / var(--tw-border-opacity));
+    border-width: 5px;
+    padding-left: 5px;
+    margin-bottom: 25px;
+}
+
+.describe{
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    text-decoration: none;
+}
+.introduce{
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    text-decoration: none;
+}
+.introduce a{
+    text-decoration: none;
+    color: #485fc7;
+}
+.day a{
+    text-transform: capitalize;
+    font-size: .875rem;
+    text-align: center;
+    text-decoration: none;
+    flex-wrap: wrap;
+    color: inherit;
+    font-weight: 500;
+}
+
+.active{
+    background: #034ea2;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+    color: white;
+}
+
+.default{
+    background: white;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+    color: black;
+}
+
+.day{
+    border-bottom: solid;
+    --tw-border-opacity: 1;
+    border-color: rgb(3 78 162 / var(--tw-border-opacity));
+    border-width: 3px;
+    padding-bottom: 30px;
+    padding-left: 35px;
+}
+.today{
+    display: block;
+}
+.show-time{
+    display: inline-block;
+}
+
+.list-time{
+
+    font-size: small;
+    padding-left: 0px;
+    padding-top: 3px;
+   
+}
+
+.time{
+    display: inline-block;
+    margin-top: 0px;
+    border-radius: 5px;
+    border-color: gray;
+    margin-right: 10px;
+
+}
+
+.time-item {
+    text-decoration: none;
+    margin-right: 0px;
+    border-radius: 1rem;
+    font-size: 14px;
+    color: black;
+   
+}
+.time-btn{
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: .25rem;
+    border-color:darkgrey;
+    border-width: 1px;
+    background-color: #fff;
+}
+.label{
+    box-sizing: border-box;
+    border: 0 solid #e5e7eb;
+    --tw-text-opacity: 1;
+    color: rgb(85 85 85 / var(--tw-text-opacity));
+    font-weight:600;
+    font-size: .875rem;
+    margin-top: .5rem;
+}
+.show{
+    margin-top: 50px;
+}
+
+/*right*/
+.text-right{
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: inline-block;
+    border-left :solid;
+    --tw-border-opacity: 1;
+    border-color: rgb(3 78 162 / var(--tw-border-opacity));
+    border-width: 5px;
+    padding-left: 5px;
+    margin-bottom: 25px;
+    margin-top: 25px;
+    text-transform: uppercase;
+}
+
+.right .buy-ticket-btn {
+    display: none;
+    border: none;
+    width: 120px; 
+    height: 35px;
+    background-color: #F26B38;
+    color: #fff;
+    position: absolute;
+    top: 43%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+.right .buy-ticket-btn:hover ~ .img-movie,
+.right .img-movie:hover {
+    filter: brightness(65%); 
+}
+
+.right .img-movie:hover + .buy-ticket-btn,
+.right .buy-ticket-btn:hover {
+    display: block;
+}
+
+.right .buy-ticket-btn:hover {
+    background-color: #f29538;
+}
+
+.right .img-movie {
+    padding-bottom: 20px;
+    transition: filter 0.3s ease;
+}
+
+.right .mv{
+    position: relative;
+    margin-bottom: 20px;
+}
+.right .mv a{
+    font-style: normal;
+    font-weight: 600;
+    font-size: .875rem;
+    color: inherit;
+    text-decoration: inherit;
+}
+.right .bonus .new-mv{
+    width: 150px;
+    height: 40px;
+    border-radius: .25rem;
+    background-color: #fff;
+    border-color: #f29538;
+    border-width: 1px;
+}
+.new-mv a{
+    color: #f29538;
+    text-decoration: none;
+    font-size: .875rem;
+    text-align: center;
+}
+.right .bonus .new-mv:hover{
+    cursor: pointer;
+    background-color: #f29538;
+}
+
+.right .bonus .new-mv:hover a{
+    color: #fff;
+}
