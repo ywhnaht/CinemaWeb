@@ -25,7 +25,7 @@ namespace CinemaWeb.Models
             this.user_role = new HashSet<user_role>();
             this.user_role1 = new HashSet<user_role>();
         }
-
+    
         public int id { get; set; }
         public string full_name { get; set; }
         public string email { get; set; }

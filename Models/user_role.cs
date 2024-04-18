@@ -17,7 +17,7 @@ namespace CinemaWeb.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public user_role()
         {
-            this.user_type = new HashSet<user_type>();
+            this.user_type_user_role = new HashSet<user_type_user_role>();
         }
     
         public int id { get; set; }
@@ -31,6 +31,6 @@ namespace CinemaWeb.Models
         public virtual user user { get; set; }
         public virtual user user1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<user_type> user_type { get; set; }
+        public virtual ICollection<user_type_user_role> user_type_user_role { get; set; }
     }
 }

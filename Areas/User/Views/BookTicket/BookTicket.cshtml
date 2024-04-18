@@ -1,0 +1,1385 @@
+﻿@*@{
+        CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
+    }*@
+
+@{
+    var currentDate = DateTime.Now.Date;
+    int total = 0;
+    var currentHour = currentDate.Hour;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
+    <title>Ohayou Cinema</title>
+    <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css" />
+    <link rel="stylesheet" href="~/Areas/User/assets/css/bookticket.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="header">
+        <div class="container-fluid  p-4">
+            <div class="row align-items-center">
+                <div class="col-md-2 px-5 py-1">
+                    <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                </div>
+                <div class="col-md-2 buyticket-area">
+                    <button type="button" class="buyticket-btn btn">
+                        <img src="~/assets/images/subimg/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
+                    </button>
+                </div>
+                <div class="col-md-4" style="padding: 0">
+                    <ul class="list-gr-1 list-group list-group-horizontal">
+                        <li class="list-group-item movie-area">
+                            Phim
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="movie-status list-group">
+                                <li class="movie-sta-text-1 py-1">
+                                    <i class="fa-solid fa-film"></i>
+                                    <a href="#playing">PHIM ĐANG CHIẾU</a>
+                                </li>
+                                <div class="movie-list py-1">
+                                    <div class="row">
+                                        @if (ViewBag.MovieList != null)
+                                        {
+                                            var count = 0;
+                                            foreach (var movie in ViewBag.MovieList)
+                                            {
+                                                if (movie.movie_status == true && count < 4)
+                                                {   
+                                                    <div class="col-md-3 sub-movie-list">
+                                                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                        <button class="buy-ticket-btn btn">
+                                                            <i class="ti-ticket"></i>
+                                                            Mua vé
+                                                        </button>
+                                                        <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                                                    </div>
+                                                    count++;
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <li class="movie-sta-text-2 py-1">
+                                    <i class="fa-solid fa-film"></i>
+                                    <a href="#coming">PHIM SẮP CHIẾU</a>
+                                </li>
+                                <div class="movie-list py-1">
+                                    <div class="row">
+                                        @if (ViewBag.MovieList != null)
+                                        {
+                                            var count = 0;
+                                            foreach (var movie in ViewBag.MovieList)
+                                            {
+                                                if (movie.movie_status == false && count < 4)
+                                                {
+                                                    <div class="col-md-3 sub-movie-list">
+                                                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                        <button class="buy-ticket-btn btn">
+                                                            <i class="ti-ticket"></i>
+                                                            Mua vé
+                                                        </button>
+                                                        <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                                                    </div>
+                                                    count++;
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Góc Điện Ảnh
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Thể loại phim</a></li>
+                                <li><a href="#">Diễn viên</a></li>
+                                <li><a href="#">Đạo diễn</a></li>
+                                <li><a href="#">Bình luận phim</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item event-list text-center">
+                            Sự Kiện
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Ưu đãi</a></li>
+                                <li><a href="#">Phim hay tháng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item ticket-price text-center">
+                            Rạp/Giá vé
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Rạp Đà Nẵng</a></li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-1">
+                    <button class="search-btn btn">
+                        <i class="search-icon ti-search"></i>
+                    </button>
+                </div>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/HistoryTicket">
+                                                <i class="fa-solid fa-list-ol account-icon"></i>
+                                                Lịch Sử
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/logomini.png" alt="">
+                                @*@currentUser.full_name*@
+                            </div>
+                            <div class="row1" style="font-size: small; font-weight: 500;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/icon-gift.190935e4.png" alt="">
+                                0 Star
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="buyticket-container">
+        <div class="row choose-area">
+            <div class="col-md-2 col-item1"></div>
+            <div class="col-md-8 col-item2">
+                <div class="row align-items-center">
+                    <div class="col-md navbar-item navbar-colored" id="navbar-item-1">Chọn phim / Suất</div>
+                    <div class="col-md navbar-item" id="navbar-item-2" style="padding-left: 5rem ;">Chọn ghế</div>
+                    <div class="col-md navbar-item" id="navbar-item-3" style="padding-left: 4rem;">Thanh toán</div>
+                    <div class="col-md navbar-item" id="navbar-item-4" style="padding-left: 4rem;">Xác nhận</div>
+                </div>
+            </div>
+            <div class="col-md-2 col-item3"></div>
+        </div>
+        <div class="buyticket-side">
+            <div class="row buyticket-wrapper">
+                <div class="col-md-8">
+                    <div class="row movie-choose bg-white">
+                        <div class="row align-items-center name-selected d-inline-flex gap-1">
+                            <div class="col-md-9">
+                                <h2 class="movie-text">Chọn phim</h2>
+                            </div>
+                            <div class="col-md-1 circle-down-icon">
+                                <a data-bs-toggle="collapse" href="#movielist" role="button" aria-expanded="false" aria-controls="movielist">
+                                    <i class="ti-arrow-circle-down"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="collapse show" id="movielist">
+                            <div class="movie-list py-1">
+                                <div class="row">
+                                    @if (ViewBag.MovieList != null)
+                                    {
+                                        foreach (CinemaWeb.Models.movy movie in ViewBag.MovieList)
+                                        {
+                                            if (movie.movie_status == true)
+                                            {
+                                                <div class="col-md-3 sub-movie-list1">
+                                                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                    <a href="#" class="text-dark-emphasis movie-name" onclick="selectMovie('@movie.id')">@movie.title</a>
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row datetime-choose bg-white">
+                        <div class="row align-items-center name-selected d-inline-flex gap-1">
+                            <div class="col-md-9">
+                                <h2 class="movie-text">Chọn suất</h2>
+                            </div>
+                            <div class="col-md-1 circle-down-icon">
+                                <a data-bs-toggle="collapse" href="#datetime" role="button" aria-expanded="false" aria-controls="datetime">
+                                    <i class="ti-arrow-circle-down"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="collapse day-cinema" id="datetime">
+                            <div class="datetime-wrapper">
+                                <div class="datetime-container" role="tabpanel">
+                                    <div class="row align-items-center date-list">
+                                        <ul class="list-group list-group-horizontal date-list-side">
+                                            @for (var date = currentDate; date <= currentDate.AddDays(6); date = date.AddDays(1))
+                                            {
+                                                <li class="col-md list-group-item date-time-item" id="@($"date-{date.ToString("yyMMdd")}-li")">
+                                                    <a class="text-dark-emphasis fw-medium" onclick="selectDate('@date.ToString("yyMMdd")')" href="@($"#date-{date.ToString("yyMMdd")}")" data-bs-toggle="list" data-bs-target="@($"#date-{date.ToString("yyMMdd")}")" role="tab">
+                                                        <span>@date.DayOfWeek</span>
+                                                        <span>@date.ToString("dd/MM")</span>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content schedule-cinema">
+                                        <div class="row">
+                                            <h2 class="movie-text cinema-name">Ohayou Đà Nẵng</h2>
+                                        </div>
+                                        <div class="tab-pane time-cinema active" id="@($"date-{currentDate.ToString("yyMMdd")}")" role="tabpanel">
+                                            <div class="row align-items-center time-list">
+                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                                    @for (var hour = currentHour + 1; hour <= 24; hour++)
+                                                    {
+                                                        if (total == 6) { break; }
+                                                        <li class="col-md-1 list-group-item time-btn">
+                                                            <a class="text-dark-emphasis fw-medium" href="@($"#hour-{hour.ToString().PadLeft(2, '0')}")" data-bs-toggle="list" data-bs-target="@($"#hour-{hour.ToString().PadLeft(2, '0')}")" role="tab">
+                                                                <span class="btn btn-outline-secondary time-item">@hour.ToString().PadLeft(2, '0'):00</span>
+                                                            </a>
+                                                        </li>
+                                                        total++;
+                                                    }
+                                                    @*<li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#firstroom" data-bs-toggle="list" data-bs-target="#firstroom" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">11:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#secondroom" data-bs-toggle="list" data-bs-target="#secondroom" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">12:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#thirdroom" data-bs-toggle="list" data-bs-target="#thirdroom" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">13:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#fourthroom" data-bs-toggle="list" data-bs-target="#fourthroom" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">14:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#fifthroom" data-bs-toggle="list" data-bs-target="#fifthroom" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">14:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#sixthroom" data-bs-toggle="list" data-bs-target="#sixthroom" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">15:30</span>
+                                                        </a>
+                                                    </li>*@
+                                                </ul>
+                                            </div>
+                                            <div class="tab-content seat-cinema">
+                                                @*<div class="row">
+                       
+                                                </div>*@
+                                                <div class="tab-pane seat-container" id="@($"hour-{(currentHour + 1).ToString().PadLeft(2, '0')}")" role="tabpanel">
+                                                    <div class="row">
+                                                        <h2 class="movie-text seat-text">Chọn ghế</h2>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="1">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="2">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="3">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="4">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="5">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="6">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="7">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="8">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="B" data-seat="1">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="B" data-seat="2">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="B" data-seat="3">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="B" data-seat="4">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="B" data-seat="5">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="B" data-seat="6">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="B" data-seat="7">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="B" data-seat="8">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="A" data-seat="1">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="A" data-seat="2">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="A" data-seat="3">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="A" data-seat="4">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="A" data-seat="5">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="A" data-seat="6">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="A" data-seat="7">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="A" data-seat="8">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center screen-movie">Màn hình</div>
+                                                    <div class="row align-items-center seat-status">
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-sold"></span>
+                                                            <span>Ghế đã bán</span>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-selecting"></span>
+                                                            <span>Ghế đang chọn</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane seat-container" id="secondroom" role="tabpanel">
+                                                    <div class="row">
+                                                        <h2 class="movie-text seat-text">Chọn ghế</h2>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>D</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>D</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                        <div class="col-md-1 ">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center screen-movie">Màn hình</div>
+                                                    <div class="row align-items-center seat-status">
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-sold"></span>
+                                                            <span>Ghế đã bán</span>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-selecting"></span>
+                                                            <span>Ghế đang chọn</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane seat-container" id="thirdroom" role="tabpanel">
+                                                    <div class="row">
+                                                        <h2 class="movie-text seat-text">Chọn ghế</h2>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                        <div class="col-md-1 ">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center screen-movie">Màn hình</div>
+                                                    <div class="row align-items-center seat-status">
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-sold"></span>
+                                                            <span>Ghế đã bán</span>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-selecting"></span>
+                                                            <span>Ghế đang chọn</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane seat-container" id="fourthroom" role="tabpanel">
+                                                    <div class="row">
+                                                        <h2 class="movie-text seat-text">Chọn ghế</h2>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1 seat-row">
+                                                            <span>C</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                        <div class="col-md-1 ">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center screen-movie">Màn hình</div>
+                                                    <div class="row align-items-center seat-status">
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-sold"></span>
+                                                            <span>Ghế đã bán</span>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-selecting"></span>
+                                                            <span>Ghế đang chọn</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane seat-container" id="fifthroom" role="tabpanel">
+                                                    <div class="row">
+                                                        <h2 class="movie-text seat-text">Chọn ghế</h2>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                        <div class="col-md-1 ">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center screen-movie">Màn hình</div>
+                                                    <div class="row align-items-center seat-status">
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-sold"></span>
+                                                            <span>Ghế đã bán</span>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-selecting"></span>
+                                                            <span>Ghế đang chọn</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane seat-container" id="sixthroom" role="tabpanel">
+                                                    <div class="row">
+                                                        <h2 class="movie-text seat-text">Chọn ghế</h2>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="1">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="2">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="3">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="4">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="5">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="6">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="7">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item" data-row="C" data-seat="8">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>C</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                        <div class="col-md-1 ">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>B</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center room-list">
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">1</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">2</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">3</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">4</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">5</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span class="btn btn-outline-secondary seat-item">6</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">7</span>
+                                                        </div>
+                                                        <div class="col-md-1  ">
+                                                            <span class="btn btn-outline-secondary seat-item">8</span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <span>A</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-center justify-content-center screen-movie">Màn hình</div>
+                                                    <div class="row align-items-center seat-status">
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-sold"></span>
+                                                            <span>Ghế đã bán</span>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <span class="btn btn-outline-secondary seat-selecting"></span>
+                                                            <span>Ghế đang chọn</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="@($"date-{currentDate.AddDays(1).ToString("yyMMdd")}")" role="tabpanel">
+                                            <div class="row align-items-center time-list">
+                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">11:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">11:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">11:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">11:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">11:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">11:30</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="@($"date-{currentDate.AddDays(2).ToString("yyMMdd")}")" role="tabpanel">
+                                            <div class="row align-items-center time-list">
+                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">12:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">13:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">14:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">15:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">16:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">18:30</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="@($"date-{currentDate.AddDays(3).ToString("yyMMdd")}")" role="tabpanel">
+                                            <div class="row align-items-center time-list">
+                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">12:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">13:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">14:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">15:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">16:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">18:30</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="@($"date-{currentDate.AddDays(4).ToString("yyMMdd")}")" role="tabpanel">
+                                            <div class="row align-items-center time-list">
+                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">12:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">13:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">14:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">15:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">16:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">18:30</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="@($"date-{currentDate.AddDays(5).ToString("yyMMdd")}")" role="tabpanel">
+                                            <div class="row align-items-center time-list">
+                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">12:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">13:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">14:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">15:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">16:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">18:30</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="@($"date-{currentDate.AddDays(6).ToString("yyMMdd")}")" role="tabpanel">
+                                            <div class="row align-items-center time-list">
+                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">12:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">13:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">14:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">15:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">16:30</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="col-md-1 list-group-item time-btn">
+                                                        <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
+                                                            <span class="btn btn-outline-secondary time-item">18:30</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="row seat-choose bg-white my-4">
+
+                    </div>*@
+
+
+                </div>
+                <div class="col-md-4">
+                    <div class="movie-item-selected bg-white">
+                        <div class="row movie-selected-detail">
+                            <div class="col-md-4 movie-img-wrapper">
+                                <img class="movie-selected-img" src="~/assets/images/movie/unname-movie.svg" alt="">
+                            </div>
+                            <div class="col-md-8 movie-name-wrapper">
+                                <div class="row">
+                                    <span class="movie-selected-name"></span>
+                                </div>
+                            </div>
+                            <div class="ticket-selected-detail">
+                                <div class="row">
+                                    <span></span>
+                                </div>
+                                <div class="row d-inline-block">
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="row dashed-line" style="margin-left: 27px; width: 85%;"></div>
+                            <div class="seat-selected-detail">
+                                <div class="row seat-chosen">
+                                    <div class="col-md seat-clicked">
+                                        <span>Ghế:</span>
+                                        <span id="chosen-seats"></span>
+                                    </div>
+                                    <div class="col-auto justify-content-end money-item">
+                                        <span id="total-price">0</span>
+                                        <i class="fa-solid fa-dong-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row dashed-line"></div>
+                        <div class="row align-items-center total-money">
+                            <div class="col-md">
+                                <span>Tổng cộng</span>
+                            </div>
+                            <div class="col-auto justify-content-end money-item">
+                                <span id="sum-money">0</span>
+                                <i class="fa-solid fa-dong-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-center align-items-center ticket-next-btn">
+                        <div class="col-md-6 return-item">
+                            <button class="btn returnBtn">Quay lại</button>
+                        </div>
+                        <div class="col-md-6 continue-item justify-content-center">
+                            <button class="btn continueBtn">
+                                <span>Tiếp tục</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+    <script src="~/Areas/User/assets/js/bookticket.js"></script>
+
+</body>
+</html>
+
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
+<script>
+        function selectMovie(movieId) {
+            sessionStorage.setItem('selectMovieId', movieId)
+
+        }
+
+        function selectDate(date) {
+            sessionStorage.setItem('selectedDate', date)
+        }
+
+        function updateSchedule() {
+            var selectedMovieId = sessionStorage.getItem('selectedMovieId')
+            var selectedDate = sessionStorage.getItem('selectedDate')
+
+            $.ajax({
+                url: '@Url.Action("GetScheduleForDate", "BookTicket", new {area = "User"})',
+                type: 'GET',
+                data: { movieId: selectedMovieId, date: selectedDate },
+                success: function (data) {
+                    var schedule = data.schedule
+                }
+            });
+        }
+        //// Xử lý sự kiện khi người dùng chọn một phim
+        //function selectMovie(movieId) {
+        //    $('#selectedMovieId').val(movieId);
+        //}
+
+        //// Xử lý sự kiện khi người dùng chọn một ngày
+        //function selectDate(displayDateId) {
+        //    return $('#selectedMovieId').val();
+        //}
+
+        //// Truy xuất và hiển thị lịch chiếu từ cơ sở dữ liệu
+        //function displaySchedule(selectedMovieId, selectedDisplayDateId) {
+        //    // Đoạn mã AJAX hoặc gọi API để truy xuất lịch chiếu từ cơ sở dữ liệu
+        //    $.ajax({
+        //        url: '/User/BookTicket/GetscheduleForDate', // Địa chỉ API hoặc URL để truy xuất lịch chiếu
+        //        method: 'POST', // Phương thức HTTP (POST, GET, ...)
+        //        data: { movieId: selectedMovieId, displaydateId: selectedDisplayDateId }, // Dữ liệu gửi đi
+        //        success: function (response) {
+        //            // Xử lý dữ liệu lịch chiếu và hiển thị trên giao diện
+        //            var schedule = response.schedule; // Lấy danh sách lịch chiếu từ kết quả trả về
+        //            // Hiển thị lịch chiếu trên giao diện
+        //            // Ví dụ: Tạo các thẻ HTML để hiển thị danh sách lịch chiếu
+        //            //var scheduleContainer = $('#schedule-container'); // Đây là container để hiển thị lịch chiếu, bạn cần thay thế bằng ID thích hợp trong HTML của bạn
+        //            //scheduleContainer.empty(); // Xóa nội dung cũ trước khi hiển thị lịch chiếu mới
+        //            //schedule.forEach(function (item) {
+        //            //    // Tạo các thẻ HTML để hiển thị thông tin lịch chiếu
+        //            //    var scheduleItem = $('<div class="schedule-item"></div>');
+        //            //    scheduleItem.append('<span>' + item.schedule_time + '</span>'); // Ví dụ: Hiển thị thời gian lịch chiếu
+        //            //    // Thêm các thông tin khác của lịch chiếu vào đây nếu cần
+        //            //    scheduleContainer.append(scheduleItem); // Thêm vào container để hiển thị
+        //            //});
+        //        },
+        //        error: function (xhr, status, error) {
+        //            // Xử lý lỗi khi truy xuất lịch chiếu không thành công
+        //            console.error(error);
+        //        }
+        //    });
+        //}
+
+</script>
+
+@*<script>
+        function date-selected(movieId) {
+            $(document).ready(function () {
+                $.ajax({
+                    url: "/User/HomeUser/GetDate",
+                    type: "GET",
+                    data: {//tham số bên GetDate: movieId },
+                        success: function (data) {
+                            String text = ""
+                            for ()
+                        }
+                })
+            })
+        }
+    </script>*@

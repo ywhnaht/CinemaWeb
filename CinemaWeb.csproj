@@ -173,6 +173,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
+    <Compile Include="Areas\User\Controllers\BookTicketController.cs" />
     <Compile Include="Areas\User\Controllers\UserAccountController.cs" />
     <Compile Include="Areas\User\Controllers\UserHomeController.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
@@ -219,6 +220,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\movie_actor.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\movie_display_date.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\movie_review.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -231,16 +238,19 @@
     <Compile Include="Models\room.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\room_display_date.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\schedule.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\schedule_detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\seat.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\star_rating.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ticket.cs">
@@ -258,11 +268,15 @@
     <Compile Include="Models\user_type.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\user_type_user_role.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\User\assets\css\profilestyle.css" />
+    <Content Include="Areas\User\assets\css\bookticket.css" />
     <Content Include="Areas\User\assets\css\userstyle.css" />
     <Content Include="Areas\User\assets\css\bootstrap-grid.css" />
     <Content Include="Areas\User\assets\css\bootstrap-grid.min.css" />
@@ -285,6 +299,7 @@
     <Content Include="Areas\User\assets\images\logo\logomini.png" />
     <Content Include="Areas\User\assets\images\logo\silver.6313aa20.png" />
     <Content Include="Areas\User\assets\js\profilescript.js" />
+    <Content Include="Areas\User\assets\js\bookticket.js" />
     <Content Include="Areas\User\assets\js\userscripts.js" />
     <Content Include="assets\css\signin.css" />
     <Content Include="assets\css\layout.css" />
@@ -648,6 +663,7 @@
     <Content Include="assets\font\themify-icons\SVG\zoom-in.svg" />
     <Content Include="assets\font\themify-icons\SVG\zoom-out.svg" />
     <Content Include="assets\font\themify-icons\themify-icons.css" />
+    <Content Include="assets\images\movie\unname-movie.svg" />
     <Content Include="assets\images\subimg\account.png" />
     <Content Include="assets\images\subimg\btn-ticket.png" />
     <Content Include="assets\images\logo\cinema-logo.png" />
@@ -1138,13 +1154,6 @@
     <Content Include="Areas\User\assets\js\bootstrap.min.js.map" />
     <Content Include="Areas\User\Views\Shared\_UserLayout.cshtml" />
     <Content Include="Areas\User\Views\UserHome\Index.cshtml" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="FE_Q\assets\css\bootstrap-grid.css.map" />
     <Content Include="FE_Q\assets\css\bootstrap-grid.min.css.map" />
     <Content Include="FE_Q\assets\css\bootstrap-grid.rtl.css.map" />
@@ -1174,6 +1183,14 @@
     <Content Include="Areas\User\Views\UserAccount\UserProfile.cshtml" />
     <Content Include="Areas\User\Views\UserHome\UserProfile.cshtml" />
     <Content Include="Areas\User\Views\UserHome\HistoryTicket.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\BookTicket.cshtml" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
