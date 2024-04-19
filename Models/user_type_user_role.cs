@@ -12,18 +12,13 @@ namespace CinemaWeb.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class actor
+    public partial class user_type_user_role
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public actor()
-        {
-            this.movie_actor = new HashSet<movie_actor>();
-        }
-    
         public int id { get; set; }
-        public string actor_name { get; set; }
+        public Nullable<byte> user_type_id { get; set; }
+        public Nullable<int> user_role_id { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<movie_actor> movie_actor { get; set; }
+        public virtual user_role user_role { get; set; }
+        public virtual user_type user_type { get; set; }
     }
 }

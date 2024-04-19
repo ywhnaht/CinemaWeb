@@ -270,23 +270,26 @@
                             <div class="row text-center ticket-month">
                                 <span>Tháng 3/2024</span>
                             </div>
-                            <div class="row bg-white ticket-detail">
-                                <div class="col-md-1 history-img">
-                                    <img src="~/assets/images/movie/exhuma.jpg" alt="">
-                                </div>
-                                <div class="col-md-4 ticket-movie-name">
-                                    Exhuma: Quật mộ trùng ma
-                                </div>
-                                <div class="col-md-4 ticket-time-detail">
-                                    20:00h Thứ ba, 09/04/2024
-                                </div>
-                                <div class="col-md-2 ticket-more-detail">
-                                    <a href="#detail1" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail1" aria-expanded="false">Chi tiết</a>
+                            <div class="row ticket-detail">
+                                <div class="bg-white ticket-container align-items-center">
+                                    <div class="col-md-1 history-img">
+                                        <img src="~/assets/images/movie/exhuma.jpg" alt="">
+                                    </div>
+                                    <div class="col-md-4 ticket-movie-name">
+                                        <span>Exhuma: Quật mộ trùng ma</span>
+                                    </div>
+                                    <div class="col-md-4 ticket-time-detail">
+                                        <span>20:00h Chủ nhật</span>
+                                        <span>, 09/04/2024</span>
+                                    </div>
+                                    <div class="col-md-2 ticket-more-detail">
+                                        <a href="#detail1" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail1" aria-expanded="false">Chi tiết</a>
+                                    </div>
                                 </div>
                                 <div class="modal" id="detail1">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <div class="col">
+                                            <div class="col ticket-wrapper">
                                                 <div class="row1">
                                                     <img src="~/assets/images/movie/exhuma.jpg" alt="">
                                                     <p>Exhuma: Quật mộ trùng ma</p>
@@ -308,9 +311,7 @@
                                                         <p class="p">Giá</p>
                                                         <p>100.000đ</p>
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -319,23 +320,26 @@
                             <div class="row text-center ticket-month">
                                 <span>Tháng 2/2024</span>
                             </div>
-                            <div class="row bg-white ticket-detail">
-                                <div class="col-md-1 history-img">
-                                    <img src="~/assets/images/movie/exhuma.jpg" alt="">
-                                </div>
-                                <div class="col-md-4 ticket-movie-name">
-                                    Exhuma: Quật mộ trùng ma
-                                </div>
-                                <div class="col-md-4 ticket-time-detail">
-                                    20:00h Thứ ba, 09/04/2024
-                                </div>
-                                <div class="col-md-2 ticket-more-detail">
-                                    <a href="#detail2" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail2" aria-expanded="false">Chi tiết</a>
+                            <div class="row ticket-detail">
+                                <div class="bg-white ticket-container align-items-center">
+                                    <div class="col-md-1 history-img">
+                                        <img src="~/assets/images/movie/exhuma.jpg" alt="">
+                                    </div>
+                                    <div class="col-md-4 ticket-movie-name">
+                                        Exhuma: Quật mộ trùng ma
+                                    </div>
+                                    <div class="col-md-4 ticket-time-detail">
+                                        <span>20:00h Thứ ba, </span>
+                                        <span>09/04/2024</span>
+                                    </div>
+                                    <div class="col-md-2 ticket-more-detail">
+                                        <a href="#detail2" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail2" aria-expanded="false">Chi tiết</a>
+                                    </div>
                                 </div>
                                 <div class="modal" id="detail2">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <div class="col">
+                                            <div class="col ticket-wrapper">
                                                 <div class="row1">
                                                     <img src="~/assets/images/movie/exhuma.jpg" alt="">
                                                     <p>Exhuma: Quật mộ trùng ma</p>
@@ -414,7 +418,7 @@
                                                         </div>
                                                         <div class="text-center" style="color: #dd0707">
                                                             <span class="error-message"></span>
-                                                        </div> 
+                                                        </div>
                                                         <div class="subform-group">
                                                             <button class="updateBtn">Cập nhật</button>
                                                         </div>
@@ -435,11 +439,12 @@
             </div>
         </div>
         <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
-
+        <script src="~/Areas/User/assets/js/profilescript.js"></script>
 </body>
 </html>
 
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <script>
     $(document).ready(function () {
         $(".subform input").click(function () {
@@ -469,6 +474,9 @@
             });
         });
     });
+
+    
+
 </script>
 
 

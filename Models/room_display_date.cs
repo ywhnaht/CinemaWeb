@@ -12,18 +12,13 @@ namespace CinemaWeb.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class actor
+    public partial class room_display_date
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public actor()
-        {
-            this.movie_actor = new HashSet<movie_actor>();
-        }
-    
         public int id { get; set; }
-        public string actor_name { get; set; }
+        public Nullable<int> room_id { get; set; }
+        public Nullable<int> display_date_id { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<movie_actor> movie_actor { get; set; }
+        public virtual display_date display_date { get; set; }
+        public virtual room room { get; set; }
     }
 }

@@ -17,11 +17,11 @@ namespace CinemaWeb.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public movy()
         {
+            this.movie_actor = new HashSet<movie_actor>();
+            this.movie_display_date = new HashSet<movie_display_date>();
             this.movie_review = new HashSet<movie_review>();
             this.star_rating = new HashSet<star_rating>();
             this.tickets = new HashSet<ticket>();
-            this.actors = new HashSet<actor>();
-            this.display_date = new HashSet<display_date>();
         }
     
         public int id { get; set; }
@@ -42,15 +42,15 @@ namespace CinemaWeb.Models
         public virtual country country { get; set; }
         public virtual director director { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<movie_actor> movie_actor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<movie_display_date> movie_display_date { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<movie_review> movie_review { get; set; }
         public virtual movie_type movie_type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<star_rating> star_rating { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ticket> tickets { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<actor> actors { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<display_date> display_date { get; set; }
     }
 }

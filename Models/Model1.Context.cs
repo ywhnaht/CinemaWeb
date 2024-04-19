@@ -31,18 +31,22 @@ namespace CinemaWeb.Models
         public virtual DbSet<discount> discounts { get; set; }
         public virtual DbSet<display_date> display_date { get; set; }
         public virtual DbSet<invoice> invoices { get; set; }
+        public virtual DbSet<movie_actor> movie_actor { get; set; }
+        public virtual DbSet<movie_display_date> movie_display_date { get; set; }
         public virtual DbSet<movie_review> movie_review { get; set; }
         public virtual DbSet<movie_type> movie_type { get; set; }
         public virtual DbSet<movy> movies { get; set; }
         public virtual DbSet<room> rooms { get; set; }
+        public virtual DbSet<room_display_date> room_display_date { get; set; }
         public virtual DbSet<schedule> schedules { get; set; }
+        public virtual DbSet<schedule_detail> schedule_detail { get; set; }
         public virtual DbSet<seat> seats { get; set; }
         public virtual DbSet<star_rating> star_rating { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<ticket> tickets { get; set; }
         public virtual DbSet<user_profile> user_profile { get; set; }
         public virtual DbSet<user_role> user_role { get; set; }
         public virtual DbSet<user_type> user_type { get; set; }
+        public virtual DbSet<user_type_user_role> user_type_user_role { get; set; }
         public virtual DbSet<user> users { get; set; }
     }
 }
