@@ -2,6 +2,10 @@
 
 @{
     CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
+    if (currentUser == null)
+    {
+        Response.Redirect("~/Home/SignIn");
+    }
 }
 
 <!DOCTYPE html>
@@ -392,14 +396,14 @@
                                                     <div class="col box-left">
                                                         <div class="subform-group">
                                                             <label for="name">Name</label>
-                                                            <div class="subform non-click">
-                                                                <input class="un-click" type="text" placeholder="@currentUser.full_name">
+                                                            <div class="subform">
+                                                                <input name="name" type="text" placeholder="@currentUser.full_name">
                                                             </div>
                                                         </div>
                                                         <div class="subform-group">
                                                             <label for="email">Email</label>
-                                                            <div class="subform">
-                                                                <input name="email" type="email" placeholder="@currentUser.email">
+                                                            <div class="subform non-click">
+                                                                <input class="un-click" type="email" placeholder="@currentUser.email">
                                                             </div>
                                                         </div>
                                                     </div>

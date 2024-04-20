@@ -557,10 +557,11 @@
     pointer-events: none;
 }
 
-    .subform-group .subform input {
-        width: 300px;
-        height: 38px;
-        background-color: rgb(249 249 249 / 1);
-        border: #000;
-        border-radius: 8px;
-    }
+.subform-group .subform input {
+    width: 300px;
+    height: 38px;
+    background-color: rgb(249 249 249 / 1);
+    border: #000;
+    border-radius: 8px;
+    padding-left: 10px;
+}

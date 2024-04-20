@@ -44,7 +44,6 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="schedule_id" Type="int" />
           <Property Name="display_date" Type="date" />
         </EntityType>
         <EntityType Name="invoice">
@@ -803,7 +802,6 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="schedule_id" Type="Int32" />
           <Property Name="display_date1" Type="DateTime" Precision="0" />
           <NavigationProperty Name="movie_display_date" Relationship="Self.FK_movie_display_date_display_date_id" FromRole="display_date" ToRole="movie_display_date" />
           <NavigationProperty Name="room_display_date" Relationship="Self.FK_RoomDisplayDate_DisplayDate" FromRole="display_date" ToRole="room_display_date" />
@@ -1618,7 +1616,6 @@
             <EntityTypeMapping TypeName="CinemaWebModel.display_date">
               <MappingFragment StoreEntitySet="display_date">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
                 <ScalarProperty Name="display_date1" ColumnName="display_date" />
               </MappingFragment>
             </EntityTypeMapping>

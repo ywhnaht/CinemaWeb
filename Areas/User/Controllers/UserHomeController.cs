@@ -69,26 +69,21 @@ namespace CinemaWeb.Areas.User.Controllers
             return View();
         }
         
-        public ActionResult UpdateInfor(string email, string pass)
+        public ActionResult UpdateInfor(string name, string pass)
         {
             if (Session["user"] == null)
             {
                 return RedirectToAction("SignIn", "Home");
             }
             var currentUser = (user)Session["user"];
-            var existingUser = db.users.FirstOrDefault(x => x.email == email);
-            if (existingUser != null)
-            {
-                // Nếu email đã tồn tại, trả về thông báo lỗi
-                return Json(new { success = false, message = "Email đã tồn tại!" });
-            }
+            
             // Cập nhật thông tin người dùng
             
-            currentUser.email = email;
+            currentUser.full_name = name;
             currentUser.user_password = pass;
 
             var updateUser = db.users.FirstOrDefault(x => x.id == currentUser.id);
-            updateUser.email = email;
+            updateUser.full_name = name;
             updateUser.user_password = pass;
 
             // Lưu thông tin mới vào cơ sở dữ liệu

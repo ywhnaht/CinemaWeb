@@ -50,7 +50,7 @@
                                             foreach (var movie in ViewBag.MovieList)
                                             {
                                                 if (movie.movie_status == true && count < 4)
-                                                {   
+                                                {
                                                     <div class="col-md-3 sub-movie-list">
                                                         <img src="@movie.url_image" alt="" class="img-fluid img-movie">
                                                         <button class="buy-ticket-btn btn">
@@ -210,9 +210,9 @@
                                         {
                                             if (movie.movie_status == true)
                                             {
-                                                <div class="col-md-3 sub-movie-list1">
+                                                <div class="col-md-3 sub-movie-list1" onclick="selectMovie('@movie.id')">
                                                     <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                                                    <a href="#" class="text-dark-emphasis movie-name" onclick="selectMovie('@movie.id')">@movie.title</a>
+                                                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
                                                 </div>
                                             }
                                         }
@@ -238,7 +238,8 @@
                                 <div class="datetime-container" role="tabpanel">
                                     <div class="row align-items-center date-list">
                                         <ul class="list-group list-group-horizontal date-list-side">
-                                            @for (var date = currentDate; date <= currentDate.AddDays(6); date = date.AddDays(1))
+
+                                            @*@for (var date = currentDate; date <= currentDate.AddDays(6); date = date.AddDays(1))
                                             {
                                                 <li class="col-md list-group-item date-time-item" id="@($"date-{date.ToString("yyMMdd")}-li")">
                                                     <a class="text-dark-emphasis fw-medium" onclick="selectDate('@date.ToString("yyMMdd")')" href="@($"#date-{date.ToString("yyMMdd")}")" data-bs-toggle="list" data-bs-target="@($"#date-{date.ToString("yyMMdd")}")" role="tab">
@@ -246,17 +247,18 @@
                                                         <span>@date.ToString("dd/MM")</span>
                                                     </a>
                                                 </li>
-                                            }
+                                            }*@
                                         </ul>
                                     </div>
                                     <div class="tab-content schedule-cinema">
                                         <div class="row">
                                             <h2 class="movie-text cinema-name">Ohayou Đà Nẵng</h2>
                                         </div>
+
                                         <div class="tab-pane time-cinema active" id="@($"date-{currentDate.ToString("yyMMdd")}")" role="tabpanel">
-                                            <div class="row align-items-center time-list">
-                                                <ul class="list-group list-group-horizontal justify-content-center">
-                                                    @for (var hour = currentHour + 1; hour <= 24; hour++)
+                                            <div class="row align-items-center ">
+                                                <ul class="list-group list-group-horizontal justify-content-center time-list">
+                                                    @*@for (var hour = currentHour + 1; hour <= 24; hour++)
                                                     {
                                                         if (total == 6) { break; }
                                                         <li class="col-md-1 list-group-item time-btn">
@@ -265,43 +267,43 @@
                                                             </a>
                                                         </li>
                                                         total++;
-                                                    }
+                                                    }*@
                                                     @*<li class="col-md-1 list-group-item time-btn">
-                                                        <a class="text-dark-emphasis fw-medium" href="#firstroom" data-bs-toggle="list" data-bs-target="#firstroom" role="tab">
-                                                            <span class="btn btn-outline-secondary time-item">11:30</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="col-md-1 list-group-item time-btn">
-                                                        <a class="text-dark-emphasis fw-medium" href="#secondroom" data-bs-toggle="list" data-bs-target="#secondroom" role="tab">
-                                                            <span class="btn btn-outline-secondary time-item">12:30</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="col-md-1 list-group-item time-btn">
-                                                        <a class="text-dark-emphasis fw-medium" href="#thirdroom" data-bs-toggle="list" data-bs-target="#thirdroom" role="tab">
-                                                            <span class="btn btn-outline-secondary time-item">13:30</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="col-md-1 list-group-item time-btn">
-                                                        <a class="text-dark-emphasis fw-medium" href="#fourthroom" data-bs-toggle="list" data-bs-target="#fourthroom" role="tab">
-                                                            <span class="btn btn-outline-secondary time-item">14:30</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="col-md-1 list-group-item time-btn">
-                                                        <a class="text-dark-emphasis fw-medium" href="#fifthroom" data-bs-toggle="list" data-bs-target="#fifthroom" role="tab">
-                                                            <span class="btn btn-outline-secondary time-item">14:30</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="col-md-1 list-group-item time-btn">
-                                                        <a class="text-dark-emphasis fw-medium" href="#sixthroom" data-bs-toggle="list" data-bs-target="#sixthroom" role="tab">
-                                                            <span class="btn btn-outline-secondary time-item">15:30</span>
-                                                        </a>
-                                                    </li>*@
+                                                            <a class="text-dark-emphasis fw-medium" href="#firstroom" data-bs-toggle="list" data-bs-target="#firstroom" role="tab">
+                                                                <span class="btn btn-outline-secondary time-item">11:30</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="col-md-1 list-group-item time-btn">
+                                                            <a class="text-dark-emphasis fw-medium" href="#secondroom" data-bs-toggle="list" data-bs-target="#secondroom" role="tab">
+                                                                <span class="btn btn-outline-secondary time-item">12:30</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="col-md-1 list-group-item time-btn">
+                                                            <a class="text-dark-emphasis fw-medium" href="#thirdroom" data-bs-toggle="list" data-bs-target="#thirdroom" role="tab">
+                                                                <span class="btn btn-outline-secondary time-item">13:30</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="col-md-1 list-group-item time-btn">
+                                                            <a class="text-dark-emphasis fw-medium" href="#fourthroom" data-bs-toggle="list" data-bs-target="#fourthroom" role="tab">
+                                                                <span class="btn btn-outline-secondary time-item">14:30</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="col-md-1 list-group-item time-btn">
+                                                            <a class="text-dark-emphasis fw-medium" href="#fifthroom" data-bs-toggle="list" data-bs-target="#fifthroom" role="tab">
+                                                                <span class="btn btn-outline-secondary time-item">14:30</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="col-md-1 list-group-item time-btn">
+                                                            <a class="text-dark-emphasis fw-medium" href="#sixthroom" data-bs-toggle="list" data-bs-target="#sixthroom" role="tab">
+                                                                <span class="btn btn-outline-secondary time-item">15:30</span>
+                                                            </a>
+                                                        </li>*@
                                                 </ul>
                                             </div>
                                             <div class="tab-content seat-cinema">
                                                 @*<div class="row">
-                       
-                                                </div>*@
+
+                                                    </div>*@
                                                 <div class="tab-pane seat-container" id="@($"hour-{(currentHour + 1).ToString().PadLeft(2, '0')}")" role="tabpanel">
                                                     <div class="row">
                                                         <h2 class="movie-text seat-text">Chọn ghế</h2>
@@ -1009,8 +1011,8 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="@($"date-{currentDate.AddDays(1).ToString("yyMMdd")}")" role="tabpanel">
-                                            <div class="row align-items-center time-list">
-                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                            <div class="row align-items-center">
+                                                <ul class="list-group list-group-horizontal justify-content-center time-list">
                                                     <li class="col-md-1 list-group-item time-btn">
                                                         <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
                                                             <span class="btn btn-outline-secondary time-item">11:30</span>
@@ -1045,8 +1047,8 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="@($"date-{currentDate.AddDays(2).ToString("yyMMdd")}")" role="tabpanel">
-                                            <div class="row align-items-center time-list">
-                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                            <div class="row align-items-center">
+                                                <ul class="list-group list-group-horizontal justify-content-center time-list">
                                                     <li class="col-md-1 list-group-item time-btn">
                                                         <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
                                                             <span class="btn btn-outline-secondary time-item">12:30</span>
@@ -1081,8 +1083,8 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="@($"date-{currentDate.AddDays(3).ToString("yyMMdd")}")" role="tabpanel">
-                                            <div class="row align-items-center time-list">
-                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                            <div class="row align-items-center">
+                                                <ul class="list-group list-group-horizontal justify-content-center time-list">
                                                     <li class="col-md-1 list-group-item time-btn">
                                                         <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
                                                             <span class="btn btn-outline-secondary time-item">12:30</span>
@@ -1117,8 +1119,8 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="@($"date-{currentDate.AddDays(4).ToString("yyMMdd")}")" role="tabpanel">
-                                            <div class="row align-items-center time-list">
-                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                            <div class="row align-items-center">
+                                                <ul class="list-group list-group-horizontal justify-content-center time-list">
                                                     <li class="col-md-1 list-group-item time-btn">
                                                         <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
                                                             <span class="btn btn-outline-secondary time-item">12:30</span>
@@ -1153,8 +1155,8 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="@($"date-{currentDate.AddDays(5).ToString("yyMMdd")}")" role="tabpanel">
-                                            <div class="row align-items-center time-list">
-                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                            <div class="row align-items-center">
+                                                <ul class="list-group list-group-horizontal justify-content-center time-list">
                                                     <li class="col-md-1 list-group-item time-btn">
                                                         <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
                                                             <span class="btn btn-outline-secondary time-item">12:30</span>
@@ -1189,8 +1191,8 @@
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="@($"date-{currentDate.AddDays(6).ToString("yyMMdd")}")" role="tabpanel">
-                                            <div class="row align-items-center time-list">
-                                                <ul class="list-group list-group-horizontal justify-content-center">
+                                            <div class="row align-items-center">
+                                                <ul class="list-group list-group-horizontal justify-content-center time-list">
                                                     <li class="col-md-1 list-group-item time-btn">
                                                         <a class="text-dark-emphasis fw-medium" href="#" data-bs-toggle="list" data-bs-target="#" role="tab">
                                                             <span class="btn btn-outline-secondary time-item">12:30</span>
@@ -1232,7 +1234,7 @@
 
                     @*<div class="row seat-choose bg-white my-4">
 
-                    </div>*@
+                        </div>*@
 
 
                 </div>
@@ -1298,88 +1300,158 @@
     <div class="footer">
     </div>
     <script src="~/Areas/User/assets/js/bookticket.js"></script>
+    <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
 
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
 <script>
-        function selectMovie(movieId) {
-            sessionStorage.setItem('selectMovieId', movieId)
+    function getDayOfWeek(dateitem) {
+        var days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+        return days[dateitem.getDay()];
+    }
+    function formatDate(dateitem, choose) {
+        var day = dateitem.getDate();
+        var month = dateitem.getMonth() + 1;
+        var year = dateitem.getFullYear().toString().substr(-2);
 
-        }
+        return choose == 1 ? ((day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month)
+            : (year + (month < 10 ? '0' : '') + month + (day < 10 ? '0' : '') + day);
+    }
+    function formatTime(timeitem) {
+        var hour = timeitem.getHours();
+        var minute = timeitem.getMinutes();
+        return (hour < 10 ? '0' : '') + hour + ':' +  (minute < 10 ? '0' : '') + minute;
+    }
 
-        function selectDate(date) {
-            sessionStorage.setItem('selectedDate', date)
-        }
+    var currentDay = new Date();
+    function selectMovie(selectedMovieId) {
+        $.ajax({
+            url: '/User/BookTicket/GetDisplayDate',
+            type: 'GET',
+            data: { movieId: selectedMovieId },
+            success: function (data) {
+                var results = data;
+                console.log(results)
+                var count = 0;
+                
+                $('.date-list-side').html('')                
+                for (var i = 0; i < results.length; i++) {
+                    if (count > 6) {
+                        return
+                    }
+                    var dateStr = results[i].display_date1.toString();
+                    var milliseconds = parseInt(dateStr.replace("/Date(", "").replace(")/", ""));
+                    var date = new Date(milliseconds);
+                    console.log(date)
+                    console.log(currentDay)
+                    if (date.getDate() >= currentDay.getDate()) {
+                        var dayOfWeek = getDayOfWeek(date);
+                        var display_date_id = results[i].id;
+                        console.log(display_date_id)
+                        var dateFormat1 = formatDate(date, 1);
+                        var dateFormat2 = formatDate(date, 2);
+                        // Tạo một thẻ <li> mới
+                        var listItem = $('<li></li>').addClass('col-md list-group-item date-time-item').attr({
+                            'id': 'date-' + dateFormat2 + '-li',
+                            'onclick': "selectDate('" + display_date_id + "')" // Thêm sự kiện onclick
+                        });
 
-        function updateSchedule() {
-            var selectedMovieId = sessionStorage.getItem('selectedMovieId')
-            var selectedDate = sessionStorage.getItem('selectedDate')
+                        // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
+                        var link = $('<a></a>').addClass('text-dark-emphasis fw-medium').attr({
+                            'href': '#date-' + dateFormat2,
+                            'data-bs-toggle': 'list',
+                            'data-bs-target': '#date-' + dateFormat2,
+                            'role': 'tab',
+                        }).html('<span>' + dayOfWeek + '</span> <span>' + dateFormat1 + '</span>'); // Thêm thẻ span hiện thứ và ngày
 
-            $.ajax({
-                url: '@Url.Action("GetScheduleForDate", "BookTicket", new {area = "User"})',
-                type: 'GET',
-                data: { movieId: selectedMovieId, date: selectedDate },
-                success: function (data) {
-                    var schedule = data.schedule
+                        // Gắn thẻ <a> vào thẻ <li>
+                        listItem.append(link);
+
+                        // Gắn thẻ <li> vào danh sách ngày chiếu
+                        $('.date-list-side').append(listItem);
+                        count++
+                    }
                 }
-            });
-        }
-        //// Xử lý sự kiện khi người dùng chọn một phim
-        //function selectMovie(movieId) {
-        //    $('#selectedMovieId').val(movieId);
-        //}
+                var liFirst = $('.date-list-side li:first-of-type');
+                liFirst.addClass('hovered');
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    };
+    
+    //liFirst.find('a').addClass('active');
+    // Thêm sự kiện cho các phần tử được tạo bằng AJAX
+    $(document).on('click', '.date-list-side a', function (event) {
+        event.preventDefault();
+        RemovieDateSelected();
 
-        //// Xử lý sự kiện khi người dùng chọn một ngày
-        //function selectDate(displayDateId) {
-        //    return $('#selectedMovieId').val();
-        //}
+        // Xóa lớp hovered khỏi tất cả các phần tử li và active khỏi tất cả các phần tử a trước khi thêm vào
+       
 
-        //// Truy xuất và hiển thị lịch chiếu từ cơ sở dữ liệu
-        //function displaySchedule(selectedMovieId, selectedDisplayDateId) {
-        //    // Đoạn mã AJAX hoặc gọi API để truy xuất lịch chiếu từ cơ sở dữ liệu
-        //    $.ajax({
-        //        url: '/User/BookTicket/GetscheduleForDate', // Địa chỉ API hoặc URL để truy xuất lịch chiếu
-        //        method: 'POST', // Phương thức HTTP (POST, GET, ...)
-        //        data: { movieId: selectedMovieId, displaydateId: selectedDisplayDateId }, // Dữ liệu gửi đi
-        //        success: function (response) {
-        //            // Xử lý dữ liệu lịch chiếu và hiển thị trên giao diện
-        //            var schedule = response.schedule; // Lấy danh sách lịch chiếu từ kết quả trả về
-        //            // Hiển thị lịch chiếu trên giao diện
-        //            // Ví dụ: Tạo các thẻ HTML để hiển thị danh sách lịch chiếu
-        //            //var scheduleContainer = $('#schedule-container'); // Đây là container để hiển thị lịch chiếu, bạn cần thay thế bằng ID thích hợp trong HTML của bạn
-        //            //scheduleContainer.empty(); // Xóa nội dung cũ trước khi hiển thị lịch chiếu mới
-        //            //schedule.forEach(function (item) {
-        //            //    // Tạo các thẻ HTML để hiển thị thông tin lịch chiếu
-        //            //    var scheduleItem = $('<div class="schedule-item"></div>');
-        //            //    scheduleItem.append('<span>' + item.schedule_time + '</span>'); // Ví dụ: Hiển thị thời gian lịch chiếu
-        //            //    // Thêm các thông tin khác của lịch chiếu vào đây nếu cần
-        //            //    scheduleContainer.append(scheduleItem); // Thêm vào container để hiển thị
-        //            //});
-        //        },
-        //        error: function (xhr, status, error) {
-        //            // Xử lý lỗi khi truy xuất lịch chiếu không thành công
-        //            console.error(error);
-        //        }
-        //    });
-        //}
+        // Thêm lớp hovered cho phần tử li được chọn và lớp active cho phần tử a được chọn
+        var liId = $(this).attr('href').substring(1) + '-li';
+        $('#' + liId).addClass('hovered');
+        $(this).addClass('active');
+    });
+
+    // Xóa lớp hovered và active khỏi tất cả các phần tử li và a
+    function RemovieDateSelected() {
+        $('.date-list-side li').removeClass('hovered');
+        $('.date-list-side a').removeClass('active');
+    }
+
+    function selectDate(selectedDateId) {
+
+        $.ajax({
+            url: '/User/BookTicket/GetScheduleTime',
+            type: 'GET',
+            data: { displaydateId: selectedDateId },
+            success: function (data) {
+                var results = data;
+                console.log(results)
+                $('.time-list').html('')
+                for (var i = 0; i < results.length; i++) {
+                    var dateStr = results[i].schedule_time.toString();
+                    var milliseconds = parseInt(dateStr.replace("/Date(", "").replace(")/", ""));
+                    var scheduleTime = new Date(milliseconds);
+                    var scheduleHour = scheduleTime.getHours();
+                    var scheduleMinute = scheduleTime.getMinutes();
+                    console.log(scheduleTime, scheduleHour, scheduleMinute)
+                    if (scheduleHour > currentDay.getHours() || scheduleHour === currentDay.getHours() && scheduleMinute >= currentDay.getMinutes()) {
+                        var schedule_id = results[i].id
+                        console.log(schedule_id)
+                        var timeFormat = formatTime(scheduleTime);
+                        // Tạo một thẻ <li> mới
+                        var listItem = $('<li></li>').addClass('col-md-1 list-group-item time-btn').attr({
+                            'id': 'time-' + timeFormat + '-li',
+                            'onclick': "selectSeat('" + schedule_id + "')" // Thêm sự kiện onclick
+                        });
+
+                        // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
+                        var link = $('<a></a>').addClass('text-dark-emphasis fw-medium').attr({
+                            'href': '#time-' + timeFormat,
+                            'data-bs-toggle': 'list',
+                            'data-bs-target': '#time-' + timeFormat,
+                            'role': 'tab',
+                        })
+                        var span = $('<span></span>').addClass('btn btn-outline-secondary time-item').text(timeFormat);
+                        link.append(span)
+                        // Gắn thẻ <a> vào thẻ <li>
+                        listItem.append(link);
+
+                        // Gắn thẻ <li> vào danh sách ngày chiếu
+                        $('.time-list').append(listItem);
+                    }
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    };
 
 </script>
-
-@*<script>
-        function date-selected(movieId) {
-            $(document).ready(function () {
-                $.ajax({
-                    url: "/User/HomeUser/GetDate",
-                    type: "GET",
-                    data: {//tham số bên GetDate: movieId },
-                        success: function (data) {
-                            String text = ""
-                            for ()
-                        }
-                })
-            })
-        }
-    </script>*@

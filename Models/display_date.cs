@@ -24,7 +24,6 @@ namespace CinemaWeb.Models
         }
     
         public int id { get; set; }
-        public Nullable<int> schedule_id { get; set; }
         public Nullable<System.DateTime> display_date1 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

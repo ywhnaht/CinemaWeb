@@ -4,23 +4,23 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="35f4779102344386b1ce152fee410680" Name="Diagram1" ZoomLevel="46">
+      <Diagram DiagramId="f74581e65c6b4f6b9c9dcef336102bae" Name="Diagram1">
         <EntityTypeShape EntityType="CinemaWebModel.actor" Width="1.5" PointX="7.5" PointY="24.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaWebModel.country" Width="1.5" PointX="5.25" PointY="27.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaWebModel.country" Width="1.5" PointX="5.25" PointY="27.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.director" Width="1.5" PointX="5.25" PointY="29.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.discount" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaWebModel.display_date" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaWebModel.display_date" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.invoice" Width="1.5" PointX="7.5" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaWebModel.movie_actor" Width="1.5" PointX="9.75" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaWebModel.movie_actor" Width="1.5" PointX="9.75" PointY="29.375" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.movie_display_date" Width="1.5" PointX="9.75" PointY="17.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.movie_review" Width="1.5" PointX="5.25" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaWebModel.movie_type" Width="1.5" PointX="5.25" PointY="32" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaWebModel.movy" Width="1.5" PointX="7.5" PointY="27.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaWebModel.room" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaWebModel.movie_type" Width="1.5" PointX="5.25" PointY="31.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaWebModel.movy" Width="1.5" PointX="7.5" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaWebModel.room" Width="1.5" PointX="7.5" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.room_display_date" Width="1.5" PointX="9.75" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaWebModel.schedule" Width="1.5" PointX="7.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaWebModel.schedule" Width="1.5" PointX="7.5" PointY="9.25" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.schedule_detail" Width="1.5" PointX="12.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="CinemaWebModel.seat" Width="1.5" PointX="7.5" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CinemaWebModel.seat" Width="1.5" PointX="7.5" PointY="20.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.star_rating" Width="1.5" PointX="10.25" PointY="13.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.ticket" Width="1.5" PointX="9.75" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="CinemaWebModel.user_profile" Width="1.5" PointX="5.25" PointY="20.625" IsExpanded="true" />
