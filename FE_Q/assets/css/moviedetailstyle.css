@@ -365,6 +365,7 @@
     color: gray;
     margin-right: 0;
     padding-top: 0px;
+    font-family: Nunito Sans, sans-serif;
 }
 .nation-item{
     font-size: small;
@@ -433,6 +434,7 @@
 .type .btn a{
     font-size: .875rem;
     font-style: normal;
+    font-family: Nunito Sans, sans-serif;
 }
 
 .text{
@@ -452,12 +454,14 @@
     font-weight: 500;
     font-style: normal;
     text-decoration: none;
+    font-family: Nunito Sans, sans-serif;
 }
 .introduce{
     font-size: 14px;
     font-weight: 500;
     font-style: normal;
     text-decoration: none;
+    font-family: Nunito Sans, sans-serif;
 }
 .introduce a{
     text-decoration: none;
@@ -613,6 +617,7 @@
     font-size: .875rem;
     color: inherit;
     text-decoration: inherit;
+    
 }
 .right .bonus .new-mv{
     width: 150px;
