@@ -15,20 +15,14 @@ namespace CinemaWeb.Models
     public partial class ticket
     {
         public int id { get; set; }
-        public Nullable<int> invoice_id { get; set; }
-        public Nullable<int> movie_id { get; set; }
-        public Nullable<int> display_date_id { get; set; }
-        public Nullable<int> schedule_id { get; set; }
+        public Nullable<int> room_schedule_detail_id { get; set; }
         public Nullable<int> seat_id { get; set; }
-        public Nullable<int> room_id { get; set; }
         public Nullable<int> ticket_price { get; set; }
         public Nullable<bool> ticket_status { get; set; }
+        public Nullable<int> invoice_id { get; set; }
     
-        public virtual display_date display_date { get; set; }
         public virtual invoice invoice { get; set; }
-        public virtual movy movy { get; set; }
-        public virtual room room { get; set; }
-        public virtual schedule schedule { get; set; }
+        public virtual room_schedule_detail room_schedule_detail { get; set; }
         public virtual seat seat { get; set; }
     }
 }

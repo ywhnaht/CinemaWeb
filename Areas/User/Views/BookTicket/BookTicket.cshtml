@@ -1421,7 +1421,35 @@
                     var scheduleHour = scheduleTime.getHours();
                     var scheduleMinute = scheduleTime.getMinutes();
                     console.log(scheduleTime, scheduleHour, scheduleMinute)
-                    if (scheduleHour > currentDay.getHours() || scheduleHour === currentDay.getHours() && scheduleMinute >= currentDay.getMinutes()) {
+                    if (scheduleTime.getDate() === currentDay.getDate()) {
+                        if (scheduleHour > currentDay.getHours() || scheduleHour === currentDay.getHours() && scheduleMinute >= currentDay.getMinutes()) {
+                            var schedule_id = results[i].id
+                            console.log(schedule_id)
+                            var timeFormat = formatTime(scheduleTime);
+                            // Tạo một thẻ <li> mới
+                            var listItem = $('<li></li>').addClass('col-md-1 list-group-item time-btn').attr({
+                                'id': 'time-' + timeFormat + '-li',
+                                'onclick': "selectSchedule('" + schedule_id + "')" // Thêm sự kiện onclick
+                            });
+
+                            // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
+                            var link = $('<a></a>').addClass('text-dark-emphasis fw-medium').attr({
+                                'href': '#time-' + timeFormat,
+                                'data-bs-toggle': 'list',
+                                'data-bs-target': '#time-' + timeFormat,
+                                'role': 'tab',
+                            })
+                            var span = $('<span></span>').addClass('btn btn-outline-secondary time-item').text(timeFormat);
+                            link.append(span)
+                            // Gắn thẻ <a> vào thẻ <li>
+                            listItem.append(link);
+
+                            // Gắn thẻ <li> vào danh sách ngày chiếu
+                            $('.time-list').append(listItem);
+                        }
+                    }
+                    else
+                    {
                         var schedule_id = results[i].id
                         console.log(schedule_id)
                         var timeFormat = formatTime(scheduleTime);
@@ -1445,6 +1473,7 @@
 
                         // Gắn thẻ <li> vào danh sách ngày chiếu
                         $('.time-list').append(listItem);
+
                     }
                 }
             },
@@ -1453,5 +1482,20 @@
             }
         });
     };
+
+    function selectSchedule(selectedScheduleId) {
+        $.ajax({
+            url: 'User/BookTicket/selectSchedule',
+            type: 'GET',
+            date: { scheduleId: selectedScheduleId },
+            success: function (date)
+            {
+                console.log(data)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
 
 </script>

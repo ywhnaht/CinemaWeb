@@ -49,14 +49,32 @@ namespace CinemaWeb.Areas.User.Controllers
         public ActionResult GetScheduleTime(int displaydateId)
         {
             var scheduleList = db.schedule_detail
-                        .Where(x => x.display_date_id == displaydateId)
+                        .Where(x => x.movie_display_date.display_date_id == displaydateId)
                         .Select(x => new
                         {
                             x.schedule.id,
-                            schedule_time = DbFunctions.CreateDateTime(1, 1, 1, x.schedule.schedule_time.Value.Hours, x.schedule.schedule_time.Value.Minutes, x.schedule.schedule_time.Value.Seconds) // Chuyển đổi TimeSpan sang DateTime
+                            schedule_time = DbFunctions.CreateDateTime(x.movie_display_date.display_date.display_date1.Value.Year,
+                                                                       x.movie_display_date.display_date.display_date1.Value.Month,
+                                                                       x.movie_display_date.display_date.display_date1.Value.Day, 
+                                                                       x.schedule.schedule_time.Value.Hours,
+                                                                       x.schedule.schedule_time.Value.Minutes, 
+                                                                       x.schedule.schedule_time.Value.Seconds) // Chuyển đổi TimeSpan sang DateTime
                         })
                         .ToList();
             return Json(scheduleList, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult selectSchedule(int scheduleId)
+        {
+
+            var room = db.room_schedule_detail.Where(x => x.schedule_detail.schedule_id == scheduleId)
+                                              .Select(x => new
+                                              {
+                                                  x.room.seats,
+                                                  x.schedule_detail_id
+                                              }).ToList();
+            return Json(room, JsonRequestBehavior.AllowGet);
         }
     }
 }

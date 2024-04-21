@@ -224,11 +224,6 @@
     color: #F26B38;
 }
 
-.content{
-    margin-left: 100px;
-    margin-right: 100px;
-}
-
 .list1 .col-md-3{
     position: relative;
     padding-bottom: 40px;
@@ -281,10 +276,18 @@
     justify-content: center;
 }
 
+.mv-poster {
+    margin-left: -1rem;
+}
+
 .mv-img
 {
     padding-left: 400px;
     
+}
+
+.mv-country {
+    padding-top: 1rem;
 }
 
 .trailer-btn
@@ -301,10 +304,10 @@
     height: 64px;
     color: transparent;
 }
-.content{
+.content {
     padding-top: 26px;
-    margin-left: 150px;
-    margin-right: 150px;
+    margin-left: 5rem;
+    margin-right: 5rem;
 }
 .conten-wrapper{
     padding-top: 50px;
@@ -381,12 +384,11 @@
    
 }
 
-.list{
+.list-item  {
     display: inline-block;
     margin-top: 0px;
     border-radius: 5px;
     border-color: gray;
-
 }
 
 .list-item {

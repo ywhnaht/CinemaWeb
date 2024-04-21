@@ -123,13 +123,13 @@
           <Property Name="room_name" Type="nvarchar" MaxLength="255" />
           <Property Name="seat_quantity" Type="int" />
         </EntityType>
-        <EntityType Name="room_display_date">
+        <EntityType Name="room_schedule_detail">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="room_id" Type="int" />
-          <Property Name="display_date_id" Type="int" />
+          <Property Name="schedule_detail_id" Type="int" />
         </EntityType>
         <EntityType Name="schedule">
           <Key>
@@ -143,8 +143,8 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="movie_display_date_id" Type="int" />
           <Property Name="schedule_id" Type="int" />
-          <Property Name="display_date_id" Type="int" />
         </EntityType>
         <EntityType Name="seat">
           <Key>
@@ -166,19 +166,26 @@
           <Property Name="movie_id" Type="int" />
           <Property Name="user_id" Type="int" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
         <EntityType Name="ticket">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="invoice_id" Type="int" />
-          <Property Name="movie_id" Type="int" />
-          <Property Name="display_date_id" Type="int" />
-          <Property Name="schedule_id" Type="int" />
+          <Property Name="room_schedule_detail_id" Type="int" />
           <Property Name="seat_id" Type="int" />
-          <Property Name="room_id" Type="int" />
           <Property Name="ticket_price" Type="int" />
           <Property Name="ticket_status" Type="bit" />
+          <Property Name="invoice_id" Type="int" />
         </EntityType>
         <EntityType Name="user_profile">
           <Key>
@@ -376,39 +383,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RoomDisplayDate_DisplayDate">
-          <End Role="display_date" Type="Self.display_date" Multiplicity="0..1" />
-          <End Role="room_display_date" Type="Self.room_display_date" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="display_date">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="room_display_date">
-              <PropertyRef Name="display_date_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoomDisplayDate_Room">
+        <Association Name="FK_room_schedule_detail_room_id">
           <End Role="room" Type="Self.room" Multiplicity="0..1" />
-          <End Role="room_display_date" Type="Self.room_display_date" Multiplicity="*" />
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="room">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="room_display_date">
+            <Dependent Role="room_schedule_detail">
               <PropertyRef Name="room_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_schedule_detail_display_date_id">
-          <End Role="display_date" Type="Self.display_date" Multiplicity="0..1" />
+        <Association Name="FK_room_schedule_detail_schedule_detail_id">
+          <End Role="schedule_detail" Type="Self.schedule_detail" Multiplicity="0..1" />
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="schedule_detail">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="room_schedule_detail">
+              <PropertyRef Name="schedule_detail_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_schedule_detail_movie_display_date_id">
+          <End Role="movie_display_date" Type="Self.movie_display_date" Multiplicity="0..1" />
           <End Role="schedule_detail" Type="Self.schedule_detail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="display_date">
+            <Principal Role="movie_display_date">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="schedule_detail">
-              <PropertyRef Name="display_date_id" />
+              <PropertyRef Name="movie_display_date_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -460,18 +467,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ticket_display_date_id">
-          <End Role="display_date" Type="Self.display_date" Multiplicity="0..1" />
-          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="display_date">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
-              <PropertyRef Name="display_date_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ticket_invoice_id">
           <End Role="invoice" Type="Self.invoice" Multiplicity="0..1" />
           <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
@@ -484,39 +479,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ticket_movie_id">
-          <End Role="movies" Type="Self.movies" Multiplicity="0..1" />
+        <Association Name="FK_ticket_room_schedule_detail_id">
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="0..1" />
           <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="movies">
+            <Principal Role="room_schedule_detail">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="ticket">
-              <PropertyRef Name="movie_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ticket_room_id">
-          <End Role="room" Type="Self.room" Multiplicity="0..1" />
-          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="room">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
-              <PropertyRef Name="room_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ticket_schedule_id">
-          <End Role="schedule" Type="Self.schedule" Multiplicity="0..1" />
-          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="schedule">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
-              <PropertyRef Name="schedule_id" />
+              <PropertyRef Name="room_schedule_detail_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -617,11 +588,12 @@
           <EntitySet Name="movie_type" EntityType="Self.movie_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="movies" EntityType="Self.movies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="room" EntityType="Self.room" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="room_display_date" EntityType="Self.room_display_date" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="room_schedule_detail" EntityType="Self.room_schedule_detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="schedule" EntityType="Self.schedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="schedule_detail" EntityType="Self.schedule_detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="seat" EntityType="Self.seat" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="star_rating" EntityType="Self.star_rating" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ticket" EntityType="Self.ticket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_profile" EntityType="Self.user_profile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_role" EntityType="Self.user_role" Schema="dbo" store:Type="Tables" />
@@ -676,16 +648,16 @@
             <End Role="movie_type" EntitySet="movie_type" />
             <End Role="movies" EntitySet="movies" />
           </AssociationSet>
-          <AssociationSet Name="FK_RoomDisplayDate_DisplayDate" Association="Self.FK_RoomDisplayDate_DisplayDate">
-            <End Role="display_date" EntitySet="display_date" />
-            <End Role="room_display_date" EntitySet="room_display_date" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomDisplayDate_Room" Association="Self.FK_RoomDisplayDate_Room">
+          <AssociationSet Name="FK_room_schedule_detail_room_id" Association="Self.FK_room_schedule_detail_room_id">
             <End Role="room" EntitySet="room" />
-            <End Role="room_display_date" EntitySet="room_display_date" />
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
           </AssociationSet>
-          <AssociationSet Name="FK_schedule_detail_display_date_id" Association="Self.FK_schedule_detail_display_date_id">
-            <End Role="display_date" EntitySet="display_date" />
+          <AssociationSet Name="FK_room_schedule_detail_schedule_detail_id" Association="Self.FK_room_schedule_detail_schedule_detail_id">
+            <End Role="schedule_detail" EntitySet="schedule_detail" />
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_schedule_detail_movie_display_date_id" Association="Self.FK_schedule_detail_movie_display_date_id">
+            <End Role="movie_display_date" EntitySet="movie_display_date" />
             <End Role="schedule_detail" EntitySet="schedule_detail" />
           </AssociationSet>
           <AssociationSet Name="FK_schedule_detail_schedule_id" Association="Self.FK_schedule_detail_schedule_id">
@@ -704,24 +676,12 @@
             <End Role="users" EntitySet="users" />
             <End Role="star_rating" EntitySet="star_rating" />
           </AssociationSet>
-          <AssociationSet Name="FK_ticket_display_date_id" Association="Self.FK_ticket_display_date_id">
-            <End Role="display_date" EntitySet="display_date" />
-            <End Role="ticket" EntitySet="ticket" />
-          </AssociationSet>
           <AssociationSet Name="FK_ticket_invoice_id" Association="Self.FK_ticket_invoice_id">
             <End Role="invoice" EntitySet="invoice" />
             <End Role="ticket" EntitySet="ticket" />
           </AssociationSet>
-          <AssociationSet Name="FK_ticket_movie_id" Association="Self.FK_ticket_movie_id">
-            <End Role="movies" EntitySet="movies" />
-            <End Role="ticket" EntitySet="ticket" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ticket_room_id" Association="Self.FK_ticket_room_id">
-            <End Role="room" EntitySet="room" />
-            <End Role="ticket" EntitySet="ticket" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ticket_schedule_id" Association="Self.FK_ticket_schedule_id">
-            <End Role="schedule" EntitySet="schedule" />
+          <AssociationSet Name="FK_ticket_room_schedule_detail_id" Association="Self.FK_ticket_room_schedule_detail_id">
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
             <End Role="ticket" EntitySet="ticket" />
           </AssociationSet>
           <AssociationSet Name="FK_ticket_seat_id" Association="Self.FK_ticket_seat_id">
@@ -804,9 +764,6 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="display_date1" Type="DateTime" Precision="0" />
           <NavigationProperty Name="movie_display_date" Relationship="Self.FK_movie_display_date_display_date_id" FromRole="display_date" ToRole="movie_display_date" />
-          <NavigationProperty Name="room_display_date" Relationship="Self.FK_RoomDisplayDate_DisplayDate" FromRole="display_date" ToRole="room_display_date" />
-          <NavigationProperty Name="schedule_detail" Relationship="Self.FK_schedule_detail_display_date_id" FromRole="display_date" ToRole="schedule_detail" />
-          <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_display_date_id" FromRole="display_date" ToRole="ticket" />
         </EntityType>
         <EntityType Name="invoice">
           <Key>
@@ -842,6 +799,7 @@
           <Property Name="display_date_id" Type="Int32" />
           <NavigationProperty Name="display_date" Relationship="Self.FK_movie_display_date_display_date_id" FromRole="movie_display_date" ToRole="display_date" />
           <NavigationProperty Name="movy" Relationship="Self.FK_movie_display_date_movie_id" FromRole="movie_display_date" ToRole="movies" />
+          <NavigationProperty Name="schedule_detail" Relationship="Self.FK_schedule_detail_movie_display_date_id" FromRole="movie_display_date" ToRole="schedule_detail" />
         </EntityType>
         <EntityType Name="movie_review">
           <Key>
@@ -893,7 +851,6 @@
           <NavigationProperty Name="movie_review" Relationship="Self.FK_movie_review_movie_id" FromRole="movies" ToRole="movie_review" />
           <NavigationProperty Name="movie_type" Relationship="Self.FK_movies_type_id" FromRole="movies" ToRole="movie_type" />
           <NavigationProperty Name="star_rating" Relationship="Self.FK_star_rating_movie_id" FromRole="movies" ToRole="star_rating" />
-          <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_movie_id" FromRole="movies" ToRole="ticket" />
         </EntityType>
         <EntityType Name="room">
           <Key>
@@ -902,19 +859,19 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="room_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="seat_quantity" Type="Int32" />
-          <NavigationProperty Name="room_display_date" Relationship="Self.FK_RoomDisplayDate_Room" FromRole="room" ToRole="room_display_date" />
+          <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_room_schedule_detail_room_id" FromRole="room" ToRole="room_schedule_detail" />
           <NavigationProperty Name="seats" Relationship="Self.FK_seat_room_id" FromRole="room" ToRole="seat" />
-          <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_room_id" FromRole="room" ToRole="ticket" />
         </EntityType>
-        <EntityType Name="room_display_date">
+        <EntityType Name="room_schedule_detail">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="room_id" Type="Int32" />
-          <Property Name="display_date_id" Type="Int32" />
-          <NavigationProperty Name="display_date" Relationship="Self.FK_RoomDisplayDate_DisplayDate" FromRole="room_display_date" ToRole="display_date" />
-          <NavigationProperty Name="room" Relationship="Self.FK_RoomDisplayDate_Room" FromRole="room_display_date" ToRole="room" />
+          <Property Name="schedule_detail_id" Type="Int32" />
+          <NavigationProperty Name="room" Relationship="Self.FK_room_schedule_detail_room_id" FromRole="room_schedule_detail" ToRole="room" />
+          <NavigationProperty Name="schedule_detail" Relationship="Self.FK_room_schedule_detail_schedule_detail_id" FromRole="room_schedule_detail" ToRole="schedule_detail" />
+          <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_room_schedule_detail_id" FromRole="room_schedule_detail" ToRole="ticket" />
         </EntityType>
         <EntityType Name="schedule">
           <Key>
@@ -923,16 +880,16 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="schedule_time" Type="Time" Precision="7" />
           <NavigationProperty Name="schedule_detail" Relationship="Self.FK_schedule_detail_schedule_id" FromRole="schedule" ToRole="schedule_detail" />
-          <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_schedule_id" FromRole="schedule" ToRole="ticket" />
         </EntityType>
         <EntityType Name="schedule_detail">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="movie_display_date_id" Type="Int32" />
           <Property Name="schedule_id" Type="Int32" />
-          <Property Name="display_date_id" Type="Int32" />
-          <NavigationProperty Name="display_date" Relationship="Self.FK_schedule_detail_display_date_id" FromRole="schedule_detail" ToRole="display_date" />
+          <NavigationProperty Name="movie_display_date" Relationship="Self.FK_schedule_detail_movie_display_date_id" FromRole="schedule_detail" ToRole="movie_display_date" />
+          <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_room_schedule_detail_schedule_detail_id" FromRole="schedule_detail" ToRole="room_schedule_detail" />
           <NavigationProperty Name="schedule" Relationship="Self.FK_schedule_detail_schedule_id" FromRole="schedule_detail" ToRole="schedule" />
         </EntityType>
         <EntityType Name="seat">
@@ -959,24 +916,28 @@
           <NavigationProperty Name="movy" Relationship="Self.FK_star_rating_movie_id" FromRole="star_rating" ToRole="movies" />
           <NavigationProperty Name="user" Relationship="Self.FK_star_rating_user_id" FromRole="star_rating" ToRole="users" />
         </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="ticket">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="invoice_id" Type="Int32" />
-          <Property Name="movie_id" Type="Int32" />
-          <Property Name="display_date_id" Type="Int32" />
-          <Property Name="schedule_id" Type="Int32" />
+          <Property Name="room_schedule_detail_id" Type="Int32" />
           <Property Name="seat_id" Type="Int32" />
-          <Property Name="room_id" Type="Int32" />
           <Property Name="ticket_price" Type="Int32" />
           <Property Name="ticket_status" Type="Boolean" />
-          <NavigationProperty Name="display_date" Relationship="Self.FK_ticket_display_date_id" FromRole="ticket" ToRole="display_date" />
+          <Property Name="invoice_id" Type="Int32" />
           <NavigationProperty Name="invoice" Relationship="Self.FK_ticket_invoice_id" FromRole="ticket" ToRole="invoice" />
-          <NavigationProperty Name="movy" Relationship="Self.FK_ticket_movie_id" FromRole="ticket" ToRole="movies" />
-          <NavigationProperty Name="room" Relationship="Self.FK_ticket_room_id" FromRole="ticket" ToRole="room" />
-          <NavigationProperty Name="schedule" Relationship="Self.FK_ticket_schedule_id" FromRole="ticket" ToRole="schedule" />
+          <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_ticket_room_schedule_detail_id" FromRole="ticket" ToRole="room_schedule_detail" />
           <NavigationProperty Name="seat" Relationship="Self.FK_ticket_seat_id" FromRole="ticket" ToRole="seat" />
         </EntityType>
         <EntityType Name="user_profile">
@@ -1119,42 +1080,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_RoomDisplayDate_DisplayDate">
-          <End Role="display_date" Type="Self.display_date" Multiplicity="0..1" />
-          <End Role="room_display_date" Type="Self.room_display_date" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="display_date">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="room_display_date">
-              <PropertyRef Name="display_date_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_schedule_detail_display_date_id">
-          <End Role="display_date" Type="Self.display_date" Multiplicity="0..1" />
-          <End Role="schedule_detail" Type="Self.schedule_detail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="display_date">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="schedule_detail">
-              <PropertyRef Name="display_date_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ticket_display_date_id">
-          <End Role="display_date" Type="Self.display_date" Multiplicity="0..1" />
-          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="display_date">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
-              <PropertyRef Name="display_date_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_invoice_user_id">
           <End Role="users" Type="Self.user" Multiplicity="0..1" />
           <End Role="invoice" Type="Self.invoice" Multiplicity="*" />
@@ -1200,6 +1125,18 @@
             </Principal>
             <Dependent Role="movie_display_date">
               <PropertyRef Name="movie_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_schedule_detail_movie_display_date_id">
+          <End Role="movie_display_date" Type="Self.movie_display_date" Multiplicity="0..1" />
+          <End Role="schedule_detail" Type="Self.schedule_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="movie_display_date">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="schedule_detail">
+              <PropertyRef Name="movie_display_date_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1251,26 +1188,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ticket_movie_id">
-          <End Role="movies" Type="Self.movy" Multiplicity="0..1" />
-          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="movies">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
-              <PropertyRef Name="movie_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RoomDisplayDate_Room">
+        <Association Name="FK_room_schedule_detail_room_id">
           <End Role="room" Type="Self.room" Multiplicity="0..1" />
-          <End Role="room_display_date" Type="Self.room_display_date" Multiplicity="*" />
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="room">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="room_display_date">
+            <Dependent Role="room_schedule_detail">
               <PropertyRef Name="room_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1287,15 +1212,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ticket_room_id">
-          <End Role="room" Type="Self.room" Multiplicity="0..1" />
+        <Association Name="FK_room_schedule_detail_schedule_detail_id">
+          <End Role="schedule_detail" Type="Self.schedule_detail" Multiplicity="0..1" />
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="schedule_detail">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="room_schedule_detail">
+              <PropertyRef Name="schedule_detail_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ticket_room_schedule_detail_id">
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="0..1" />
           <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="room">
+            <Principal Role="room_schedule_detail">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="ticket">
-              <PropertyRef Name="room_id" />
+              <PropertyRef Name="room_schedule_detail_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1307,18 +1244,6 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="schedule_detail">
-              <PropertyRef Name="schedule_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ticket_schedule_id">
-          <End Role="schedule" Type="Self.schedule" Multiplicity="0..1" />
-          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="schedule">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
               <PropertyRef Name="schedule_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1432,11 +1357,12 @@
           <EntitySet Name="movie_type" EntityType="Self.movie_type" />
           <EntitySet Name="movies" EntityType="Self.movy" />
           <EntitySet Name="rooms" EntityType="Self.room" />
-          <EntitySet Name="room_display_date" EntityType="Self.room_display_date" />
+          <EntitySet Name="room_schedule_detail" EntityType="Self.room_schedule_detail" />
           <EntitySet Name="schedules" EntityType="Self.schedule" />
           <EntitySet Name="schedule_detail" EntityType="Self.schedule_detail" />
           <EntitySet Name="seats" EntityType="Self.seat" />
           <EntitySet Name="star_rating" EntityType="Self.star_rating" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="tickets" EntityType="Self.ticket" />
           <EntitySet Name="user_profile" EntityType="Self.user_profile" />
           <EntitySet Name="user_role" EntityType="Self.user_role" />
@@ -1467,18 +1393,6 @@
             <End Role="display_date" EntitySet="display_date" />
             <End Role="movie_display_date" EntitySet="movie_display_date" />
           </AssociationSet>
-          <AssociationSet Name="FK_RoomDisplayDate_DisplayDate" Association="Self.FK_RoomDisplayDate_DisplayDate">
-            <End Role="display_date" EntitySet="display_date" />
-            <End Role="room_display_date" EntitySet="room_display_date" />
-          </AssociationSet>
-          <AssociationSet Name="FK_schedule_detail_display_date_id" Association="Self.FK_schedule_detail_display_date_id">
-            <End Role="display_date" EntitySet="display_date" />
-            <End Role="schedule_detail" EntitySet="schedule_detail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ticket_display_date_id" Association="Self.FK_ticket_display_date_id">
-            <End Role="display_date" EntitySet="display_date" />
-            <End Role="ticket" EntitySet="tickets" />
-          </AssociationSet>
           <AssociationSet Name="FK_invoice_user_id" Association="Self.FK_invoice_user_id">
             <End Role="users" EntitySet="users" />
             <End Role="invoice" EntitySet="invoices" />
@@ -1494,6 +1408,10 @@
           <AssociationSet Name="FK_movie_display_date_movie_id" Association="Self.FK_movie_display_date_movie_id">
             <End Role="movies" EntitySet="movies" />
             <End Role="movie_display_date" EntitySet="movie_display_date" />
+          </AssociationSet>
+          <AssociationSet Name="FK_schedule_detail_movie_display_date_id" Association="Self.FK_schedule_detail_movie_display_date_id">
+            <End Role="movie_display_date" EntitySet="movie_display_date" />
+            <End Role="schedule_detail" EntitySet="schedule_detail" />
           </AssociationSet>
           <AssociationSet Name="FK_movie_review_movie_id" Association="Self.FK_movie_review_movie_id">
             <End Role="movies" EntitySet="movies" />
@@ -1511,29 +1429,25 @@
             <End Role="movies" EntitySet="movies" />
             <End Role="star_rating" EntitySet="star_rating" />
           </AssociationSet>
-          <AssociationSet Name="FK_ticket_movie_id" Association="Self.FK_ticket_movie_id">
-            <End Role="movies" EntitySet="movies" />
-            <End Role="ticket" EntitySet="tickets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RoomDisplayDate_Room" Association="Self.FK_RoomDisplayDate_Room">
+          <AssociationSet Name="FK_room_schedule_detail_room_id" Association="Self.FK_room_schedule_detail_room_id">
             <End Role="room" EntitySet="rooms" />
-            <End Role="room_display_date" EntitySet="room_display_date" />
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
           </AssociationSet>
           <AssociationSet Name="FK_seat_room_id" Association="Self.FK_seat_room_id">
             <End Role="room" EntitySet="rooms" />
             <End Role="seat" EntitySet="seats" />
           </AssociationSet>
-          <AssociationSet Name="FK_ticket_room_id" Association="Self.FK_ticket_room_id">
-            <End Role="room" EntitySet="rooms" />
+          <AssociationSet Name="FK_room_schedule_detail_schedule_detail_id" Association="Self.FK_room_schedule_detail_schedule_detail_id">
+            <End Role="schedule_detail" EntitySet="schedule_detail" />
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ticket_room_schedule_detail_id" Association="Self.FK_ticket_room_schedule_detail_id">
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
             <End Role="ticket" EntitySet="tickets" />
           </AssociationSet>
           <AssociationSet Name="FK_schedule_detail_schedule_id" Association="Self.FK_schedule_detail_schedule_id">
             <End Role="schedule" EntitySet="schedules" />
             <End Role="schedule_detail" EntitySet="schedule_detail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ticket_schedule_id" Association="Self.FK_ticket_schedule_id">
-            <End Role="schedule" EntitySet="schedules" />
-            <End Role="ticket" EntitySet="tickets" />
           </AssociationSet>
           <AssociationSet Name="FK_ticket_seat_id" Association="Self.FK_ticket_seat_id">
             <End Role="seat" EntitySet="seats" />
@@ -1704,12 +1618,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="room_display_date">
-            <EntityTypeMapping TypeName="CinemaWebModel.room_display_date">
-              <MappingFragment StoreEntitySet="room_display_date">
+          <EntitySetMapping Name="room_schedule_detail">
+            <EntityTypeMapping TypeName="CinemaWebModel.room_schedule_detail">
+              <MappingFragment StoreEntitySet="room_schedule_detail">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
-                <ScalarProperty Name="display_date_id" ColumnName="display_date_id" />
+                <ScalarProperty Name="schedule_detail_id" ColumnName="schedule_detail_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1725,8 +1639,8 @@
             <EntityTypeMapping TypeName="CinemaWebModel.schedule_detail">
               <MappingFragment StoreEntitySet="schedule_detail">
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="movie_display_date_id" ColumnName="movie_display_date_id" />
                 <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
-                <ScalarProperty Name="display_date_id" ColumnName="display_date_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1752,18 +1666,26 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CinemaWebModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tickets">
             <EntityTypeMapping TypeName="CinemaWebModel.ticket">
               <MappingFragment StoreEntitySet="ticket">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="invoice_id" ColumnName="invoice_id" />
-                <ScalarProperty Name="movie_id" ColumnName="movie_id" />
-                <ScalarProperty Name="display_date_id" ColumnName="display_date_id" />
-                <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
+                <ScalarProperty Name="room_schedule_detail_id" ColumnName="room_schedule_detail_id" />
                 <ScalarProperty Name="seat_id" ColumnName="seat_id" />
-                <ScalarProperty Name="room_id" ColumnName="room_id" />
                 <ScalarProperty Name="ticket_price" ColumnName="ticket_price" />
                 <ScalarProperty Name="ticket_status" ColumnName="ticket_status" />
+                <ScalarProperty Name="invoice_id" ColumnName="invoice_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

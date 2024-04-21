@@ -18,9 +18,6 @@ namespace CinemaWeb.Models
         public display_date()
         {
             this.movie_display_date = new HashSet<movie_display_date>();
-            this.room_display_date = new HashSet<room_display_date>();
-            this.schedule_detail = new HashSet<schedule_detail>();
-            this.tickets = new HashSet<ticket>();
         }
     
         public int id { get; set; }
@@ -28,11 +25,5 @@ namespace CinemaWeb.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<movie_display_date> movie_display_date { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<room_display_date> room_display_date { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<schedule_detail> schedule_detail { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ticket> tickets { get; set; }
     }
 }

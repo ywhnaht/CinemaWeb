@@ -2,6 +2,11 @@
 
 @{
     CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
+    if (currentUser == null)
+    {
+        Response.Redirect("~/Home/SignIn");
+    }
+    DateTime currentDate = DateTime.Now;
 }
 
 <!DOCTYPE html>
@@ -191,13 +196,13 @@
                     </div>
                 </div>
                 <div class="row total-spent">
-                    <div class="row justify-content-center fw-bolder total-money">
+                    <div class="row justify-content-center fw-medium total-money">
                         <div class="col-auto">
-                            <span class="total-money-text">Tổng chi tiêu 2024</span>
+                            <span class="total-money-text">Tổng chi tiêu @currentDate.Year</span>
                         </div>
-                        <div class="col-auto">
+                        <div class="col-auto" style="padding-right: 2rem">
                             <span class="total-money-text">
-                                0
+                                @ViewBag.totalSpent
                             </span>
                             <i class="fa-solid fa-dong-sign"></i>
                         </div>
@@ -254,7 +259,7 @@
                             <li class="col-md-3 list-group-item">
                                 <a class="text-dark-emphasis fw-medium" href="#profile-infor" data-bs-toggle="list" data-bs-target="#profile-infor" role="tab">Thông tin cá nhân</a>
                             </li>
-                            <li class="col-md-3 list-group-item">
+                            <li class="col-md-3 list-group-item" style="padding-left: 3rem;">
                                 <a class="text-dark-emphasis fw-medium" href="#notice" data-bs-toggle="list" data-bs-target="#notice" role="tab">Thông báo</a>
                             </li>
                             <li class="col-md-3 list-group-item">
@@ -267,26 +272,84 @@
                             <div class="row text-center notice-text">
                                 <span>Lưu ý: chỉ hiển thị 10 giao dịch gần nhất</span>
                             </div>
-                            <div class="row text-center ticket-month">
+                            @foreach (var ticketitem in ViewBag.ticketList)
+                            {
+                                <div class="row text-center ticket-month">
+                                    <span>Tháng @ticketitem.invoice.day_create.ToString("MM/yyyy")</span>
+                                </div>
+                                <div class="row ticket-detail">
+                                    <div class="bg-white ticket-container align-items-center">
+                                        <div class="col-md-1 history-img">
+                                            <img src="@ticketitem.room_schedule_detail.schedule_detail.movie_display_date.movy.url_image" alt="">
+                                        </div>
+                                        <div class="col-md-4 ticket-movie-name">
+                                            <span>@ticketitem.room_schedule_detail.schedule_detail.movie_display_date.movy.title</span>
+                                        </div>
+                                        <div class="col-md-4 ticket-time-detail">
+                                            <span>@ticketitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.DayOfWeek</span>
+                                            &nbsp;
+                                            <span>@ticketitem.room_schedule_detail.schedule_detail.schedule.schedule_time.ToString(@"hh\:mm")</span>
+                                            <span>, @ticketitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                        <div class="col-md-2 ticket-more-detail">
+                                            <a href="#detail1" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail1" aria-expanded="false">Chi tiết</a>
+                                        </div>
+                                    </div>
+                                    <div class="modal" id="detail1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="col ticket-wrapper">
+                                                    <div class="row1">
+                                                        <img src="~/assets/images/movie/exhuma.jpg" alt="">
+                                                        <p>Exhuma: Quật mộ trùng ma</p>
+                                                    </div>
+                                                    <div class="row2">
+                                                        <p>Ohayou cenima</p>
+                                                        <p>Suất 20:00 Thứ ba, 09/04/2024</p>
+                                                    </div>
+                                                    <div class="row3">
+                                                        <p class="p">Ghế</p>
+                                                        <p>D5, D6</p>
+                                                    </div>
+                                                    <div class="row4">
+                                                        <div class="col">
+                                                            <p class="p">Mã vé</p>
+                                                            <p>WJHC3B5</p>
+                                                        </div>
+                                                        <div class="col">
+                                                            <p class="p">Giá</p>
+                                                            <p>100.000đ</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @*<div class="row text-center ticket-month">
                                 <span>Tháng 3/2024</span>
                             </div>
-                            <div class="row bg-white ticket-detail">
-                                <div class="col-md-1 history-img">
-                                    <img src="~/assets/images/movie/exhuma.jpg" alt="">
-                                </div>
-                                <div class="col-md-4 ticket-movie-name">
-                                    Exhuma: Quật mộ trùng ma
-                                </div>
-                                <div class="col-md-4 ticket-time-detail">
-                                    20:00h Thứ ba, 09/04/2024
-                                </div>
-                                <div class="col-md-2 ticket-more-detail">
-                                    <a href="#detail1" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail1" aria-expanded="false">Chi tiết</a>
+                            <div class="row ticket-detail">
+                                <div class="bg-white ticket-container align-items-center">
+                                    <div class="col-md-1 history-img">
+                                        <img src="~/assets/images/movie/exhuma.jpg" alt="">
+                                    </div>
+                                    <div class="col-md-4 ticket-movie-name">
+                                        <span>Exhuma: Quật mộ trùng ma</span>
+                                    </div>
+                                    <div class="col-md-4 ticket-time-detail">
+                                        <span>20:00h Chủ nhật</span>
+                                        <span>, 09/04/2024</span>
+                                    </div>
+                                    <div class="col-md-2 ticket-more-detail">
+                                        <a href="#detail1" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail1" aria-expanded="false">Chi tiết</a>
+                                    </div>
                                 </div>
                                 <div class="modal" id="detail1">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <div class="col">
+                                            <div class="col ticket-wrapper">
                                                 <div class="row1">
                                                     <img src="~/assets/images/movie/exhuma.jpg" alt="">
                                                     <p>Exhuma: Quật mộ trùng ma</p>
@@ -308,9 +371,7 @@
                                                         <p class="p">Giá</p>
                                                         <p>100.000đ</p>
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -319,23 +380,26 @@
                             <div class="row text-center ticket-month">
                                 <span>Tháng 2/2024</span>
                             </div>
-                            <div class="row bg-white ticket-detail">
-                                <div class="col-md-1 history-img">
-                                    <img src="~/assets/images/movie/exhuma.jpg" alt="">
-                                </div>
-                                <div class="col-md-4 ticket-movie-name">
-                                    Exhuma: Quật mộ trùng ma
-                                </div>
-                                <div class="col-md-4 ticket-time-detail">
-                                    20:00h Thứ ba, 09/04/2024
-                                </div>
-                                <div class="col-md-2 ticket-more-detail">
-                                    <a href="#detail2" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail2" aria-expanded="false">Chi tiết</a>
+                            <div class="row ticket-detail">
+                                <div class="bg-white ticket-container align-items-center">
+                                    <div class="col-md-1 history-img">
+                                        <img src="~/assets/images/movie/exhuma.jpg" alt="">
+                                    </div>
+                                    <div class="col-md-4 ticket-movie-name">
+                                        Exhuma: Quật mộ trùng ma
+                                    </div>
+                                    <div class="col-md-4 ticket-time-detail">
+                                        <span>20:00h Thứ ba, </span>
+                                        <span>09/04/2024</span>
+                                    </div>
+                                    <div class="col-md-2 ticket-more-detail">
+                                        <a href="#detail2" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail2" aria-expanded="false">Chi tiết</a>
+                                    </div>
                                 </div>
                                 <div class="modal" id="detail2">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <div class="col">
+                                            <div class="col ticket-wrapper">
                                                 <div class="row1">
                                                     <img src="~/assets/images/movie/exhuma.jpg" alt="">
                                                     <p>Exhuma: Quật mộ trùng ma</p>
@@ -362,7 +426,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="tab-pane py-3" id="profile-infor" role="tabpanel">
                             <div class="row bg-white infor-detail">
@@ -381,21 +445,21 @@
                                 </div>
                                 <div class="modal" id="update">
                                     <div class="modal-dialog">
-                                        <form method="post" action="User/UserHome/UserProfile">
+                                        <form method="post">
                                             <div class="modal-content update-box">
                                                 <p>NHẬP THÔNG TIN CHỈNH SỬA</p>
                                                 <div class="row user-infor-box">
                                                     <div class="col box-left">
                                                         <div class="subform-group">
                                                             <label for="name">Name</label>
-                                                            <div class="subform non-click">
-                                                                <input class="un-click" type="text" placeholder="@currentUser.full_name">
+                                                            <div class="subform">
+                                                                <input name="name" type="text" placeholder="@currentUser.full_name">
                                                             </div>
                                                         </div>
                                                         <div class="subform-group">
                                                             <label for="email">Email</label>
-                                                            <div class="subform">
-                                                                <input name="email" type="email" placeholder="@currentUser.email">
+                                                            <div class="subform non-click">
+                                                                <input class="un-click" type="text" placeholder="@currentUser.email">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -432,14 +496,47 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
-        @*<script src="assets/js/profilescript.js"></script>*@
-
+        <script src="~/Areas/User/assets/js/profilescript.js"></script>
 </body>
 </html>
 
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".subform input").click(function () {
+            $(".error-message").text("");
+        });
+
+        $(".updateBtn").click(function (e) {
+            e.preventDefault();
+            var email = $("input[name='email']").val();
+            var pass = $("input[name='pass']").val();
+
+            $.ajax({
+                url: "/UserHome/UpdateInfor",
+                method: "POST",
+                data: { email: email, pass: pass },
+                success: function (response) {
+                    if (response.success) {
+                        var redirectUrl = response.redirectUrl;
+                        if (redirectUrl) {
+                            window.location.href = redirectUrl;
+                        }
+                    } else {
+                        // Nếu có lỗi, hiển thị thông báo lỗi
+                        $(".error-message").text(response.message);
+                    }
+                }
+            });
+        });
+    });
+
+
+
+</script>
 
 

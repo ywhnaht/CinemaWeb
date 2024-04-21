@@ -238,7 +238,7 @@
     <Compile Include="Models\room.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\room_display_date.cs">
+    <Compile Include="Models\room_schedule_detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\schedule.cs">
@@ -251,6 +251,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\star_rating.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ticket.cs">
@@ -718,6 +721,7 @@
     <Content Include="FE_Q\assets\css\bootstrap.rtl.css" />
     <Content Include="FE_Q\assets\css\bootstrap.rtl.min.css" />
     <Content Include="FE_Q\assets\css\gueststyle.css" />
+    <Content Include="FE_Q\assets\css\moviedetailstyle.css" />
     <Content Include="FE_Q\assets\css\style.css" />
     <Content Include="FE_Q\assets\css\userstyle.css" />
     <Content Include="FE_Q\assets\fonts\themify-icons\demo-files\demo.css" />
@@ -1081,11 +1085,13 @@
     <Content Include="FE_Q\assets\fonts\themify-icons\themify-icons.css" />
     <Content Include="FE_Q\assets\images\account.png" />
     <Content Include="FE_Q\assets\images\btn-ticket.png" />
+    <Content Include="FE_Q\assets\images\button-play.2f9c0030.png" />
     <Content Include="FE_Q\assets\images\cinema-logo.png" />
     <Content Include="FE_Q\assets\images\gold.ff661579.png" />
     <Content Include="FE_Q\assets\images\gstar.svg" />
     <Content Include="FE_Q\assets\images\icon-gift.190935e4.png" />
     <Content Include="FE_Q\assets\images\logomini.png" />
+    <Content Include="FE_Q\assets\images\movie.pnj.svg" />
     <Content Include="FE_Q\assets\images\movie\dune-2.jpg" />
     <Content Include="FE_Q\assets\images\movie\exhuma.jpg" />
     <Content Include="FE_Q\assets\images\movie\kungfu-panda-4.jpg" />
@@ -1100,10 +1106,12 @@
     <Content Include="FE_Q\assets\js\bootstrap.esm.min.js" />
     <Content Include="FE_Q\assets\js\bootstrap.js" />
     <Content Include="FE_Q\assets\js\bootstrap.min.js" />
+    <Content Include="FE_Q\assets\js\moviedetailscript.js" />
     <Content Include="FE_Q\assets\js\scripts.js" />
     <Content Include="FE_Q\assets\js\userscript.js" />
     <Content Include="FE_Q\guest.html" />
     <Content Include="FE_Q\login.html" />
+    <Content Include="FE_Q\moviedetail.html" />
     <Content Include="FE_Q\user.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
