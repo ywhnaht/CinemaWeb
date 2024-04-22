@@ -72,7 +72,8 @@ namespace CinemaWeb.Areas.User.Controllers
             }
             int totalSpent = 0;
             ViewBag.MovieList = movielist;
-            var invoiceList = currentUser.invoices.ToList();
+            var invoiceList = currentUser.invoices.OrderBy(x => x.day_create).ToList();
+            ViewBag.invoiceList = invoiceList;
             foreach (var invoiceitem in invoiceList)
             {
                 if (invoiceitem.invoice_status == true) { 

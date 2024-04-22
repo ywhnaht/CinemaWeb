@@ -1299,7 +1299,7 @@
     </div>
     <div class="footer">
     </div>
-    <script src="~/Areas/User/assets/js/bookticket.js"></script>
+    <script src="~/Areas/User/assets/js/bookticket.js?v=1"></script>
     <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
 
 </body>
@@ -1355,7 +1355,7 @@
                         // Tạo một thẻ <li> mới
                         var listItem = $('<li></li>').addClass('col-md list-group-item date-time-item').attr({
                             'id': 'date-' + dateFormat2 + '-li',
-                            'onclick': "selectDate('" + display_date_id + "')" // Thêm sự kiện onclick
+                            'onclick': "selectDate('" + display_date_id + "','" + selectedMovieId + "')" // Thêm sự kiện onclick
                         });
 
                         // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
@@ -1404,12 +1404,12 @@
         $('.date-list-side a').removeClass('active');
     }
 
-    function selectDate(selectedDateId) {
+    function selectDate(selectedDateId, selectedMovieId) {
 
         $.ajax({
             url: '/User/BookTicket/GetScheduleTime',
             type: 'GET',
-            data: { displaydateId: selectedDateId },
+            data: { displaydateId: selectedDateId, movieId: selectedMovieId },
             success: function (data) {
                 var results = data;
                 console.log(results)
@@ -1429,7 +1429,7 @@
                             // Tạo một thẻ <li> mới
                             var listItem = $('<li></li>').addClass('col-md-1 list-group-item time-btn').attr({
                                 'id': 'time-' + timeFormat + '-li',
-                                'onclick': "selectSchedule('" + schedule_id + "')" // Thêm sự kiện onclick
+                                'onclick': "selectSchedule('" + schedule_id + "','" + selectedDateId + "','" + selectedMovieId + "')" // Thêm sự kiện onclick
                             });
 
                             // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
@@ -1456,7 +1456,7 @@
                         // Tạo một thẻ <li> mới
                         var listItem = $('<li></li>').addClass('col-md-1 list-group-item time-btn').attr({
                             'id': 'time-' + timeFormat + '-li',
-                            'onclick': "selectSeat('" + schedule_id + "')" // Thêm sự kiện onclick
+                            'onclick': "selectSchedule('" + schedule_id + "','" + selectedDateId + "','" + selectedMovieId + "')" // Thêm sự kiện onclick                            
                         });
 
                         // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
@@ -1483,14 +1483,19 @@
         });
     };
 
-    function selectSchedule(selectedScheduleId) {
+    function selectSchedule(selectedScheduleId, selectedDateId, selectedMovieId) {
         $.ajax({
-            url: 'User/BookTicket/selectSchedule',
+            url: '/User/BookTicket/GetRoomSeat',
             type: 'GET',
-            date: { scheduleId: selectedScheduleId },
-            success: function (date)
+            data: { scheduleId: selectedScheduleId, displaydateId: selectedDateId, movieId: selectedMovieId },
+            success: function (data)
             {
-                console.log(data)
+                var results = data;
+                for (var i = 0; i < results.length; i++) {
+                    for (var j = 0; j < results[i].Seats.length; j++) {
+                        console.log(results[i].Seats)
+                    }
+                }
             },
             error: function (err) {
                 console.log(err)

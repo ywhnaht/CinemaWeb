@@ -17,16 +17,16 @@ namespace CinemaWeb.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public room_schedule_detail()
         {
-            this.tickets = new HashSet<ticket>();
+            this.invoices = new HashSet<invoice>();
         }
     
         public int id { get; set; }
         public Nullable<int> room_id { get; set; }
         public Nullable<int> schedule_detail_id { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<invoice> invoices { get; set; }
         public virtual room room { get; set; }
         public virtual schedule_detail schedule_detail { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ticket> tickets { get; set; }
     }
 }

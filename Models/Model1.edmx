@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CinemaWebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Cinema_WebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="actor">
           <Key>
             <PropertyRef Name="id" />
@@ -57,6 +57,7 @@
           <Property Name="invoice_status" Type="bit" />
           <Property Name="total_ticket" Type="int" />
           <Property Name="total_money" Type="int" />
+          <Property Name="room_schedule_detail_id" Type="int" />
         </EntityType>
         <EntityType Name="movie_actor">
           <Key>
@@ -181,7 +182,6 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="room_schedule_detail_id" Type="int" />
           <Property Name="seat_id" Type="int" />
           <Property Name="ticket_price" Type="int" />
           <Property Name="ticket_status" Type="bit" />
@@ -260,6 +260,18 @@
             </Principal>
             <Dependent Role="invoice">
               <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_invoice_room_schedule_detail_id">
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room_schedule_detail">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="invoice">
+              <PropertyRef Name="room_schedule_detail_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -479,18 +491,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ticket_room_schedule_detail_id">
-          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="0..1" />
-          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="room_schedule_detail">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
-              <PropertyRef Name="room_schedule_detail_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ticket_seat_id">
           <End Role="seat" Type="Self.seat" Multiplicity="0..1" />
           <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
@@ -575,7 +575,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="CinemaWebModelStoreContainer">
+        <EntityContainer Name="Cinema_WebModelStoreContainer">
           <EntitySet Name="actor" EntityType="Self.actor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="country" EntityType="Self.country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="director" EntityType="Self.director" Schema="dbo" store:Type="Tables" />
@@ -606,6 +606,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_invoice_discount_id" Association="Self.FK_invoice_discount_id">
             <End Role="discount" EntitySet="discount" />
+            <End Role="invoice" EntitySet="invoice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_invoice_room_schedule_detail_id" Association="Self.FK_invoice_room_schedule_detail_id">
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
             <End Role="invoice" EntitySet="invoice" />
           </AssociationSet>
           <AssociationSet Name="FK_invoice_user_id" Association="Self.FK_invoice_user_id">
@@ -680,10 +684,6 @@
             <End Role="invoice" EntitySet="invoice" />
             <End Role="ticket" EntitySet="ticket" />
           </AssociationSet>
-          <AssociationSet Name="FK_ticket_room_schedule_detail_id" Association="Self.FK_ticket_room_schedule_detail_id">
-            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
-            <End Role="ticket" EntitySet="ticket" />
-          </AssociationSet>
           <AssociationSet Name="FK_ticket_seat_id" Association="Self.FK_ticket_seat_id">
             <End Role="seat" EntitySet="seat" />
             <End Role="ticket" EntitySet="ticket" />
@@ -717,7 +717,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="CinemaWebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Cinema_WebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="actor">
           <Key>
             <PropertyRef Name="id" />
@@ -776,7 +776,9 @@
           <Property Name="invoice_status" Type="Boolean" />
           <Property Name="total_ticket" Type="Int32" />
           <Property Name="total_money" Type="Int32" />
+          <Property Name="room_schedule_detail_id" Type="Int32" />
           <NavigationProperty Name="discount" Relationship="Self.FK_invoice_discount_id" FromRole="invoice" ToRole="discount" />
+          <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_invoice_room_schedule_detail_id" FromRole="invoice" ToRole="room_schedule_detail" />
           <NavigationProperty Name="user" Relationship="Self.FK_invoice_user_id" FromRole="invoice" ToRole="users" />
           <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_invoice_id" FromRole="invoice" ToRole="ticket" />
         </EntityType>
@@ -869,9 +871,9 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="room_id" Type="Int32" />
           <Property Name="schedule_detail_id" Type="Int32" />
+          <NavigationProperty Name="invoices" Relationship="Self.FK_invoice_room_schedule_detail_id" FromRole="room_schedule_detail" ToRole="invoice" />
           <NavigationProperty Name="room" Relationship="Self.FK_room_schedule_detail_room_id" FromRole="room_schedule_detail" ToRole="room" />
           <NavigationProperty Name="schedule_detail" Relationship="Self.FK_room_schedule_detail_schedule_detail_id" FromRole="room_schedule_detail" ToRole="schedule_detail" />
-          <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_room_schedule_detail_id" FromRole="room_schedule_detail" ToRole="ticket" />
         </EntityType>
         <EntityType Name="schedule">
           <Key>
@@ -931,13 +933,11 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="room_schedule_detail_id" Type="Int32" />
           <Property Name="seat_id" Type="Int32" />
           <Property Name="ticket_price" Type="Int32" />
           <Property Name="ticket_status" Type="Boolean" />
           <Property Name="invoice_id" Type="Int32" />
           <NavigationProperty Name="invoice" Relationship="Self.FK_ticket_invoice_id" FromRole="ticket" ToRole="invoice" />
-          <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_ticket_room_schedule_detail_id" FromRole="ticket" ToRole="room_schedule_detail" />
           <NavigationProperty Name="seat" Relationship="Self.FK_ticket_seat_id" FromRole="ticket" ToRole="seat" />
         </EntityType>
         <EntityType Name="user_profile">
@@ -1077,6 +1077,18 @@
             </Principal>
             <Dependent Role="movie_display_date">
               <PropertyRef Name="display_date_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_invoice_room_schedule_detail_id">
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room_schedule_detail">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="invoice">
+              <PropertyRef Name="room_schedule_detail_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1221,18 +1233,6 @@
             </Principal>
             <Dependent Role="room_schedule_detail">
               <PropertyRef Name="schedule_detail_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ticket_room_schedule_detail_id">
-          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="0..1" />
-          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="room_schedule_detail">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="ticket">
-              <PropertyRef Name="room_schedule_detail_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1393,6 +1393,10 @@
             <End Role="display_date" EntitySet="display_date" />
             <End Role="movie_display_date" EntitySet="movie_display_date" />
           </AssociationSet>
+          <AssociationSet Name="FK_invoice_room_schedule_detail_id" Association="Self.FK_invoice_room_schedule_detail_id">
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
+            <End Role="invoice" EntitySet="invoices" />
+          </AssociationSet>
           <AssociationSet Name="FK_invoice_user_id" Association="Self.FK_invoice_user_id">
             <End Role="users" EntitySet="users" />
             <End Role="invoice" EntitySet="invoices" />
@@ -1441,10 +1445,6 @@
             <End Role="schedule_detail" EntitySet="schedule_detail" />
             <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
           </AssociationSet>
-          <AssociationSet Name="FK_ticket_room_schedule_detail_id" Association="Self.FK_ticket_room_schedule_detail_id">
-            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
-            <End Role="ticket" EntitySet="tickets" />
-          </AssociationSet>
           <AssociationSet Name="FK_schedule_detail_schedule_id" Association="Self.FK_schedule_detail_schedule_id">
             <End Role="schedule" EntitySet="schedules" />
             <End Role="schedule_detail" EntitySet="schedule_detail" />
@@ -1487,9 +1487,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="CinemaWebModelStoreContainer" CdmEntityContainer="Cinema_Web_Entities">
+        <EntityContainerMapping StorageEntityContainer="Cinema_WebModelStoreContainer" CdmEntityContainer="Cinema_Web_Entities">
           <EntitySetMapping Name="actors">
-            <EntityTypeMapping TypeName="CinemaWebModel.actor">
+            <EntityTypeMapping TypeName="Cinema_WebModel.actor">
               <MappingFragment StoreEntitySet="actor">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="actor_name" ColumnName="actor_name" />
@@ -1497,7 +1497,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="countries">
-            <EntityTypeMapping TypeName="CinemaWebModel.country">
+            <EntityTypeMapping TypeName="Cinema_WebModel.country">
               <MappingFragment StoreEntitySet="country">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="country_name" ColumnName="country_name" />
@@ -1505,7 +1505,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="directors">
-            <EntityTypeMapping TypeName="CinemaWebModel.director">
+            <EntityTypeMapping TypeName="Cinema_WebModel.director">
               <MappingFragment StoreEntitySet="director">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="director_name" ColumnName="director_name" />
@@ -1513,7 +1513,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="discounts">
-            <EntityTypeMapping TypeName="CinemaWebModel.discount">
+            <EntityTypeMapping TypeName="Cinema_WebModel.discount">
               <MappingFragment StoreEntitySet="discount">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -1527,7 +1527,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="display_date">
-            <EntityTypeMapping TypeName="CinemaWebModel.display_date">
+            <EntityTypeMapping TypeName="Cinema_WebModel.display_date">
               <MappingFragment StoreEntitySet="display_date">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="display_date1" ColumnName="display_date" />
@@ -1535,7 +1535,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="invoices">
-            <EntityTypeMapping TypeName="CinemaWebModel.invoice">
+            <EntityTypeMapping TypeName="Cinema_WebModel.invoice">
               <MappingFragment StoreEntitySet="invoice">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -1544,11 +1544,12 @@
                 <ScalarProperty Name="invoice_status" ColumnName="invoice_status" />
                 <ScalarProperty Name="total_ticket" ColumnName="total_ticket" />
                 <ScalarProperty Name="total_money" ColumnName="total_money" />
+                <ScalarProperty Name="room_schedule_detail_id" ColumnName="room_schedule_detail_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movie_actor">
-            <EntityTypeMapping TypeName="CinemaWebModel.movie_actor">
+            <EntityTypeMapping TypeName="Cinema_WebModel.movie_actor">
               <MappingFragment StoreEntitySet="movie_actor">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_id" ColumnName="movie_id" />
@@ -1557,7 +1558,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movie_display_date">
-            <EntityTypeMapping TypeName="CinemaWebModel.movie_display_date">
+            <EntityTypeMapping TypeName="Cinema_WebModel.movie_display_date">
               <MappingFragment StoreEntitySet="movie_display_date">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_id" ColumnName="movie_id" />
@@ -1566,7 +1567,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movie_review">
-            <EntityTypeMapping TypeName="CinemaWebModel.movie_review">
+            <EntityTypeMapping TypeName="Cinema_WebModel.movie_review">
               <MappingFragment StoreEntitySet="movie_review">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_id" ColumnName="movie_id" />
@@ -1582,7 +1583,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movie_type">
-            <EntityTypeMapping TypeName="CinemaWebModel.movie_type">
+            <EntityTypeMapping TypeName="Cinema_WebModel.movie_type">
               <MappingFragment StoreEntitySet="movie_type">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_type1" ColumnName="movie_type" />
@@ -1590,7 +1591,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movies">
-            <EntityTypeMapping TypeName="CinemaWebModel.movy">
+            <EntityTypeMapping TypeName="Cinema_WebModel.movy">
               <MappingFragment StoreEntitySet="movies">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="title" ColumnName="title" />
@@ -1610,7 +1611,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rooms">
-            <EntityTypeMapping TypeName="CinemaWebModel.room">
+            <EntityTypeMapping TypeName="Cinema_WebModel.room">
               <MappingFragment StoreEntitySet="room">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="room_name" ColumnName="room_name" />
@@ -1619,7 +1620,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="room_schedule_detail">
-            <EntityTypeMapping TypeName="CinemaWebModel.room_schedule_detail">
+            <EntityTypeMapping TypeName="Cinema_WebModel.room_schedule_detail">
               <MappingFragment StoreEntitySet="room_schedule_detail">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
@@ -1628,7 +1629,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="schedules">
-            <EntityTypeMapping TypeName="CinemaWebModel.schedule">
+            <EntityTypeMapping TypeName="Cinema_WebModel.schedule">
               <MappingFragment StoreEntitySet="schedule">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="schedule_time" ColumnName="schedule_time" />
@@ -1636,7 +1637,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="schedule_detail">
-            <EntityTypeMapping TypeName="CinemaWebModel.schedule_detail">
+            <EntityTypeMapping TypeName="Cinema_WebModel.schedule_detail">
               <MappingFragment StoreEntitySet="schedule_detail">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_display_date_id" ColumnName="movie_display_date_id" />
@@ -1645,7 +1646,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="seats">
-            <EntityTypeMapping TypeName="CinemaWebModel.seat">
+            <EntityTypeMapping TypeName="Cinema_WebModel.seat">
               <MappingFragment StoreEntitySet="seat">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
@@ -1657,7 +1658,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="star_rating">
-            <EntityTypeMapping TypeName="CinemaWebModel.star_rating">
+            <EntityTypeMapping TypeName="Cinema_WebModel.star_rating">
               <MappingFragment StoreEntitySet="star_rating">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="rating_value" ColumnName="rating_value" />
@@ -1667,7 +1668,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="CinemaWebModel.sysdiagram">
+            <EntityTypeMapping TypeName="Cinema_WebModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1678,10 +1679,9 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tickets">
-            <EntityTypeMapping TypeName="CinemaWebModel.ticket">
+            <EntityTypeMapping TypeName="Cinema_WebModel.ticket">
               <MappingFragment StoreEntitySet="ticket">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="room_schedule_detail_id" ColumnName="room_schedule_detail_id" />
                 <ScalarProperty Name="seat_id" ColumnName="seat_id" />
                 <ScalarProperty Name="ticket_price" ColumnName="ticket_price" />
                 <ScalarProperty Name="ticket_status" ColumnName="ticket_status" />
@@ -1690,7 +1690,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_profile">
-            <EntityTypeMapping TypeName="CinemaWebModel.user_profile">
+            <EntityTypeMapping TypeName="Cinema_WebModel.user_profile">
               <MappingFragment StoreEntitySet="user_profile">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -1701,7 +1701,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_role">
-            <EntityTypeMapping TypeName="CinemaWebModel.user_role">
+            <EntityTypeMapping TypeName="Cinema_WebModel.user_role">
               <MappingFragment StoreEntitySet="user_role">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="ur_url" ColumnName="ur_url" />
@@ -1714,7 +1714,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_type">
-            <EntityTypeMapping TypeName="CinemaWebModel.user_type">
+            <EntityTypeMapping TypeName="Cinema_WebModel.user_type">
               <MappingFragment StoreEntitySet="user_type">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="ut_name" ColumnName="ut_name" />
@@ -1723,7 +1723,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_type_user_role">
-            <EntityTypeMapping TypeName="CinemaWebModel.user_type_user_role">
+            <EntityTypeMapping TypeName="Cinema_WebModel.user_type_user_role">
               <MappingFragment StoreEntitySet="user_type_user_role">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_type_id" ColumnName="user_type_id" />
@@ -1732,7 +1732,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="CinemaWebModel.user">
+            <EntityTypeMapping TypeName="Cinema_WebModel.user">
               <MappingFragment StoreEntitySet="users">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="full_name" ColumnName="full_name" />

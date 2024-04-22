@@ -27,8 +27,10 @@ namespace CinemaWeb.Models
         public Nullable<bool> invoice_status { get; set; }
         public Nullable<int> total_ticket { get; set; }
         public Nullable<int> total_money { get; set; }
+        public Nullable<int> room_schedule_detail_id { get; set; }
     
         public virtual discount discount { get; set; }
+        public virtual room_schedule_detail room_schedule_detail { get; set; }
         public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ticket> tickets { get; set; }

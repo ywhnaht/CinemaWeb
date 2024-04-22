@@ -22,8 +22,6 @@
     height: auto;
 }
 
-
-/* List */
 .list-group-horizontal {
     border: none;
     margin-left: -30px;
@@ -94,8 +92,7 @@
     font-size: 8px;
 }
 
-/* Movie-List */
-.movie-status {
+ .movie-status {
     display: none;
     padding: 10px 20px;
     min-width: 720px;
@@ -224,9 +221,9 @@
     margin-right: 5px;
 }
 
-/* Profile-info */
 .profile-container {
     background-color: rgb(249 249 249 / 1);
+    height: 1000px;
 }
 
 .profile-wrapper {
@@ -346,7 +343,6 @@
     text-transform: uppercase;
 }
 
-/* History-ticket */
 .history-img img {
     width: 3rem;
     height: auto;
@@ -399,7 +395,12 @@
     margin-top: 10px;
 }
 
-.modal-content .row1 {
+.modal .row1 {
+    border-bottom: dashed 1px #000;
+    font-weight: 700;
+    font-size: 1.125rem;
+    font-style: normal;
+    margin-top: .75rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -407,19 +408,11 @@
     text-align: center;
 }
 
-.modal .row1 {
-    border-bottom: dashed 1px #000;
-    font-weight: 700;
-    font-size: 1.125rem;
-    font-style: normal;
-    margin-top: .75rem;
-}
-
     .modal .row1 img {
-        width: 65px;
+        width: 70px;
         height: auto;
-        padding-top: 10px;
-        padding-bottom: 10px;
+        margin: 1rem 0;
+        border-radius: 8px;
     }
 
 .modal-dialog {
@@ -429,28 +422,26 @@
 
 .modal .row2 {
     border-bottom: dashed 1px #000;
-    font-weight: 700;
+    font-weight: 600;
     font-size: .875rem;
     font-style: normal;
-    margin-top: .75rem;
-    margin-left: 20px;
+    padding-top: 1rem;
 }
 
 .modal .row3 {
     border-bottom: dashed 1px #000;
-    font-weight: 700;
+    font-weight: 600;
     font-size: .875rem;
     font-style: normal;
-    margin-top: .75rem;
-    margin-left: 20px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .modal .row4 {
-    font-weight: 700;
+    font-weight: 600;
     font-size: .875rem;
     font-style: normal;
-    margin-top: .75rem;
-    margin-left: 20px;
+    padding-top: 1rem;
     display: flex;
     justify-content: space-between;
 }
@@ -464,10 +455,10 @@
     font-weight: normal;
 }
 
-/* #history-ticket {
-    margin-right: 5rem;
-    padding-top: 5rem;
-} */
+
+.ticket-wrapper {
+    margin: 0 26px;
+}
 
 .ticket-container {
     display: flex;
@@ -503,6 +494,10 @@
     display: flex;
 }
 
+.ticket-space {
+    margin-right: 5px;
+}
+
 .ticket-more-detail a {
     font-size: 14px;
     font-weight: 500;
@@ -515,6 +510,8 @@
 
 .ticket-movie-name {
     margin: 2rem 1rem;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .subform-group {
@@ -524,7 +521,6 @@
 
     .subform-group label {
         font-size: small;
-        ;
     }
 
 .update-box {

@@ -46,10 +46,11 @@ namespace CinemaWeb.Areas.User.Controllers
             return Json(movieDateList, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public ActionResult GetScheduleTime(int displaydateId)
+        public ActionResult GetScheduleTime(int displaydateId, int movieId)
         {
             var scheduleList = db.schedule_detail
-                        .Where(x => x.movie_display_date.display_date_id == displaydateId)
+                        .Where(x => x.movie_display_date.display_date_id == displaydateId &&
+                                    x.movie_display_date.movie_id == movieId)
                         .Select(x => new
                         {
                             x.schedule.id,
@@ -65,16 +66,26 @@ namespace CinemaWeb.Areas.User.Controllers
         }
 
         [HttpGet]
-        public ActionResult selectSchedule(int scheduleId)
+        public ActionResult GetRoomSeat(int scheduleId, int displaydateId, int movieId)
         {
-
-            var room = db.room_schedule_detail.Where(x => x.schedule_detail.schedule_id == scheduleId)
+            var seatList = db.room_schedule_detail.Where(x => x.schedule_detail.schedule_id == scheduleId &&
+                                                          x.schedule_detail.movie_display_date.display_date_id == displaydateId &&
+                                                          x.schedule_detail.movie_display_date.movie_id == movieId)
                                               .Select(x => new
-                                              {
-                                                  x.room.seats,
-                                                  x.schedule_detail_id
+                                              { 
+                                                  x.room.id,
+                                                  x.room.room_name,
+                                                  Seats = x.room.seats.ToList()
                                               }).ToList();
-            return Json(room, JsonRequestBehavior.AllowGet);
+            foreach (var item in seatList)
+            {
+                foreach (var item1 in item.Seats)
+                {
+                    
+                }
+
+            }
+            return Json(seatList, JsonRequestBehavior.AllowGet);
         }
     }
 }
