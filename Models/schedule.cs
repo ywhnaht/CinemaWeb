@@ -18,7 +18,6 @@ namespace CinemaWeb.Models
         public schedule()
         {
             this.schedule_detail = new HashSet<schedule_detail>();
-            this.tickets = new HashSet<ticket>();
         }
     
         public int id { get; set; }
@@ -26,7 +25,5 @@ namespace CinemaWeb.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<schedule_detail> schedule_detail { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ticket> tickets { get; set; }
     }
 }

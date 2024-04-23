@@ -2,6 +2,10 @@
 
 @{
     CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
+    if (currentUser == null)
+    {
+        Response.Redirect("~/Home/SignIn");
+    }
 }
 
 <!DOCTYPE html>
@@ -9,11 +13,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png" />
     <title>Ohayou Cinema</title>
-    <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
-    <link rel="stylesheet" href="~/Areas/User/assets/css/profilestyle.css">
+    <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css" />
+    <link rel="stylesheet" href="~/Areas/User/assets/css/profilestyle.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -191,7 +195,7 @@
                     </div>
                 </div>
                 <div class="row total-spent">
-                    <div class="row justify-content-center fw-bolder total-money">
+                    <div class="row justify-content-center fw-medium total-money">
                         <div class="col-auto">
                             <span class="total-money-text">Tổng chi tiêu 2024</span>
                         </div>
@@ -392,14 +396,14 @@
                                                     <div class="col box-left">
                                                         <div class="subform-group">
                                                             <label for="name">Name</label>
-                                                            <div class="subform non-click">
-                                                                <input class="un-click" type="text" placeholder="@currentUser.full_name">
+                                                            <div class="subform">
+                                                                <input name="name" type="text" placeholder="@currentUser.full_name">
                                                             </div>
                                                         </div>
                                                         <div class="subform-group">
                                                             <label for="email">Email</label>
-                                                            <div class="subform">
-                                                                <input name="email" type="email" placeholder="@currentUser.email">
+                                                            <div class="subform non-click">
+                                                                <input class="un-click" type="text" placeholder="@currentUser.email">
                                                             </div>
                                                         </div>
                                                     </div>

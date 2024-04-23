@@ -17,9 +17,8 @@ namespace CinemaWeb.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public room()
         {
-            this.room_display_date = new HashSet<room_display_date>();
+            this.room_schedule_detail = new HashSet<room_schedule_detail>();
             this.seats = new HashSet<seat>();
-            this.tickets = new HashSet<ticket>();
         }
     
         public int id { get; set; }
@@ -27,10 +26,8 @@ namespace CinemaWeb.Models
         public Nullable<int> seat_quantity { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<room_display_date> room_display_date { get; set; }
+        public virtual ICollection<room_schedule_detail> room_schedule_detail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<seat> seats { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ticket> tickets { get; set; }
     }
 }

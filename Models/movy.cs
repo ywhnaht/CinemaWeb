@@ -21,7 +21,6 @@ namespace CinemaWeb.Models
             this.movie_display_date = new HashSet<movie_display_date>();
             this.movie_review = new HashSet<movie_review>();
             this.star_rating = new HashSet<star_rating>();
-            this.tickets = new HashSet<ticket>();
         }
     
         public int id { get; set; }
@@ -50,7 +49,5 @@ namespace CinemaWeb.Models
         public virtual movie_type movie_type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<star_rating> star_rating { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ticket> tickets { get; set; }
     }
 }

@@ -12,21 +12,21 @@ namespace CinemaWeb.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class movie_display_date
+    public partial class room_schedule_detail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public movie_display_date()
+        public room_schedule_detail()
         {
-            this.schedule_detail = new HashSet<schedule_detail>();
+            this.invoices = new HashSet<invoice>();
         }
     
         public int id { get; set; }
-        public Nullable<int> movie_id { get; set; }
-        public Nullable<int> display_date_id { get; set; }
+        public Nullable<int> room_id { get; set; }
+        public Nullable<int> schedule_detail_id { get; set; }
     
-        public virtual display_date display_date { get; set; }
-        public virtual movy movy { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<schedule_detail> schedule_detail { get; set; }
+        public virtual ICollection<invoice> invoices { get; set; }
+        public virtual room room { get; set; }
+        public virtual schedule_detail schedule_detail { get; set; }
     }
 }

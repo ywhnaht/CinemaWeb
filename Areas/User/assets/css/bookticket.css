@@ -381,6 +381,8 @@
 .time-list {
     justify-content: center;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
+    display: flex;
 }
 
     .time-list span {

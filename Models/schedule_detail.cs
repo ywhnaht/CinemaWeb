@@ -14,11 +14,19 @@ namespace CinemaWeb.Models
     
     public partial class schedule_detail
     {
-        public int id { get; set; }
-        public Nullable<int> schedule_id { get; set; }
-        public Nullable<int> display_date_id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public schedule_detail()
+        {
+            this.room_schedule_detail = new HashSet<room_schedule_detail>();
+        }
     
-        public virtual display_date display_date { get; set; }
+        public int id { get; set; }
+        public Nullable<int> movie_display_date_id { get; set; }
+        public Nullable<int> schedule_id { get; set; }
+    
+        public virtual movie_display_date movie_display_date { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<room_schedule_detail> room_schedule_detail { get; set; }
         public virtual schedule schedule { get; set; }
     }
 }
