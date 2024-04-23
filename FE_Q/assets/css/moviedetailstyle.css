@@ -171,13 +171,7 @@
 
 /*guest*/
 
-.list{
-    display: flex;
-    list-style:none;
-    margin-top: 30px; 
-    margin-bottom: 30px;
-    padding-left: 0px;
-}
+
 
 .item1{
     display: inline-block ;
