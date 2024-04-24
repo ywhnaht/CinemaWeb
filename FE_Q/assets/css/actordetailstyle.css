@@ -379,9 +379,10 @@
     border: 1px solid rgb(233 237 241);
 }
 .review{
-    font-size: 14px;
+    font-size: small;
     font-family: Nunito Sans, sans-serif;
-    font-weight: inherit;
+    font-weight: 500;
+    font-style: italic;
 }
 .actor-rating{
     padding-bottom: 2rem;
@@ -436,4 +437,11 @@
 }
 .item{
     margin-bottom: 1rem;
+}
+.story p{
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Nunito Sans, sans-serif;
+    color: #4a4a4a;
+    
 }
