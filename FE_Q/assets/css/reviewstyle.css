@@ -1,3 +1,23 @@
+.rating :hover{
+    color:#f29538;
+}
+.mv-rating{
+    margin-top: .5rem;
+}
+.rating {
+    font-size: 20px;
+    text-decoration: none;
+    color: #000;
+}
+
+.rating .vote{
+    font-size: small;
+    color: dimgray;
+}
+
+.rating .vote:hover{
+    color: #f29538;
+}
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {

@@ -317,7 +317,7 @@
     height: 24px;
     border: 1px solid rgb(233 237 241);
 }
-.actorname{
+.directorname{
     font-style: normal;
     text-decoration: none;
     --tw-text-opacity: 1;
@@ -333,7 +333,6 @@
     font-family: Nunito Sans, sans-serif;
     color: #4a4a4a;
 }
-
 .description{
     margin-top: 10px;
 }

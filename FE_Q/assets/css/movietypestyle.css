@@ -278,8 +278,9 @@
 }
 .post-list{
     list-style: none;
-    margin-top: 32px;
+    margin-top: 2rem;
     padding-left: 0;
+    margin-bottom: 4rem;
 }
 .poster
 {
@@ -327,14 +328,12 @@
 
 }
 .des-text{
-    font-size: 14px;
-    text-align: justify;
+    font-size: small;
+    font-weight: 400;
     font-family: Nunito Sans, sans-serif;
-    font-style: inherit;
-    font-weight: inherit;
-    overflow: hidden;
-    color: inherit;
+    color: #4a4a4a;
 }
+
 .description{
     margin-top: 10px;
 }
@@ -421,4 +420,14 @@
 
 .right .bonus .new-mv:hover a{
     color: #fff;
+}
+.galaxy p{
+    font-size: small;
+    font-weight: 400;
+    font-family: Nunito Sans, sans-serif;
+    color: #4a4a4a;
+}
+.galaxy{
+    margin-top: 3rem;
+    margin-bottom: 10rem;
 }

@@ -266,7 +266,6 @@
 .mv-trailer{
     background-color: #000;
     position: relative;
-    z-index: -1;
     justify-content: center;
 }
 
@@ -638,4 +637,23 @@
 
 .right .bonus .new-mv:hover a{
     color: #fff;
+}
+
+.modal-content{
+    height: 555px;
+    width: 100%;
+
+
+}
+.modal-dialog{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    height: 100%;
+}
+.modal{
+    margin-top: 0;
+    
 }
