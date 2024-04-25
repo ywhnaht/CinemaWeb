@@ -1,10 +1,12 @@
 ﻿using CinemaWeb.Models;
+using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebGrease.Css.Extensions;
 
 namespace CinemaWeb.Areas.User.Controllers
 {
@@ -28,6 +30,7 @@ namespace CinemaWeb.Areas.User.Controllers
                     movie.movie_status = false; // Sắp chiếu
                 }
             }
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
 
             ViewBag.MovieList = movielist;
             return View();
@@ -68,24 +71,79 @@ namespace CinemaWeb.Areas.User.Controllers
         [HttpGet]
         public ActionResult GetRoomSeat(int scheduleId, int displaydateId, int movieId)
         {
-            var seatList = db.room_schedule_detail.Where(x => x.schedule_detail.schedule_id == scheduleId &&
-                                                          x.schedule_detail.movie_display_date.display_date_id == displaydateId &&
-                                                          x.schedule_detail.movie_display_date.movie_id == movieId)
-                                              .Select(x => new
-                                              { 
-                                                  x.room.id,
-                                                  x.room.room_name,
-                                                  Seats = x.room.seats.ToList()
-                                              }).ToList();
-            foreach (var item in seatList)
-            {
-                foreach (var item1 in item.Seats)
+            var roomSeatsList = db.room_schedule_detail
+                .Where(x => x.schedule_detail.schedule_id == scheduleId &&
+                            x.schedule_detail.movie_display_date.display_date_id == displaydateId &&
+                            x.schedule_detail.movie_display_date.movie_id == movieId)
+                .Select(x => new
                 {
-                    
-                }
+                    RoomId = x.room.id,
+                    RoomName = x.room.room_name,
+                    Seats = x.room.seats.Select(seat => new
+                    {
+                        SeatId = seat.id,
+                        SeatCol = seat.seat_column,
+                        SeatRow = seat.seat_row,
+                        SeatStt = seat.seat_status,
+                        SeatPrice = seat.price
+                    }).ToList()
+                })
+                .ToList();
 
-            }
-            return Json(seatList, JsonRequestBehavior.AllowGet);
+            return Json(roomSeatsList, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult MovieDetail()
+        {
+            List<movy> movielist = db.movies.ToList();
+            DateTime currentDate = DateTime.Now.Date;
+            foreach (var movie in movielist)
+            {
+                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
+                {
+                    movie.movie_status = true; // Đang chiếu
+                }
+                else
+                {
+                    movie.movie_status = false; // Sắp chiếu
+                }
+            }
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+            ViewBag.MovieList = movielist;
+
+            var segments = System.Web.HttpContext.Current.Request.Url.Segments;
+            var movieIdSegment = segments[segments.Length - 1].TrimEnd('/');
+            var movieId = int.Parse(movieIdSegment);
+
+            var movieItem = db.movies.FirstOrDefault(x => x.id == movieId);
+            ViewBag.movieItem = movieItem;
+
+            var movieActor = db.movie_actor.Where(x => x.movie_id == movieId).ToList();
+            ViewBag.movieActor = movieActor;
+
+            var movieDateList = db.movie_display_date
+                        .Where(x => x.movie_id == movieId)
+                        .ToList();
+            ViewBag.movieDateList = movieDateList;
+            return View();
+        }
+       
+        //[HttpGet]
+        //public ActionResult GetInvoice(int scheduleId, int displaydateId, int movieId, seat[] seats)
+        //{
+        //    List<int> chosenSeats = new List<int>();
+        //    int index = chosenSeats.IndexOf(selectedSeatId);
+        //    if (index == -1)
+        //    {
+        //        // Nếu chưa được chọn, thêm ghế vào danh sách
+        //        chosenSeats.Add(selectedSeatId);
+        //    }
+        //    else
+        //    {
+        //        // Nếu đã được chọn, loại bỏ ghế khỏi danh sách
+        //        chosenSeats.RemoveAt(index);
+        //    }
+        //    return Json(new { success = true });
+        //}
     }
 }

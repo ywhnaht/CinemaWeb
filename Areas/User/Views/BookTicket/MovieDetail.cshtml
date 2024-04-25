@@ -1,0 +1,391 @@
+﻿@functions {
+    // Phương thức để chuyển đổi ngày trong tuần sang tiếng Việt
+    public string TranslateDayOfWeek(DayOfWeek dayOfWeek)
+    {
+        switch (dayOfWeek)
+        {
+            case DayOfWeek.Monday:
+                return "Thứ Hai";
+            case DayOfWeek.Tuesday:
+                return "Thứ Ba";
+            case DayOfWeek.Wednesday:
+                return "Thứ Tư";
+            case DayOfWeek.Thursday:
+                return "Thứ Năm";
+            case DayOfWeek.Friday:
+                return "Thứ Sáu";
+            case DayOfWeek.Saturday:
+                return "Thứ Bảy";
+            case DayOfWeek.Sunday:
+                return "Chủ Nhật";
+            default:
+                return "";
+        }
+    }
+}
+
+@{
+    CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
+    DateTime currentDate = DateTime.Now;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png">
+    <title>Ohayou Cinema</title>
+    <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="~/Areas/User/assets/css/moviedetail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="header">
+        <div class="container-fluid  p-4">
+            <div class="row align-items-center">
+                <div class="col-md-2 px-5 py-1">
+                    <a href="/User/UserHome/" class="navbar-brand">
+                        <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                    </a>
+                </div>
+                <div class="col-md-2 buyticket-area">
+                    <a href="/User/BookTicket/BookTicket" class="buyticket-btn btn">
+                        <img src="~/assets/images/subimg/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
+                    </a>
+                </div>
+                <div class="col-md-4" style="padding: 0">
+                    <ul class="list-gr-1 list-group list-group-horizontal">
+                        <li class="list-group-item movie-area">
+                            Phim
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="movie-status list-group">
+                                <li class="movie-sta-text-1 py-1">
+                                    <i class="fa-solid fa-film"></i>
+                                    <a href="#playing">PHIM ĐANG CHIẾU</a>
+                                </li>
+                                <div class="movie-list py-1">
+                                    <div class="row">
+                                        @if (ViewBag.MovieList != null)
+                                        {
+                                            var count = 0;
+                                            foreach (var movie in ViewBag.MovieList)
+                                            {
+                                                if (movie.movie_status == true && count < 4)
+                                                {
+                                                    <div class="col-md-3 sub-movie-list">
+                                                        <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                                                            <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                            <button class="buy-ticket-btn btn">
+                                                                <i class="ti-ticket"></i>
+                                                                Mua vé
+                                                            </button>
+                                                            <span>@movie.title</span>
+                                                        </a>
+                                                    </div>
+                                                    count++;
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <li class="movie-sta-text-2 py-1">
+                                    <i class="fa-solid fa-film"></i>
+                                    <a href="#coming">PHIM SẮP CHIẾU</a>
+                                </li>
+                                <div class="movie-list py-1">
+                                    <div class="row">
+                                        @if (ViewBag.MovieList != null)
+                                        {
+                                            var count = 0;
+                                            foreach (var movie in ViewBag.MovieList)
+                                            {
+                                                if (movie.movie_status == false && count < 4)
+                                                {
+                                                    <div class="col-md-3 sub-movie-list">
+                                                        <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                                                            <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                            <button class="buy-ticket-btn btn">
+                                                                <i class="ti-ticket"></i>
+                                                                Mua vé
+                                                            </button>
+                                                            <span>@movie.title</span>
+                                                        </a>
+                                                    </div>
+                                                    count++;
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Góc Điện Ảnh
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Thể loại phim</a></li>
+                                <li><a href="#">Diễn viên</a></li>
+                                <li><a href="#">Đạo diễn</a></li>
+                                <li><a href="#">Bình luận phim</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item event-list text-center">
+                            Sự Kiện
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Ưu đãi</a></li>
+                                <li><a href="#">Phim hay tháng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item ticket-price text-center">
+                            Rạp/Giá vé
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Rạp Đà Nẵng</a></li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-1">
+                    <button class="search-btn btn">
+                        <i class="search-icon ti-search"></i>
+                    </button>
+                </div>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/HistoryTicket">
+                                                <i class="fa-solid fa-list-ol account-icon"></i>
+                                                Lịch Sử
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/logomini.png" alt="">
+                                @currentUser.full_name
+                            </div>
+                            <div class="row1" style="font-size: small; font-weight: 500;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/icon-gift.190935e4.png" alt="">
+                                0 Star
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid wrapper">
+        <div class="mv-trailer">
+            <img src="~/assets/images/slider/exhuma.jpg" alt="" class="mv-img">
+            <div class="trailer-btn">
+                <a href="#trailer" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#trailer" aria-expanded="false" target="_blank">
+                    <img src="~/Areas/User/assets/images/btn/button-play.2f9c0030.png" alt="" class="play-img object-cover" loading="lazy">
+                </a>
+            </div>
+            <div class="modal fade modal-lg" id="trailer">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <iframe height="555" src="@ViewBag.movieItem.url_trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="row content-wrapper">
+                <div class="col-md-9 left">
+                    <div class="row mv-detail">
+                        <div class="col-md-4 poster">
+                            <img src="@ViewBag.movieItem.url_image" alt="" class="mv-poster">
+                        </div>
+                        <div class="col-md-8 mv-infor">
+                            <div class="row mv-name ">@ViewBag.movieItem.title</div>
+                            <div class="row mv-time">
+                                <div class="col-md-2 duration">
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="inline-block align-baseline mr-1"><path d="M7 0C3.13306 0 0 3.13306 0 7C0 10.8669 3.13306 14 7 14C10.8669 14 14 10.8669 14 7C14 3.13306 10.8669 0 7 0ZM7 12.6452C3.88105 12.6452 1.35484 10.119 1.35484 7C1.35484 3.88105 3.88105 1.35484 7 1.35484C10.119 1.35484 12.6452 3.88105 12.6452 7C12.6452 10.119 10.119 12.6452 7 12.6452ZM8.74435 9.69839L6.34798 7.95685C6.26048 7.89193 6.20968 7.79032 6.20968 7.68306V3.04839C6.20968 2.8621 6.3621 2.70968 6.54839 2.70968H7.45161C7.6379 2.70968 7.79032 2.8621 7.79032 3.04839V7.04798L9.67581 8.41976C9.82823 8.52984 9.85927 8.74153 9.74919 8.89395L9.21855 9.625C9.10847 9.7746 8.89677 9.80847 8.74435 9.69839Z" fill="#F58020"></path></svg>
+                                    <span>@ViewBag.movieItem.duration_minutes phút</span>
+                                </div>
+                                <div class="col-md-2 release-date">
+                                    <svg width="12" height="14" viewBox="0 0 12 14" fill="none" class="inline-block align-baseline mr-1"><path d="M10.7143 1.75H9.42857V0.328125C9.42857 0.147656 9.28393 0 9.10714 0H8.03571C7.85893 0 7.71429 0.147656 7.71429 0.328125V1.75H4.28571V0.328125C4.28571 0.147656 4.14107 0 3.96429 0H2.89286C2.71607 0 2.57143 0.147656 2.57143 0.328125V1.75H1.28571C0.575893 1.75 0 2.33789 0 3.0625V12.6875C0 13.4121 0.575893 14 1.28571 14H10.7143C11.4241 14 12 13.4121 12 12.6875V3.0625C12 2.33789 11.4241 1.75 10.7143 1.75ZM10.5536 12.6875H1.44643C1.35804 12.6875 1.28571 12.6137 1.28571 12.5234V4.375H10.7143V12.5234C10.7143 12.6137 10.642 12.6875 10.5536 12.6875Z" fill="#F58020"></path></svg>
+                                    <span>@ViewBag.movieItem.release_date.ToString("dd/MM/yyyy")</span>
+                                </div>
+                                <div class="col-md-8"></div>
+                            </div>
+                            <div class="row mv-rating">
+                                <a href="" class="rating">
+                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star text-primary mr-1 hover:text-primary transition duration-500 ease-in-out" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="width: 20px; height:20px; "><path fill=" #f29538" d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                                    <span class="inline-block mr-1">@ViewBag.movieItem.rating</span>
+                                    @*<span class="inline-block mr-1 vote">(829 votes)</span>*@
+                                </a>
+                            </div>
+                            <div class="row mv">
+                                <div class="row align-items-center mv-country">
+                                    <div class="col-md-2 d">Quốc gia:</div>
+                                    <div class="col-md-3 nation-item">@ViewBag.movieItem.country.country_name</div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 d">Thể loại:</div>
+                                    <div class="col-md-3 type">
+                                        <button type="button" class="btn">
+                                            <a href="" class="list-item">@ViewBag.movieItem.movie_type.movie_type1</a>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 d">Đạo diễn:</div>
+                                    <div class="col-md-10 type">
+                                        <button type="button" class="btn">
+                                            <a href="" class="list-item">@ViewBag.movieItem.director.director_name</a>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 d">Diễn viên:</div>
+                                    <div class="col-md-10 type">
+                                        <ul class="list-actor">
+                                            @foreach (var actor in ViewBag.movieActor)
+                                            {
+                                                <li class="list-item">
+                                                    <button type="button" class="btn">
+                                                        <a href="" class="list-item">@actor.actor.actor_name</a>
+                                                    </button>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mv-content mt-3 lg:mt-0">
+                        <h1 class="text">Nội dung phim</h1>
+                        <div class="content-text">
+                            <p>
+                                <span class="describe">
+                                    @ViewBag.movieItem.description
+                                </span>
+                            </p>
+                            <p>
+                                <span class="introduce">
+                                    <a href="playing.html">Phim mới</a>
+                                    <strong>@ViewBag.movieItem.title</strong>
+                                    &nbsp;dự kiến ra mắt tại
+                                    <em>
+                                        <a href="/User/UserHome/">Ohayou Cinema</a>
+                                    </em>
+                                    từ @ViewBag.movieItem.release_date.ToString("dd/MM/yyyy")
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mv-schedule mt-3 lg:mt-0">
+                        <h1 class="text">Lịch chiếu</h1>
+                        <div class="row datetime-container" role="tabpanel">
+                            <div class="row align-items-center date-list">
+                                <ul class="list-group list-group-horizontal date-list-side">
+                                    @{
+                                        if (ViewBag.movieDateList != null)
+                                        {
+                                            var count = 0;
+                                            foreach (var date in ViewBag.movieDateList)
+                                            {
+                                                if (count > 6)
+                                                {
+                                                    break;
+                                                }
+                                                if (date.display_date.display_date1.Month > currentDate.Month || date.display_date.display_date1.Date >= currentDate.Date)
+                                                {
+                                                    <li class="col-md justify-content-center list-group-item date-time-item" id="date-@date.display_date.display_date1.ToString("yyMMdd")-li">
+                                                        <a class="text-dark-emphasis fw-medium" href="#date-@date.display_date.display_date1.ToString("yyMMdd")" data-bs-toggle="list" data-bs-target="#date-@date.display_date.display_date1.ToString("yyMMdd")" role="tab">
+                                                            <span>@TranslateDayOfWeek(date.display_date.display_date1.DayOfWeek)</span>
+                                                            <span>@date.display_date.display_date1.ToString("dd/MM")</span>
+                                                        </a>
+                                                    </li>
+                                                    count++;
+                                                }
+                                            }
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-3 right">
+                    <div class="row ">
+                        <h1 class="text-right">Phim đang chiếu</h1>
+                    </div>
+                    @if (ViewBag.MovieList != null)
+                    {
+                        var count = 0;
+                        foreach (var movie in ViewBag.MovieList)
+                        {
+                            if (movie.movie_status == true && movie.id != ViewBag.movieItem.id && count < 3)
+                            {
+                                <div class="row mv">
+                                    <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                        <button class="buy-ticket-btn btn">
+                                            <i class="ti-ticket"></i>
+                                            Mua vé
+                                        </button>
+                                        <span class="playing-movie">@movie.title</span>
+                                    </a>
+                                </div>
+                                count++;
+                            }
+                        }
+                    }
+                    <div class="row bonus">
+                        <div class="col-md-7"></div>
+                        <div class="col-md-4">
+                            <button type="button" class="new-mv">
+                                <a href="playing.html" class="">
+                                    Xem thêm
+                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 15px; height:15px; "><path fill="currentColor" d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"></path></svg>
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
+
+    @*<script src="~/Areas/User/assets/js/moviedetail.js"></script>*@
+
+</body>
+</html>

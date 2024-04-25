@@ -119,7 +119,8 @@
 }
 
 .img-movie {
-    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
     transition: filter 0.3s ease;
 }
 
@@ -153,6 +154,10 @@
     .movie-list .buy-ticket-btn:hover {
         background-color: #f29538;
     }
+
+.sub-movie-list1 {
+    margin-bottom: 2rem;
+}
 
 .search-icon {
     font-size: 15px;

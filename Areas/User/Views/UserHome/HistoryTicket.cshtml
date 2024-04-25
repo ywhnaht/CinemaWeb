@@ -2,10 +2,6 @@
 
 @{
     CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
-    if (currentUser == null)
-    {
-        Response.Redirect("~/Home/SignIn");
-    }
     DateTime currentDate = DateTime.Now;
     DateTime previousMonthYear = DateTime.MinValue;
 }
@@ -27,14 +23,14 @@
         <div class="container-fluid  p-4">
             <div class="row align-items-center">
                 <div class="col-md-2 px-5 py-1">
-                    <a href="" class="navbar-brand">
+                    <a href="/User/UserHome/" class="navbar-brand">
                         <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
                 <div class="col-md-2 buyticket-area">
-                    <button type="button" class="buyticket-btn btn">
+                    <a href="/User/BookTicket/BookTicket" class="buyticket-btn btn">
                         <img src="~/assets/images/subimg/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
-                    </button>
+                    </a>
                 </div>
                 <div class="col-md-4">
                     <ul class="list-gr-1 list-group list-group-horizontal">
@@ -56,12 +52,14 @@
                                                 if (movie.movie_status == true && count < 4)
                                                 {
                                                     <div class="col-md-3 sub-movie-list">
-                                                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                                                        <button class="buy-ticket-btn btn">
-                                                            <i class="ti-ticket"></i>
-                                                            Mua vé
-                                                        </button>
-                                                        <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                                                        <a href="" class="text-dark-emphasis movie-name">
+                                                            <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                            <button class="buy-ticket-btn btn">
+                                                                <i class="ti-ticket"></i>
+                                                                Mua vé
+                                                            </button>
+                                                            <span>@movie.title</span>
+                                                        </a>
                                                     </div>
                                                     count++;
                                                 }
@@ -84,12 +82,14 @@
                                                 if (movie.movie_status == false && count < 4)
                                                 {
                                                     <div class="col-md-3 sub-movie-list">
-                                                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                                                        <button class="buy-ticket-btn btn">
-                                                            <i class="ti-ticket"></i>
-                                                            Mua vé
-                                                        </button>
-                                                        <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                                                        <a href="" class="text-dark-emphasis movie-name">
+                                                            <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                            <button class="buy-ticket-btn btn">
+                                                                <i class="ti-ticket"></i>
+                                                                Mua vé
+                                                            </button>
+                                                            <span>@movie.title</span>
+                                                        </a>
                                                     </div>
                                                     count++;
                                                 }
@@ -312,7 +312,7 @@
                                                         <p>@invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.movy.title</p>
                                                     </div>
                                                     <div class="row2">
-                                                        <p>Ohayou cenima</p>
+                                                        <p>Ohayou Cinema</p>
                                                         <p>
                                                             Suất @invoiceitem.room_schedule_detail.schedule_detail.schedule.schedule_time.ToString(@"hh\:mm")
                                                             @invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.DayOfWeek,

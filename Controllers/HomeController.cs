@@ -30,6 +30,7 @@ namespace CinemaWeb.Controllers
                     movie.movie_status = false; // Sắp chiếu
                 }
             }
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
             return View();
         }

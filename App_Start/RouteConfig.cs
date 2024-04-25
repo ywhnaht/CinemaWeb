@@ -23,6 +23,11 @@ namespace CinemaWeb
                 url: "{area}/{controller}/{action}",
                 defaults: new { controller = "UserHome", action = "Index", area = "User" }
             );
+            routes.MapRoute(
+                name: "MovieDetail",
+                url: "{area}/{controller}/{action}/{movieId}",
+                defaults: new { controller = "BookTicket", action = "MovieDetail", id = UrlParameter.Optional }
+            );
         }
     }
 }

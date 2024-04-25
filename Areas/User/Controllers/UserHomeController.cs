@@ -28,14 +28,22 @@ namespace CinemaWeb.Areas.User.Controllers
                     movie.movie_status = false; // Sắp chiếu
                 }
             }
+
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
             return View();
         }
 
         public ActionResult UserProfile()
         {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("SignIn", "Home", new { area = "" });
+            }
+            var currentUser = (user)Session["user"];
             List<movy> movielist = db.movies.ToList();
             DateTime currentDate = DateTime.Now.Date;
+
             foreach (var movie in movielist)
             {
                 if (movie.release_date <= currentDate && movie.end_date >= currentDate)
@@ -47,14 +55,34 @@ namespace CinemaWeb.Areas.User.Controllers
                     movie.movie_status = false; // Sắp chiếu
                 }
             }
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
+
+            int totalSpent = 0;
+            ViewBag.MovieList = movielist;
+            var invoiceList = currentUser.invoices.OrderBy(x => x.day_create).ToList();
+            ViewBag.invoiceList = invoiceList;
+            foreach (var invoiceitem in invoiceList)
+            {
+                if (invoiceitem.invoice_status == true)
+                {
+                    if (invoiceitem.day_create.Value.Year == currentDate.Year)
+                    {
+                        totalSpent += (int)invoiceitem.total_money;
+                    }
+                    var ticketList = invoiceitem.tickets.ToList();
+                    ViewBag.ticketList = ticketList;
+                }
+            }
+
+            ViewBag.totalSpent = totalSpent;
             return View();
         }
         public ActionResult HistoryTicket()
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("SignIn", "Home");
+                return RedirectToAction("SignIn", "Home", new { area = "" });
             }
             var currentUser = (user)Session["user"];
             List<movy> movielist = db.movies.ToList();
@@ -70,6 +98,7 @@ namespace CinemaWeb.Areas.User.Controllers
                     movie.movie_status = false; // Sắp chiếu
                 }
             }
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             int totalSpent = 0;
             ViewBag.MovieList = movielist;
             var invoiceList = currentUser.invoices.OrderBy(x => x.day_create).ToList();
@@ -83,13 +112,6 @@ namespace CinemaWeb.Areas.User.Controllers
                     }
                     var ticketList = invoiceitem.tickets.ToList();
                     ViewBag.ticketList = ticketList;
-                    //foreach (var item in ticketList)
-                    //{
-                    //    item.invoice.day_create.Value.ToString("MM/yyyy");
-                    //    var name = item.room_schedule_detail.schedule_detail.movie_display_date.movy.title;
-                    //    item.room_schedule_detail.schedule_detail.schedule.schedule_time.Value.ToString("HH/mm");
-                    //    var date = item.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Value.ToString("dd/MM/yyyy");
-                    //}
                 }
             }
             
@@ -101,7 +123,7 @@ namespace CinemaWeb.Areas.User.Controllers
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("SignIn", "Home");
+                return RedirectToAction("SignIn", "Home", new { area = "" });
             }
             var currentUser = (user)Session["user"];
             
