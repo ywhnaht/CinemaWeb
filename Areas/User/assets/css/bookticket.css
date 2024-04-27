@@ -233,7 +233,7 @@
 
 .buyticket-container {
     background-color: rgb(249 249 249 / 1);
-    height: 74rem;
+    max-height: 100%;
 }
 
 .choose-area {
@@ -493,7 +493,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    transform: translateY(110%);
+    transform: translateY(106%);
     background-color: #fff;
     box-shadow: 0 0 8px #ccc;
     z-index: 3;

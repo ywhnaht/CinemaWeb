@@ -203,7 +203,14 @@
     </div>
     <div class="container-fluid wrapper">
         <div class="mv-trailer">
-            <img src="~/assets/images/slider/exhuma.jpg" alt="" class="mv-img">
+            @if (ViewBag.movieItem.url_large_image != null)
+            {
+                <img src="@ViewBag.movieItem.url_large_image" alt="" class="mv-img">
+            }
+            else
+            {
+                <img src="@ViewBag.movieItem.url_image" alt="" class="mv-img">
+            }
             <div class="trailer-btn">
                 <a href="#trailer" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#trailer" aria-expanded="false" target="_blank">
                     <img src="~/Areas/User/assets/images/btn/button-play.2f9c0030.png" alt="" class="play-img object-cover" loading="lazy">
@@ -212,7 +219,11 @@
             <div class="modal fade modal-lg" id="trailer">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <iframe height="555" src="@ViewBag.movieItem.url_trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <video width="100%" height="555" controls autoplay>
+                            <source src="@ViewBag.movieItem.url_trailer" type="video/ogg">
+                        </video>
+
+                        @*<iframe height="555" src="@ViewBag.movieItem.url_trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>*@
                     </div>
                 </div>
             </div>
@@ -321,7 +332,7 @@
                                                 }
                                                 if (date.display_date.display_date1.Month > currentDate.Month || date.display_date.display_date1.Date >= currentDate.Date)
                                                 {
-                                                    <li class="col-md justify-content-center list-group-item date-time-item" id="date-@date.display_date.display_date1.ToString("yyMMdd")-li">
+                                                    <li class="col-md justify-content-center list-group-item date-time-item" onclick="selectDate('@date.display_date.id', '@ViewBag.movieItem.id')" id="date-@date.display_date.display_date1.ToString("yyMMdd")-li">
                                                         <a class="text-dark-emphasis fw-medium" href="#date-@date.display_date.display_date1.ToString("yyMMdd")" data-bs-toggle="list" data-bs-target="#date-@date.display_date.display_date1.ToString("yyMMdd")" role="tab">
                                                             <span>@TranslateDayOfWeek(date.display_date.display_date1.DayOfWeek)</span>
                                                             <span>@date.display_date.display_date1.ToString("dd/MM")</span>
@@ -334,12 +345,34 @@
                                     }
                                 </ul>
                             </div>
+                            <div class="tab-content schedule-cinema">
+                                <h1 class="text">Ohayou Đà Nẵng</h1>
+                                @{
+                                    if (ViewBag.movieDateList != null)
+                                    {
+                                        var count = 0;
+                                        foreach (var date in ViewBag.movieDateList)
+                                        {
+                                            if (count > 6)
+                                            {
+                                                break;
+                                            }
+                                            if (date.display_date.display_date1.Month > currentDate.Month || date.display_date.display_date1.Date >= currentDate.Date)
+                                            {
+                                                <div class="tab-pane time-cinema" id="date-@date.display_date.display_date1.ToString("yyMMdd")">
+                                                </div>
+                                                count++;
+                                            }
+                                        }
+                                    }
+                                }
+                            </div>
                         </div>
                     </div>
 
                 </div>
                 <div class="col-md-3 right">
-                    <div class="row ">
+                    <div class="row">
                         <h1 class="text-right">Phim đang chiếu</h1>
                     </div>
                     @if (ViewBag.MovieList != null)
@@ -351,7 +384,7 @@
                             {
                                 <div class="row mv">
                                     <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
-                                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                        <img src="@movie.url_large_image" alt="" class="img-fluid img-movie">
                                         <button class="buy-ticket-btn btn">
                                             <i class="ti-ticket"></i>
                                             Mua vé
@@ -389,3 +422,139 @@
 
 </body>
 </html>
+
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    function formatTime(timeitem, choose) {
+        var hour = timeitem.getHours();
+        var minute = timeitem.getMinutes();
+        return choose == 1 ? ((hour < 10 ? '0' : '') + hour + ':' + (minute < 10 ? '0' : '') + minute)
+            : ((hour < 10 ? '0' : '') + hour + (minute < 10 ? '0' : '') + minute);
+    }
+    var currentDay = new Date();
+    var timeFormat1 = ''
+    function selectDate(selectedDateId, selectedMovieId) {
+        $.ajax({
+            url: '/User/BookTicket/GetScheduleTime',
+            type: 'GET',
+            data: { displaydateId: selectedDateId, movieId: selectedMovieId },
+            success: function (data) {
+                var results = data;
+                console.log(results)
+                $('.time-cinema').html('')
+                var timelistDiv = $('<div></div>').addClass('row align-items-center')
+                var timelist = $('<ul></ul>').addClass('list-group list-group-horizontal justify-content-center time-list')
+                timelistDiv.append(timelist)
+                $('.time-cinema').append(timelistDiv)
+                var seatcinema = $('<div></div>').addClass('tab-content seat-cinema')
+                $('.time-cinema').append(seatcinema)
+                /*timelist.html('')*/
+                for (var i = 0; i < results.length; i++) {
+                    var dateStr = results[i].schedule_time.toString();
+                    var milliseconds = parseInt(dateStr.replace("/Date(", "").replace(")/", ""));
+                    var scheduleTime = new Date(milliseconds);
+                    var scheduleHour = scheduleTime.getHours();
+                    var scheduleMinute = scheduleTime.getMinutes();
+                    console.log(scheduleTime, scheduleHour, scheduleMinute)
+                    if (scheduleTime.getDate() === currentDay.getDate()) {
+                        if (scheduleHour > currentDay.getHours() || scheduleHour === currentDay.getHours() && scheduleMinute >= currentDay.getMinutes()) {
+                            var schedule_id = results[i].id
+                            console.log(schedule_id)
+                            timeFormat1 = formatTime(scheduleTime, 1);
+                            var timeFormat2 = formatTime(scheduleTime, 2);
+                            // Tạo một thẻ <li> mới
+                            var listItem = $('<li></li>').addClass('col-md-1 list-group-item time-btn').attr({
+                                'id': 'time-' + timeFormat2 + '-li'
+                            });
+
+                            // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
+                            var link = $('<a></a>').addClass('text-dark-emphasis fw-medium').attr({
+                                'href': '#time-' + timeFormat2,
+                                'data-bs-toggle': 'list',
+                                'data-bs-target': '#time-' + timeFormat2,
+                                'role': 'tab',
+                            })
+                            var span = $('<span></span>').addClass('btn btn-outline-secondary time-item').attr({
+                                'onclick': "selectSchedule('" + schedule_id + "','" + selectedDateId + "','" + selectedMovieId + "')" // Thêm sự kiện onclick
+                            }).text(timeFormat1);
+                            link.append(span)
+                            // Gắn thẻ <a> vào thẻ <li>
+                            listItem.append(link);
+
+                            // Gắn thẻ <li> vào danh sách ngày chiếu
+                            $('.time-list').append(listItem);
+                            if (i == 0) {
+                                var seatcontainer = $('<div></div>').addClass('tab-pane seat-container active').attr({
+                                    'id': 'time-' + timeFormat2,
+                                    'role': 'tabpanel'
+                                })
+                                $('.seat-cinema').append(seatcontainer)
+                            }
+                            else {
+                                var seatcontainer = $('<div></div>').addClass('tab-pane seat-container').attr({
+                                    'id': 'time-' + timeFormat2,
+                                    'role': 'tabpanel'
+                                })
+                                $('.seat-cinema').append(seatcontainer)
+                            }
+                        }
+                    }
+                    else {
+                        var schedule_id = results[i].id
+                        console.log(schedule_id)
+                        timeFormat1 = formatTime(scheduleTime, 1);
+                        var timeFormat2 = formatTime(scheduleTime, 2);
+                        // Tạo một thẻ <li> mới
+                        var listItem = $('<li></li>').addClass('col-md-1 list-group-item time-btn').attr({
+                            'id': 'time-' + timeFormat2 + '-li'
+                            // Thêm sự kiện onclick                            
+                        });
+
+                        // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
+                        var link = $('<a></a>').addClass('text-dark-emphasis fw-medium').attr({
+                            'href': '#time-' + timeFormat2,
+                            'data-bs-toggle': 'list',
+                            'data-bs-target': '#time-' + timeFormat2,
+                            'role': 'tab'
+                        })
+                        var span = $('<span></span>').addClass('btn btn-outline-secondary time-item').attr({
+                            'onclick': "selectSchedule('" + schedule_id + "','" + selectedDateId + "','" + selectedMovieId + "')"
+                        }).text(timeFormat1);
+                        link.append(span)
+                        // Gắn thẻ <a> vào thẻ <li>
+                        listItem.append(link);
+
+                        // Gắn thẻ <li> vào danh sách ngày chiếu
+                        $('.time-list').append(listItem);
+                        if (i === 0) {
+                            var seatcontainer = $('<div></div>').addClass('tab-pane seat-container active').attr({
+                                'id': 'time-' + timeFormat2,
+                                'role': 'tabpanel'
+                            })
+                            $('.seat-cinema').append(seatcontainer)
+                        }
+                        else {
+                            var seatcontainer = $('<div></div>').addClass('tab-pane seat-container').attr({
+                                'id': 'time-' + timeFormat2,
+                                'role': 'tabpanel'
+                            })
+                            $('.seat-cinema').append(seatcontainer)
+                        }
+                    }
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
+    }
+    function selectSchedule(scheduleId, selectedDateId, selectedMovieId) {
+        // Lưu thông tin vào localStorage
+        localStorage.setItem('selectedMovieId', selectedMovieId);
+        localStorage.setItem('selectedDateId', selectedDateId);
+        localStorage.setItem('selectedScheduleId', scheduleId);
+        // Chuyển trang BookTicket
+        window.location.href = '/User/BookTicket/BookTicket/';
+    }
+
+</script>

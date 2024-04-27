@@ -238,6 +238,7 @@
 .mv-trailer {
     background-color: #000;
     position: relative;
+    display: flex;
     justify-content: center;
 }
 
@@ -248,7 +249,7 @@
 .mv-img {
     max-width: 100%;
     height: auto;
-    z-index: -1;
+    z-index: 0;
 }
 
 .mv-country {
@@ -453,6 +454,8 @@
     line-height: 1.8;
     padding-top: 10px;
     margin: 0;
+    padding-bottom: 30px;
+    border-bottom: 3px solid rgb(3 78 162 / 1);
 }
 
 .datetime-container .date-list a {
@@ -491,6 +494,38 @@
         color: #fff;
         font-weight: 500;
     }
+
+.schedule-cinema {
+    margin-top: 2rem;
+}
+
+.schedule-cinema a {
+    text-decoration: none;
+}
+
+.time-list {
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+    .time-list span {
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        margin: 0px -14px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+        .time-list span:hover {
+            background-color: #034EA2;
+        }
+
+.time-btn {
+    margin: 0 6px;
+}
 
 /*right*/
 .text-right {
@@ -599,176 +634,3 @@
 .modal {
     margin-top: 0;
 }
-
-
-
-/*.time-item.chosen {
-    background-color: #034EA2;
-    color: #fff;
-    font-weight: 500;
-}
-
-.ticket-selected-detail {
-    margin-left: 1rem;
-    margin-bottom: 4px;
-}
-
-    .ticket-selected-detail span {
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 1.8;
-    }
-
-.time-btn {
-    margin: 0 6px;
-}
-
-.ticket-next-btn {
-    margin-top: 35px;
-}
-
-#countdown-timer {
-    padding-bottom: 1rem;
-}
-
-#timer-clock {
-    color: #f58020;
-    font-weight: 600;
-}
-
-.timer-text {
-
-}
-
-.returnBtn {
-    color: #f58020;
-    border: none;
-    background-color: rgb(249 249 249 / 1);
-}
-
-    .returnBtn:hover {
-        color: #f58020;
-    }
-
-.return-item {
-    padding-left: 60px; 
-}
-
-.continueBtn {
-    color: #fff !important;
-    background-color: rgb(245 128 32 / 1) !important ;
-    border: 1px solid transparent;
-    cursor: pointer !important;
-    border-radius: 8px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    padding: 8px 30px;
-}
-
-.un-click {
-    pointer-events: none !important;
-}
-
-.time-btn a {
-    text-decoration: none;
-}
-
-.day-cinema {
-    position: relative;
-}
-
-.seat-cinema {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    transform: translateY(110%);
-    background-color: #fff;
-    box-shadow: 0 0 8px #ccc;
-    z-index: 3;
-}
-
-.room-list {
-    margin-bottom: 18px;
-}
-
-    .room-list .seat-item {
-        padding: 0 8px;
-    }
-
-        .room-list .seat-item:hover {
-            background-color: #f58020;
-            border: none;
-        }
-
-.seat-text {
-    margin-left: 1.5rem;
-}
-
-.screen-movie {
-    font-size: 12px;
-    font-weight: 400;
-    margin: 3rem 0;
-    border-bottom: 5px solid rgb(255 132 85 / 1);
-}
-
-.seat-sold {
-    background-color: #d0d0d0;
-    padding: 10px 10px;
-    border: none;
-}
-
-.seat-selecting {
-    padding: 10px 10px;
-    background-color: #f58020;
-    border: none;
-}
-
-.seat-status {
-    margin-left: 1rem;
-    margin-bottom: 2rem;
-}
-
-.disabled-hover:hover {
-    pointer-events: none !important;
-    background-color: #d0d0d0 !important;
-    cursor: none !important;
-}
-
-
-.seat-selecting:hover {
-    background-color: #f58020;
-}
-
-.seat-sold:hover {
-    background-color: #d0d0d0;
-}
-
-.seat-status span {
-    font-size: 14px;
-}
-
-.seat-selected {
-    color: #fff;
-    font-weight: 500;
-    background-color: #f58020;
-    border: none;
-}
-
-.seat-chosen {
-    margin: 15px 3px;
-}
-
-    .seat-chosen span {
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-.navbar-colored {
-    color: #034EA2;
-    font-weight: 600;
-}
-
-.prevent-click {
-    pointer-events: none;
-}*/

@@ -54,7 +54,7 @@
                                                 if (movie.movie_status == true && count < 4)
                                                 {
                                                     <div class="col-md-3 sub-movie-list">
-                                                        <a href="" class="text-dark-emphasis movie-name">
+                                                        <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
                                                             <img src="@movie.url_image" alt="" class="img-fluid img-movie">
                                                             <button class="buy-ticket-btn btn">
                                                                 <i class="ti-ticket"></i>
@@ -83,7 +83,7 @@
                                                 if (movie.movie_status == false && count < 4)
                                                 {
                                                     <div class="col-md-3 sub-movie-list">
-                                                        <a href="" class="text-dark-emphasis movie-name">
+                                                        <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
                                                             <img src="@movie.url_image" alt="" class="img-fluid img-movie">
                                                             <button class="buy-ticket-btn btn">
                                                                 <i class="ti-ticket"></i>
@@ -216,7 +216,7 @@
                                         {
                                             if (movie.movie_status == true)
                                             {
-                                                <div class="col-md-3 sub-movie-list1" onclick="selectMovie('@movie.id')">
+                                                <div class="col-md-3 sub-movie-list1" data-movieId="@movie.id" onclick="selectMovie('@movie.id')">
                                                     <img src="@movie.url_image" alt="" class="img-fluid img-movie">
                                                     <span class="text-dark-emphasis movie-name">@movie.title</span>
                                                 </div>
@@ -401,6 +401,7 @@
                         
                         // Tạo một thẻ <li> mới
                         var listItem = $('<li></li>').addClass('col-md list-group-item date-time-item').attr({
+                            'data-displaydateId': display_date_id,
                             'id': 'date-' + dateFormat2 + '-li',
                             'onclick': "selectDate('" + display_date_id + "','" + selectedMovieId + "')" // Thêm sự kiện onclick
                         });
@@ -409,6 +410,7 @@
                         // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
                         var link = $('<a></a>').addClass('text-dark-emphasis fw-medium').attr({
                             'href': '#date-' + dateFormat2,
+                            'data-displaydateId': display_date_id,
                             'data-bs-toggle': 'list',
                             'data-bs-target': '#date-' + dateFormat2,
                             'role': 'tab',
@@ -498,11 +500,13 @@
                             // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
                             var link = $('<a></a>').addClass('text-dark-emphasis fw-medium').attr({
                                 'href': '#time-' + timeFormat2,
+                                'data-scheduleId': schedule_id,
                                 'data-bs-toggle': 'list',
                                 'data-bs-target': '#time-' + timeFormat2,
                                 'role': 'tab',
                             })
                             var span = $('<span></span>').addClass('btn btn-outline-secondary time-item').attr({
+                                'data-scheduleId': schedule_id,
                                 'onclick': "selectSchedule('" + schedule_id + "','" + selectedDateId + "','" + selectedMovieId + "')" // Thêm sự kiện onclick
                             }).text(timeFormat1);
                             link.append(span)
@@ -542,11 +546,13 @@
                         // Tạo một thẻ <a> để hiển thị ngày và áp dụng sự kiện onclick
                         var link = $('<a></a>').addClass('text-dark-emphasis fw-medium').attr({
                             'href': '#time-' + timeFormat2,
+                            'data-scheduleId': schedule_id,
                             'data-bs-toggle': 'list',
                             'data-bs-target': '#time-' + timeFormat2,
                             'role': 'tab'
                         })
                         var span = $('<span></span>').addClass('btn btn-outline-secondary time-item').attr({
+                            'data-scheduleId': schedule_id,
                             'onclick': "selectSchedule('" + schedule_id + "','" + selectedDateId + "','" + selectedMovieId + "')"
                         }).text(timeFormat1);
                         link.append(span)
@@ -616,7 +622,9 @@
                             seatItem.addClass('seat-sold disabled-hover')
                         }
                         else {
-                            seatItem.attr('onclick', "selectSeat('" + seat.SeatId + "','" + selectedScheduleId + "','" + selectedDateId + "','" + selectedMovieId + "')");
+                            seatItem.attr({
+                                'onclick': "selectSeat('" + seat.SeatId + "','" + selectedScheduleId + "','" + selectedDateId + "','" + selectedMovieId + "')"
+                            })
                         }
                         seatItem.attr({
                             'data-row': rowchar,
@@ -646,8 +654,6 @@
     //console.log(roomName)
     $(document).on('click', '.time-btn .time-item', function (event) {
         event.preventDefault();
-        //var abc = $('.time-item')
-        //console.log('hello ' + abc)
         var showtime = $(this).text().trim();
         var tabPaneId = $(this).closest('.tab-pane').attr('id');
         var dateListItem = $('#' + tabPaneId + '-li');
@@ -855,4 +861,54 @@
         })
     })
 
+    //$(document).ready(function () {
+    //    var MovieId = localStorage.getItem('selectedMovieId');
+    //    if (MovieId) {
+    //        $(".sub-movie-list1[data-movieId='" + MovieId + "']").trigger('click');
+    //        localStorage.removeItem('selectedMovieId');
+    //    }
+    //});
+    //$(document).ready(function () {
+    //    var DateId = localStorage.getItem('selectedDateId');
+    //    if (DateId) {
+    //        console.log(DateId)
+    //        $(".date-time-item[data-displaydateId='" + DateId + "']").trigger('click');
+    //        localStorage.removeItem('selectedDateId');
+    //    }
+    //});
+    //$(document).ready(function () {
+    //    var ScheduleId = localStorage.getItem('selectedScheduleId');
+    //    if (ScheduleId) {
+    //        console.log(ScheduleId)
+    //        $(".time-item[data-scheduleId='" + ScheduleId + "']").trigger('click');
+    //        localStorage.removeItem('selectedScheduleId');
+    //    }
+    //});
+    $(document).ready(function () {
+        var MovieId = localStorage.getItem('selectedMovieId');
+        if (MovieId) {
+            $(".sub-movie-list1[data-movieId='" + MovieId + "']").trigger('click');
+            localStorage.removeItem('selectedMovieId');
+        }
+
+        var DateId = localStorage.getItem('selectedDateId');
+        if (DateId) {
+            setTimeout(function () {
+                console.log(DateId);
+                $(".date-time-item[data-displaydateId='" + DateId + "']").trigger('click');
+                $(".date-time-item a[data-displaydateId='" + DateId + "']").trigger('click');
+                localStorage.removeItem('selectedDateId');
+            }, 1000); // Đặt độ trễ 500ms (0.5 giây)
+        }
+
+        var ScheduleId = localStorage.getItem('selectedScheduleId');
+        if (ScheduleId) {
+            setTimeout(function () {
+                console.log(ScheduleId);
+                $(".time-item[data-scheduleId='" + ScheduleId + "']").trigger('click');
+                $(".time-btn a[data-scheduleId='" + ScheduleId + "']").trigger('click');
+                localStorage.removeItem('selectedScheduleId');
+            }, 1500); // Đặt độ trễ 1000ms (1 giây)
+        }
+    });
 </script>

@@ -1223,6 +1223,7 @@
     <Content Include="Areas\User\Views\UserHome\UserProfile.cshtml" />
     <Content Include="Areas\User\Views\UserHome\HistoryTicket.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\BookTicket.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\MovieDetail.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -1230,7 +1231,8 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\User\Views\BookTicket\MovieDetail.cshtml" />
+    <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

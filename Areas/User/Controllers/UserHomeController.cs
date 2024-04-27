@@ -15,6 +15,10 @@ namespace CinemaWeb.Areas.User.Controllers
         Cinema_Web_Entities db = new Cinema_Web_Entities();
         public ActionResult Index()
         {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("SignIn", "Home", new { area = "" });
+            }
             List<movy> movielist = db.movies.ToList();
             DateTime currentDate = DateTime.Now.Date;
             foreach (var movie in movielist)
