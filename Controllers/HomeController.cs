@@ -53,8 +53,21 @@ namespace CinemaWeb.Controllers
             {
                if (user.user_password == pass)
                 {
-                    Session["user"] = user;
-                    return RedirectToAction("Index", "UserHome", new { area = "User" });
+                    if (user.user_type == 1)
+                    {
+                        Session["user"] = user;
+                        return RedirectToAction("Index", "UserHome", new { area = "User" });
+                    }
+                    else if (user.user_type == 2)
+                    {
+                        Session["admin"] = user;
+                        return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
+                    }
+                    else
+                    {
+                        Session["staff"] = user;
+                        return RedirectToAction("Index", "StaffHome", new { area = "Staff" });
+                    }
                 }
                else
                 {

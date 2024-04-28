@@ -645,6 +645,8 @@
                 seatSttDiv.append(seatSold, seatSelecting)
                 $('.seat-container').append(screenDiv)
                 $('.seat-container').append(seatSttDiv)
+
+
             },
             error: function (err) {
                 console.log(err)
@@ -848,7 +850,58 @@
         buyTicketListData = $('.buyticket-list').html()
         $('.buyticket-list').html('')
         continueBooking()
-    })
+
+        var discountSection = $(
+        '<div class="row payment-area">' +
+            '<div class="row bg-white p-4">' +
+                '<h3 class="discount-text">Khuyến mãi</h3>' +
+                '<div class="row mt-2">' +
+                    '<form autocomplete="off" action="">' +
+                        '<div class="row">' +
+                            '<div class="col-auto discount-area">' +
+                                '<label class="inline-block mb-1 text-black-10 text-sm font-bold name-text" for="voucher-code">Mã khuyến mãi</label>' +
+                                '<input id="voucher-code" type="text" class="border w-full py-2 px-4" name="">' +
+                            '</div>' +
+                            '<div class="col-auto d-flex align-items-end mt-7">' +
+                                '<button class="chose-btn">Áp dụng</button>' +
+                            '</div>' +
+                        '</div>' +
+                        '<p class="mt-2" style="font-size: 12px">Lưu ý: Có thể áp dụng nhiều vouchers vào 1 lần thanh toán</p>' +
+                    '</form>' +
+                    '<p class="d-inline-flex gap-1">' +
+                        '<a class="inline-block mb-1 text-black-10 text-sm font-bold name-text" data-bs-toggle="collapse" href="#discount-item" role="button" aria-expanded="false" aria-controls="discount-item">' +
+                            'Khuyến mãi của bạn' +
+                            '<i class="ti-angle-down"></i>' +
+                        '</a>' +
+                    '</p>' +
+                    '<div class="collapse" id="discount-item">' +
+                        '<div class="card card-body">' +
+                            'Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="row bg-white mt-4 p-4">' +
+                '<h3 class="discount-text">Phương thức thanh toán</h3>' +
+                '<div class="my-4">' +
+                    '<ul class="payment-method">' +
+                        '<li class="payment-item" style="list-style-type: none;">' +
+                            '<input type="radio" class="w-4 h-4 text-primary bg-gray-100 border-gray-300" name="" id="payment-vnpay" value="vnpay" checked>' +
+                            '<img src="https://cdn.galaxycine.vn/media/2021/12/2/download_1638460623615.png" alt="" loading="lazy" width="50" height="50" decoding="async" class="inline-block mx-2 object-cover duration-500 ease-in-out group-hover:opacity-100 scale-100 blur-0 grayscale-0">' +
+                            '<label for="payment-vnpay" class="inline-block">VN Pay</label>' +
+                        '</li>' +
+                    '</ul>' +
+                '</div>' +
+                '<div class="mt-8" style="font-size: 12px">' +
+                    '<strong class="text-danger font-semibold">(*)</strong>' +
+                    '<span>Bằng việc click/chạm vào THANH TOÁN bên phải, bạn đã xác nhận hiểu rõ các Quy Định Giao Dịch Trực Tuyến của Ohayou Cinema.</span>' +
+                '</div>' +
+            '</div>' +
+        '</div>');
+    // Thêm cấu trúc "Khuyến mãi" vào phần tử có class "row"
+    $('.buyticket-list').append(discountSection);
+ })
+
 
     $(document).on('click', '.returnBtn', function (event) {
         if (buyTicketListData) {
@@ -860,6 +913,7 @@
             window.location.reload();
         })
     })
+
 
     //$(document).ready(function () {
     //    var MovieId = localStorage.getItem('selectedMovieId');
