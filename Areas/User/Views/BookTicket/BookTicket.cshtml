@@ -841,6 +841,7 @@
         });
     }
 
+    // ấn tiếp tục thì chuyển sang trang thanh toán
     var buyTicketListData
     $(document).on('click', '.continueBtn', function (event) {
         if ($(this).hasClass('.un-click')) {
@@ -848,6 +849,7 @@
         }
         $('#navbar-item-3').addClass('navbar-colored')
         buyTicketListData = $('.buyticket-list').html()
+        $('.continueBtn').find('span').text('Thanh toán')
         $('.buyticket-list').html('')
         continueBooking()
 
@@ -902,11 +904,12 @@
     $('.buyticket-list').append(discountSection);
  })
 
-
+ // ấn quay lại thì trở lại trang chọn phim
     $(document).on('click', '.returnBtn', function (event) {
         if (buyTicketListData) {
             $('#navbar-item-3').removeClass('navbar-colored')
             $('.buyticket-list').html(buyTicketListData);
+            $('.continueBtn').find('span').text('Tiếp tục')
             buyTicketListData = '';
         }
         $(document).on('click', '.returnBtn', function (event) {

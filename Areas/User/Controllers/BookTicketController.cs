@@ -1,4 +1,5 @@
-﻿using CinemaWeb.Models;
+﻿using CinemaWeb.App_Start;
+using CinemaWeb.Models;
 using Microsoft.Ajax.Utilities;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace CinemaWeb.Areas.User.Controllers
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
         // GET: User/BookTicket
+
+        [UserAuthorize(roleId = 12)]
         public ActionResult BookTicket()
         {
             List<movy> movielist = db.movies.ToList();

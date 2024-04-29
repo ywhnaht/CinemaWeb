@@ -111,6 +111,7 @@ namespace CinemaWeb.Controllers
                 }
                 else
                 {
+                    if (newUser.user_type == null) newUser.user_type = 1;
                     newUser.full_name = name;
                     newUser.email = email;
                     newUser.date_of_birth = dateofbirth;

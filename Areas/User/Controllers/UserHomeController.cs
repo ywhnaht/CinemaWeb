@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using CinemaWeb.App_Start;
 
 namespace CinemaWeb.Areas.User.Controllers
 {
@@ -122,7 +123,9 @@ namespace CinemaWeb.Areas.User.Controllers
             ViewBag.totalSpent = totalSpent;
             return View();
         }
-        
+
+        [HttpPost]
+        [UserAuthorize(roleId = 13)]        
         public ActionResult UpdateInfor(string name, string pass)
         {
             if (Session["user"] == null)
@@ -130,17 +133,26 @@ namespace CinemaWeb.Areas.User.Controllers
                 return RedirectToAction("SignIn", "Home", new { area = "" });
             }
             var currentUser = (user)Session["user"];
-            
-            // Cập nhật thông tin người dùng
-            
-            currentUser.full_name = name;
-            currentUser.user_password = pass;
-
             var updateUser = db.users.FirstOrDefault(x => x.id == currentUser.id);
-            updateUser.full_name = name;
-            updateUser.user_password = pass;
 
-            // Lưu thông tin mới vào cơ sở dữ liệu
+            if (!string.IsNullOrEmpty(pass))
+            {
+                currentUser.user_password = pass;
+                if (updateUser != null)
+                {
+                    updateUser.user_password = pass;
+                }
+            }
+
+            // Kiểm tra nếu chỉ có name được nhập mới
+            if (!string.IsNullOrEmpty(name))
+            {
+                currentUser.full_name = name;
+                if (updateUser != null)
+                {
+                    updateUser.full_name = name;
+                }
+            }
             db.SaveChanges();
 
             // Trả về kết quả thành công

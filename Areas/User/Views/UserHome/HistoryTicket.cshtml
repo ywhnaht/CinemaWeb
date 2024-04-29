@@ -370,8 +370,8 @@
                                 </div>
                                 <div class="modal" id="update">
                                     <div class="modal-dialog">
-                                        <form method="post">
-                                            <div class="modal-content update-box">
+                                        <div class="modal-content update-box">
+                                            <form method="post">
                                                 <p>NHẬP THÔNG TIN CHỈNH SỬA</p>
                                                 <div class="row user-infor-box">
                                                     <div class="col box-left">
@@ -409,8 +409,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -439,13 +439,13 @@
 
         $(".updateBtn").click(function (e) {
             e.preventDefault();
-            var email = $("input[name='email']").val();
+            var name = $("input[name='name']").val();
             var pass = $("input[name='pass']").val();
 
             $.ajax({
-                url: "/UserHome/UpdateInfor",
+                url: "/User/UserHome/UpdateInfor",
                 method: "POST",
-                data: { email: email, pass: pass },
+                data: { name: name, pass: pass },
                 success: function (response) {
                     if (response.success) {
                         var redirectUrl = response.redirectUrl;
@@ -460,9 +460,6 @@
             });
         });
     });
-
-
-
 </script>
 
 
