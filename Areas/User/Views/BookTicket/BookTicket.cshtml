@@ -591,7 +591,8 @@
     //});
 
     
-    var roomName
+    var roomName, selectedRoomId
+    var isSelectScheduleTriggered = false
     
     function selectSchedule(selectedScheduleId, selectedDateId, selectedMovieId) {
         $.ajax({
@@ -607,12 +608,13 @@
                 seattextDiv.append(seattext)
                 $('.seat-container').append(seattextDiv)
                 console.log(results[0]);
+                roomName = results[0].RoomName
+                selectedRoomId = results[0].RoomId
                 var k = 0;
                 for (var i = 0; i < 8; i++) {
                     var rowchar = String.fromCharCode(65 + i); // chữ cái bắt đầu từ 'a'
                     var roomListRow = $('<div class="row align-items-center justify-content-center room-list"></div>')
                     roomListRow.append('<div class="col-md-1"><span>' + rowchar + '</span></div>')
-                    roomName = results[0].RoomName
                     for (var j = 0; j < 8; ++j) {
                         //var seat = seatList[i][k]
                         var seat = results[0].Seats[k];
@@ -646,66 +648,48 @@
                 $('.seat-container').append(screenDiv)
                 $('.seat-container').append(seatSttDiv)
 
-
+                var showtime = $('.chosen').text().trim();
+                var tabPaneId = $('.chosen').closest('.tab-pane').attr('id');
+                var dateListItem = $('#' + tabPaneId + '-li');
+                var dayOfWeek = dateListItem.find('span:first-child').text().trim();
+                var date = dateListItem.find('span:last-child').text().trim();
+                console.log(showtime, tabPaneId, dateListItem, dayOfWeek)
+                $('.ticket-selected-detail').html(
+                    '<div class="row">' +
+                    '<span>Ohayou Đà Nẵng - ' + roomName + '</span>' +
+                    '</div>' +
+                    '<div class="row d-inline-block">' +
+                    '<span>Suất: ' + showtime + '</span>' +
+                    '<span>' + dayOfWeek + ', ' + date + '/2024</span>' +
+                    '</div>'
+                )
             },
             error: function (err) {
                 console.log(err)
             }
         })
     }
-    //console.log(roomName)
-    $(document).on('click', '.time-btn .time-item', function (event) {
-        event.preventDefault();
-        var showtime = $(this).text().trim();
-        var tabPaneId = $(this).closest('.tab-pane').attr('id');
-        var dateListItem = $('#' + tabPaneId + '-li');
-        var dayOfWeek = dateListItem.find('span:first-child').text().trim();
-        var date = dateListItem.find('span:last-child').text().trim();
-        console.log(showtime, tabPaneId, dateListItem, dayOfWeek)
-        $('.ticket-selected-detail').html(
-            '<div class="row">' +
-            '<span>Ohayou Đà Nẵng - ' + 'đang lỗi' + '</span>' +
-            '</div>' +
-            '<div class="row d-inline-block">' +
-            '<span>Suất: ' + showtime + '</span>' +
-            '<span>' + dayOfWeek + ', ' + date + '/2024</span>' +
-            '</div>'
-        )
-    })
 
     var chosenSeats = []
+    var invoiceData
     function selectSeat(selectedSeatId, selectedScheduleId, selectedDateId, selectedMovieId) {
         var index = chosenSeats.indexOf(selectedSeatId)
         if (index === -1) {
+            if (chosenSeats.length < 6)
             // Nếu chưa được chọn, thêm ghế vào danh sách
-            chosenSeats.push(selectedSeatId);
+                chosenSeats.push(selectedSeatId);
         } else {
             // Nếu đã được chọn, loại bỏ ghế khỏi danh sách
             chosenSeats.splice(index, 1);
         }
         console.log(chosenSeats)
-
-        var invoiceData = {
+        
+        invoiceData = {
             scheduleId: selectedScheduleId,
             displaydateId: selectedDateId,
             movieId: selectedMovieId,
-            seats: chosenSeats
-            //totalPrice: parseInt($('#total-price').text())// Tổng giá tiền, loại bỏ ký tự không phải số
+            chosenSeat: chosenSeats
         };
-        console.log(invoiceData)
-        //$.ajax({
-        //    url: '/User/BookTicket/GetInvoice',
-        //    type: 'GET',
-        //    data: invoiceData,
-        //    success: function (data) {
-        //        console.log(data);
-        //        // Xử lý kết quả thành công
-        //    },
-        //    error: function (err) {
-        //        console.log(err);
-        //        // Xử lý lỗi
-        //    }
-        //});
     }
 
     $(document).on('click', '.time-list .time-btn a', function (event) {
@@ -765,21 +749,18 @@
         chosenSeat = chosenSeat.filter(seat => seat !== row + seatNum);
         $('#chosen-seats').text(chosenSeat.join(' '));
     }
-
-    var selectedSeats = []; // Mảng lưu trữ các ghế đã chọn
-
+    var countdownInterval;
     function continueBooking() {
-        // Lưu trạng thái các ghế đã chọn
-        saveSelectedSeatsToDatabase()
+        //saveSelectedSeatsToDatabase()
 
         // Bắt đầu bộ đếm ngược trong 5 phút (300000 milliseconds)
         var countdownTime = 300000; // 5 phút
-        var countdownInterval = setInterval(function () {
+        countdownInterval = setInterval(function () {
             countdownTime -= 1000; // Giảm thời gian đếm ngược mỗi giây
             if (countdownTime <= 0) {
                 clearInterval(countdownInterval); // Dừng bộ đếm ngược khi đến 0
                 // Xử lý khi hết thời gian đếm ngược, ví dụ: xóa trạng thái ghế đã chọn
-                resetSelectedSeats();
+                //resetSelectedSeats();
                 window.location.reload();
             }
             // Hiển thị thời gian đếm ngược trong giao diện người dùng
@@ -787,18 +768,9 @@
         }, 1000);
     }
 
-    function saveSelectedSeats() {
-        // Lưu trạng thái các ghế đã chọn vào mảng selectedSeats
-        selectedSeats = [];
-        $(".seat.selected").each(function () {
-            selectedSeats.push($(this).attr("id"));
-        });
-    }
-
-    function resetSelectedSeats() {
-        // Xóa trạng thái các ghế đã chọn khi hết thời gian đếm ngược
-        selectedSeats = [];
-        $(".seat.selected").removeClass("selected");
+    function resetCountdown() {
+        clearInterval(countdownInterval); // Dừng bộ đếm ngược nếu đang hoạt động
+        displayCountdownTime(300000); // Hiển thị thời gian ban đầu (5 phút)
     }
 
     function displayCountdownTime(time) {
@@ -820,26 +792,6 @@
             $("#timer-clock").text(countdownString);
         }
     }
-    function saveSelectedSeatsToDatabase() {
-        // Lấy danh sách các ghế đã chọn
-        var selectedSeats = [];
-        $(".seat.selected").each(function () {
-            selectedSeats.push($(this).attr("id"));
-        });
-
-        // Gửi yêu cầu AJAX để lưu trạng thái của các ghế đã chọn vào cơ sở dữ liệu
-        $.ajax({
-            url: '/User/BookTicket/SaveSelectedSeats',
-            type: 'POST',
-            data: { selectedSeats: selectedSeats },
-            success: function (response) {
-                console.log('Trạng thái các ghế đã được lưu vào cơ sở dữ liệu.');
-            },
-            error: function (err) {
-                console.error('Lỗi khi lưu trạng thái các ghế vào cơ sở dữ liệu:', err);
-            }
-        });
-    }
 
     // ấn tiếp tục thì chuyển sang trang thanh toán
     var buyTicketListData
@@ -847,6 +799,13 @@
         if ($(this).hasClass('.un-click')) {
             return
         }
+
+        var selectedMovieId = invoiceData.movieId;
+        var selectedDateId = invoiceData.displaydateId;
+        var selectedScheduleId = invoiceData.scheduleId;
+        console.log(chosenSeats)
+        sendBookingData(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats)
+        
         $('#navbar-item-3').addClass('navbar-colored')
         buyTicketListData = $('.buyticket-list').html()
         $('.continueBtn').find('span').text('Thanh toán')
@@ -900,47 +859,68 @@
                 '</div>' +
             '</div>' +
         '</div>');
-    // Thêm cấu trúc "Khuyến mãi" vào phần tử có class "row"
-    $('.buyticket-list').append(discountSection);
- })
-
- // ấn quay lại thì trở lại trang chọn phim
-    $(document).on('click', '.returnBtn', function (event) {
-        if (buyTicketListData) {
-            $('#navbar-item-3').removeClass('navbar-colored')
-            $('.buyticket-list').html(buyTicketListData);
-            $('.continueBtn').find('span').text('Tiếp tục')
-            buyTicketListData = '';
-        }
-        $(document).on('click', '.returnBtn', function (event) {
-            window.location.reload();
-        })
+        $('.buyticket-list').append(discountSection);
     })
 
+    //function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats) {
+    //    $.ajax({
+    //        url: '/User/BookTicket/GetInvoice',
+    //        type: 'GET',
+    //        data: {
+    //            movieId: movieId,
+    //            displaydateId: displaydateId,
+    //            scheduleId: scheduleId,
+    //            roomId: roomId,
+    //            chosenSeats: chosenSeats
+    //        },
+    //        success: function (response) {
+    //            /*window.location.href = ''*/ // Chuyển đến trang thanh toán
+    //        },
+    //        error: function (error) {
+    //            console.error('Error:', error);
+    //        }
+    //    });
+    //}
+    function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats) {
+        // Chuyển đổi mảng thành chuỗi JSON
+        var data = {
+            movieId: movieId,
+            displaydateId: displaydateId,
+            scheduleId: scheduleId,
+            roomId: roomId,
+            chosenSeats: chosenSeats
+        };
 
-    //$(document).ready(function () {
-    //    var MovieId = localStorage.getItem('selectedMovieId');
-    //    if (MovieId) {
-    //        $(".sub-movie-list1[data-movieId='" + MovieId + "']").trigger('click');
-    //        localStorage.removeItem('selectedMovieId');
-    //    }
-    //});
-    //$(document).ready(function () {
-    //    var DateId = localStorage.getItem('selectedDateId');
-    //    if (DateId) {
-    //        console.log(DateId)
-    //        $(".date-time-item[data-displaydateId='" + DateId + "']").trigger('click');
-    //        localStorage.removeItem('selectedDateId');
-    //    }
-    //});
-    //$(document).ready(function () {
-    //    var ScheduleId = localStorage.getItem('selectedScheduleId');
-    //    if (ScheduleId) {
-    //        console.log(ScheduleId)
-    //        $(".time-item[data-scheduleId='" + ScheduleId + "']").trigger('click');
-    //        localStorage.removeItem('selectedScheduleId');
-    //    }
-    //});
+        $.ajax({
+            url: '/User/BookTicket/GetInvoice',
+            type: 'POST', // Thay đổi phương thức thành POST để gửi dữ liệu JSON
+            contentType: 'application/json', // Chúng ta sẽ gửi dữ liệu dưới dạng JSON
+            data: JSON.stringify(data), // Gửi dữ liệu JSON
+            success: function (response) {
+                /*window.location.href = ''*/ // Chuyển đến trang thanh toán
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+
+ // ấn quay lại thì trở lại trang chọn phim
+        $(document).on('click', '.returnBtn', function (event) {
+            if (buyTicketListData) {
+                $('#navbar-item-3').removeClass('navbar-colored')
+                $('.buyticket-list').html(buyTicketListData);
+                $('.continueBtn').find('span').text('Tiếp tục')
+                buyTicketListData = '';
+                resetCountdown()
+            }
+            else {
+                window.location.reload();
+            }
+        })
+    
+
     $(document).ready(function () {
         var MovieId = localStorage.getItem('selectedMovieId');
         if (MovieId) {

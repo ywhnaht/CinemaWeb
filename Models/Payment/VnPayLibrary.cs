@@ -133,31 +133,22 @@ namespace CinemaWeb.Models
             return hash.ToString();
         }
 
-        public static string GetIpAddress(HttpContextBase context)
+        public static string GetIpAddress()
         {
-            var ipAddress = string.Empty;
+            string ipAddress;
             try
             {
-                var remoteIpAddress = context.Request.UserHostAddress;
+                ipAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
-                if (remoteIpAddress != null)
-                {
-                    if (remoteIpAddress.Contains(":")) // IPv6
-                    {
-                        remoteIpAddress = remoteIpAddress.Split(':').FirstOrDefault();
-                    }
-
-                    if (remoteIpAddress != null) ipAddress = remoteIpAddress;
-
-                    return ipAddress;
-                }
+                if (string.IsNullOrEmpty(ipAddress) || (ipAddress.ToLower() == "unknown") || ipAddress.Length > 45)
+                    ipAddress = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
             }
             catch (Exception ex)
             {
-                return "Invalid IP:" + ex.Message;
+                ipAddress = "Invalid IP:" + ex.Message;
             }
 
-            return "127.0.0.1";
+            return ipAddress;
         }
     }
 
