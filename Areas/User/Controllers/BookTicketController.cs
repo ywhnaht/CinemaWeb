@@ -1,5 +1,6 @@
 ﻿using CinemaWeb.App_Start;
 using CinemaWeb.Models;
+using CinemaWeb.Models.Services;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json.Linq;
 using System;
@@ -8,6 +9,7 @@ using System.Configuration;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Web;
 using System.Web.Mvc;
 using WebGrease.Css.Extensions;
@@ -17,13 +19,17 @@ namespace CinemaWeb.Areas.User.Controllers
     public class BookTicketController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
+        IVnPayService _vnPayService = new VnPayService();
+        public BookTicketController()
+        {
+        }
         // GET: User/BookTicket
 
         [UserAuthorize(roleId = 12)]
         public ActionResult BookTicket()
         {
             List<movy> movielist = db.movies.ToList();
-            DateTime currentDate = DateTime.Now.Date;
+            DateTime currentDate = DateTime.Now;
             ViewBag.currentDate = currentDate;
             foreach (var movie in movielist)
             {
@@ -31,9 +37,13 @@ namespace CinemaWeb.Areas.User.Controllers
                 {
                     movie.movie_status = true; // Đang chiếu
                 }
-                else
+                else if (movie.release_date > currentDate)
                 {
                     movie.movie_status = false; // Sắp chiếu
+                }
+                else
+                {
+                    movie.movie_status = null;
                 }
             }
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
@@ -102,16 +112,20 @@ namespace CinemaWeb.Areas.User.Controllers
         public ActionResult MovieDetail()
         {
             List<movy> movielist = db.movies.ToList();
-            DateTime currentDate = DateTime.Now.Date;
+            DateTime currentDate = DateTime.Now;
             foreach (var movie in movielist)
             {
                 if (movie.release_date <= currentDate && movie.end_date >= currentDate)
                 {
                     movie.movie_status = true; // Đang chiếu
                 }
-                else
+                else if (movie.release_date > currentDate)
                 {
                     movie.movie_status = false; // Sắp chiếu
+                }
+                else
+                {
+                    movie.movie_status = null;
                 }
             }
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
@@ -148,9 +162,29 @@ namespace CinemaWeb.Areas.User.Controllers
 
         //    return Json(new { success = true });
         //}
+        public ActionResult PaymentFail()
+        {
+            return View();
+        }
+        public ActionResult PaymentSuccess()
+        {
+            return View();
+        }
+
         public ActionResult VnPayReturn()
         {
-            var a = UrlPayment(1, 3);
+            //var response = _vnPayService.PaymentExecute(formCollection);
+            //if (response == null || response.VnPayResponseCode != "00")
+            //{
+            //    TempData["Message"] = $"Đã xảy ra lỗi khi thanh toán : {response.VnPayResponseCode}";
+            //    return RedirectToAction("BookTicket", "PaymentFail", new { area = "User" });
+            //}
+
+            //TempData["Message"] = $"Thanh toán thành công : {response.VnPayResponseCode}";
+
+            //return RedirectToAction("BookTicket", "PaymentSuccess", new { area = "User" });
+            var b = _vnPayService.CreatePaymentUrl(ControllerContext.HttpContext, db.invoices.FirstOrDefault(x => x.id == 3));
+            var a = UrlPayment(ControllerContext.HttpContext, 3);
             return View();
         }
 
@@ -168,6 +202,7 @@ namespace CinemaWeb.Areas.User.Controllers
             // Chuyển đổi chuỗi JSON thành đối tượng JObject
             JObject jsonObject = JObject.Parse(jsonData);
 
+            //return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, 4));
             // Lấy các giá trị từ đối tượng JObject
             int movieId = (int)jsonObject["movieId"];
             int displaydateId = (int)jsonObject["displaydateId"];
@@ -191,16 +226,15 @@ namespace CinemaWeb.Areas.User.Controllers
             db.invoices.Add(newInvoice);
             db.SaveChanges();
             newInvoice.total_money = CalculateTotalMoney(chosenSeats, newInvoice.id);
-            var url = UrlPayment(1, 3);
-            code = new { success = true, code = 1, Url = "" };
 
+            code = new { success = true, code = 1, Url = "" };
+            //var url = 
             db.SaveChanges();
 
             return Json(code);
 
             // Tiếp tục xử lý dữ liệu và trả về kết quả
         }
-        // Hàm để lấy room_schedule_detail_id dựa trên roomId, displaydateId, và scheduleId
         public int GetRoomScheduleDetailId(int roomId, int displaydateId, int scheduleId, int movieId)
         {
             var roomScheduleDetail = db.room_schedule_detail
@@ -243,10 +277,10 @@ namespace CinemaWeb.Areas.User.Controllers
         }
 
         #region
-        // Thanh toán vnpay
-        public string UrlPayment(int paymentType, int invoiceId)
+        //Thanh toán vnpay
+        public string UrlPayment(HttpContextBase contextBase, int invoiceId)
         {
-            var paymentUrl = "";
+            string paymentUrl = string.Empty;
             var invoiceDetail = db.invoices.FirstOrDefault(x => x.id == invoiceId);
 
             string vnp_Returnurl = ConfigurationManager.AppSettings["vnp_Returnurl"]; //URL nhan ket qua tra ve 
@@ -259,24 +293,13 @@ namespace CinemaWeb.Areas.User.Controllers
             vnpay.AddRequestData("vnp_Command", "pay");
             vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
             vnpay.AddRequestData("vnp_Amount", invoicePrice.ToString()); //Số tiền thanh toán. Số tiền không mang các ký tự phân tách thập phân, phần nghìn, ký tự tiền tệ. Để gửi số tiền thanh toán là 100,000 VND (một trăm nghìn VNĐ) thì merchant cần nhân thêm 100 lần (khử phần thập phân), sau đó gửi sang VNPAY là: 10000000
-            if (paymentType == 1)
-            {
-                vnpay.AddRequestData("vnp_BankCode", "VNPAYQR");
-            }
-            else if (paymentType == 2)
-            {
-                vnpay.AddRequestData("vnp_BankCode", "VNBANK");
-            }
-            else if (paymentType == 3)
-            {
-                vnpay.AddRequestData("vnp_BankCode", "INTCARD");
-            }
 
             vnpay.AddRequestData("vnp_CreateDate", invoiceDetail.day_create.Value.ToString("yyyyMMddHHmmss"));
             vnpay.AddRequestData("vnp_CurrCode", "VND");
-            vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress());
+            string ip = Utils.GetIpAddress(contextBase);
+            vnpay.AddRequestData("vnp_IpAddr", ip);
             vnpay.AddRequestData("vnp_Locale", "vn");
-            vnpay.AddRequestData("vnp_OrderInfor", "Thanh toán hóa đơn: " + invoiceDetail.id);
+            vnpay.AddRequestData("vnp_OrderInfor", "Thanh toán hóa đơn:" + invoiceDetail.id.ToString());
             vnpay.AddRequestData("vnp_OrderType", "other");
             vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
             vnpay.AddRequestData("vnp_TxnRef", invoiceDetail.id.ToString()); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày

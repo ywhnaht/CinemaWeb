@@ -18,16 +18,20 @@ namespace CinemaWeb.Controllers
         public ActionResult Index()
         {
             List<movy> movielist = db.movies.ToList();
-            DateTime currentDate = DateTime.Now.Date;
+            DateTime currentDate = DateTime.Now;
             foreach (var movie in movielist)
             {
                 if (movie.release_date <= currentDate && movie.end_date >= currentDate)
                 {
                     movie.movie_status = true; // Đang chiếu
                 }
-                else
+                else if (movie.release_date > currentDate)
                 {
                     movie.movie_status = false; // Sắp chiếu
+                }
+                else
+                {
+                    movie.movie_status = null;
                 }
             }
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();

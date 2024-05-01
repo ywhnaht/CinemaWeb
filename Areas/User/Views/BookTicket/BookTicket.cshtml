@@ -392,7 +392,7 @@
                     var date = new Date(milliseconds);
                     console.log(date)
                     console.log(currentDay)
-                    if (date.getMonth() > currentDay.getMonth() || date.getDate() >= currentDay.getDate()) {
+                    if (date.getMonth() > currentDay.getMonth() || date.getDate() >= currentDay.getDate() && date.getMonth() === currentDay.getMonth()) {
                         dayOfWeek = getDayOfWeek(date);
                         var display_date_id = results[i].id;
                         console.log(display_date_id)
