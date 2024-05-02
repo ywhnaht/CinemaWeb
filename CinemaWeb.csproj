@@ -312,6 +312,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\User\assets\css\movietype.css" />
     <Content Include="Areas\User\assets\css\moviedetail.css" />
     <Content Include="Areas\User\assets\css\profilestyle.css" />
     <Content Include="Areas\User\assets\css\bookticket.css" />
@@ -742,6 +743,8 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="FE_Q\actor.html" />
+    <Content Include="FE_Q\actordetail.html" />
     <Content Include="FE_Q\assets\css\bootstrap-grid.css" />
     <Content Include="FE_Q\assets\css\bootstrap-grid.min.css" />
     <Content Include="FE_Q\assets\css\bootstrap-grid.rtl.css" />
@@ -758,8 +761,13 @@
     <Content Include="FE_Q\assets\css\bootstrap.min.css" />
     <Content Include="FE_Q\assets\css\bootstrap.rtl.css" />
     <Content Include="FE_Q\assets\css\bootstrap.rtl.min.css" />
+    <Content Include="FE_Q\assets\css\directordetailstyle.css" />
+    <Content Include="FE_Q\assets\css\directorstyle.css" />
     <Content Include="FE_Q\assets\css\gueststyle.css" />
     <Content Include="FE_Q\assets\css\moviedetailstyle.css" />
+    <Content Include="FE_Q\assets\css\movietypestyle.css" />
+    <Content Include="FE_Q\assets\css\reviewdetailstyle.css" />
+    <Content Include="FE_Q\assets\css\reviewstyle.css" />
     <Content Include="FE_Q\assets\css\style.css" />
     <Content Include="FE_Q\assets\css\userstyle.css" />
     <Content Include="FE_Q\assets\fonts\themify-icons\demo-files\demo.css" />
@@ -1174,9 +1182,14 @@
     <Content Include="FE_Q\assets\js\moviedetailscript.js" />
     <Content Include="FE_Q\assets\js\scripts.js" />
     <Content Include="FE_Q\assets\js\userscript.js" />
+    <Content Include="FE_Q\director.html" />
+    <Content Include="FE_Q\directordetail.html" />
     <Content Include="FE_Q\guest.html" />
     <Content Include="FE_Q\login.html" />
     <Content Include="FE_Q\moviedetail.html" />
+    <Content Include="FE_Q\movietype.html" />
+    <Content Include="FE_Q\review.html" />
+    <Content Include="FE_Q\reviewdetail.html" />
     <Content Include="FE_Q\user.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -1269,6 +1282,7 @@
     <Content Include="Areas\Admin\Views\Index.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\PaymentSuccess.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\PaymentFail.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\MovieType.cshtml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

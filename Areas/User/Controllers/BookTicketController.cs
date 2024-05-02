@@ -20,12 +20,30 @@ namespace CinemaWeb.Areas.User.Controllers
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
         IVnPayService _vnPayService = new VnPayService();
+        public enum RoleName
+        {
+            AddMovie = 1, 
+            RemoveMovie = 2,
+            EditMovie = 3,
+            Statistical = 4,
+            AddRoom = 5,
+            RemoveRoom = 6,
+            AddSchedule = 7,
+            RemoveSchedule = 8,
+            AddStaff = 9,
+            RemoveStaff = 10,
+            RemoveUser = 11,
+            BookTicket = 12,
+            EditProfile = 13,
+            Payment = 14,
+            CheckIn = 15
+        }
         public BookTicketController()
         {
         }
         // GET: User/BookTicket
 
-        [UserAuthorize(roleId = 12)]
+        [UserAuthorize(roleId = (int)RoleName.BookTicket)]
         public ActionResult BookTicket()
         {
             List<movy> movielist = db.movies.ToList();
@@ -145,6 +163,61 @@ namespace CinemaWeb.Areas.User.Controllers
                         .Where(x => x.movie_id == movieId)
                         .ToList();
             ViewBag.movieDateList = movieDateList;
+            return View();
+        }
+
+        public ActionResult MovieType()
+        {
+            List<movy> movielist = db.movies.ToList();
+            DateTime currentDate = DateTime.Now;
+            foreach (var movie in movielist)
+            {
+                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
+                {
+                    movie.movie_status = true; // Đang chiếu
+                }
+                else if (movie.release_date > currentDate)
+                {
+                    movie.movie_status = false; // Sắp chiếu
+                }
+                else
+                {
+                    movie.movie_status = null;
+                }
+            }
+
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+            ViewBag.MovieList = movielist;
+
+
+            var segments = System.Web.HttpContext.Current.Request.Url.Segments;
+            var typeIdSegment = segments[segments.Length - 1].TrimEnd('/');
+            int? typeId = null;
+
+            // Kiểm tra nếu typeIdSegment không rỗng
+            if (!string.IsNullOrEmpty(typeIdSegment))
+            {
+                if (int.TryParse(typeIdSegment, out int tempTypeId))
+                {
+                    // Nếu typeIdSegment có thể chuyển thành int, gán giá trị cho typeId
+                    typeId = tempTypeId;
+                }
+            }
+
+            if (typeId != null)
+            {
+                // typeId có giá trị, tiếp tục xử lý
+                movielist = movielist.Where(x => x.type_id == typeId).ToList();
+            }
+            ViewBag.MovieListType = movielist;
+
+            var movieType = db.movie_type.ToList();
+            ViewBag.movieType = movieType;
+
+            var movieCountry = db.countries.ToList();
+            ViewBag.movieCountry = movieCountry;
+
+
             return View();
         }
 

@@ -14,6 +14,24 @@ namespace CinemaWeb.Areas.User.Controllers
     public class UserHomeController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
+        public enum RoleName
+        {
+            AddMovie = 1,
+            RemoveMovie = 2,
+            EditMovie = 3,
+            Statistical = 4,
+            AddRoom = 5,
+            RemoveRoom = 6,
+            AddSchedule = 7,
+            RemoveSchedule = 8,
+            AddStaff = 9,
+            RemoveStaff = 10,
+            RemoveUser = 11,
+            BookTicket = 12,
+            EditProfile = 13,
+            Payment = 14,
+            CheckIn = 15
+        }
         public ActionResult Index()
         {
             if (Session["user"] == null)
@@ -137,7 +155,7 @@ namespace CinemaWeb.Areas.User.Controllers
         }
 
         [HttpPost]
-        [UserAuthorize(roleId = 13)]        
+        [UserAuthorize(roleId = (int)RoleName.EditProfile)]        
         public ActionResult UpdateInfor(string name, string pass)
         {
             if (Session["user"] == null)
@@ -171,5 +189,7 @@ namespace CinemaWeb.Areas.User.Controllers
             var redirectUrl = Url.Action("UserProfile", "UserHome", new { area = "User" });
             return Json(new { success = true, redirectUrl = redirectUrl });
         }
+
+        
     }
 }
