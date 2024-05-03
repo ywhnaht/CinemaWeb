@@ -95,7 +95,12 @@ sudBtn.addEventListener('click',() => {
     sudBtn.classList.add('active');
 });
 
-document.querySelector('.playBtn').addEventListener('click', function() {
-    var playLink = document.getElementById('playLink').href;
-    window.location.href = playLink;
+
+function stopVideo() {
+    var iframe = document.querySelector('#trailer iframe');
+    iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+}
+document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('trailer');
+    modal.addEventListener('hidden.bs.modal', stopVideo);
 });
