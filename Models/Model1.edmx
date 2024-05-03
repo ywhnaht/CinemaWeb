@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Cinema_WebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="CinemaWebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="actor">
           <Key>
             <PropertyRef Name="id" />
@@ -115,6 +115,7 @@
           <Property Name="url_image" Type="varchar" MaxLength="255" />
           <Property Name="rating" Type="decimal" Precision="3" Scale="1" />
           <Property Name="url_trailer" Type="varchar" MaxLength="255" />
+          <Property Name="url_large_image" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="room">
           <Key>
@@ -575,7 +576,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Cinema_WebModelStoreContainer">
+        <EntityContainer Name="CinemaWebModelStoreContainer">
           <EntitySet Name="actor" EntityType="Self.actor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="country" EntityType="Self.country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="director" EntityType="Self.director" Schema="dbo" store:Type="Tables" />
@@ -717,7 +718,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Cinema_WebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="CinemaWebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="actor">
           <Key>
             <PropertyRef Name="id" />
@@ -846,6 +847,7 @@
           <Property Name="url_image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="rating" Type="Decimal" Precision="3" Scale="1" />
           <Property Name="url_trailer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="url_large_image" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="country" Relationship="Self.FK_movies_country_id" FromRole="movies" ToRole="country" />
           <NavigationProperty Name="director" Relationship="Self.FK_movies_director_id" FromRole="movies" ToRole="director" />
           <NavigationProperty Name="movie_actor" Relationship="Self.FK_movie_actor_movie_id" FromRole="movies" ToRole="movie_actor" />
@@ -1487,9 +1489,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Cinema_WebModelStoreContainer" CdmEntityContainer="Cinema_Web_Entities">
+        <EntityContainerMapping StorageEntityContainer="CinemaWebModelStoreContainer" CdmEntityContainer="Cinema_Web_Entities">
           <EntitySetMapping Name="actors">
-            <EntityTypeMapping TypeName="Cinema_WebModel.actor">
+            <EntityTypeMapping TypeName="CinemaWebModel.actor">
               <MappingFragment StoreEntitySet="actor">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="actor_name" ColumnName="actor_name" />
@@ -1497,7 +1499,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="countries">
-            <EntityTypeMapping TypeName="Cinema_WebModel.country">
+            <EntityTypeMapping TypeName="CinemaWebModel.country">
               <MappingFragment StoreEntitySet="country">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="country_name" ColumnName="country_name" />
@@ -1505,7 +1507,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="directors">
-            <EntityTypeMapping TypeName="Cinema_WebModel.director">
+            <EntityTypeMapping TypeName="CinemaWebModel.director">
               <MappingFragment StoreEntitySet="director">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="director_name" ColumnName="director_name" />
@@ -1513,7 +1515,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="discounts">
-            <EntityTypeMapping TypeName="Cinema_WebModel.discount">
+            <EntityTypeMapping TypeName="CinemaWebModel.discount">
               <MappingFragment StoreEntitySet="discount">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -1527,7 +1529,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="display_date">
-            <EntityTypeMapping TypeName="Cinema_WebModel.display_date">
+            <EntityTypeMapping TypeName="CinemaWebModel.display_date">
               <MappingFragment StoreEntitySet="display_date">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="display_date1" ColumnName="display_date" />
@@ -1535,7 +1537,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="invoices">
-            <EntityTypeMapping TypeName="Cinema_WebModel.invoice">
+            <EntityTypeMapping TypeName="CinemaWebModel.invoice">
               <MappingFragment StoreEntitySet="invoice">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -1549,7 +1551,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movie_actor">
-            <EntityTypeMapping TypeName="Cinema_WebModel.movie_actor">
+            <EntityTypeMapping TypeName="CinemaWebModel.movie_actor">
               <MappingFragment StoreEntitySet="movie_actor">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_id" ColumnName="movie_id" />
@@ -1558,7 +1560,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movie_display_date">
-            <EntityTypeMapping TypeName="Cinema_WebModel.movie_display_date">
+            <EntityTypeMapping TypeName="CinemaWebModel.movie_display_date">
               <MappingFragment StoreEntitySet="movie_display_date">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_id" ColumnName="movie_id" />
@@ -1567,7 +1569,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movie_review">
-            <EntityTypeMapping TypeName="Cinema_WebModel.movie_review">
+            <EntityTypeMapping TypeName="CinemaWebModel.movie_review">
               <MappingFragment StoreEntitySet="movie_review">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_id" ColumnName="movie_id" />
@@ -1583,7 +1585,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movie_type">
-            <EntityTypeMapping TypeName="Cinema_WebModel.movie_type">
+            <EntityTypeMapping TypeName="CinemaWebModel.movie_type">
               <MappingFragment StoreEntitySet="movie_type">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_type1" ColumnName="movie_type" />
@@ -1591,7 +1593,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="movies">
-            <EntityTypeMapping TypeName="Cinema_WebModel.movy">
+            <EntityTypeMapping TypeName="CinemaWebModel.movy">
               <MappingFragment StoreEntitySet="movies">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="title" ColumnName="title" />
@@ -1607,11 +1609,12 @@
                 <ScalarProperty Name="url_image" ColumnName="url_image" />
                 <ScalarProperty Name="rating" ColumnName="rating" />
                 <ScalarProperty Name="url_trailer" ColumnName="url_trailer" />
+                <ScalarProperty Name="url_large_image" ColumnName="url_large_image" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rooms">
-            <EntityTypeMapping TypeName="Cinema_WebModel.room">
+            <EntityTypeMapping TypeName="CinemaWebModel.room">
               <MappingFragment StoreEntitySet="room">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="room_name" ColumnName="room_name" />
@@ -1620,7 +1623,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="room_schedule_detail">
-            <EntityTypeMapping TypeName="Cinema_WebModel.room_schedule_detail">
+            <EntityTypeMapping TypeName="CinemaWebModel.room_schedule_detail">
               <MappingFragment StoreEntitySet="room_schedule_detail">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
@@ -1629,7 +1632,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="schedules">
-            <EntityTypeMapping TypeName="Cinema_WebModel.schedule">
+            <EntityTypeMapping TypeName="CinemaWebModel.schedule">
               <MappingFragment StoreEntitySet="schedule">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="schedule_time" ColumnName="schedule_time" />
@@ -1637,7 +1640,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="schedule_detail">
-            <EntityTypeMapping TypeName="Cinema_WebModel.schedule_detail">
+            <EntityTypeMapping TypeName="CinemaWebModel.schedule_detail">
               <MappingFragment StoreEntitySet="schedule_detail">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_display_date_id" ColumnName="movie_display_date_id" />
@@ -1646,7 +1649,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="seats">
-            <EntityTypeMapping TypeName="Cinema_WebModel.seat">
+            <EntityTypeMapping TypeName="CinemaWebModel.seat">
               <MappingFragment StoreEntitySet="seat">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
@@ -1658,7 +1661,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="star_rating">
-            <EntityTypeMapping TypeName="Cinema_WebModel.star_rating">
+            <EntityTypeMapping TypeName="CinemaWebModel.star_rating">
               <MappingFragment StoreEntitySet="star_rating">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="rating_value" ColumnName="rating_value" />
@@ -1668,7 +1671,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="Cinema_WebModel.sysdiagram">
+            <EntityTypeMapping TypeName="CinemaWebModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1679,7 +1682,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tickets">
-            <EntityTypeMapping TypeName="Cinema_WebModel.ticket">
+            <EntityTypeMapping TypeName="CinemaWebModel.ticket">
               <MappingFragment StoreEntitySet="ticket">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="seat_id" ColumnName="seat_id" />
@@ -1690,7 +1693,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_profile">
-            <EntityTypeMapping TypeName="Cinema_WebModel.user_profile">
+            <EntityTypeMapping TypeName="CinemaWebModel.user_profile">
               <MappingFragment StoreEntitySet="user_profile">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
@@ -1701,7 +1704,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_role">
-            <EntityTypeMapping TypeName="Cinema_WebModel.user_role">
+            <EntityTypeMapping TypeName="CinemaWebModel.user_role">
               <MappingFragment StoreEntitySet="user_role">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="ur_url" ColumnName="ur_url" />
@@ -1714,7 +1717,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_type">
-            <EntityTypeMapping TypeName="Cinema_WebModel.user_type">
+            <EntityTypeMapping TypeName="CinemaWebModel.user_type">
               <MappingFragment StoreEntitySet="user_type">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="ut_name" ColumnName="ut_name" />
@@ -1723,7 +1726,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="user_type_user_role">
-            <EntityTypeMapping TypeName="Cinema_WebModel.user_type_user_role">
+            <EntityTypeMapping TypeName="CinemaWebModel.user_type_user_role">
               <MappingFragment StoreEntitySet="user_type_user_role">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_type_id" ColumnName="user_type_id" />
@@ -1732,7 +1735,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="users">
-            <EntityTypeMapping TypeName="Cinema_WebModel.user">
+            <EntityTypeMapping TypeName="CinemaWebModel.user">
               <MappingFragment StoreEntitySet="users">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="full_name" ColumnName="full_name" />

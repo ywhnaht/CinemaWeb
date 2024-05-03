@@ -15,21 +15,30 @@ namespace CinemaWeb.Controllers
     public class HomeController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
-        public ActionResult Index()
+        public void GetMovieStatus(List<movy> movielist)
         {
-            List<movy> movielist = db.movies.ToList();
-            DateTime currentDate = DateTime.Now.Date;
-            foreach (var movie in movielist)
+            DateTime currentDate = DateTime.Now;
+            foreach (movy movie in movielist)
             {
                 if (movie.release_date <= currentDate && movie.end_date >= currentDate)
                 {
                     movie.movie_status = true; // Đang chiếu
                 }
-                else
+                else if (movie.release_date > currentDate)
                 {
                     movie.movie_status = false; // Sắp chiếu
                 }
+                else
+                {
+                    movie.movie_status = null;
+                }
             }
+        }
+        public ActionResult Index()
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
             return View();
         }
@@ -52,8 +61,21 @@ namespace CinemaWeb.Controllers
             {
                if (user.user_password == pass)
                 {
-                    Session["user"] = user;
-                    return RedirectToAction("Index", "UserHome", new { area = "User" });
+                    if (user.user_type == 1)
+                    {
+                        Session["user"] = user;
+                        return RedirectToAction("Index", "UserHome", new { area = "User" });
+                    }
+                    else if (user.user_type == 2)
+                    {
+                        Session["admin"] = user;
+                        return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
+                    }
+                    else
+                    {
+                        Session["staff"] = user;
+                        return RedirectToAction("Index", "StaffHome", new { area = "Staff" });
+                    }
                 }
                else
                 {
@@ -97,6 +119,7 @@ namespace CinemaWeb.Controllers
                 }
                 else
                 {
+                    if (newUser.user_type == null) newUser.user_type = 1;
                     newUser.full_name = name;
                     newUser.email = email;
                     newUser.date_of_birth = dateofbirth;

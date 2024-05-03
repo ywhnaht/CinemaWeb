@@ -9,12 +9,14 @@
             if (movie.movie_status == true && count < 4)
             {
                 <div class="col-md-3 sub-movie-list">
-                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                    <button class="buy-ticket-btn btn">
-                        <i class="ti-ticket"></i>
-                        Mua vé
-                    </button>
-                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                    <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                        <button class="buy-ticket-btn btn">
+                            <i class="ti-ticket"></i>
+                            Mua vé
+                        </button>
+                        <span>@movie.title</span>
+                    </a>
                 </div>
                 count++;
             }
@@ -29,13 +31,15 @@
         {
             if (movie.movie_status == true)
             {
-                <div class="col-md-3 sub-movie-list">
-                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                    <button class="buy-ticket-btn btn">
-                        <i class="ti-ticket"></i>
-                        Mua vé
-                    </button>
-                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                <div class="col-md-3 sub-movie-list1">
+                    <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                        <button class="buy-ticket-btn btn">
+                            <i class="ti-ticket"></i>
+                            Mua vé
+                        </button>
+                        <span>@movie.title</span>
+                    </a>
                 </div>
             }
         }
@@ -51,12 +55,14 @@
             if (movie.movie_status == false && count < 4)
             {
                 <div class="col-md-3 sub-movie-list">
-                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                    <button class="buy-ticket-btn btn">
-                        <i class="ti-ticket"></i>
-                        Mua vé
-                    </button>
-                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                    <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                        <button class="buy-ticket-btn btn">
+                            <i class="ti-ticket"></i>
+                            Mua vé
+                        </button>
+                        <span>@movie.title</span>
+                    </a>
                 </div>
                 count++;
             }
@@ -71,13 +77,15 @@
         {
             if (movie.movie_status == false)
             {
-                <div class="col-md-3 sub-movie-list">
-                    <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                    <button class="buy-ticket-btn btn">
-                        <i class="ti-ticket"></i>
-                        Mua vé
-                    </button>
-                    <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                <div class="col-md-3 sub-movie-list1">
+                    <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                        <button class="buy-ticket-btn btn">
+                            <i class="ti-ticket"></i>
+                            Mua vé
+                        </button>
+                        <span>@movie.title</span>
+                    </a>
                 </div>
             }
         }

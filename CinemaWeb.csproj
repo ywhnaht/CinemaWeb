@@ -47,12 +47,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=6.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>packages\Autofac.6.4.0\lib\netstandard2.0\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=6.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>packages\Autofac.Mvc5.6.1.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -166,7 +194,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AdminAuthorize.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\UserAuthorize.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -250,6 +280,8 @@
     <Compile Include="Models\seat.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Services\IVnPayService.cs" />
+    <Compile Include="Models\Services\VnPayService.cs" />
     <Compile Include="Models\star_rating.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -274,10 +306,14 @@
     <Compile Include="Models\user_type_user_role.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Payment\VnPayLibrary.cs" />
+    <Compile Include="Models\VnPaymentResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\User\assets\css\movietype.css" />
+    <Content Include="Areas\User\assets\css\moviedetail.css" />
     <Content Include="Areas\User\assets\css\profilestyle.css" />
     <Content Include="Areas\User\assets\css\bookticket.css" />
     <Content Include="Areas\User\assets\css\userstyle.css" />
@@ -297,10 +333,12 @@
     <Content Include="Areas\User\assets\css\bootstrap.min.css" />
     <Content Include="Areas\User\assets\css\bootstrap.rtl.css" />
     <Content Include="Areas\User\assets\css\bootstrap.rtl.min.css" />
+    <Content Include="Areas\User\assets\images\btn\button-play.2f9c0030.png" />
     <Content Include="Areas\User\assets\images\logo\gold.ff661579.png" />
     <Content Include="Areas\User\assets\images\logo\icon-gift.190935e4.png" />
     <Content Include="Areas\User\assets\images\logo\logomini.png" />
     <Content Include="Areas\User\assets\images\logo\silver.6313aa20.png" />
+    <Content Include="Areas\User\assets\js\moviedetail.js" />
     <Content Include="Areas\User\assets\js\profilescript.js" />
     <Content Include="Areas\User\assets\js\bookticket.js" />
     <Content Include="Areas\User\assets\js\userscripts.js" />
@@ -666,6 +704,7 @@
     <Content Include="assets\font\themify-icons\SVG\zoom-in.svg" />
     <Content Include="assets\font\themify-icons\SVG\zoom-out.svg" />
     <Content Include="assets\font\themify-icons\themify-icons.css" />
+    <Content Include="assets\images\movie\exhumangang.jpg" />
     <Content Include="assets\images\movie\unname-movie.svg" />
     <Content Include="assets\images\subimg\account.png" />
     <Content Include="assets\images\subimg\btn-ticket.png" />
@@ -704,6 +743,8 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="FE_Q\actor.html" />
+    <Content Include="FE_Q\actordetail.html" />
     <Content Include="FE_Q\assets\css\bootstrap-grid.css" />
     <Content Include="FE_Q\assets\css\bootstrap-grid.min.css" />
     <Content Include="FE_Q\assets\css\bootstrap-grid.rtl.css" />
@@ -720,8 +761,13 @@
     <Content Include="FE_Q\assets\css\bootstrap.min.css" />
     <Content Include="FE_Q\assets\css\bootstrap.rtl.css" />
     <Content Include="FE_Q\assets\css\bootstrap.rtl.min.css" />
+    <Content Include="FE_Q\assets\css\directordetailstyle.css" />
+    <Content Include="FE_Q\assets\css\directorstyle.css" />
     <Content Include="FE_Q\assets\css\gueststyle.css" />
     <Content Include="FE_Q\assets\css\moviedetailstyle.css" />
+    <Content Include="FE_Q\assets\css\movietypestyle.css" />
+    <Content Include="FE_Q\assets\css\reviewdetailstyle.css" />
+    <Content Include="FE_Q\assets\css\reviewstyle.css" />
     <Content Include="FE_Q\assets\css\style.css" />
     <Content Include="FE_Q\assets\css\userstyle.css" />
     <Content Include="FE_Q\assets\fonts\themify-icons\demo-files\demo.css" />
@@ -1084,18 +1130,45 @@
     <Content Include="FE_Q\assets\fonts\themify-icons\SVG\zoom-out.svg" />
     <Content Include="FE_Q\assets\fonts\themify-icons\themify-icons.css" />
     <Content Include="FE_Q\assets\images\account.png" />
+    <Content Include="FE_Q\assets\images\actor\lee-byung-hun-dung-tai-nang-tay-trang-bao-be-boi-5_1660990556413.jpg" />
+    <Content Include="FE_Q\assets\images\actor\lee-byung-hun-dung-tai-nang-tay-trang-bao-be-boi-7_1660990564989.jpg" />
+    <Content Include="FE_Q\assets\images\actor\ma-dong-seok4_1599204363952.png" />
+    <Content Include="FE_Q\assets\images\actor\ma-dong-seok5_1599204450802.png" />
+    <Content Include="FE_Q\assets\images\actor\ma-dong-seok6_1599204825651.jpg" />
+    <Content Include="FE_Q\assets\images\actor\ma-dong-seok7_1599204789702.jpg" />
+    <Content Include="FE_Q\assets\images\actor\ma-dong-seok8_1599204758882.jpg" />
     <Content Include="FE_Q\assets\images\btn-ticket.png" />
     <Content Include="FE_Q\assets\images\button-play.2f9c0030.png" />
     <Content Include="FE_Q\assets\images\cinema-logo.png" />
+    <Content Include="FE_Q\assets\images\director\75ee82f4d66dc6458306b811aff66370a269cd9d_1599240814983.jpg" />
+    <Content Include="FE_Q\assets\images\director\aquaman-750_1703216431428.jpg" />
+    <Content Include="FE_Q\assets\images\director\james-wan-1_1640143202218.jpeg" />
+    <Content Include="FE_Q\assets\images\director\james-wan-1_1640143206298.jpg" />
+    <Content Include="FE_Q\assets\images\director\james-wan-2_1640143104851.jpg" />
+    <Content Include="FE_Q\assets\images\director\james-wan-3_1640143119922.jpg" />
+    <Content Include="FE_Q\assets\images\director\james-wan-premiere-death-sentence-01.jpg" />
+    <Content Include="FE_Q\assets\images\director\lebaotrung.jpg" />
+    <Content Include="FE_Q\assets\images\director\malignant-james-wan-4_1634895384659.jpg" />
+    <Content Include="FE_Q\assets\images\director\the-conjuring-2-banner-preview.jpg" />
+    <Content Include="FE_Q\assets\images\director\wan1.jpg" />
     <Content Include="FE_Q\assets\images\gold.ff661579.png" />
     <Content Include="FE_Q\assets\images\gstar.svg" />
     <Content Include="FE_Q\assets\images\icon-gift.190935e4.png" />
     <Content Include="FE_Q\assets\images\logomini.png" />
     <Content Include="FE_Q\assets\images\movie.pnj.svg" />
+    <Content Include="FE_Q\assets\images\movie\24_1.png" />
+    <Content Include="FE_Q\assets\images\movie\450x300_1685674204080.jpg" />
+    <Content Include="FE_Q\assets\images\movie\cai-gia-cua-hanh-phuc-1_1712733174711.jpg" />
     <Content Include="FE_Q\assets\images\movie\dune-2.jpg" />
     <Content Include="FE_Q\assets\images\movie\exhuma.jpg" />
+    <Content Include="FE_Q\assets\images\movie\exhumangang.jpg" />
+    <Content Include="FE_Q\assets\images\movie\ghostbusters-frozen-empire-750_1712719795646.jpg" />
+    <Content Include="FE_Q\assets\images\movie\god-x-kong-750_1711942287259.jpg" />
     <Content Include="FE_Q\assets\images\movie\kungfu-panda-4.jpg" />
+    <Content Include="FE_Q\assets\images\movie\ma-dong-seok5_1599204402167.png" />
     <Content Include="FE_Q\assets\images\movie\qu-co-thua-ke-2.jpg" />
+    <Content Include="FE_Q\assets\images\movie\roundup-750_1713513441808.jpg" />
+    <Content Include="FE_Q\assets\images\movie\trum-com-ac-quy6_1558682370589.jpg" />
     <Content Include="FE_Q\assets\images\silver.6313aa20.png" />
     <Content Include="FE_Q\assets\images\slider\demonslayer.jpg" />
     <Content Include="FE_Q\assets\images\slider\exhuma.jpg" />
@@ -1109,9 +1182,14 @@
     <Content Include="FE_Q\assets\js\moviedetailscript.js" />
     <Content Include="FE_Q\assets\js\scripts.js" />
     <Content Include="FE_Q\assets\js\userscript.js" />
+    <Content Include="FE_Q\director.html" />
+    <Content Include="FE_Q\directordetail.html" />
     <Content Include="FE_Q\guest.html" />
     <Content Include="FE_Q\login.html" />
     <Content Include="FE_Q\moviedetail.html" />
+    <Content Include="FE_Q\movietype.html" />
+    <Content Include="FE_Q\review.html" />
+    <Content Include="FE_Q\reviewdetail.html" />
     <Content Include="FE_Q\user.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -1132,7 +1210,6 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\User\Views\web.config" />
     <Content Include="Areas\Admin\Views\AdminHome\Index.cshtml" />
     <Content Include="Areas\User\assets\css\bootstrap-grid.css.map" />
     <Content Include="Areas\User\assets\css\bootstrap-grid.min.css.map" />
@@ -1192,6 +1269,7 @@
     <Content Include="Areas\User\Views\UserHome\UserProfile.cshtml" />
     <Content Include="Areas\User\Views\UserHome\HistoryTicket.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\BookTicket.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\MovieDetail.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -1199,6 +1277,13 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\User\Views\BookTicket\VnPayReturn.cshtml" />
+    <Content Include="Areas\User\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Index.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\PaymentSuccess.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\PaymentFail.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\MovieType.cshtml" />
+    <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1229,7 +1314,6 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />

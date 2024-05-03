@@ -107,7 +107,7 @@
     top: calc(100% + 0.5px);
     left: -30px;
     position: absolute;
-    z-index: 2;
+    z-index: 4;
     background-color: #fff;
     list-style-type: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -233,7 +233,7 @@
 
 .buyticket-container {
     background-color: rgb(249 249 249 / 1);
-    height: 60rem;
+    max-height: 100%;
 }
 
 .choose-area {
@@ -438,8 +438,23 @@
     margin-top: 35px;
 }
 
+#countdown-timer {
+    padding-bottom: 1rem;
+}
+
+#timer-clock {
+    color: #f58020;
+    font-weight: 600;
+}
+
+.timer-text {
+
+}
+
 .returnBtn {
     color: #f58020;
+    border: none;
+    background-color: rgb(249 249 249 / 1);
 }
 
     .returnBtn:hover {
@@ -447,18 +462,22 @@
     }
 
 .return-item {
-    padding-left: 60px;
+    padding-left: 60px; 
 }
 
 .continueBtn {
     color: #fff !important;
-    background-color: #F26B38 !important;
-    cursor: pointer !important;
+    background-color: rgb(245 128 32 / 1) !important ;
     border: 1px solid transparent;
+    cursor: pointer !important;
     border-radius: 8px;
     font-weight: 500;
     letter-spacing: 0.5px;
     padding: 8px 30px;
+}
+
+.un-click {
+    pointer-events: none !important;
 }
 
 .time-btn a {
@@ -474,7 +493,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    transform: translateY(110%);
+    transform: translateY(106%);
     background-color: #fff;
     box-shadow: 0 0 8px #ccc;
     z-index: 3;
@@ -521,6 +540,13 @@
     margin-bottom: 2rem;
 }
 
+.disabled-hover:hover {
+    pointer-events: none !important;
+    background-color: #d0d0d0 !important;
+    cursor: none !important;
+}
+
+
 .seat-selecting:hover {
     background-color: #f58020;
 }
@@ -556,4 +582,35 @@
 
 .prevent-click {
     pointer-events: none;
+}
+
+.discount-area {
+    display: grid;
+}
+
+.discount-text {
+    font-size: 20px;
+    color: #4a4a4a;
+    font-weight: 500;
+}
+
+.name-text {
+    font-weight: 600;
+    font-size: 14px;
+    color: #4a4a4a;
+    text-decoration: none;
+}
+
+    .name-text:hover {
+        color: #4a4a4a;
+    }
+
+.chose-btn {
+    background-color: #F26B38;
+    color: #fff;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
 }

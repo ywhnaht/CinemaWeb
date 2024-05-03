@@ -9,7 +9,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CinemaWeb.Models;
-using System.Security.Claims;
 using System.Web.Helpers;
 
 namespace CinemaWeb.Controllers

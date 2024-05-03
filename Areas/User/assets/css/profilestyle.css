@@ -34,7 +34,7 @@
 }
 
     .list-group-item:last-child {
-        border-right: none;
+        /*border-right: none;*/
     }
 
 .list-gr-1 {
@@ -62,7 +62,7 @@
     top: calc(100% + 0.5px);
     left: -35px;
     position: absolute;
-    z-index: 2;
+    z-index: 4;
     background-color: #fff;
     line-height: 2.4;
     list-style-type: none;
@@ -116,7 +116,8 @@
 }
 
 .img-movie {
-    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
     transition: filter 0.3s ease;
 }
 
@@ -494,10 +495,10 @@
     display: flex;
 }
 
-.ticket-space {
+/*.ticket-space {
     margin-right: 5px;
 }
-
+*/
 .ticket-more-detail a {
     font-size: 14px;
     font-weight: 500;

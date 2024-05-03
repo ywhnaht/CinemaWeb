@@ -2,10 +2,8 @@
 
 @{
     CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
-    if (currentUser == null)
-    {
-        Response.Redirect("~/Home/SignIn");
-    }
+    DateTime currentDate = DateTime.Now;
+    DateTime previousMonthYear = DateTime.MinValue;
 }
 
 <!DOCTYPE html>
@@ -25,14 +23,14 @@
         <div class="container-fluid  p-4">
             <div class="row align-items-center">
                 <div class="col-md-2 px-5 py-1">
-                    <a href="" class="navbar-brand">
+                    <a href="/User/UserHome/" class="navbar-brand">
                         <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
                 <div class="col-md-2 buyticket-area">
-                    <button type="button" class="buyticket-btn btn">
+                    <a href="/User/BookTicket/BookTicket" class="buyticket-btn btn">
                         <img src="~/assets/images/subimg/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
-                    </button>
+                    </a>
                 </div>
                 <div class="col-md-4">
                     <ul class="list-gr-1 list-group list-group-horizontal">
@@ -54,12 +52,14 @@
                                                 if (movie.movie_status == true && count < 4)
                                                 {
                                                     <div class="col-md-3 sub-movie-list">
-                                                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                                                        <button class="buy-ticket-btn btn">
-                                                            <i class="ti-ticket"></i>
-                                                            Mua vé
-                                                        </button>
-                                                        <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                                                        <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                                                            <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                            <button class="buy-ticket-btn btn">
+                                                                <i class="ti-ticket"></i>
+                                                                Mua vé
+                                                            </button>
+                                                            <span>@movie.title</span>
+                                                        </a>
                                                     </div>
                                                     count++;
                                                 }
@@ -82,12 +82,14 @@
                                                 if (movie.movie_status == false && count < 4)
                                                 {
                                                     <div class="col-md-3 sub-movie-list">
-                                                        <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                                                        <button class="buy-ticket-btn btn">
-                                                            <i class="ti-ticket"></i>
-                                                            Mua vé
-                                                        </button>
-                                                        <a href="#" class="text-dark-emphasis movie-name">@movie.title</a>
+                                                        <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                                                            <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                            <button class="buy-ticket-btn btn">
+                                                                <i class="ti-ticket"></i>
+                                                                Mua vé
+                                                            </button>
+                                                            <span>@movie.title</span>
+                                                        </a>
                                                     </div>
                                                     count++;
                                                 }
@@ -102,7 +104,7 @@
                             Góc Điện Ảnh
                             <i class="ti-angle-down down-btn"></i>
                             <ul class="sub-list-gr-1 list-group">
-                                <li><a href="#">Thể loại phim</a></li>
+                                <li><a href="/User/BookTicket/MovieType">Thể loại phim</a></li>
                                 <li><a href="#">Diễn viên</a></li>
                                 <li><a href="#">Đạo diễn</a></li>
                                 <li><a href="#">Bình luận phim</a></li>
@@ -197,11 +199,11 @@
                 <div class="row total-spent">
                     <div class="row justify-content-center fw-medium total-money">
                         <div class="col-auto">
-                            <span class="total-money-text">Tổng chi tiêu 2024</span>
+                            <span>Tổng chi tiêu @currentDate.Year</span>
                         </div>
-                        <div class="col-auto">
-                            <span class="total-money-text">
-                                0
+                        <div class="col-auto total-money-text" style="padding-right: 2rem">
+                            <span>
+                                @ViewBag.totalSpent
                             </span>
                             <i class="fa-solid fa-dong-sign"></i>
                         </div>
@@ -271,106 +273,85 @@
                             <div class="row text-center notice-text">
                                 <span>Lưu ý: chỉ hiển thị 10 giao dịch gần nhất</span>
                             </div>
-                            <div class="row text-center ticket-month">
-                                <span>Tháng 3/2024</span>
-                            </div>
-                            <div class="row ticket-detail">
-                                <div class="bg-white ticket-container align-items-center">
-                                    <div class="col-md-1 history-img">
-                                        <img src="~/assets/images/movie/exhuma.jpg" alt="">
+                            @foreach (var invoiceitem in ViewBag.invoiceList)
+                            {
+                                DateTime currentMonthYear = new DateTime(invoiceitem.day_create.Year, invoiceitem.day_create.Month, 1);
+                                bool sameMonthYear = currentMonthYear == previousMonthYear;
+
+                                if (!sameMonthYear)
+                                {
+                                    <div class="row text-center ticket-month">
+                                        <span>Tháng @invoiceitem.day_create.ToString("MM/yyyy")</span>
                                     </div>
-                                    <div class="col-md-4 ticket-movie-name">
-                                        <span>Exhuma: Quật mộ trùng ma</span>
+                                }
+
+                                <div class="row ticket-detail">
+                                    <div class="bg-white ticket-container align-items-center">
+                                        <div class="col-md-1 history-img">
+                                            <img src="@invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.movy.url_image" alt="">
+                                        </div>
+                                        <div class="col-md-5 ticket-movie-name">
+                                            <span>@invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.movy.title</span>
+                                        </div>
+                                        <div class="col-md-3 ticket-time-detail">
+                                            <span>@invoiceitem.room_schedule_detail.schedule_detail.schedule.schedule_time.ToString(@"hh\:mm")</span>
+                                            &nbsp;
+                                            <span>@invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.DayOfWeek</span>
+                                            <span>, @invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                        <div class="col-md-2 ticket-more-detail">
+                                            <a href="@($"#invoice-{invoiceitem.id}")" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#" aria-expanded="false">Chi tiết</a>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4 ticket-time-detail">
-                                        <span>20:00h Chủ nhật</span>
-                                        <span>, 09/04/2024</span>
-                                    </div>
-                                    <div class="col-md-2 ticket-more-detail">
-                                        <a href="#detail1" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail1" aria-expanded="false">Chi tiết</a>
-                                    </div>
-                                </div>
-                                <div class="modal" id="detail1">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="col ticket-wrapper">
-                                                <div class="row1">
-                                                    <img src="~/assets/images/movie/exhuma.jpg" alt="">
-                                                    <p>Exhuma: Quật mộ trùng ma</p>
-                                                </div>
-                                                <div class="row2">
-                                                    <p>Ohayou cenima</p>
-                                                    <p>Suất 20:00 Thứ ba, 09/04/2024</p>
-                                                </div>
-                                                <div class="row3">
-                                                    <p class="p">Ghế</p>
-                                                    <p>D5, D6</p>
-                                                </div>
-                                                <div class="row4">
-                                                    <div class="col">
-                                                        <p class="p">Mã vé</p>
-                                                        <p>WJHC3B5</p>
+                                    <div class="modal" id="@($"invoice-{invoiceitem.id}")">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="col ticket-wrapper">
+                                                    <div class="row1">
+                                                        <img src="@invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.movy.url_image" alt="">
+                                                        <p>@invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.movy.title</p>
                                                     </div>
-                                                    <div class="col">
-                                                        <p class="p">Giá</p>
-                                                        <p>100.000đ</p>
+                                                    <div class="row2">
+                                                        <p>Ohayou Cinema</p>
+                                                        <p>
+                                                            Suất @invoiceitem.room_schedule_detail.schedule_detail.schedule.schedule_time.ToString(@"hh\:mm")
+                                                            @invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.DayOfWeek,
+                                                            @invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.ToString("dd/MM/yyyy")
+                                                        </p>
+                                                    </div>
+                                                    <div class="row3">
+                                                        <p class="p">Ghế</p>
+                                                        @foreach (var ticketitem in invoiceitem.tickets)
+                                                        {
+                                                            if (ticketitem.seat.room_id == invoiceitem.room_schedule_detail.room_id)
+                                                            {
+                                                                <div class="d-inline-block">
+                                                                    <span>@ticketitem.seat.seat_column@ticketitem.seat.seat_row</span>
+                                                                    <span class="ticket-space"></span>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="row4">
+                                                        <div class="col">
+                                                            <p class="p">Mã hóa đơn</p>
+                                                            <p>@invoiceitem.id</p>
+                                                        </div>
+                                                        <div class="col">
+                                                            <p class="p">Giá</p>
+                                                            <p>
+                                                                @invoiceitem.total_money
+                                                                <i class="fa-solid fa-dong-sign"></i>
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row text-center ticket-month">
-                                <span>Tháng 2/2024</span>
-                            </div>
-                            <div class="row ticket-detail">
-                                <div class="bg-white ticket-container align-items-center">
-                                    <div class="col-md-1 history-img">
-                                        <img src="~/assets/images/movie/exhuma.jpg" alt="">
-                                    </div>
-                                    <div class="col-md-4 ticket-movie-name">
-                                        Exhuma: Quật mộ trùng ma
-                                    </div>
-                                    <div class="col-md-4 ticket-time-detail">
-                                        <span>20:00h Thứ ba, </span>
-                                        <span>09/04/2024</span>
-                                    </div>
-                                    <div class="col-md-2 ticket-more-detail">
-                                        <a href="#detail2" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#detail2" aria-expanded="false">Chi tiết</a>
-                                    </div>
-                                </div>
-                                <div class="modal" id="detail2">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="col ticket-wrapper">
-                                                <div class="row1">
-                                                    <img src="~/assets/images/movie/exhuma.jpg" alt="">
-                                                    <p>Exhuma: Quật mộ trùng ma</p>
-                                                </div>
-                                                <div class="row2">
-                                                    <p>Ohayou cenima</p>
-                                                    <p>Suất 20:00 Thứ ba, 09/04/2024</p>
-                                                </div>
-                                                <div class="row3">
-                                                    <p class="p">Ghế</p>
-                                                    <p>D5, D6</p>
-                                                </div>
-                                                <div class="row4">
-                                                    <div class="col">
-                                                        <p class="p">Mã vé</p>
-                                                        <p>WJHC3B5</p>
-                                                    </div>
-                                                    <div class="col">
-                                                        <p class="p">Giá</p>
-                                                        <p>100.000đ</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                previousMonthYear = currentMonthYear;
+                            }
                         </div>
                         <div class="tab-pane active py-3" id="profile-infor" role="tabpanel">
                             <div class="row bg-white infor-detail">
@@ -389,8 +370,9 @@
                                 </div>
                                 <div class="modal" id="update">
                                     <div class="modal-dialog">
-                                        <form method="post">
-                                            <div class="modal-content update-box">
+                                        
+                                        <div class="modal-content update-box">
+                                            <form method="post">
                                                 <p>NHẬP THÔNG TIN CHỈNH SỬA</p>
                                                 <div class="row user-infor-box">
                                                     <div class="col box-left">
@@ -428,8 +410,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -457,13 +439,13 @@
 
         $(".updateBtn").click(function (e) {
             e.preventDefault();
-            var email = $("input[name='email']").val();
+            var name = $("input[name='name']").val();
             var pass = $("input[name='pass']").val();
 
             $.ajax({
-                url: "/UserHome/UpdateInfor",
+                url: "/User/UserHome/UpdateInfor",
                 method: "POST",
-                data: { email: email, pass: pass },
+                data: { name: name, pass: pass },
                 success: function (response) {
                     if (response.success) {
                         var redirectUrl = response.redirectUrl;

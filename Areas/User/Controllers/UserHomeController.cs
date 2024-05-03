@@ -7,14 +7,37 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using CinemaWeb.App_Start;
 
 namespace CinemaWeb.Areas.User.Controllers
 {
     public class UserHomeController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
+        public enum RoleName
+        {
+            AddMovie = 1,
+            RemoveMovie = 2,
+            EditMovie = 3,
+            Statistical = 4,
+            AddRoom = 5,
+            RemoveRoom = 6,
+            AddSchedule = 7,
+            RemoveSchedule = 8,
+            AddStaff = 9,
+            RemoveStaff = 10,
+            RemoveUser = 11,
+            BookTicket = 12,
+            EditProfile = 13,
+            Payment = 14,
+            CheckIn = 15
+        }
         public ActionResult Index()
         {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("SignIn", "Home", new { area = "" });
+            }
             List<movy> movielist = db.movies.ToList();
             DateTime currentDate = DateTime.Now.Date;
             foreach (var movie in movielist)
@@ -23,53 +46,94 @@ namespace CinemaWeb.Areas.User.Controllers
                 {
                     movie.movie_status = true; // Đang chiếu
                 }
-                else
+                else if (movie.release_date > currentDate)
                 {
                     movie.movie_status = false; // Sắp chiếu
                 }
+                else
+                {
+                    movie.movie_status = null;
+                }
             }
+
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
             return View();
         }
 
         public ActionResult UserProfile()
         {
+            if (Session["user"] == null)
+            {
+                return RedirectToAction("SignIn", "Home", new { area = "" });
+            }
+            var currentUser = (user)Session["user"];
             List<movy> movielist = db.movies.ToList();
             DateTime currentDate = DateTime.Now.Date;
+
             foreach (var movie in movielist)
             {
                 if (movie.release_date <= currentDate && movie.end_date >= currentDate)
                 {
                     movie.movie_status = true; // Đang chiếu
                 }
-                else
+                else if (movie.release_date > currentDate)
                 {
                     movie.movie_status = false; // Sắp chiếu
                 }
+                else
+                {
+                    movie.movie_status = null;
+                }
             }
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
+
+            int totalSpent = 0;
+            ViewBag.MovieList = movielist;
+            var invoiceList = currentUser.invoices.OrderBy(x => x.day_create).ToList();
+            ViewBag.invoiceList = invoiceList;
+            foreach (var invoiceitem in invoiceList)
+            {
+                if (invoiceitem.invoice_status == true)
+                {
+                    if (invoiceitem.day_create.Value.Year == currentDate.Year)
+                    {
+                        totalSpent += (int)invoiceitem.total_money;
+                    }
+                    var ticketList = invoiceitem.tickets.ToList();
+                    ViewBag.ticketList = ticketList;
+                }
+            }
+
+            ViewBag.totalSpent = totalSpent;
             return View();
         }
         public ActionResult HistoryTicket()
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("SignIn", "Home");
+                return RedirectToAction("SignIn", "Home", new { area = "" });
             }
             var currentUser = (user)Session["user"];
             List<movy> movielist = db.movies.ToList();
             DateTime currentDate = DateTime.Now;
             foreach (var movie in movielist)
             {
-                if (movie.release_date <= currentDate.Date && movie.end_date >= currentDate.Date)
+                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
                 {
                     movie.movie_status = true; // Đang chiếu
                 }
-                else
+                else if (movie.release_date > currentDate)
                 {
                     movie.movie_status = false; // Sắp chiếu
                 }
+                else
+                {
+                    movie.movie_status = null;
+                }
             }
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             int totalSpent = 0;
             ViewBag.MovieList = movielist;
             var invoiceList = currentUser.invoices.OrderBy(x => x.day_create).ToList();
@@ -83,43 +147,49 @@ namespace CinemaWeb.Areas.User.Controllers
                     }
                     var ticketList = invoiceitem.tickets.ToList();
                     ViewBag.ticketList = ticketList;
-                    //foreach (var item in ticketList)
-                    //{
-                    //    item.invoice.day_create.Value.ToString("MM/yyyy");
-                    //    var name = item.room_schedule_detail.schedule_detail.movie_display_date.movy.title;
-                    //    item.room_schedule_detail.schedule_detail.schedule.schedule_time.Value.ToString("HH/mm");
-                    //    var date = item.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Value.ToString("dd/MM/yyyy");
-                    //}
                 }
             }
             
             ViewBag.totalSpent = totalSpent;
             return View();
         }
-        
+
+        [HttpPost]
+        [UserAuthorize(roleId = (int)RoleName.EditProfile)]        
         public ActionResult UpdateInfor(string name, string pass)
         {
             if (Session["user"] == null)
             {
-                return RedirectToAction("SignIn", "Home");
+                return RedirectToAction("SignIn", "Home", new { area = "" });
             }
             var currentUser = (user)Session["user"];
-            
-            // Cập nhật thông tin người dùng
-            
-            currentUser.full_name = name;
-            currentUser.user_password = pass;
-
             var updateUser = db.users.FirstOrDefault(x => x.id == currentUser.id);
-            updateUser.full_name = name;
-            updateUser.user_password = pass;
 
-            // Lưu thông tin mới vào cơ sở dữ liệu
+            if (!string.IsNullOrEmpty(pass))
+            {
+                currentUser.user_password = pass;
+                if (updateUser != null)
+                {
+                    updateUser.user_password = pass;
+                }
+            }
+
+            // Kiểm tra nếu chỉ có name được nhập mới
+            if (!string.IsNullOrEmpty(name))
+            {
+                currentUser.full_name = name;
+                if (updateUser != null)
+                {
+                    updateUser.full_name = name;
+                }
+            }
             db.SaveChanges();
 
             // Trả về kết quả thành công
             var redirectUrl = Url.Action("UserProfile", "UserHome", new { area = "User" });
             return Json(new { success = true, redirectUrl = redirectUrl });
         }
+
+        
     }
 }

@@ -63,7 +63,7 @@
     top: calc(100% + 0.5px);
     left: -35px;
     position: absolute;
-    z-index: 2;
+    z-index: 4;
     background-color: #fff;
     line-height: 2.4;
     list-style-type: none;
@@ -120,6 +120,7 @@
 .img-movie {
     margin-bottom: 10px;
     border-radius: 8px;
+    transition: filter 0.3s ease;
 }
 
 .ti-ticket {
@@ -151,6 +152,10 @@
 
 .movie-list .buy-ticket-btn:hover {
     background-color: #f29538;
+}
+
+.sub-movie-list1 {
+    margin-bottom: 2rem;
 }
 
 .search-icon {

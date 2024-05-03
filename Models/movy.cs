@@ -37,6 +37,7 @@ namespace CinemaWeb.Models
         public string url_image { get; set; }
         public Nullable<decimal> rating { get; set; }
         public string url_trailer { get; set; }
+        public string url_large_image { get; set; }
     
         public virtual country country { get; set; }
         public virtual director director { get; set; }
