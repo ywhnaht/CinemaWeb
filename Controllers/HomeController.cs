@@ -15,11 +15,10 @@ namespace CinemaWeb.Controllers
     public class HomeController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
-        public ActionResult Index()
+        public void GetMovieStatus(List<movy> movielist)
         {
-            List<movy> movielist = db.movies.ToList();
             DateTime currentDate = DateTime.Now;
-            foreach (var movie in movielist)
+            foreach (movy movie in movielist)
             {
                 if (movie.release_date <= currentDate && movie.end_date >= currentDate)
                 {
@@ -34,6 +33,11 @@ namespace CinemaWeb.Controllers
                     movie.movie_status = null;
                 }
             }
+        }
+        public ActionResult Index()
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
             return View();

@@ -38,18 +38,10 @@ namespace CinemaWeb.Areas.User.Controllers
             Payment = 14,
             CheckIn = 15
         }
-        public BookTicketController()
+        public void GetMovieStatus(List<movy> movielist)
         {
-        }
-        // GET: User/BookTicket
-
-        [UserAuthorize(roleId = (int)RoleName.BookTicket)]
-        public ActionResult BookTicket()
-        {
-            List<movy> movielist = db.movies.ToList();
             DateTime currentDate = DateTime.Now;
-            ViewBag.currentDate = currentDate;
-            foreach (var movie in movielist)
+            foreach (movy movie in movielist)
             {
                 if (movie.release_date <= currentDate && movie.end_date >= currentDate)
                 {
@@ -64,8 +56,15 @@ namespace CinemaWeb.Areas.User.Controllers
                     movie.movie_status = null;
                 }
             }
-            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+        }
+        // GET: User/BookTicket
 
+        [UserAuthorize(roleId = (int)RoleName.BookTicket)]
+        public ActionResult BookTicket()
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
             return View();
         }
@@ -130,22 +129,7 @@ namespace CinemaWeb.Areas.User.Controllers
         public ActionResult MovieDetail()
         {
             List<movy> movielist = db.movies.ToList();
-            DateTime currentDate = DateTime.Now;
-            foreach (var movie in movielist)
-            {
-                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
-                {
-                    movie.movie_status = true; // Đang chiếu
-                }
-                else if (movie.release_date > currentDate)
-                {
-                    movie.movie_status = false; // Sắp chiếu
-                }
-                else
-                {
-                    movie.movie_status = null;
-                }
-            }
+            GetMovieStatus(movielist);
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
 
@@ -169,22 +153,7 @@ namespace CinemaWeb.Areas.User.Controllers
         public ActionResult MovieType()
         {
             List<movy> movielist = db.movies.ToList();
-            DateTime currentDate = DateTime.Now;
-            foreach (var movie in movielist)
-            {
-                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
-                {
-                    movie.movie_status = true; // Đang chiếu
-                }
-                else if (movie.release_date > currentDate)
-                {
-                    movie.movie_status = false; // Sắp chiếu
-                }
-                else
-                {
-                    movie.movie_status = null;
-                }
-            }
+            GetMovieStatus(movielist);
 
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
@@ -193,22 +162,150 @@ namespace CinemaWeb.Areas.User.Controllers
             var segments = System.Web.HttpContext.Current.Request.Url.Segments;
             var typeIdSegment = segments[segments.Length - 1].TrimEnd('/');
             int? typeId = null;
+            int? countryId = null;
+            int? yearValue = null;
+            bool? movieStatus = null;
+            bool? movieSelect = null;
 
-            // Kiểm tra nếu typeIdSegment không rỗng
             if (!string.IsNullOrEmpty(typeIdSegment))
             {
-                if (int.TryParse(typeIdSegment, out int tempTypeId))
+                int mtIndex = typeIdSegment.IndexOf("mt");
+                int mcIndex = typeIdSegment.IndexOf("mc");
+                int myIndex = typeIdSegment.IndexOf("my");
+                int stIndex = typeIdSegment.IndexOf("st");
+                int ssIndex = typeIdSegment.IndexOf("ss");
+
+                // Kiểm tra xem "mt" có tồn tại và nằm ở vị trí đầu tiên
+                if (mtIndex == 0)
                 {
-                    // Nếu typeIdSegment có thể chuyển thành int, gán giá trị cho typeId
-                    typeId = tempTypeId;
+                    // Lấy chuỗi con sau "mt"
+                    string typeIdStr = typeIdSegment.Substring(mtIndex + 2);
+
+                    // Kiểm tra xem có "mc" trong chuỗi typeIdStr hay không
+                    int mcIndexInTypeIdStr = typeIdStr.IndexOf("mc");
+
+                    // Nếu có "mc", lấy typeId từ đầu chuỗi typeIdStr đến "mc"
+                    if (mcIndexInTypeIdStr >= 0)
+                    {
+                        typeIdStr = typeIdStr.Substring(0, mcIndexInTypeIdStr);
+                    }
+
+                    int parsedTypeId;
+                    if (int.TryParse(typeIdStr, out parsedTypeId))
+                    {
+                        typeId = parsedTypeId;
+                    }
+                }
+
+                if (mcIndex > mtIndex)
+                {
+                    string countryIdStr = typeIdSegment.Substring(mcIndex + 2);
+
+                    int myIndexInTypeIdStr = countryIdStr.IndexOf("my");
+
+                    if (myIndexInTypeIdStr >= 0)
+                    {
+                        countryIdStr = countryIdStr.Substring(0, myIndexInTypeIdStr);
+                    }
+
+                    int parsedCountryId;
+                    if (int.TryParse(countryIdStr, out parsedCountryId))
+                    {
+                        countryId = parsedCountryId;
+                    }
+                }
+
+                if (myIndex > mcIndex)
+                {
+                    string yearIdStr = typeIdSegment.Substring(myIndex + 2);
+
+                    int stIndexInTypeIdStr = yearIdStr.IndexOf("st");
+
+                    if (stIndexInTypeIdStr >= 0)
+                    {
+                        yearIdStr = yearIdStr.Substring(0, stIndexInTypeIdStr);
+                    }
+
+                    int parsedYearValue;
+                    if (int.TryParse(yearIdStr, out parsedYearValue))
+                    {
+                        yearValue = parsedYearValue;
+                    }
+                }
+
+                if (stIndex > myIndex)
+                {
+                    string movieSttStr = typeIdSegment.Substring(stIndex + 2);
+
+                    int ssIndexInTypeIdStr = movieSttStr.IndexOf("ss");
+
+                    if (ssIndexInTypeIdStr >= 0)
+                    {
+                        movieSttStr = movieSttStr.Substring(0, ssIndexInTypeIdStr);
+                    }
+
+                    if (movieSttStr == "1") movieStatus = true;
+                    else if (movieSttStr == "0") movieStatus = false;
+                }
+
+                if (ssIndex > stIndex)
+                {
+                    string movieSelectStr = typeIdSegment.Substring(ssIndex + 2);
+
+                    if (movieSelectStr == "1") movieSelect = true;
+                    else if (movieSelectStr == "0") movieSelect = false;
                 }
             }
 
             if (typeId != null)
             {
-                // typeId có giá trị, tiếp tục xử lý
                 movielist = movielist.Where(x => x.type_id == typeId).ToList();
+                var typeName = db.movie_type.FirstOrDefault(x => x.id == typeId).movie_type1;
+                ViewBag.TypeName = typeName;
+                ViewBag.SelectedTypeId = typeId;
             }
+
+            if (countryId != null)
+            {
+                movielist = movielist.Where(x => x.country_id == countryId).ToList();
+                var countryName = db.countries.FirstOrDefault(x => x.id == countryId).country_name;
+                ViewBag.CountryName = countryName;
+                ViewBag.SelectedCountryId = countryId;
+            }
+
+            if (yearValue != null)
+            {
+                movielist = movielist.Where(x => x.release_date.Value.Year == yearValue).ToList();
+                ViewBag.MovieYear = yearValue;
+            }
+
+            if (movieStatus != null)
+            {
+                movielist = movielist.Where(x => x.movie_status == movieStatus).ToList();
+                ViewBag.MovieStatus = (movieStatus == true) ? "1" : "0";
+                ViewBag.StatusName = (movieStatus == true) ? "Đang chiếu" : "Sắp chiếu";
+            }
+
+            if (movieSelect != null)
+            {
+                if (movieSelect == true)
+                {
+                    movielist = movielist.OrderByDescending(x => x.release_date).ToList();
+                }
+                else
+                {
+                    movielist = movielist.OrderByDescending(x => x.rating).ToList();
+                }
+
+                ViewBag.MovieSelect = (movieSelect == true) ? "1" : "0";
+                ViewBag.SelectName = (movieSelect == true) ? "Mới nhất" : "Đánh giá tốt nhất";
+            }
+
+            if (!movielist.Any())
+            {
+                TempData["MovieNotExist"] = "Không tìm thấy phim!";
+            }
+
             ViewBag.MovieListType = movielist;
 
             var movieType = db.movie_type.ToList();

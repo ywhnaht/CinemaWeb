@@ -257,12 +257,17 @@
     width: 150px;
     height: 40px;
     color: #4a4a4a;
+    width: 100%;
 }
 
     .btn-option:hover {
         --tw-border-opacity: 1;
         border-color: rgb(3 78 162 / var(--tw-border-opacity));
     }
+
+.dropdown-menu {
+    width: 11rem;
+}
 
 .dropdown-item {
     font-size: .875rem;
@@ -418,7 +423,7 @@
     }
 
 .right .img-movie {
-    padding-bottom: 20px;
+    margin-bottom: 20px;
     transition: filter 0.3s ease;
 }
 
@@ -442,6 +447,11 @@
     background-color: #fff;
     border-color: #f29538;
     border-width: 1px;
+}
+
+.playing-movie {
+    display: flex;
+    justify-content: center;
 }
 
 .new-mv a {
@@ -471,3 +481,22 @@
     margin-top: 3rem;
     margin-bottom: 10rem;
 }
+
+.movie-error {
+    margin-top: 4rem;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+    .movie-error span {
+        font-size: 15px;
+        font-style: italic;
+        display: flex;
+        justify-content: center;
+    }
+
+    .movie-error img {
+        width: 110px;
+        height: auto;
+    }

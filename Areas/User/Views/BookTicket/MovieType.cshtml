@@ -100,7 +100,7 @@
                             Góc Điện Ảnh
                             <i class="ti-angle-down down-btn"></i>
                             <ul class="sub-list-gr-1 list-group">
-                                <li><a href="#">Thể loại phim</a></li>
+                                <li><a href="/User/BookTicket/MovieType">Thể loại phim</a></li>
                                 <li><a href="#">Diễn viên</a></li>
                                 <li><a href="#">Đạo diễn</a></li>
                                 <li><a href="#">Bình luận phim</a></li>
@@ -185,58 +185,110 @@
                         <h1 class="text">PHIM ĐIỆN ẢNH</h1>
                         <div class="row list-dropdown">
                             <div class="col item">
-                                <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                    Thể loại
-                                </button>
+                                @if (ViewBag.TypeName != null)
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        @ViewBag.TypeName
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        Thể loại
+                                    </button>
+                                }
                                 <ul class="dropdown-menu" id="type-dropdown">
                                     @foreach (var type in ViewBag.movieType)
                                     {
-                                        <li><a class="dropdown-item" href="/User/BookTicket/MovieType/@type.id">@type.movie_type1</a></li>
+                                        <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(type.id)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st@(ViewBag.MovieStatus)ss@(ViewBag.MovieSelect)">@type.movie_type1</a></li>
                                     }
                                 </ul>
                             </div>
                             <div class="col item">
-                                <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                    Quốc gia
-                                </button>
+                                @if (ViewBag.CountryName != null)
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        @ViewBag.CountryName
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        Quốc gia
+                                    </button>
+                                }
                                 <ul class="dropdown-menu" id="country-dropdown">
                                     @foreach (var country in ViewBag.movieCountry)
                                     {
-                                        <li><a class="dropdown-item" href="#@country.id">@country.country_name</a></li>
+                                        <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(country.id)my@(ViewBag.MovieYear)st@(ViewBag.MovieStatus)ss@(ViewBag.MovieSelect)">@country.country_name</a></li>
                                     }
                                 </ul>
                             </div>
                             <div class="col item">
-                                <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                    Năm
-                                </button>
+                                @if (ViewBag.MovieYear != null)
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        @ViewBag.MovieYear
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        Năm
+                                    </button>
+                                }
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">2024</a></li>
-                                    <li><a class="dropdown-item" href="#">2023</a></li>
-                                    <li><a class="dropdown-item" href="#">2022</a></li>
-                                    <li><a class="dropdown-item" href="#">2021</a></li>
+                                    @for (int year = currentDate.Year; year >= 2021; year--)
+                                    {
+                                        <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(year.ToString())st@(ViewBag.MovieStatus)ss@(ViewBag.MovieSelect)">@year</a></li>
+                                    }
                                 </ul>
                             </div>
                             <div class="col item">
-                                <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                    Đang chiếu/Sắp
-                                </button>
+                                @if (ViewBag.MovieStatus != null)
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        @ViewBag.StatusName
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        Đang chiếu/Sắp
+                                    </button>
+                                }
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Đang chiếu</a></li>
-                                    <li><a class="dropdown-item" href="#">Sắp chiếu</a></li>
+                                    <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st1ss@(ViewBag.MovieSelect)">Đang chiếu</a></li>
+                                    <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st0ss@(ViewBag.MovieSelect)">Sắp chiếu</a></li>
                                 </ul>
                             </div>
                             <div class="col item">
-                                <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                    Xem nhiều nhất
-                                </button>
+                                @if (ViewBag.MovieSelect != null)
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        @ViewBag.SelectName
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        Xem nhiều nhất
+                                    </button>
+                                }
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Mới nhất</a></li>
-                                    <li><a class="dropdown-item" href="#">Đánh giá tốt nhất</a></li>
+                                    <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st@(ViewBag.MovieStatus)ss1">Mới nhất</a></li>
+                                    <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st@(ViewBag.MovieStatus)ss0">Đánh giá tốt nhất</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    @if (TempData["MovieNotExist"] != null)
+                    {
+                        <div class="row movie-error">
+                            <img src="https://www.galaxycine.vn/_next/static/media/booking-fail.0c03e999.png" alt="" />
+                            <span class="text-dark-emphasis fw-medium py-2">@TempData["MovieNotExist"]</span>
+                        </div>
+                    }
                     <div class="my-8 mv-list">
                         <ul class="post-list">
                             @foreach (var movie in ViewBag.MovieListType)
@@ -249,14 +301,10 @@
                                                 {
                                                     <img src="@movie.url_large_image" alt="" class="poster">
                                                 }
-                                                else
-                                                {
-                                                    <img src="@movie.url_image" alt="" class="poster">
-                                                }
                                             </a>
                                         </div>
                                         <div class="col-md-8 mv-desciption">
-                                            <a href="moviedetail.html" class="mvname">
+                                            <a href="/User/BookTicket/MovieDetail/@movie.id" class="mvname">
                                                 @movie.title
                                             </a>
                                             <div class="post-description">
@@ -314,7 +362,7 @@
                         <div class="col-md-7"></div>
                         <div class="col-md-4">
                             <button type="button" class="new-mv">
-                                <a href="playing.html" class="">
+                                <a href="#" class="">
                                     Xem thêm
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 15px; height:15px; "><path fill="currentColor" d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"></path></svg>
                                 </a>
@@ -343,46 +391,19 @@
 </html>
 
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <script>
-    $(document).ready(function () {
-        // Lắng nghe sự kiện click trên tất cả các dropdown-menu
-        $(".dropdown-menu").on("click", ".dropdown-item", function (event) {
-            event.stopPropagation(); // Ngăn chặn sự kiện click lan ra các phần tử khác
+    //$(document).ready(function () {
+    //    // Xử lý khi người dùng chọn thể loại
+    //    $('#type-dropdown').on('click', 'li', function () {
+    //        var selectedType = $(this).text(); // Lấy text của dropdown-item được chọn
+    //        $('#type-dropdown').prev('.btn-option').text(selectedType); // Đặt text của button thành selectedType
+    //    });
 
-            // Lấy giá trị của tất cả các dropdown-menu
-            var type = $("#type-dropdown .dropdown-item.active").attr("href").substr(1);
-            var country = $("#country-dropdown .dropdown-item.active").attr("href").substr(1);
-            //var year = $("#year-dropdown .dropdown-item.active").attr("href").substr(1);
-            //var status = $("#status-dropdown .dropdown-item.active").attr("href").substr(1);
-
-            // Gửi yêu cầu đến máy chủ để lấy danh sách phim mới dựa trên tất cả các yếu tố đã chọn
-            fetchMovies(type, country);
-        });
-
-        function fetchMovies(type, country) {
-
-            // Gửi yêu cầu đến máy chủ để lấy danh sách phim mới dựa trên tất cả các yếu tố đã chọn
-            // Sử dụng AJAX hoặc fetch API để gửi yêu cầu và nhận kết quả
-            // Sau đó, cập nhật nội dung của danh sách phim với kết quả nhận được
-            // Ví dụ:
-             $.ajax({
-                 url: "/User/BookTicket/MovieType",
-                 method: "GET",
-                 data: {
-                     movieTypeId: type,
-                     countryId: country
-                 },
-                 success: function (data) {
-
-                 },
-                 error: function (error) {
-                     console.error(error);
-                 }
-             });
-        }
-
-        // Gọi hàm fetchMovies() ban đầu để hiển thị danh sách phim ban đầu
-        fetchMovies('', '');
-    });
+    //    // Xử lý khi người dùng chọn quốc gia
+    //    $('#country-dropdown').on('click', 'li', function () {
+    //        var selectedCountry = $(this).text(); // Lấy text của dropdown-item được chọn
+    //        $('#country-dropdown').prev('.btn-option').text(selectedCountry); // Đặt text của button thành selectedCountry
+    //    });
+    //});
 </script>
-
