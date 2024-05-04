@@ -1,0 +1,493 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.buyticket-btn  {
+    font-size: 15px;
+    color: #fff;
+    border: none;
+}
+
+.img-buy-btn {
+    width: 110px;
+    height: auto;
+}
+
+
+/* List */
+.list-group-horizontal {
+    border: none;
+    margin-left: -30px;
+    cursor: pointer;
+}
+
+.list-group-item {
+    border: none;
+    border-radius: 0;
+}
+.list-group-item:last-child {
+    border-right: none;
+}
+
+.list-gr-1 {
+    font-size: 14px;
+}
+
+.movie-area,
+.cinema-corner,
+.event-list,
+.ticket-price {
+    padding: 20px 10px;
+}
+
+.list-gr-1 li {
+    position: relative;
+}
+
+.list-gr-1 li:hover {
+    color: #F26B38;
+}
+
+.sub-list-gr-1 {
+    display: none;
+    min-width: 200px;
+    top: calc(100% + 0.5px);
+    left: -35px;
+    position: absolute;
+    z-index: 2;
+    background-color: #fff;
+    line-height: 2.4;
+    list-style-type: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.movie-area a,
+.sub-list-gr-1 a {
+    text-decoration: none;
+    color: #000;
+}
+
+.movie-area:hover .movie-status,
+.cinema-corner:hover .sub-list-gr-1,
+.event-list:hover .sub-list-gr-1,
+.ticket-price:hover .sub-list-gr-1
+ {
+    color: #F26B38;
+    display: block;
+}
+
+.movie-area li:hover a,
+.sub-list-gr-1 li:hover a {
+    color: #F26B38;
+}
+
+.down-btn {
+    font-size: 8px;
+}
+
+/* Movie-List */
+.movie-status {
+    display: none;
+    padding: 10px 20px;
+    min-width: 720px;
+    top: calc(100% + 0.5px);
+    left: -30px;
+    position: absolute;
+    z-index: 2;
+    background-color: #fff;
+    list-style-type: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.movie-list .col-md-3 {
+    position: relative;
+  
+}
+
+.img-movie {
+    padding-bottom: 10px;
+    transition: filter 0.3s ease;
+}
+
+.ti-ticket {
+    font-size: 15px;
+}
+
+.movie-list .buy-ticket-btn {
+    display: none;
+    border: none;
+    width: 120px; 
+    height: 35px;
+    background-color: #F26B38;
+    color: #fff;
+    position: absolute;
+    top: 43%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+.movie-list .buy-ticket-btn:hover ~ .img-movie,
+.movie-list .img-movie:hover {
+    filter: brightness(65%); 
+}
+
+.movie-list .img-movie:hover + .buy-ticket-btn,
+.movie-list .buy-ticket-btn:hover {
+    display: block;
+}
+
+.movie-list .buy-ticket-btn:hover {
+    background-color: #f29538;
+
+}
+
+.search-icon {
+    font-size: 14px;
+}
+
+.search-btn {
+    border: none;
+    padding-left: 34px;
+    color: #777777;
+}
+
+.account-wrapper {
+    position: relative;
+}
+
+.account-img {
+    width: 75px;
+    height: auto;
+    padding: 10px 20px;
+}
+
+.account-list li:hover a {
+    color: #F26B38;
+}
+
+.account-list a {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+}
+.account-list {
+    display: none;
+    text-decoration: none;
+    min-width: 150px;
+    top: calc(100% + 0.5px);
+    left: 20px;
+    justify-content: center;
+    position: absolute;
+    z-index: 2;
+    background-color: #fff;
+    list-style-type: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.account-icon {
+    padding-right: 10px;
+}
+
+.account-wrapper:hover .account-list {
+    display: block;
+}
+.login-btn {
+    font-size: 14px;
+    margin-left: -48px;
+    color: #777777;
+    border: none;
+}
+
+.login-btn:hover
+{
+    cursor: pointer;
+    color: #F26B38;
+}
+/*content*/
+
+.wrapper{
+    padding-top: 4rem;
+    margin-left: 8rem;
+    margin-right: 8rem;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/*right*/
+.text-right{
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: inline-block;
+    border-left :solid;
+    --tw-border-opacity: 1;
+    border-color: rgb(3 78 162 / var(--tw-border-opacity));
+    border-width: .25rem;
+    padding-left: 5px;
+    margin-bottom: 25px;
+    margin-top: 25px;
+    text-transform: uppercase;
+}
+
+.right .buy-ticket-btn {
+    display: none;
+    border: none;
+    width: 120px; 
+    height: 35px;
+    background-color: #F26B38;
+    color: #fff;
+    position: absolute;
+    top: 43%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+.right .buy-ticket-btn:hover ~ .img-movie,
+.right .img-movie:hover {
+    filter: brightness(65%); 
+}
+
+.right .img-movie:hover + .buy-ticket-btn,
+.right .buy-ticket-btn:hover {
+    display: block;
+}
+
+.right .buy-ticket-btn:hover {
+    background-color: #f29538;
+}
+
+.right .img-movie {
+    padding-bottom: 20px;
+    transition: filter 0.3s ease;
+}
+
+.right .mv{
+    position: relative;
+    margin-bottom: 20px;
+}
+.right .mv a{
+    font-style: normal;
+    font-weight: 600;
+    font-size: .875rem;
+    color: inherit;
+    text-decoration: inherit;
+}
+.right .bonus .new-mv{
+    width: 150px;
+    height: 40px;
+    border-radius: .25rem;
+    background-color: #fff;
+    border-color: #f29538;
+    border-width: 1px;
+}
+.new-mv a{
+    color: #f29538;
+    text-decoration: none;
+    font-size: .875rem;
+    text-align: center;
+}
+.right .bonus .new-mv:hover{
+    cursor: pointer;
+    background-color: #f29538;
+}
+
+.right .bonus .new-mv:hover a{
+    color: #fff;
+}
+.line-default {
+    border-bottom: 6px solid #f4f4f4;
+   
+}
+/*left*/
+
+.poster img{
+   width: 16rem;
+   height: 24rem;
+   border-radius: 5px;
+}
+.option a{
+    --tw-text-opacity: 1;
+    color: rgb(119 119 119 / var(--tw-text-opacity));
+    text-decoration: none;
+    font-size: .875rem;
+    font-weight: 400;
+    font-family: Nunito Sans, sans-serif ;
+}
+
+.option a:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.ot-item{
+    list-style: none;
+    display: inline-block;
+}
+.option .name{
+    list-style: none;
+    display: inline-block;
+    --tw-text-opacity: 1;
+    color: rgb(119 119 119 / var(--tw-text-opacity));
+    text-decoration: none;
+    font-size: .875rem;
+    font-weight: 400;
+    font-family: Nunito Sans, sans-serif ;
+    color: #4a4a4a;
+}
+.infor{
+    padding-left: 0;
+}
+.option{
+    padding-left: 10px;
+
+}
+.title{
+    font-weight: 600;
+    font-size: 1.75rem;
+    padding-bottom: 2rem;
+    padding-left: 20px;
+
+}
+.like-btn{
+    padding: 0; 
+    width: 75px; 
+    height: 24px;
+    background-color:#4d88ff; 
+    font-size: .625rem;
+    border-radius: .25rem;
+    border: 1px solid #4080ff;  
+    color: white;
+    margin-right: 10px;
+}
+.like-btn:hover{
+    cursor: pointer;
+    background-color: #034ea2;
+}
+.view-btn{
+    font-size: .625rem;
+    border-radius: .25rem;
+    text-transform: none;
+    font-weight: inherit;
+    color: inherit;
+    width: 90px;
+    height: 24px;
+    border: 1px solid rgb(233 237 241);
+}
+.review{
+    font-size: small;
+    font-family: Nunito Sans, sans-serif;
+    font-weight: 500;
+    padding-left: 10px;
+    /* font-style: italic; */
+}
+.mv-rating{
+    padding-bottom: 2rem;
+    padding-left: 20px;
+}
+.review-title{
+    padding-left: 10px;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font-weight: bold;
+    color: #363636;
+}
+.d{
+    font-size: .875rem;
+    font-weight: 400;
+    --tw-text-opacity: 1;
+    color: rgb(119 119 119 / var(--tw-text-opacity));
+    margin-right: 0;
+    padding-top: 0px;
+    font-family: Nunito Sans, sans-serif;
+    padding-left: 10px;
+}
+.nation p{
+    --tw-text-opacity: 1;
+    color: rgb(51 51 51 / var(--tw-text-opacity));
+    font-weight: 500;
+    font-size: .875rem;
+   
+}
+.img img{
+    width: 12.5rem;
+    height: 9rem;
+    border-radius: .25rem;
+
+}
+.mv-poster img{
+    width: 8rem;
+    height: 5rem;
+    border-radius: .25rem;
+}
+.mv-name a{
+    text-decoration: none;
+    font-size: .875rem;
+    font-weight: 500;
+    color: #000;
+}
+.status{
+    font-size: .875rem;
+    font-weight: 600;
+    color: #000;
+}
+.mv-name p{
+    margin-bottom: .5rem;
+}
+.item{
+    margin-bottom: 1rem;
+}
+.story p{
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Nunito Sans, sans-serif;
+    color: #4a4a4a;
+    
+}
+.item p{
+    margin-top: 16px;
+}
+
+.item img{
+    border-radius: .25rem;
+    width: 14rem;
+    height: 20rem;
+}
+.item a{
+    text-decoration: none;
+    font-family: Nunito Sans, sans-serif !important;
+    color: #4a4a4a;
+    font-weight: 400;
+}
+
+.full-link{
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.favor-img
+{
+        display: block;
+        margin: 0 auto; 
+        height: 350px;
+        width: 600px;
+    
+}
+
+.condition{
+    margin-bottom: 16px;
+    padding-left: 10px;
+}
+
+.condition-list{
+    padding-left: 10px;
+}
+
+.different{
+    padding-left: 0;
+}
