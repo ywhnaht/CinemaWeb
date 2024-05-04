@@ -24,7 +24,7 @@ namespace CinemaWeb.Models.Services
 
             vnpay.AddRequestData("vnp_CreateDate", invoiceItem.day_create.Value.ToString("yyyyMMddHHmmss"));
             vnpay.AddRequestData("vnp_CurrCode", "VND");
-            string ip = Utils.GetIpAddress(context);
+            string ip = Utils.GetIpAddress();
             vnpay.AddRequestData("vnp_IpAddr", ip);
             vnpay.AddRequestData("vnp_Locale", "vn");
             vnpay.AddRequestData("vnp_OrderInfor", "Thanh toán hóa đơn:" + invoiceItem.id.ToString());

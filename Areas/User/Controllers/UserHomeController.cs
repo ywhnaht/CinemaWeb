@@ -14,6 +14,25 @@ namespace CinemaWeb.Areas.User.Controllers
     public class UserHomeController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
+        DateTime currentDate = DateTime.Now;
+        public void GetMovieStatus(List<movy> movielist)
+        {
+            foreach (movy movie in movielist)
+            {
+                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
+                {
+                    movie.movie_status = true; // Đang chiếu
+                }
+                else if (movie.release_date > currentDate)
+                {
+                    movie.movie_status = false; // Sắp chiếu
+                }
+                else
+                {
+                    movie.movie_status = null;
+                }
+            }
+        }
         public enum RoleName
         {
             AddMovie = 1,
@@ -39,22 +58,7 @@ namespace CinemaWeb.Areas.User.Controllers
                 return RedirectToAction("SignIn", "Home", new { area = "" });
             }
             List<movy> movielist = db.movies.ToList();
-            DateTime currentDate = DateTime.Now.Date;
-            foreach (var movie in movielist)
-            {
-                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
-                {
-                    movie.movie_status = true; // Đang chiếu
-                }
-                else if (movie.release_date > currentDate)
-                {
-                    movie.movie_status = false; // Sắp chiếu
-                }
-                else
-                {
-                    movie.movie_status = null;
-                }
-            }
+            GetMovieStatus(movielist);
 
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
@@ -69,29 +73,14 @@ namespace CinemaWeb.Areas.User.Controllers
             }
             var currentUser = (user)Session["user"];
             List<movy> movielist = db.movies.ToList();
-            DateTime currentDate = DateTime.Now.Date;
+            GetMovieStatus(movielist);
 
-            foreach (var movie in movielist)
-            {
-                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
-                {
-                    movie.movie_status = true; // Đang chiếu
-                }
-                else if (movie.release_date > currentDate)
-                {
-                    movie.movie_status = false; // Sắp chiếu
-                }
-                else
-                {
-                    movie.movie_status = null;
-                }
-            }
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
 
             int totalSpent = 0;
             ViewBag.MovieList = movielist;
-            var invoiceList = currentUser.invoices.OrderBy(x => x.day_create).ToList();
+            var invoiceList = db.invoices.Where(x => x.user_id == currentUser.id).OrderByDescending(x => x.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1).ToList();
             ViewBag.invoiceList = invoiceList;
             foreach (var invoiceitem in invoiceList)
             {
@@ -117,26 +106,11 @@ namespace CinemaWeb.Areas.User.Controllers
             }
             var currentUser = (user)Session["user"];
             List<movy> movielist = db.movies.ToList();
-            DateTime currentDate = DateTime.Now;
-            foreach (var movie in movielist)
-            {
-                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
-                {
-                    movie.movie_status = true; // Đang chiếu
-                }
-                else if (movie.release_date > currentDate)
-                {
-                    movie.movie_status = false; // Sắp chiếu
-                }
-                else
-                {
-                    movie.movie_status = null;
-                }
-            }
+            GetMovieStatus(movielist);
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             int totalSpent = 0;
             ViewBag.MovieList = movielist;
-            var invoiceList = currentUser.invoices.OrderBy(x => x.day_create).ToList();
+            var invoiceList = db.invoices.Where(x => x.user_id == currentUser.id).OrderByDescending(x => x.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1).ToList();
             ViewBag.invoiceList = invoiceList;
             foreach (var invoiceitem in invoiceList)
             {
@@ -189,7 +163,5 @@ namespace CinemaWeb.Areas.User.Controllers
             var redirectUrl = Url.Action("UserProfile", "UserHome", new { area = "User" });
             return Json(new { success = true, redirectUrl = redirectUrl });
         }
-
-        
     }
 }

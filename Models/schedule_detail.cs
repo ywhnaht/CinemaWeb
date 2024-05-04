@@ -23,6 +23,8 @@ namespace CinemaWeb.Models
         public int id { get; set; }
         public Nullable<int> movie_display_date_id { get; set; }
         public Nullable<int> schedule_id { get; set; }
+        public Nullable<System.TimeSpan> start_time { get; set; }
+        public Nullable<System.TimeSpan> end_time { get; set; }
     
         public virtual movie_display_date movie_display_date { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

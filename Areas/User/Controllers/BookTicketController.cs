@@ -98,6 +98,7 @@ namespace CinemaWeb.Areas.User.Controllers
                                                                        x.schedule.schedule_time.Value.Seconds) // Chuyển đổi TimeSpan sang DateTime
                         })
                         .ToList();
+            scheduleList = scheduleList.OrderBy(x => x.id).ToList();
             return Json(scheduleList, JsonRequestBehavior.AllowGet);
         }
 
@@ -112,14 +113,15 @@ namespace CinemaWeb.Areas.User.Controllers
                 {
                     RoomId = x.room.id,
                     RoomName = x.room.room_name,
-                    Seats = x.room.seats.Select(seat => new
+                    Seats = x.seat_status.OrderBy(seat => seat.seat_id).Select(seat => new
                     {
-                        SeatId = seat.id,
-                        SeatCol = seat.seat_column,
-                        SeatRow = seat.seat_row,
-                        SeatStt = seat.seat_status,
-                        SeatPrice = seat.price
-                    }).ToList()
+                        SeatId = seat.seat_id,
+                        SeatCol = seat.seat.seat_column,
+                        SeatRow = seat.seat.seat_row,
+                        SeatStt = seat.is_booked,   
+                        SeatPrice = seat.seat.price
+                    })
+                    .ToList()
                 })
                 .ToList();
 
@@ -353,8 +355,7 @@ namespace CinemaWeb.Areas.User.Controllers
             //TempData["Message"] = $"Thanh toán thành công : {response.VnPayResponseCode}";
 
             //return RedirectToAction("BookTicket", "PaymentSuccess", new { area = "User" });
-            var b = _vnPayService.CreatePaymentUrl(ControllerContext.HttpContext, db.invoices.FirstOrDefault(x => x.id == 3));
-            var a = UrlPayment(ControllerContext.HttpContext, 3);
+            var a = UrlPayment(3);
             return View();
         }
 
@@ -390,17 +391,26 @@ namespace CinemaWeb.Areas.User.Controllers
             newInvoice.user_id = currentUser.id;
             newInvoice.room_schedule_detail_id = GetRoomScheduleDetailId(roomId, displaydateId, scheduleId, movieId);
             newInvoice.day_create = DateTime.Now;
-            newInvoice.invoice_status = false;
+            // Giả sử đã thanh toán thành công
+            newInvoice.invoice_status = true;
             newInvoice.total_ticket = chosenSeats.Length;
 
             db.invoices.Add(newInvoice);
             db.SaveChanges();
             newInvoice.total_money = CalculateTotalMoney(chosenSeats, newInvoice.id);
 
-            code = new { success = true, code = 1, Url = "" };
-            //var url = 
+            foreach (var seatId in chosenSeats)
+            {
+                var seatStatus = db.seat_status.FirstOrDefault(s => s.seat_id == seatId && s.room_schedule_detail_id == newInvoice.room_schedule_detail_id);
+                if (seatStatus != null)
+                {
+                    seatStatus.is_booked = true;
+                }
+            }
             db.SaveChanges();
 
+            code = new { success = true, code = 1, Url = "" };
+            //var url = 
             return Json(code);
 
             // Tiếp tục xử lý dữ liệu và trả về kết quả
@@ -423,7 +433,7 @@ namespace CinemaWeb.Areas.User.Controllers
         public int? CalculateTotalMoney(int[] chosenSeats, int invoiceId)
         {
             int? totalPrice = 0;
-            foreach (var seatId in chosenSeats)
+            foreach (var seatId in chosenSeats)     
             {
                 var newTicket = new ticket();
                 newTicket.seat_id = seatId;
@@ -439,7 +449,6 @@ namespace CinemaWeb.Areas.User.Controllers
                 if (invoiceItem.invoice_status == true)
                 {
                     db.tickets.Add(newTicket);
-                    seat.seat_status = true;
                     db.SaveChanges();
                 }
             }
@@ -448,7 +457,7 @@ namespace CinemaWeb.Areas.User.Controllers
 
         #region
         //Thanh toán vnpay
-        public string UrlPayment(HttpContextBase contextBase, int invoiceId)
+        public string UrlPayment( int invoiceId)
         {
             string paymentUrl = string.Empty;
             var invoiceDetail = db.invoices.FirstOrDefault(x => x.id == invoiceId);
@@ -466,7 +475,7 @@ namespace CinemaWeb.Areas.User.Controllers
 
             vnpay.AddRequestData("vnp_CreateDate", invoiceDetail.day_create.Value.ToString("yyyyMMddHHmmss"));
             vnpay.AddRequestData("vnp_CurrCode", "VND");
-            string ip = Utils.GetIpAddress(contextBase);
+            string ip = Utils.GetIpAddress();
             vnpay.AddRequestData("vnp_IpAddr", ip);
             vnpay.AddRequestData("vnp_Locale", "vn");
             vnpay.AddRequestData("vnp_OrderInfor", "Thanh toán hóa đơn:" + invoiceDetail.id.ToString());

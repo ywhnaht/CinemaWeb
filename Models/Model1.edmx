@@ -147,6 +147,8 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="movie_display_date_id" Type="int" />
           <Property Name="schedule_id" Type="int" />
+          <Property Name="start_time" Type="time" Precision="7" />
+          <Property Name="end_time" Type="time" Precision="7" />
         </EntityType>
         <EntityType Name="seat">
           <Key>
@@ -156,8 +158,16 @@
           <Property Name="room_id" Type="int" />
           <Property Name="seat_column" Type="varchar" MaxLength="10" />
           <Property Name="seat_row" Type="varchar" MaxLength="10" />
-          <Property Name="seat_status" Type="bit" />
           <Property Name="price" Type="int" />
+        </EntityType>
+        <EntityType Name="seat_status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="seat_id" Type="int" />
+          <Property Name="room_schedule_detail_id" Type="int" />
+          <Property Name="is_booked" Type="bit" />
         </EntityType>
         <EntityType Name="star_rating">
           <Key>
@@ -456,6 +466,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_seat_status_room_schedule_detail">
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="0..1" />
+          <End Role="seat_status" Type="Self.seat_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room_schedule_detail">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seat_status">
+              <PropertyRef Name="room_schedule_detail_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seat_status_seat">
+          <End Role="seat" Type="Self.seat" Multiplicity="0..1" />
+          <End Role="seat_status" Type="Self.seat_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seat">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seat_status">
+              <PropertyRef Name="seat_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_star_rating_movie_id">
           <End Role="movies" Type="Self.movies" Multiplicity="0..1" />
           <End Role="star_rating" Type="Self.star_rating" Multiplicity="*" />
@@ -593,6 +627,7 @@
           <EntitySet Name="schedule" EntityType="Self.schedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="schedule_detail" EntityType="Self.schedule_detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="seat" EntityType="Self.seat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="seat_status" EntityType="Self.seat_status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="star_rating" EntityType="Self.star_rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ticket" EntityType="Self.ticket" Schema="dbo" store:Type="Tables" />
@@ -672,6 +707,14 @@
           <AssociationSet Name="FK_seat_room_id" Association="Self.FK_seat_room_id">
             <End Role="room" EntitySet="room" />
             <End Role="seat" EntitySet="seat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seat_status_room_schedule_detail" Association="Self.FK_seat_status_room_schedule_detail">
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
+            <End Role="seat_status" EntitySet="seat_status" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seat_status_seat" Association="Self.FK_seat_status_seat">
+            <End Role="seat" EntitySet="seat" />
+            <End Role="seat_status" EntitySet="seat_status" />
           </AssociationSet>
           <AssociationSet Name="FK_star_rating_movie_id" Association="Self.FK_star_rating_movie_id">
             <End Role="movies" EntitySet="movies" />
@@ -876,6 +919,7 @@
           <NavigationProperty Name="invoices" Relationship="Self.FK_invoice_room_schedule_detail_id" FromRole="room_schedule_detail" ToRole="invoice" />
           <NavigationProperty Name="room" Relationship="Self.FK_room_schedule_detail_room_id" FromRole="room_schedule_detail" ToRole="room" />
           <NavigationProperty Name="schedule_detail" Relationship="Self.FK_room_schedule_detail_schedule_detail_id" FromRole="room_schedule_detail" ToRole="schedule_detail" />
+          <NavigationProperty Name="seat_status" Relationship="Self.FK_seat_status_room_schedule_detail" FromRole="room_schedule_detail" ToRole="seat_status" />
         </EntityType>
         <EntityType Name="schedule">
           <Key>
@@ -892,6 +936,8 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="movie_display_date_id" Type="Int32" />
           <Property Name="schedule_id" Type="Int32" />
+          <Property Name="start_time" Type="Time" Precision="7" />
+          <Property Name="end_time" Type="Time" Precision="7" />
           <NavigationProperty Name="movie_display_date" Relationship="Self.FK_schedule_detail_movie_display_date_id" FromRole="schedule_detail" ToRole="movie_display_date" />
           <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_room_schedule_detail_schedule_detail_id" FromRole="schedule_detail" ToRole="room_schedule_detail" />
           <NavigationProperty Name="schedule" Relationship="Self.FK_schedule_detail_schedule_id" FromRole="schedule_detail" ToRole="schedule" />
@@ -904,10 +950,21 @@
           <Property Name="room_id" Type="Int32" />
           <Property Name="seat_column" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="seat_row" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="seat_status" Type="Boolean" />
           <Property Name="price" Type="Int32" />
           <NavigationProperty Name="room" Relationship="Self.FK_seat_room_id" FromRole="seat" ToRole="room" />
+          <NavigationProperty Name="seat_status" Relationship="Self.FK_seat_status_seat" FromRole="seat" ToRole="seat_status" />
           <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_seat_id" FromRole="seat" ToRole="ticket" />
+        </EntityType>
+        <EntityType Name="seat_status">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="seat_id" Type="Int32" />
+          <Property Name="room_schedule_detail_id" Type="Int32" />
+          <Property Name="is_booked" Type="Boolean" />
+          <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_seat_status_room_schedule_detail" FromRole="seat_status" ToRole="room_schedule_detail" />
+          <NavigationProperty Name="seat" Relationship="Self.FK_seat_status_seat" FromRole="seat_status" ToRole="seat" />
         </EntityType>
         <EntityType Name="star_rating">
           <Key>
@@ -1238,6 +1295,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_seat_status_room_schedule_detail">
+          <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="0..1" />
+          <End Role="seat_status" Type="Self.seat_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="room_schedule_detail">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seat_status">
+              <PropertyRef Name="room_schedule_detail_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_schedule_detail_schedule_id">
           <End Role="schedule" Type="Self.schedule" Multiplicity="0..1" />
           <End Role="schedule_detail" Type="Self.schedule_detail" Multiplicity="*" />
@@ -1247,6 +1316,18 @@
             </Principal>
             <Dependent Role="schedule_detail">
               <PropertyRef Name="schedule_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seat_status_seat">
+          <End Role="seat" Type="Self.seat" Multiplicity="0..1" />
+          <End Role="seat_status" Type="Self.seat_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="seat">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seat_status">
+              <PropertyRef Name="seat_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1363,6 +1444,7 @@
           <EntitySet Name="schedules" EntityType="Self.schedule" />
           <EntitySet Name="schedule_detail" EntityType="Self.schedule_detail" />
           <EntitySet Name="seats" EntityType="Self.seat" />
+          <EntitySet Name="seat_status" EntityType="Self.seat_status" />
           <EntitySet Name="star_rating" EntityType="Self.star_rating" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="tickets" EntityType="Self.ticket" />
@@ -1447,9 +1529,17 @@
             <End Role="schedule_detail" EntitySet="schedule_detail" />
             <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
           </AssociationSet>
+          <AssociationSet Name="FK_seat_status_room_schedule_detail" Association="Self.FK_seat_status_room_schedule_detail">
+            <End Role="room_schedule_detail" EntitySet="room_schedule_detail" />
+            <End Role="seat_status" EntitySet="seat_status" />
+          </AssociationSet>
           <AssociationSet Name="FK_schedule_detail_schedule_id" Association="Self.FK_schedule_detail_schedule_id">
             <End Role="schedule" EntitySet="schedules" />
             <End Role="schedule_detail" EntitySet="schedule_detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seat_status_seat" Association="Self.FK_seat_status_seat">
+            <End Role="seat" EntitySet="seats" />
+            <End Role="seat_status" EntitySet="seat_status" />
           </AssociationSet>
           <AssociationSet Name="FK_ticket_seat_id" Association="Self.FK_ticket_seat_id">
             <End Role="seat" EntitySet="seats" />
@@ -1645,6 +1735,8 @@
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="movie_display_date_id" ColumnName="movie_display_date_id" />
                 <ScalarProperty Name="schedule_id" ColumnName="schedule_id" />
+                <ScalarProperty Name="start_time" ColumnName="start_time" />
+                <ScalarProperty Name="end_time" ColumnName="end_time" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1655,8 +1747,17 @@
                 <ScalarProperty Name="room_id" ColumnName="room_id" />
                 <ScalarProperty Name="seat_column" ColumnName="seat_column" />
                 <ScalarProperty Name="seat_row" ColumnName="seat_row" />
-                <ScalarProperty Name="seat_status" ColumnName="seat_status" />
                 <ScalarProperty Name="price" ColumnName="price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="seat_status">
+            <EntityTypeMapping TypeName="CinemaWebModel.seat_status">
+              <MappingFragment StoreEntitySet="seat_status">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="seat_id" ColumnName="seat_id" />
+                <ScalarProperty Name="room_schedule_detail_id" ColumnName="room_schedule_detail_id" />
+                <ScalarProperty Name="is_booked" ColumnName="is_booked" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
