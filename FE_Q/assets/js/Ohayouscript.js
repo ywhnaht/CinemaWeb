@@ -26,15 +26,15 @@ tmBtn.addEventListener('click', () => {
     }
     const targetTab = document.querySelector('#tomorow');
     targetTab.classList.add('show');
-    
+    targetTab.classList.add('active');
 
     const temp = document.querySelector('.nav-link.active');
     if (temp) {
         temp.classList.remove('active');
         temp.classList.add('default');
     }
-    targetTab.classList.remove('default');
-    targetTab.classList.add('active');
+    tmBtn.classList.remove('default');
+    tmBtn.classList.add('active');
 });
 
 datBtn.addEventListener('click', () => {
@@ -44,12 +44,13 @@ datBtn.addEventListener('click', () => {
     }
     const targetTab = document.querySelector('#day-after-tomorrow');
     targetTab.classList.add('show');
+    targetTab.classList.add('active');
 
     const temp = document.querySelector('.nav-link.active');
     if (temp) {
         temp.classList.remove('active');
         temp.classList.add('default');
     }
-    targetTab.classList.remove('default');
-    targetTab.classList.add('active');
+    datBtn.classList.remove('default');
+    datBtn.classList.add('active');
 });
