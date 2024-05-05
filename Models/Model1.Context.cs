@@ -41,6 +41,7 @@ namespace CinemaWeb.Models
         public virtual DbSet<schedule> schedules { get; set; }
         public virtual DbSet<schedule_detail> schedule_detail { get; set; }
         public virtual DbSet<seat> seats { get; set; }
+        public virtual DbSet<seat_status> seat_status { get; set; }
         public virtual DbSet<star_rating> star_rating { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<ticket> tickets { get; set; }

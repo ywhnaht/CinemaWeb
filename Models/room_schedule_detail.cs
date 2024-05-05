@@ -18,6 +18,7 @@ namespace CinemaWeb.Models
         public room_schedule_detail()
         {
             this.invoices = new HashSet<invoice>();
+            this.seat_status = new HashSet<seat_status>();
         }
     
         public int id { get; set; }
@@ -28,5 +29,7 @@ namespace CinemaWeb.Models
         public virtual ICollection<invoice> invoices { get; set; }
         public virtual room room { get; set; }
         public virtual schedule_detail schedule_detail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<seat_status> seat_status { get; set; }
     }
 }

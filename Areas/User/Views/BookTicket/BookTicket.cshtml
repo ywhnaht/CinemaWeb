@@ -620,6 +620,7 @@
                         var seat = results[0].Seats[k];
                         var colItem = $('<div class="col-md-1"></div>')
                         var seatItem = $('<span class="btn btn-outline-secondary seat-item"></span>').attr('id', 'seat-' + seat.SeatId)
+                        console.log(seat.SeatStt)
                         if (seat.SeatStt) {
                             seatItem.addClass('seat-sold disabled-hover')
                         }
@@ -800,11 +801,7 @@
             return
         }
 
-        var selectedMovieId = invoiceData.movieId;
-        var selectedDateId = invoiceData.displaydateId;
-        var selectedScheduleId = invoiceData.scheduleId;
-        console.log(chosenSeats)
-        sendBookingData(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats)
+        $(this).addClass('paymentBtn')
         
         $('#navbar-item-3').addClass('navbar-colored')
         buyTicketListData = $('.buyticket-list').html()
@@ -860,6 +857,14 @@
             '</div>' +
         '</div>');
         $('.buyticket-list').append(discountSection);
+    })
+
+    $(document).on('click', '.paymentBtn', function (event) {
+        var selectedMovieId = invoiceData.movieId;
+        var selectedDateId = invoiceData.displaydateId;
+        var selectedScheduleId = invoiceData.scheduleId;
+        console.log(chosenSeats)
+        sendBookingData(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats)
     })
 
     //function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats) {
