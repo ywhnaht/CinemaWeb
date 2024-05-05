@@ -293,7 +293,7 @@
                                         <div class="col-md-5 ticket-movie-name">
                                             <span>@invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.movy.title</span>
                                         </div>
-                                        <div class="col-md-3 ticket-time-detail">
+                                        <div class="col-md-4 ticket-time-detail">
                                             <span>@invoiceitem.room_schedule_detail.schedule_detail.schedule.schedule_time.ToString(@"hh\:mm")</span>
                                             &nbsp;
                                             <span>@invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.DayOfWeek</span>
@@ -319,18 +319,26 @@
                                                             @invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.ToString("dd/MM/yyyy")
                                                         </p>
                                                     </div>
-                                                    <div class="row3">
-                                                        <p class="p">Ghế</p>
-                                                        @foreach (var ticketitem in invoiceitem.tickets)
-                                                        {
-                                                            if (ticketitem.seat.room_id == invoiceitem.room_schedule_detail.room_id)
+                                                    <div class="row3 row align-items-center">
+                                                        <div class="col-md">
+                                                            <p class="p">Ghế</p>
+                                                            @foreach (var ticketitem in invoiceitem.tickets)
                                                             {
-                                                                <div class="d-inline-block">
-                                                                    <span>@ticketitem.seat.seat_column@ticketitem.seat.seat_row</span>
-                                                                    <span class="ticket-space"></span>
-                                                                </div>
+                                                                if (ticketitem.seat.room_id == invoiceitem.room_schedule_detail.room_id)
+                                                                {
+                                                                    <div class="d-inline-block">
+                                                                        <span>@ticketitem.seat.seat_column@ticketitem.seat.seat_row</span>
+                                                                        <span class="ticket-space"></span>
+                                                                    </div>
+                                                                }
                                                             }
-                                                        }
+                                                        </div>
+                                                        <div class="col-md invoice-qrcode">
+                                                            @if (invoiceitem.qrcode_image != null)
+                                                            {
+                                                                <img src="@invoiceitem.qrcode_image" alt="" />
+                                                            }
+                                                        </div>
                                                     </div>
                                                     <div class="row4">
                                                         <div class="col">

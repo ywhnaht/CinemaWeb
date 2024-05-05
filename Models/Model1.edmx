@@ -58,6 +58,7 @@
           <Property Name="total_ticket" Type="int" />
           <Property Name="total_money" Type="int" />
           <Property Name="room_schedule_detail_id" Type="int" />
+          <Property Name="qrcode_image" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="movie_actor">
           <Key>
@@ -821,6 +822,7 @@
           <Property Name="total_ticket" Type="Int32" />
           <Property Name="total_money" Type="Int32" />
           <Property Name="room_schedule_detail_id" Type="Int32" />
+          <Property Name="qrcode_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="discount" Relationship="Self.FK_invoice_discount_id" FromRole="invoice" ToRole="discount" />
           <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_invoice_room_schedule_detail_id" FromRole="invoice" ToRole="room_schedule_detail" />
           <NavigationProperty Name="user" Relationship="Self.FK_invoice_user_id" FromRole="invoice" ToRole="users" />
@@ -1637,6 +1639,7 @@
                 <ScalarProperty Name="total_ticket" ColumnName="total_ticket" />
                 <ScalarProperty Name="total_money" ColumnName="total_money" />
                 <ScalarProperty Name="room_schedule_detail_id" ColumnName="room_schedule_detail_id" />
+                <ScalarProperty Name="qrcode_image" ColumnName="qrcode_image" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
