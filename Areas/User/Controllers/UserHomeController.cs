@@ -123,7 +123,9 @@ namespace CinemaWeb.Areas.User.Controllers
                     ViewBag.ticketList = ticketList;
                 }
             }
-            
+
+            //ViewBag.QrCodeImg = Session["QrCodeImg"] as string; // hoặc Session["QRCodeImg"] as string;
+            //ViewBag.InvoiceId = Session["InvoiceId"];
             ViewBag.totalSpent = totalSpent;
             return View();
         }

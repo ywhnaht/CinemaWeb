@@ -243,10 +243,10 @@
                             <div class="datetime-wrapper">
                                 <div class="datetime-container" role="tabpanel">
                                     @*<div class="tab-content schedule-cinema">
-                                        <div class="row">
-                                            <h2 class="movie-text cinema-name">Ohayou Đà Nẵng</h2>
-                                        </div>
-                                    </div>*@
+                                            <div class="row">
+                                                <h2 class="movie-text cinema-name">Ohayou Đà Nẵng</h2>
+                                            </div>
+                                        </div>*@
                                 </div>
                             </div>
                         </div>
@@ -255,7 +255,7 @@
                 <div class="col-md-4">
                     <div id="countdown-timer">
                         <div class="row align-items-center justify-content-center clock">
-                            
+
                         </div>
                     </div>
                     <div class="movie-item-selected bg-white">
@@ -797,7 +797,7 @@
     // ấn tiếp tục thì chuyển sang trang thanh toán
     var buyTicketListData
     $(document).on('click', '.continueBtn', function (event) {
-        if ($(this).hasClass('.un-click')) {
+        if ($(this).hasClass('.un-click') && chosenSeats == null) {
             return
         }
 

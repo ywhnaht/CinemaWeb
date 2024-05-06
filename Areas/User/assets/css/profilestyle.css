@@ -224,7 +224,6 @@
 
 .profile-container {
     background-color: rgb(249 249 249 / 1);
-    height: 1000px;
 }
 
 .profile-wrapper {
@@ -244,6 +243,7 @@
 }
 
 .profile-sidebar {
+    max-height: 38rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -438,6 +438,16 @@
     padding-bottom: 1rem;
 }
 
+    .modal .row3 .invoice-qrcode {
+        justify-content: center;
+        display: flex;
+    }
+
+    .modal .row3 .invoice-qrcode img {
+        width: 80px;
+        height: auto;
+    }
+
 .modal .row4 {
     font-weight: 600;
     font-size: .875rem;
@@ -463,9 +473,7 @@
 
 .ticket-container {
     display: flex;
-}
-
-.ticket-container {
+    border-radius: 10px;
     transition: all 0.3s ease;
 }
 
@@ -478,6 +486,7 @@
     margin-right: 3rem;
     cursor: pointer;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
 .notice-text {
