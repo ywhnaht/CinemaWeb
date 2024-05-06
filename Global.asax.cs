@@ -8,7 +8,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Autofac.Integration.Mvc;
 using Autofac;
-using CinemaWeb.Models.Services;
 using CinemaWeb.Models;
 
 namespace CinemaWeb
@@ -21,16 +20,6 @@ namespace CinemaWeb
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            var builder = new ContainerBuilder();
-
-            // ??ng ký các d?ch v? trong container
-            builder.RegisterType<VnPayService>().As<IVnPayService>();
-
-            // Build container
-            var container = builder.Build();
-
-            // ??t Dependency Resolver cho ?ng d?ng s? d?ng container Autofac ?ã c?u hình
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using CinemaWeb.App_Start;
 using CinemaWeb.Models;
-using CinemaWeb.Models.Services;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
@@ -19,7 +22,6 @@ namespace CinemaWeb.Areas.User.Controllers
     public class BookTicketController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
-        IVnPayService _vnPayService = new VnPayService();
         public enum RoleName
         {
             AddMovie = 1, 
@@ -355,7 +357,6 @@ namespace CinemaWeb.Areas.User.Controllers
             //TempData["Message"] = $"Thanh toán thành công : {response.VnPayResponseCode}";
 
             //return RedirectToAction("BookTicket", "PaymentSuccess", new { area = "User" });
-            var a = UrlPayment(3);
             return View();
         }
 
@@ -407,7 +408,77 @@ namespace CinemaWeb.Areas.User.Controllers
                     seatStatus.is_booked = true;
                 }
             }
+
+            var invoiceData = new
+            {
+                InvoiceId = newInvoice.id,
+                UserId = newInvoice.user_id,
+                TotalMoney = newInvoice.total_money,
+                MovieName = newInvoice.room_schedule_detail.schedule_detail.movie_display_date.movy.title,
+                Date = newInvoice.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1,
+                Schedule = newInvoice.room_schedule_detail.schedule_detail.schedule.schedule_time,
+                RoomName = newInvoice.room_schedule_detail.room.room_name,
+                Seat = newInvoice.tickets.Select(t => new { t.seat.seat_row, t.seat.seat_column, t.seat.price})
+            };
+
+            string invoiceDataJson = JsonConvert.SerializeObject(invoiceData);
+
+            QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
+            QRCodeData qRCodeData = QRCodeGenerator.GenerateQrCode(invoiceDataJson, QRCodeGenerator.ECCLevel.Q);
+            QRCode qRCode = new QRCode(qRCodeData);
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (Bitmap bitmap = qRCode.GetGraphic(20))
+                {
+                    bitmap.Save(ms, ImageFormat.Png);
+                    newInvoice.qrcode_image = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                }
+            }
+
+            // Lấy thông tin từ qrcode
+            // Giả sử qrData là chuỗi dữ liệu nhận được từ mã QR
+            //string qrData = "Chuỗi_dữ_liệu_từ_mã_QR";
+            //var invoiceData = JsonConvert.DeserializeObject<InvoiceData>(qrData);
+            // invoiceData bây giờ là một đối tượng có các thuộc tính tương ứng với thông tin của hóa đơn
+
             db.SaveChanges();
+            var url = UrlPayment(newInvoice.id, currentUser.id);
+
+            // Gửi mail khi thanh toán thành công
+            var MovieImage = newInvoice.room_schedule_detail.schedule_detail.movie_display_date.movy.url_large_image;
+            var MovieTitle = newInvoice.room_schedule_detail.schedule_detail.movie_display_date.movy.title;
+            var MovieSchedule = newInvoice.room_schedule_detail.schedule_detail.schedule.schedule_time.Value.ToString(@"hh\:mm");
+            var MovieDayOfWeek = newInvoice.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Value.DayOfWeek;
+            var MovieDate = newInvoice.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Value.ToString("dd/MM/yyyy");
+
+            var TicketSeat = "";
+            foreach (var ticketItem in newInvoice.tickets)
+            {
+                //if (ticketItem.seat.room_id == newInvoice.room_schedule_detail.room_id)
+                {
+                    TicketSeat += ticketItem.seat.seat_column + ticketItem.seat.seat_row;
+                    TicketSeat += " ";
+                }
+            }
+
+            var QrCode = "";
+            if (newInvoice.qrcode_image != null)
+            {
+                QrCode = newInvoice.qrcode_image;
+            }
+
+            string contentInvoice = System.IO.File.ReadAllText(Server.MapPath("~/Areas/User/Common/invoice.html"));
+            //contentInvoice = contentInvoice.Replace("{{MovieImage}}", MovieImage);
+            contentInvoice = contentInvoice.Replace("{{MovieTitle}}", MovieTitle);
+            contentInvoice = contentInvoice.Replace("{{MovieSchedule}}", MovieSchedule);
+            contentInvoice = contentInvoice.Replace("{{MovieDayOfWeek}}", MovieDayOfWeek.ToString());
+            contentInvoice = contentInvoice.Replace("{{MovieDate}}", MovieDate);
+            contentInvoice = contentInvoice.Replace("{{TicketSeat}}", TicketSeat);
+            //contentInvoice = contentInvoice.Replace("{{QrCode}}", QrCode);
+            contentInvoice = contentInvoice.Replace("{{InvoiceId}}", newInvoice.id.ToString());
+            contentInvoice = contentInvoice.Replace("{{TotalMoney}}", newInvoice.total_money.ToString());
+            CinemaWeb.Areas.User.Common.Common.SendMail("Ohayou Cinema", "Chúc mừng bạn đã đặt vé thành công!", contentInvoice, currentUser.email);
 
             code = new { success = true, code = 1, Url = "" };
             //var url = 
@@ -415,6 +486,7 @@ namespace CinemaWeb.Areas.User.Controllers
 
             // Tiếp tục xử lý dữ liệu và trả về kết quả
         }
+
         public int GetRoomScheduleDetailId(int roomId, int displaydateId, int scheduleId, int movieId)
         {
             var roomScheduleDetail = db.room_schedule_detail
@@ -457,16 +529,16 @@ namespace CinemaWeb.Areas.User.Controllers
 
         #region
         //Thanh toán vnpay
-        public string UrlPayment( int invoiceId)
+        public string UrlPayment(int invoiceId, int userId)
         {
             string paymentUrl = string.Empty;
-            var invoiceDetail = db.invoices.FirstOrDefault(x => x.id == invoiceId);
+            var invoiceDetail = db.invoices.FirstOrDefault(x => x.id == invoiceId && x.user_id == userId);
 
             string vnp_Returnurl = ConfigurationManager.AppSettings["vnp_Returnurl"]; //URL nhan ket qua tra ve 
             string vnp_Url = ConfigurationManager.AppSettings["vnp_Url"]; //URL thanh toan cua VNPAY 
             string vnp_TmnCode = ConfigurationManager.AppSettings["vnp_TmnCode"]; //Ma định danh merchant kết nối (Terminal Id)
             string vnp_HashSecret = ConfigurationManager.AppSettings["vnp_HashSecret"]; //Secret Key
-            var invoicePrice = (long)invoiceDetail.total_money * 100;
+            long invoicePrice = (long)invoiceDetail.total_money * 100;
             VnPayLibrary vnpay = new VnPayLibrary();
             vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
             vnpay.AddRequestData("vnp_Command", "pay");
@@ -478,7 +550,7 @@ namespace CinemaWeb.Areas.User.Controllers
             string ip = Utils.GetIpAddress();
             vnpay.AddRequestData("vnp_IpAddr", ip);
             vnpay.AddRequestData("vnp_Locale", "vn");
-            vnpay.AddRequestData("vnp_OrderInfor", "Thanh toán hóa đơn:" + invoiceDetail.id.ToString());
+            vnpay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang:" + invoiceDetail.id);
             vnpay.AddRequestData("vnp_OrderType", "other");
             vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
             vnpay.AddRequestData("vnp_TxnRef", invoiceDetail.id.ToString()); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày

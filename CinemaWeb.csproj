@@ -290,8 +290,6 @@
     <Compile Include="Models\seat_status.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Services\IVnPayService.cs" />
-    <Compile Include="Models\Services\VnPayService.cs" />
     <Compile Include="Models\Payment\VnPayLibrary.cs" />
     <Compile Include="Models\star_rating.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -317,7 +315,6 @@
     <Compile Include="Models\user_type_user_role.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\VnPaymentResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

@@ -135,40 +135,6 @@ namespace CinemaWeb.Models
 
             return hash.ToString();
         }
-        //public static string GetIpAddress(HttpContextBase context)
-        //{
-        //    var ipAddress = string.Empty;
-        //    try
-        //    {
-        //        var remoteIpAddress = context.Request.UserHostAddress;
-
-        //        if (!string.IsNullOrEmpty(remoteIpAddress))
-        //        {
-        //            if (IPAddress.TryParse(remoteIpAddress, out IPAddress parsedIpAddress))
-        //            {
-        //                if (parsedIpAddress.AddressFamily == AddressFamily.InterNetworkV6)
-        //                {
-        //                    var ipv4Addresses = Dns.GetHostEntry(parsedIpAddress).AddressList
-        //                        .FirstOrDefault(x => x.AddressFamily == AddressFamily.InterNetwork);
-        //                    if (ipv4Addresses != null)
-        //                    {
-        //                        ipAddress = ipv4Addresses.ToString();
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    ipAddress = remoteIpAddress;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return "Invalid IP:" + ex.Message;
-        //    }
-
-        //    return ipAddress;
-        //}
         public static string GetIpAddress()
         {
             string ipAddress;
