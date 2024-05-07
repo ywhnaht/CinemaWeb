@@ -156,7 +156,18 @@
     padding-left: 34px;
     color: #777777;
 }
+.login-btn {
+    font-size: 14px;
+    margin-left: -48px;
+    color: #777777;
+    border: none;
+}
 
+.login-btn:hover
+{
+    cursor: pointer;
+    color: #F26B38;
+}
 /*container*/
 
 .line-default {
@@ -228,7 +239,7 @@
 }
 
 
-.text-center a {
+.block a {
         --tw-text-opacity: 1;
         color: rgb(255 255 255 / var(--tw-text-opacity));
         font-size: .875rem;
