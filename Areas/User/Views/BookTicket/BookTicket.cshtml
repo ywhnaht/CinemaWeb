@@ -1,11 +1,8 @@
-﻿@*@{
-        CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
-    }*@
-
-@{
+﻿@{
     var currentDate = DateTime.Now.Date;
     int total = 0;
     var currentHour = currentDate.Hour;
+    CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
 }
 
 <!DOCTYPE html>
@@ -168,7 +165,7 @@
                         <div class="col-auto">
                             <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
                                 <img class="icon" src="~/Areas/User/assets/images/logo/logomini.png" alt="">
-                                @*@currentUser.full_name*@
+                                @currentUser.full_name
                             </div>
                             <div class="row1" style="font-size: small; font-weight: 500;">
                                 <img class="icon" src="~/Areas/User/assets/images/logo/icon-gift.190935e4.png" alt="">
@@ -242,11 +239,6 @@
                         <div class="collapse day-cinema" id="datetime">
                             <div class="datetime-wrapper">
                                 <div class="datetime-container" role="tabpanel">
-                                    @*<div class="tab-content schedule-cinema">
-                                            <div class="row">
-                                                <h2 class="movie-text cinema-name">Ohayou Đà Nẵng</h2>
-                                            </div>
-                                        </div>*@
                                 </div>
                             </div>
                         </div>
@@ -865,6 +857,7 @@
         var selectedScheduleId = invoiceData.scheduleId;
         console.log(chosenSeats)
         sendBookingData(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats)
+
     })
 
     //function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats) {
@@ -902,9 +895,12 @@
             contentType: 'application/json', // Chúng ta sẽ gửi dữ liệu dưới dạng JSON
             data: JSON.stringify(data), // Gửi dữ liệu JSON
             success: function (response) {
-                /*window.location.href = ''*/ // Chuyển đến trang thanh toán
+                if (response.code == 1) {
+                    location.href = response.Url
+                }
             },
             error: function (error) {
+                window.location.href = '/User/BookTicket/PaymentFail'
                 console.error('Error:', error);
             }
         });
@@ -953,4 +949,5 @@
             }, 1500); // Đặt độ trễ 1000ms (1 giây)
         }
     });
+
 </script>
