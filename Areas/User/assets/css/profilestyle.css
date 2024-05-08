@@ -69,6 +69,16 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+    .sub-list-gr-1 li {
+        transition: all 0.3s ease;
+    }
+
+        .sub-list-gr-1 li:hover {
+            transition: all 0.3s ease;
+            background-color: #fb770b1a;
+            border-left: 4px solid;
+        }
+
     .movie-area a,
     .sub-list-gr-1 a {
         text-decoration: none;
