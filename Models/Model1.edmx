@@ -11,6 +11,10 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="actor_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="title" Type="nvarchar" MaxLength="1000" />
+          <Property Name="description" Type="nvarchar" MaxLength="2000" />
+          <Property Name="country_id" Type="int" />
+          <Property Name="actor_img" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="country">
           <Key>
@@ -251,6 +255,18 @@
           <Property Name="created" Type="datetime" />
           <Property Name="user_status" Type="tinyint" />
         </EntityType>
+        <Association Name="fk_actor_country">
+          <End Role="country" Type="Self.country" Multiplicity="0..1" />
+          <End Role="actor" Type="Self.actor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actor">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_discount_user_id">
           <End Role="users" Type="Self.users" Multiplicity="0..1" />
           <End Role="discount" Type="Self.discount" Multiplicity="*" />
@@ -637,6 +653,10 @@
           <EntitySet Name="user_type" EntityType="Self.user_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_type_user_role" EntityType="Self.user_type_user_role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_actor_country" Association="Self.fk_actor_country">
+            <End Role="country" EntitySet="country" />
+            <End Role="actor" EntitySet="actor" />
+          </AssociationSet>
           <AssociationSet Name="FK_discount_user_id" Association="Self.FK_discount_user_id">
             <End Role="users" EntitySet="users" />
             <End Role="discount" EntitySet="discount" />
@@ -769,6 +789,11 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="actor_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="title" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="country_id" Type="Int32" />
+          <Property Name="actor_img" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="country" Relationship="Self.fk_actor_country" FromRole="actor" ToRole="country" />
           <NavigationProperty Name="movie_actor" Relationship="Self.FK_movie_actor_actor_id" FromRole="actor" ToRole="movie_actor" />
         </EntityType>
         <EntityType Name="country">
@@ -777,6 +802,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="country_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="actors" Relationship="Self.fk_actor_country" FromRole="country" ToRole="actor" />
           <NavigationProperty Name="movies" Relationship="Self.FK_movies_country_id" FromRole="country" ToRole="movies" />
         </EntityType>
         <EntityType Name="director">
@@ -1069,6 +1095,18 @@
           <NavigationProperty Name="user_role1" Relationship="Self.FK_user_role_update_by" FromRole="users" ToRole="user_role" />
           <NavigationProperty Name="user_type1" Relationship="Self.users_user_type_id_FK" FromRole="users" ToRole="user_type" />
         </EntityType>
+        <Association Name="fk_actor_country">
+          <End Role="country" Type="Self.country" Multiplicity="0..1" />
+          <End Role="actor" Type="Self.actor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actor">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_movie_actor_actor_id">
           <End Role="actor" Type="Self.actor" Multiplicity="0..1" />
           <End Role="movie_actor" Type="Self.movie_actor" Multiplicity="*" />
@@ -1455,6 +1493,10 @@
           <EntitySet Name="user_type" EntityType="Self.user_type" />
           <EntitySet Name="user_type_user_role" EntityType="Self.user_type_user_role" />
           <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="fk_actor_country" Association="Self.fk_actor_country">
+            <End Role="country" EntitySet="countries" />
+            <End Role="actor" EntitySet="actors" />
+          </AssociationSet>
           <AssociationSet Name="FK_movie_actor_actor_id" Association="Self.FK_movie_actor_actor_id">
             <End Role="actor" EntitySet="actors" />
             <End Role="movie_actor" EntitySet="movie_actor" />
@@ -1587,6 +1629,10 @@
               <MappingFragment StoreEntitySet="actor">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="actor_name" ColumnName="actor_name" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="country_id" ColumnName="country_id" />
+                <ScalarProperty Name="actor_img" ColumnName="actor_img" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

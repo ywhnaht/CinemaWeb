@@ -201,6 +201,17 @@
     color: #F26B38;
 }
 
+.account-list li {
+    border-radius: 0;
+    transition: all 0.3s ease;
+}
+
+    .account-list li:hover {
+        transition: all 0.3s ease;
+        background-color: #fb770b1a;
+        border-left: 4px solid #F26B38;
+    }
+
 .account-list a {
     text-decoration: none;
     color: #000;

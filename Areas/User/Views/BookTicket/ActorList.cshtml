@@ -1,4 +1,6 @@
-﻿@{
+﻿@model CinemaWeb.Areas.User.Controllers.UserAccountController
+
+@{
     CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
     DateTime currentDate = DateTime.Now;
 }
@@ -8,11 +10,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="~/assets/images/logo/cinema-logo.png">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png" />
     <title>Ohayou Cinema</title>
-    <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
-    <link rel="stylesheet" href="~/Areas/User/assets/css/movietype.css?v=1">
+    <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css" />
+    <link rel="stylesheet" href="~/Areas/User/assets/css/actorstyle.css?v=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -29,7 +31,7 @@
                         <img src="~/assets/images/subimg/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
                     </a>
                 </div>
-                <div class="col-md-4" style="padding: 0">
+                <div class="col-md-4">
                     <ul class="list-gr-1 list-group list-group-horizontal">
                         <li class="list-group-item movie-area">
                             Phim
@@ -37,7 +39,7 @@
                             <ul class="movie-status list-group">
                                 <li class="movie-sta-text-1 py-1">
                                     <i class="fa-solid fa-film"></i>
-                                    <a href="#playing">PHIM ĐANG CHIẾU</a>
+                                    <a href="#">PHIM ĐANG CHIẾU</a>
                                 </li>
                                 <div class="movie-list py-1">
                                     <div class="row">
@@ -49,7 +51,7 @@
                                                 if (movie.movie_status == true && count < 4)
                                                 {
                                                     <div class="col-md-3 sub-movie-list">
-                                                        <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                                                        <a href="" class="text-dark-emphasis movie-name">
                                                             <img src="@movie.url_image" alt="" class="img-fluid img-movie">
                                                             <button class="buy-ticket-btn btn">
                                                                 <i class="ti-ticket"></i>
@@ -64,9 +66,10 @@
                                         }
                                     </div>
                                 </div>
+
                                 <li class="movie-sta-text-2 py-1">
                                     <i class="fa-solid fa-film"></i>
-                                    <a href="#coming">PHIM SẮP CHIẾU</a>
+                                    <a href="#">PHIM SẮP CHIẾU</a>
                                 </li>
                                 <div class="movie-list py-1">
                                     <div class="row">
@@ -78,7 +81,7 @@
                                                 if (movie.movie_status == false && count < 4)
                                                 {
                                                     <div class="col-md-3 sub-movie-list">
-                                                        <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                                                        <a href="" class="text-dark-emphasis movie-name">
                                                             <img src="@movie.url_image" alt="" class="img-fluid img-movie">
                                                             <button class="buy-ticket-btn btn">
                                                                 <i class="ti-ticket"></i>
@@ -125,6 +128,7 @@
 
                         </li>
                     </ul>
+
                 </div>
                 <div class="col-md-1">
                     <button class="search-btn btn">
@@ -182,29 +186,9 @@
             <div class="row content">
                 <div class="col-md-9 left">
                     <div class="option">
-                        <h1 class="text">PHIM ĐIỆN ẢNH</h1>
+                        <h1 class="text">DIỄN VIÊN</h1>
                         <div class="row list-dropdown">
-                            <div class="col item">
-                                @if (ViewBag.TypeName != null)
-                                {
-                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                        @ViewBag.TypeName
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                        Thể loại
-                                    </button>
-                                }
-                                <ul class="dropdown-menu" id="type-dropdown">
-                                    @foreach (var type in ViewBag.movieType)
-                                    {
-                                        <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(type.id)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st@(ViewBag.MovieStatus)ss@(ViewBag.MovieSelect)">@type.movie_type1</a></li>
-                                    }
-                                </ul>
-                            </div>
-                            <div class="col item">
+                            <div class="col-md-3 item">
                                 @if (ViewBag.CountryName != null)
                                 {
                                     <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
@@ -218,94 +202,46 @@
                                     </button>
                                 }
                                 <ul class="dropdown-menu" id="country-dropdown">
-                                    @foreach (var country in ViewBag.movieCountry)
+                                    @foreach (var country in ViewBag.CountryList)
                                     {
-                                        <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(country.id)my@(ViewBag.MovieYear)st@(ViewBag.MovieStatus)ss@(ViewBag.MovieSelect)">@country.country_name</a></li>
+                                        <li><a class="dropdown-item" href="/User/BookTicket/ActorList/@(country.id)">@country.country_name</a></li>
                                     }
                                 </ul>
                             </div>
-                            <div class="col item">
-                                @if (ViewBag.MovieYear != null)
-                                {
-                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                        @ViewBag.MovieYear
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                        Năm
-                                    </button>
-                                }
+                            @*<div class="col-md-3 item">
+                                <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                    Xem nhiều nhất
+                                </button>
                                 <ul class="dropdown-menu">
-                                    @for (int year = currentDate.Year; year >= 2021; year--)
-                                    {
-                                        <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(year.ToString())st@(ViewBag.MovieStatus)ss@(ViewBag.MovieSelect)">@year</a></li>
-                                    }
+                                    <li><a class="dropdown-item" href="#">Mới nhất</a></li>
+                                    <li><a class="dropdown-item" href="#">Đánh giá tốt nhất</a></li>
                                 </ul>
-                            </div>
-                            <div class="col item">
-                                @if (ViewBag.MovieStatus != null)
-                                {
-                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                        @ViewBag.StatusName
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                        Đang chiếu/Sắp
-                                    </button>
-                                }
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st1ss@(ViewBag.MovieSelect)">Đang chiếu</a></li>
-                                    <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st0ss@(ViewBag.MovieSelect)">Sắp chiếu</a></li>
-                                </ul>
-                            </div>
-                            <div class="col item">
-                                @if (ViewBag.MovieSelect != null)
-                                {
-                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                        @ViewBag.SelectName
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                                        Xem nhiều nhất
-                                    </button>
-                                }
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st@(ViewBag.MovieStatus)ss1">Mới nhất</a></li>
-                                    <li><a class="dropdown-item" href="/User/BookTicket/MovieType/mt@(ViewBag.SelectedTypeId)mc@(ViewBag.SelectedCountryId)my@(ViewBag.MovieYear)st@(ViewBag.MovieStatus)ss0">Đánh giá tốt nhất</a></li>
-                                </ul>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
-                    @if (TempData["MovieNotExist"] != null)
+
+                    @if (TempData["ActorNotExist"] != null)
                     {
-                        <div class="row movie-error">
+                        <div class="row actor-error">
                             <img src="https://www.galaxycine.vn/_next/static/media/booking-fail.0c03e999.png" alt="" />
-                            <span class="text-dark-emphasis fw-medium py-2">@TempData["MovieNotExist"]</span>
+                            <span class="text-dark-emphasis fw-medium py-2">@TempData["ActorNotExist"]</span>
                         </div>
                     }
+
                     <div class="my-8 mv-list">
                         <ul class="post-list">
-                            @foreach (var movie in ViewBag.MovieListType)
+                            @foreach (var actor in ViewBag.ActorList)
                             {
                                 <li class="movie">
                                     <div class="row">
                                         <div class="col-md-4 mv-poster">
-                                            <a href="/User/BookTicket/MovieDetail/@movie.id" class="img-link">
-                                                @if (movie.url_large_image != null)
-                                                {
-                                                    <img src="@movie.url_large_image" alt="" class="poster">
-                                                }
+                                            <a href="/User/BookTicket/ActorDetail/@actor.id" class="img-link">
+                                                <img src="@actor.actor_img" alt="" class="poster">
                                             </a>
                                         </div>
                                         <div class="col-md-8 mv-desciption">
-                                            <a href="/User/BookTicket/MovieDetail/@movie.id" class="mvname">
-                                                @movie.title
+                                            <a href="/User/BookTicket/ActorDetail" class="actorname">
+                                                @actor.actor_name
                                             </a>
                                             <div class="post-description">
                                                 <button type="button" class="like-btn">
@@ -322,7 +258,7 @@
                                                 </button>
                                                 <div class="description">
                                                     <p class="des-text">
-                                                        @movie.description
+                                                        @actor.title
                                                     </p>
                                                 </div>
                                             </div>
@@ -362,7 +298,7 @@
                         <div class="col-md-7"></div>
                         <div class="col-md-4">
                             <button type="button" class="new-mv">
-                                <a href="#" class="">
+                                <a href="" class="">
                                     Xem thêm
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 15px; height:15px; "><path fill="currentColor" d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"></path></svg>
                                 </a>
@@ -374,36 +310,19 @@
         </div>
     </div>
     <div class="line-default"></div>
-    <div class="container galaxy">
-        <h1 class="text">GALAXY CINEMA</h1>
-        <P>Bạn là một người mê phim, bạn thích khám phá bí mật phía sau hậu trường của các bom tấn, bạn thần tượng nhà làm phim nào đấy bởi tư duy vượt thời đại, phong cách quay phim đặc biệt và những câu chuyện đầy mới lạ, bạn ngưỡng mộ một ngôi sao bởi khả năng diễn xuất cực đỉnh… Thậm chí nếu bạn muốn tìm hiểu sâu hơn về điện ảnh, các trào lưu chủ nghĩa từng tạo tiếng vang trong lịch sử, sự ra đời của các thể loại và bản sắc riêng của từng nền điện ảnh đến từ các quốc gia khác nhau.</P>
-        <p>Chào mừng đến chuyên trang điện ảnh, nơi được xem như một thư viện với đầy đủ các thông tin về những bộ phim, đạo diễn, diễn viên dành cho người yêu phim. Tại đây bạn dễ dàng tìm hiểu được tiểu sử của vị đạo diễn yêu thích, có được thông tin bên lề của các bộ phim hay đang chiếu tại rạp. Ngoài ra nếu đam mê những tác phẩm kinh điển trong quá khứ, vẫn có những bài bình luận với hạng mục Phim Kinh Điển.</p>
-        <p>Đối với những ai có hứng thú tìm hiểu đời tư của các minh tinh hạng A, Galaxy Cinema cũng luôn cập nhật các tin tức nóng hổi từ họ. Bên cạnh đó còn bao gồm các bài phân tích mang tính chuyên môn, các chủ đề giúp nâng cao kiến thức điện ảnh cũng được giới thiệu qua loạt bài Ký Sự Điện Ảnh.</p>
+    <div class="container   galaxy">
+        <h1 class="text">OHAYOU CINEMA</h1>
+        <P>Có những cái tên mà khi nhắc đến luôn được xem là sự bảo chứng cho doanh thu phòng vé. Ngược lại, có nhiều cá nhân mà chỉ cần nghe đến cũng phải thốt lên “ôi đúng là thuốc độc phòng vé”. Bên cạnh đó, lại có những nhân vật từng nổi đình đám, nhưng rồi suốt bao lâu chẳng còn thấy ai nhắc đến</P>
+        <p>Các diễn viên điện ảnh thường được mệnh danh là “tắc kè hoa”. Lý do là bởi sự hóa thân đa dạng của họ trong từng loại vai khác nhau. Cũng là con người ấy, có thể ở phút trước còn khiến biết bao người căm phẫn, nhưng chỉ sau vài khoảnh khắc lại mang đến sự thương xót và đồng cảm ở người xem. Khán giả đôi khi cũng bàng hoàng nhận ra “bản chất thật” của người hùng trên phim chỉ bằng biểu cảm xuất sắc của người nghệ sĩ. Tất cả đem lại nhiều trạng thái cảm xúc lẫn lộn tới mức choáng ngợp. Làm thế nào lại có thể diễn một cách tài tình như vậy!</p>
+        <p>Yêu thích một diễn viên nào đó, mê mệt bởi vai diễn nào đấy bấy lâu. Thế nhưng quá nhiều nguồn thông tin khiến bạn bị rối. Không sao cả, Galaxy Cinema sẽ đem đến những thông tin khái quát chuẩn xác nhất về các diễn viên nổi tiếng xuất hiện trong những thước phim hay đang công phá rạp chiếu.</p>
     </div>
 
-
-
     <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
-
-    @*<script src="~/Areas/User/assets/js/moviedetail.js"></script>*@
-
+    <script src="~/Areas/User/assets/js/actorscript.js"></script>
 </body>
 </html>
 
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-<script>
-    //$(document).ready(function () {
-    //    // Xử lý khi người dùng chọn thể loại
-    //    $('#type-dropdown').on('click', 'li', function () {
-    //        var selectedType = $(this).text(); // Lấy text của dropdown-item được chọn
-    //        $('#type-dropdown').prev('.btn-option').text(selectedType); // Đặt text của button thành selectedType
-    //    });
 
-    //    // Xử lý khi người dùng chọn quốc gia
-    //    $('#country-dropdown').on('click', 'li', function () {
-    //        var selectedCountry = $(this).text(); // Lấy text của dropdown-item được chọn
-    //        $('#country-dropdown').prev('.btn-option').text(selectedCountry); // Đặt text của button thành selectedCountry
-    //    });
-    //});
-</script>
+

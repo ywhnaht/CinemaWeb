@@ -322,6 +322,70 @@ namespace CinemaWeb.Areas.User.Controllers
             return View();
         }
 
+        public ActionResult ActorList()
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+            ViewBag.MovieList = movielist;
+
+            var countryList = db.countries.ToList();
+            ViewBag.CountryList = countryList;
+
+            var actorList = db.actors.ToList();
+
+            var segments = System.Web.HttpContext.Current.Request.Url.Segments;
+            var countryIdSegment = segments[segments.Length - 1].TrimEnd('/');
+            int? countryId = null;
+
+            if (!string.IsNullOrEmpty(countryIdSegment)) {
+                int parsedCountryId;
+                if (int.TryParse(countryIdSegment, out parsedCountryId))
+                {
+                    countryId = parsedCountryId;
+                }
+            }
+
+            if (countryId != null)
+            {
+                actorList = actorList.Where(x => x.country_id == countryId).ToList();
+                var countryName = db.countries.FirstOrDefault(x => x.id == countryId).country_name;
+                ViewBag.CountryName = countryName;
+                ViewBag.SelectedCountryId = countryId;
+            }
+            if (!actorList.Any())
+            {
+                TempData["ActorNotExist"] = "Không tìm thấy diễn viên!";
+            }
+            ViewBag.ActorList = actorList;
+
+            return View();
+        }
+
+        public ActionResult ActorDetail()
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+            ViewBag.MovieList = movielist;
+
+            var segments = System.Web.HttpContext.Current.Request.Url.Segments;
+            var actorIdSegment = segments[segments.Length - 1].TrimEnd('/');
+            int? actorId = int.Parse(actorIdSegment);
+
+            if (actorId != null)
+            {
+                var actorItem = db.actors.FirstOrDefault(x => x.id == actorId);
+                ViewBag.ActorItem = actorItem;
+            }
+
+            var movieActor = db.movie_actor.Where(x => x.actor_id == actorId).Select(x => x.movy).ToList();
+            ViewBag.MovieActor = movieActor;
+            return View();
+        }
+
         public ActionResult PaymentFail()
         {
             if (Session["user"] == null)
