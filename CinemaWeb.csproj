@@ -209,7 +209,6 @@
     <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieController.cs" />
-    <Compile Include="Areas\Admin\Controllers\moviesController.cs" />
     <Compile Include="Areas\User\Common\Common.cs" />
     <Compile Include="Areas\User\Controllers\BookTicketController.cs" />
     <Compile Include="Areas\User\Controllers\UserAccountController.cs" />
@@ -1509,7 +1508,6 @@
     <Content Include="Areas\User\Views\BookTicket\MovieDetail.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\VnPayReturn.cshtml" />
     <Content Include="Areas\User\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Index.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\PaymentSuccess.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\PaymentFail.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\MovieType.cshtml" />
@@ -1567,8 +1565,6 @@
     <Content Include="Areas\Admin\assets\webfonts\fa-solid-900.woff" />
     <Content Include="Areas\Admin\assets\webfonts\fa-solid-900.woff2" />
     <Content Include="Areas\Admin\Views\AdminHome\InvoiceList.cshtml" />
-    <Content Include="Areas\Admin\Views\Movie\AddMovie.cshtml" />
-    <Content Include="Areas\Admin\Views\Movie\AllMovie.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\ActorList.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -1578,6 +1574,11 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <Content Include="Areas\User\Views\BookTicket\ActorDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Index.cshtml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

@@ -1,0 +1,119 @@
+﻿@model IEnumerable<CinemaWeb.Models.movy>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.release_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.end_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.duration_minutes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.created_at)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movie_status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.url_image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.url_trailer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.url_large_image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.country.country_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.director.director_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movie_type.movie_type1)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.release_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.end_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.duration_minutes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.created_at)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.movie_status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.url_image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.url_trailer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.url_large_image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.country.country_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.director.director_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.movie_type.movie_type1)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

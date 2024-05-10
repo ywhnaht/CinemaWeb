@@ -1,0 +1,138 @@
+﻿@model CinemaWeb.Models.movy
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>movy</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.title)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.title)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.description)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.description)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.release_date)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.release_date)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.end_date)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.end_date)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.duration_minutes)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.duration_minutes)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.created_at)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.created_at)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.movie_status)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.movie_status)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.url_image)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.url_image)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.rating)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.rating)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.url_trailer)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.url_trailer)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.url_large_image)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.url_large_image)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.country.country_name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.country.country_name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.director.director_name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.director.director_name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.movie_type.movie_type1)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.movie_type.movie_type1)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>
