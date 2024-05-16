@@ -301,6 +301,9 @@
     <Compile Include="Models\user.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\user_discount.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\user_profile.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -824,6 +827,9 @@
     <Content Include="assets\font\themify-icons\themify-icons.css" />
     <Content Include="assets\images\movie\exhumangang.jpg" />
     <Content Include="assets\images\movie\unname-movie.svg" />
+    <Content Include="assets\images\payment\booking-fail.0c03e999.png" />
+    <Content Include="assets\images\payment\icon-rules.9c822007.png" />
+    <Content Include="assets\images\payment\icon-success.c42e4e43.png" />
     <Content Include="assets\images\subimg\account.png" />
     <Content Include="assets\images\subimg\btn-ticket.png" />
     <Content Include="assets\images\logo\cinema-logo.png" />
@@ -841,6 +847,7 @@
     <Content Include="Areas\User\assets\js\bootstrap.esm.min.js" />
     <Content Include="Areas\User\assets\js\bootstrap.js" />
     <Content Include="Areas\User\assets\js\bootstrap.min.js" />
+    <Content Include="assets\images\subimg\download.png" />
     <Content Include="assets\js\signup.js" />
     <Content Include="assets\js\signin.js" />
     <Content Include="assets\js\scripts.js" />
@@ -998,9 +1005,12 @@
     <Content Include="FE_Q\assets\css\bootstrap.rtl.min.css" />
     <Content Include="FE_Q\assets\css\directordetailstyle.css" />
     <Content Include="FE_Q\assets\css\directorstyle.css" />
+    <Content Include="FE_Q\assets\css\favordetailstyle.css" />
+    <Content Include="FE_Q\assets\css\favorsstyle.css" />
     <Content Include="FE_Q\assets\css\gueststyle.css" />
     <Content Include="FE_Q\assets\css\moviedetailstyle.css" />
     <Content Include="FE_Q\assets\css\movietypestyle.css" />
+    <Content Include="FE_Q\assets\css\Ohayoustyle.css" />
     <Content Include="FE_Q\assets\css\reviewdetailstyle.css" />
     <Content Include="FE_Q\assets\css\reviewstyle.css" />
     <Content Include="FE_Q\assets\css\style.css" />
@@ -1416,14 +1426,20 @@
     <Content Include="FE_Q\assets\js\bootstrap.js" />
     <Content Include="FE_Q\assets\js\bootstrap.min.js" />
     <Content Include="FE_Q\assets\js\moviedetailscript.js" />
+    <Content Include="FE_Q\assets\js\movietypescript.js" />
+    <Content Include="FE_Q\assets\js\Ohayouscript.js" />
     <Content Include="FE_Q\assets\js\scripts.js" />
     <Content Include="FE_Q\assets\js\userscript.js" />
+    <Content Include="FE_Q\bestmovie.html" />
     <Content Include="FE_Q\director.html" />
     <Content Include="FE_Q\directordetail.html" />
+    <Content Include="FE_Q\favors.html" />
+    <Content Include="FE_Q\favorsdetail.html" />
     <Content Include="FE_Q\guest.html" />
     <Content Include="FE_Q\login.html" />
     <Content Include="FE_Q\moviedetail.html" />
     <Content Include="FE_Q\movietype.html" />
+    <Content Include="FE_Q\Ohayou.html" />
     <Content Include="FE_Q\review.html" />
     <Content Include="FE_Q\reviewdetail.html" />
     <Content Include="FE_Q\user.html" />
@@ -1566,6 +1582,14 @@
     <Content Include="Areas\Admin\assets\webfonts\fa-solid-900.woff2" />
     <Content Include="Areas\Admin\Views\AdminHome\InvoiceList.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\ActorList.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\ActorDetail.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Movie\Index.cshtml" />
+    <Content Include="FE_Q\images - Shortcut %282%29.lnk" />
+    <Content Include="FE_Q\images - Shortcut.lnk" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -1573,12 +1597,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\User\Views\BookTicket\ActorDetail.cshtml" />
-    <Content Include="Areas\Admin\Views\Movie\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Movie\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Movie\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Movie\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Movie\Index.cshtml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

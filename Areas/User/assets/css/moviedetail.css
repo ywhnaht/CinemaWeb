@@ -657,3 +657,121 @@
 .modal {
     margin-top: 0;
 }
+
+/*rating*/
+
+.modal-area .modal-content {
+    height: auto !important;
+    border-top: solid 8px #f58020;
+}
+
+.modal-area h1 {
+    font-size: 1.125rem;
+    text-align: center;
+    margin-top: 1rem;
+    font-family: Nunito Sans, sans-serif;
+    color: #4a4a4a;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.rate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    border: 1px solid rgb(62 128 201);
+    border-radius: 100%;
+    height: 120px;
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .circle .rate span {
+        align-items: center;
+        display: flex;
+    }
+
+.vote {
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.error-mess {
+    margin: 9px 0;
+    color: red;
+    font-weight: 500;
+    justify-content: center;
+    display: flex;
+}
+
+.star-list {
+    list-style: none;
+    padding: 0;
+}
+
+.star {
+    display: inline-block;
+}
+
+.star-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer !important;
+}
+
+.close {
+    width: 100%;
+    height: 40px;
+    font-size: .875rem;
+    box-sizing: border-box;
+    border: 0 solid #e5e7eb;
+    font-family: Nunito Sans, sans-serif !important;
+}
+
+.confirm {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(248 172 110);
+    box-sizing: border-box;
+    border: 0 solid #e5e7eb;
+    font-size: .875rem;
+    color: white;
+    transition-duration: .5s;
+    font-family: Nunito Sans, sans-serif !important;
+}
+
+.confirm-active {
+    cursor: pointer;
+    background-color: rgb(245 128 32);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border: 0 solid #e5e7eb;
+    font-size: .875rem;
+    color: white;
+    font-family: Nunito Sans, sans-serif !important;
+}
+
+
+
+/*.confirm:not(:disabled) {
+    cursor: auto;
+}*/
+
+.btn-item1 {
+    padding-right: 0;
+}
+
+.btn-item2 {
+    padding-left: 0;
+}
