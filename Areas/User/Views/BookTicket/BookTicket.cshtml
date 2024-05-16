@@ -14,7 +14,7 @@
     <title>Ohayou Cinema</title>
     <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css" />
-    <link rel="stylesheet" href="~/Areas/User/assets/css/bookticket.css" />
+    <link rel="stylesheet" href="~/Areas/User/assets/css/bookticket.css?v=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -697,6 +697,7 @@
         $('#total-price').text(totalprice.toLocaleString());
         $('#sum-money').text(totalprice.toLocaleString());
         $('#chosen-seats').text('')
+        $('#total-price').removeClass('discount-selected');
         //$('.clock').html('')
     });
 
@@ -786,69 +787,126 @@
         }
     }
 
+    function getDiscount() {
+        $.ajax({
+            url: '/User/BookTicket/GetDiscount',
+            type: 'GET',
+            success: function (response) {
+
+                var discountHtml = ""
+                // Duyệt qua danh sách khuyến mãi
+                for (var i = 0; i < response.length; i++) {
+                    var dateStr = response[i].disEnd.toString();
+                    var milliseconds = parseInt(dateStr.replace("/Date(", "").replace(")/", ""));
+                    var dateEnd = new Date(milliseconds);
+                    disEnd = formatDate(dateEnd, 1)
+                    var discount = response[i];
+                    console.log(discount)
+                    // Tạo HTML cho mỗi khuyến mãi và thêm vào chuỗi HTML
+                    discountHtml += '<div class="card card-body" style="display: inline-block !important;">';
+                    discountHtml += '<div class="card-box">';
+                    discountHtml += '<div class="main">';
+                    discountHtml += '<div class="co-img">';
+                    discountHtml += '<img src="../../assets/images/subimg/download.png" alt="' + discount.disTitle + '" />';
+                    discountHtml += '</div>';
+                    discountHtml += '<div class="vertical"></div>';
+                    discountHtml += '<div class="content">';
+                    discountHtml += '<h2>' + discount.disTitle + '</h2>';
+                    discountHtml += '<h1>' + (discount.disItem * 100) + '% <span>Giảm</span></h1>';
+                    discountHtml += '<p>Hạn sử dụng: ' + disEnd + '</p>';
+                    discountHtml += '</div>';
+                    discountHtml += '</div>';
+                    discountHtml += '<div class="copy-button">';
+                    discountHtml += '<button onclick="selectDiscount(\'' + discount.disId + '\', ' + (discount.disItem * 100) + ')" class="copybtn">Sử dụng</button>';
+                    discountHtml += '</div>';
+                    discountHtml += '</div>';
+                    discountHtml += '</div>';
+                    $('#discount-item').append(discountHtml)
+
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+    var selectedDiscount = null
+    function selectDiscount(discountId, discountAmount) {
+        selectedDiscount = {
+            id: discountId,
+            amount: discountAmount
+        };
+        console.log(selectedDiscount)
+        var originalTotalAmount = parseFloat($('#sum-money').text().replace(/,/g, ''))
+        var discountValue = (originalTotalAmount * discountAmount) / 100;
+        var newTotalAmount = originalTotalAmount - discountValue;
+        console.log(originalTotalAmount, discountValue, newTotalAmount)
+        // Cập nhật giá tiền mới lên thẻ span có id là sum-money
+        $('#total-price').addClass("discount-selected")
+        $('#sum-money').text(newTotalAmount.toLocaleString('en-US'));
+        //alert('Khuyến mãi ' + discountAmount + '% đã được chọn.');
+    }
+
     // ấn tiếp tục thì chuyển sang trang thanh toán
     var buyTicketListData
     $(document).on('click', '.continueBtn', function (event) {
-        if ($(this).hasClass('.un-click') && chosenSeats == null) {
+        if ($(this).hasClass('un-click') || chosenSeats == null) {
             return
         }
-
+        if ($(this).hasClass('paymentBtn') === false)
+            continueBooking()
         $(this).addClass('paymentBtn')
-        
+
         $('#navbar-item-3').addClass('navbar-colored')
         buyTicketListData = $('.buyticket-list').html()
         $('.continueBtn').find('span').text('Thanh toán')
         $('.buyticket-list').html('')
-        continueBooking()
-
-        var discountSection = $(
-        '<div class="row payment-area">' +
-            '<div class="row bg-white p-4">' +
-                '<h3 class="discount-text">Khuyến mãi</h3>' +
-                '<div class="row mt-2">' +
-                    '<form autocomplete="off" action="">' +
-                        '<div class="row">' +
-                            '<div class="col-auto discount-area">' +
-                                '<label class="inline-block mb-1 text-black-10 text-sm font-bold name-text" for="voucher-code">Mã khuyến mãi</label>' +
-                                '<input id="voucher-code" type="text" class="border w-full py-2 px-4" name="">' +
+                var discountSection = $(
+                '<div class="row payment-area">' +
+                    '<div class="row bg-white p-4">' +
+                        '<h3 class="discount-text">Khuyến mãi</h3>' +
+                        '<div class="row mt-2">' +
+                            '<form autocomplete="off" action="">' +
+                                '<div class="row">' +
+                                    '<div class="col-auto discount-area">' +
+                                        '<label class="inline-block mb-1 text-black-10 text-sm font-bold name-text" for="voucher-code">Mã khuyến mãi</label>' +
+                                        '<input id="voucher-code" type="text" class="border w-full py-2 px-4" name="">' +
+                                    '</div>' +
+                                    '<div class="col-auto d-flex align-items-end mt-7">' +
+                                        '<button class="chose-btn">Áp dụng</button>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<p class="mt-2" style="font-size: 12px">Lưu ý: Có thể áp dụng nhiều vouchers vào 1 lần thanh toán</p>' +
+                            '</form>' +
+                            '<p class="d-inline-flex gap-1">' +
+                                '<a class="inline-block mb-1 text-black-10 text-sm font-bold name-text" data-bs-toggle="collapse" href="#discount-item" role="button" aria-expanded="false" aria-controls="discount-item">' +
+                                    'Khuyến mãi của bạn' +
+                                    '<i class="ti-angle-down"></i>' +
+                                '</a>' +
+                            '</p>' +
+                            '<div class="collapse" id="discount-item">' +
                             '</div>' +
-                            '<div class="col-auto d-flex align-items-end mt-7">' +
-                                '<button class="chose-btn">Áp dụng</button>' +
-                            '</div>' +
-                        '</div>' +
-                        '<p class="mt-2" style="font-size: 12px">Lưu ý: Có thể áp dụng nhiều vouchers vào 1 lần thanh toán</p>' +
-                    '</form>' +
-                    '<p class="d-inline-flex gap-1">' +
-                        '<a class="inline-block mb-1 text-black-10 text-sm font-bold name-text" data-bs-toggle="collapse" href="#discount-item" role="button" aria-expanded="false" aria-controls="discount-item">' +
-                            'Khuyến mãi của bạn' +
-                            '<i class="ti-angle-down"></i>' +
-                        '</a>' +
-                    '</p>' +
-                    '<div class="collapse" id="discount-item">' +
-                        '<div class="card card-body">' +
-                            'Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.' +
                         '</div>' +
                     '</div>' +
-                '</div>' +
-            '</div>' +
-            '<div class="row bg-white mt-4 p-4">' +
-                '<h3 class="discount-text">Phương thức thanh toán</h3>' +
-                '<div class="my-4">' +
-                    '<ul class="payment-method">' +
-                        '<li class="payment-item" style="list-style-type: none;">' +
-                            '<input type="radio" class="w-4 h-4 text-primary bg-gray-100 border-gray-300" name="" id="payment-vnpay" value="vnpay" checked>' +
-                            '<img src="https://cdn.galaxycine.vn/media/2021/12/2/download_1638460623615.png" alt="" loading="lazy" width="50" height="50" decoding="async" class="inline-block mx-2 object-cover duration-500 ease-in-out group-hover:opacity-100 scale-100 blur-0 grayscale-0">' +
-                            '<label for="payment-vnpay" class="inline-block">VN Pay</label>' +
-                        '</li>' +
-                    '</ul>' +
-                '</div>' +
-                '<div class="mt-8" style="font-size: 12px">' +
-                    '<strong class="text-danger font-semibold">(*)</strong>' +
-                    '<span>Bằng việc click/chạm vào THANH TOÁN bên phải, bạn đã xác nhận hiểu rõ các Quy Định Giao Dịch Trực Tuyến của Ohayou Cinema.</span>' +
-                '</div>' +
-            '</div>' +
-        '</div>');
+                    '<div class="row bg-white mt-4 p-4">' +
+                        '<h3 class="discount-text">Phương thức thanh toán</h3>' +
+                        '<div class="my-4">' +
+                            '<ul class="payment-method">' +
+                                '<li class="payment-item" style="list-style-type: none;">' +
+                                    '<input type="radio" class="w-4 h-4 text-primary bg-gray-100 border-gray-300" name="" id="payment-vnpay" value="vnpay" checked>' +
+                                    '<img src="https://cdn.galaxycine.vn/media/2021/12/2/download_1638460623615.png" alt="" loading="lazy" width="50" height="50" decoding="async" class="inline-block mx-2 object-cover duration-500 ease-in-out group-hover:opacity-100 scale-100 blur-0 grayscale-0">' +
+                                    '<label for="payment-vnpay" class="inline-block">VN Pay</label>' +
+                                '</li>' +
+                            '</ul>' +
+                        '</div>' +
+                        '<div class="mt-8" style="font-size: 12px">' +
+                            '<strong class="text-danger font-semibold">(*)</strong>' +
+                            '<span>Bằng việc click/chạm vào THANH TOÁN bên phải, bạn đã xác nhận hiểu rõ các Quy Định Giao Dịch Trực Tuyến của Ohayou Cinema.</span>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>');
         $('.buyticket-list').append(discountSection);
+        getDiscount()
     })
 
     $(document).on('click', '.paymentBtn', function (event) {
@@ -856,37 +914,20 @@
         var selectedDateId = invoiceData.displaydateId;
         var selectedScheduleId = invoiceData.scheduleId;
         console.log(chosenSeats)
-        sendBookingData(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats)
+        sendBookingData(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats, selectedDiscount.id)
+        $('#total-price').removeClass("discount-selected");
 
     })
 
-    //function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats) {
-    //    $.ajax({
-    //        url: '/User/BookTicket/GetInvoice',
-    //        type: 'GET',
-    //        data: {
-    //            movieId: movieId,
-    //            displaydateId: displaydateId,
-    //            scheduleId: scheduleId,
-    //            roomId: roomId,
-    //            chosenSeats: chosenSeats
-    //        },
-    //        success: function (response) {
-    //            /*window.location.href = ''*/ // Chuyển đến trang thanh toán
-    //        },
-    //        error: function (error) {
-    //            console.error('Error:', error);
-    //        }
-    //    });
-    //}
-    function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats) {
+    function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats, discountId) {
         // Chuyển đổi mảng thành chuỗi JSON
         var data = {
             movieId: movieId,
             displaydateId: displaydateId,
             scheduleId: scheduleId,
             roomId: roomId,
-            chosenSeats: chosenSeats
+            chosenSeats: chosenSeats,
+            discountId: selectedDiscount ? selectedDiscount.id : null
         };
 
         $.ajax({
@@ -910,7 +951,9 @@
  // ấn quay lại thì trở lại trang chọn phim
         $(document).on('click', '.returnBtn', function (event) {
             if (buyTicketListData) {
+                
                 $('#navbar-item-3').removeClass('navbar-colored')
+                $('.continueBtn').removeClass('paymentBtn')
                 $('.buyticket-list').html(buyTicketListData);
                 $('.continueBtn').find('span').text('Tiếp tục')
                 buyTicketListData = '';

@@ -45,6 +45,7 @@ namespace CinemaWeb.Models
         public virtual DbSet<star_rating> star_rating { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<ticket> tickets { get; set; }
+        public virtual DbSet<user_discount> user_discount { get; set; }
         public virtual DbSet<user_profile> user_profile { get; set; }
         public virtual DbSet<user_role> user_role { get; set; }
         public virtual DbSet<user_type> user_type { get; set; }

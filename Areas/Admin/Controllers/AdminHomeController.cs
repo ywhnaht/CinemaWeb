@@ -13,5 +13,10 @@ namespace CinemaWeb.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public ActionResult InvoiceList()
+        {
+            return View();
+        }
     }
 }

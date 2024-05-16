@@ -18,19 +18,18 @@ namespace CinemaWeb.Models
         public discount()
         {
             this.invoices = new HashSet<invoice>();
+            this.user_discount = new HashSet<user_discount>();
         }
     
         public int id { get; set; }
-        public Nullable<int> user_id { get; set; }
         public string title { get; set; }
         public string dis_description { get; set; }
         public Nullable<decimal> discount1 { get; set; }
-        public Nullable<System.DateTime> start_date { get; set; }
-        public Nullable<System.DateTime> end_date { get; set; }
         public Nullable<bool> discount_status { get; set; }
     
-        public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<invoice> invoices { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<user_discount> user_discount { get; set; }
     }
 }

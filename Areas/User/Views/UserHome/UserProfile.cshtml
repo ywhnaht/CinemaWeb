@@ -15,7 +15,7 @@
     <title>Ohayou Cinema</title>
     <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css" />
-    <link rel="stylesheet" href="~/Areas/User/assets/css/profilestyle.css" />
+    <link rel="stylesheet" href="~/Areas/User/assets/css/profilestyle.css?v=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
@@ -105,7 +105,7 @@
                             <i class="ti-angle-down down-btn"></i>
                             <ul class="sub-list-gr-1 list-group">
                                 <li><a href="/User/BookTicket/MovieType">Thể loại phim</a></li>
-                                <li><a href="#">Diễn viên</a></li>
+                                <li><a href="/User/BookTicket/ActorList">Diễn viên</a></li>
                                 <li><a href="#">Đạo diễn</a></li>
                                 <li><a href="#">Bình luận phim</a></li>
                             </ul>
@@ -393,7 +393,7 @@
                                                         <div class="subform-group">
                                                             <label for="email">Email</label>
                                                             <div class="subform non-click">
-                                                                <input class="un-click" type="text" placeholder="@currentUser.email">
+                                                                <input class="un-click" type="text" value="@currentUser.email">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -401,7 +401,7 @@
                                                         <div class="subform-group">
                                                             <label for="date">Date of birth</label>
                                                             <div class="subform non-click">
-                                                                <input class="un-click" type="text" placeholder="@currentUser.date_of_birth.Value.ToString("dd/MM/yyyy")">
+                                                                <input class="un-click" type="text" value="@currentUser.date_of_birth.Value.ToString("dd/MM/yyyy")">
                                                             </div>
                                                         </div>
                                                         <div class="subform-group">

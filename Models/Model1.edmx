@@ -11,6 +11,10 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="actor_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="title" Type="nvarchar" MaxLength="1000" />
+          <Property Name="description" Type="nvarchar" MaxLength="2000" />
+          <Property Name="country_id" Type="int" />
+          <Property Name="actor_img" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="country">
           <Key>
@@ -31,12 +35,9 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="user_id" Type="int" />
           <Property Name="title" Type="nvarchar" MaxLength="255" />
           <Property Name="dis_description" Type="nvarchar(max)" />
           <Property Name="discount" Type="decimal" Precision="5" Scale="2" />
-          <Property Name="start_date" Type="date" />
-          <Property Name="end_date" Type="date" />
           <Property Name="discount_status" Type="bit" />
         </EntityType>
         <EntityType Name="display_date">
@@ -199,6 +200,17 @@
           <Property Name="ticket_status" Type="bit" />
           <Property Name="invoice_id" Type="int" />
         </EntityType>
+        <EntityType Name="user_discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="discount_id" Type="int" />
+          <Property Name="start_date" Type="datetime" />
+          <Property Name="end_date" Type="datetime" />
+          <Property Name="discount_status" Type="bit" />
+        </EntityType>
         <EntityType Name="user_profile">
           <Key>
             <PropertyRef Name="id" />
@@ -251,15 +263,15 @@
           <Property Name="created" Type="datetime" />
           <Property Name="user_status" Type="tinyint" />
         </EntityType>
-        <Association Name="FK_discount_user_id">
-          <End Role="users" Type="Self.users" Multiplicity="0..1" />
-          <End Role="discount" Type="Self.discount" Multiplicity="*" />
+        <Association Name="fk_actor_country">
+          <End Role="country" Type="Self.country" Multiplicity="0..1" />
+          <End Role="actor" Type="Self.actor" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="users">
+            <Principal Role="country">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="discount">
-              <PropertyRef Name="user_id" />
+            <Dependent Role="actor">
+              <PropertyRef Name="country_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -539,6 +551,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_user_discount_discount_id">
+          <End Role="discount" Type="Self.discount" Multiplicity="0..1" />
+          <End Role="user_discount" Type="Self.user_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="discount">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_discount">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_discount_user_id">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="user_discount" Type="Self.user_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_discount">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_user_role_create_by">
           <End Role="users" Type="Self.users" Multiplicity="0..1" />
           <End Role="user_role" Type="Self.user_role" Multiplicity="*" />
@@ -632,14 +668,15 @@
           <EntitySet Name="star_rating" EntityType="Self.star_rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ticket" EntityType="Self.ticket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_discount" EntityType="Self.user_discount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_profile" EntityType="Self.user_profile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_role" EntityType="Self.user_role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_type" EntityType="Self.user_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="user_type_user_role" EntityType="Self.user_type_user_role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_discount_user_id" Association="Self.FK_discount_user_id">
-            <End Role="users" EntitySet="users" />
-            <End Role="discount" EntitySet="discount" />
+          <AssociationSet Name="fk_actor_country" Association="Self.fk_actor_country">
+            <End Role="country" EntitySet="country" />
+            <End Role="actor" EntitySet="actor" />
           </AssociationSet>
           <AssociationSet Name="FK_invoice_discount_id" Association="Self.FK_invoice_discount_id">
             <End Role="discount" EntitySet="discount" />
@@ -733,6 +770,14 @@
             <End Role="seat" EntitySet="seat" />
             <End Role="ticket" EntitySet="ticket" />
           </AssociationSet>
+          <AssociationSet Name="FK_user_discount_discount_id" Association="Self.FK_user_discount_discount_id">
+            <End Role="discount" EntitySet="discount" />
+            <End Role="user_discount" EntitySet="user_discount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_discount_user_id" Association="Self.FK_user_discount_user_id">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_discount" EntitySet="user_discount" />
+          </AssociationSet>
           <AssociationSet Name="FK_user_role_create_by" Association="Self.FK_user_role_create_by">
             <End Role="users" EntitySet="users" />
             <End Role="user_role" EntitySet="user_role" />
@@ -769,6 +814,11 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="actor_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="title" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="country_id" Type="Int32" />
+          <Property Name="actor_img" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="country" Relationship="Self.fk_actor_country" FromRole="actor" ToRole="country" />
           <NavigationProperty Name="movie_actor" Relationship="Self.FK_movie_actor_actor_id" FromRole="actor" ToRole="movie_actor" />
         </EntityType>
         <EntityType Name="country">
@@ -777,6 +827,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="country_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="actors" Relationship="Self.fk_actor_country" FromRole="country" ToRole="actor" />
           <NavigationProperty Name="movies" Relationship="Self.FK_movies_country_id" FromRole="country" ToRole="movies" />
         </EntityType>
         <EntityType Name="director">
@@ -792,15 +843,12 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="user_id" Type="Int32" />
           <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="dis_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="discount1" Type="Decimal" Precision="5" Scale="2" />
-          <Property Name="start_date" Type="DateTime" Precision="0" />
-          <Property Name="end_date" Type="DateTime" Precision="0" />
           <Property Name="discount_status" Type="Boolean" />
-          <NavigationProperty Name="user" Relationship="Self.FK_discount_user_id" FromRole="discount" ToRole="users" />
           <NavigationProperty Name="invoices" Relationship="Self.FK_invoice_discount_id" FromRole="discount" ToRole="invoice" />
+          <NavigationProperty Name="user_discount" Relationship="Self.FK_user_discount_discount_id" FromRole="discount" ToRole="user_discount" />
         </EntityType>
         <EntityType Name="display_date">
           <Key>
@@ -1001,6 +1049,19 @@
           <NavigationProperty Name="invoice" Relationship="Self.FK_ticket_invoice_id" FromRole="ticket" ToRole="invoice" />
           <NavigationProperty Name="seat" Relationship="Self.FK_ticket_seat_id" FromRole="ticket" ToRole="seat" />
         </EntityType>
+        <EntityType Name="user_discount">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="discount_id" Type="Int32" />
+          <Property Name="start_date" Type="DateTime" Precision="3" />
+          <Property Name="end_date" Type="DateTime" Precision="3" />
+          <Property Name="discount_status" Type="Boolean" />
+          <NavigationProperty Name="discount" Relationship="Self.FK_user_discount_discount_id" FromRole="user_discount" ToRole="discount" />
+          <NavigationProperty Name="user" Relationship="Self.FK_user_discount_user_id" FromRole="user_discount" ToRole="users" />
+        </EntityType>
         <EntityType Name="user_profile">
           <Key>
             <PropertyRef Name="id" />
@@ -1060,15 +1121,27 @@
           <Property Name="date_of_birth" Type="DateTime" Precision="0" />
           <Property Name="created" Type="DateTime" Precision="3" />
           <Property Name="user_status" Type="Byte" />
-          <NavigationProperty Name="discounts" Relationship="Self.FK_discount_user_id" FromRole="users" ToRole="discount" />
           <NavigationProperty Name="invoices" Relationship="Self.FK_invoice_user_id" FromRole="users" ToRole="invoice" />
           <NavigationProperty Name="movie_review" Relationship="Self.FK_movie_review_user_id" FromRole="users" ToRole="movie_review" />
           <NavigationProperty Name="star_rating" Relationship="Self.FK_star_rating_user_id" FromRole="users" ToRole="star_rating" />
+          <NavigationProperty Name="user_discount" Relationship="Self.FK_user_discount_user_id" FromRole="users" ToRole="user_discount" />
           <NavigationProperty Name="user_profile" Relationship="Self.user_profile_user_id_FK" FromRole="users" ToRole="user_profile" />
           <NavigationProperty Name="user_role" Relationship="Self.FK_user_role_create_by" FromRole="users" ToRole="user_role" />
           <NavigationProperty Name="user_role1" Relationship="Self.FK_user_role_update_by" FromRole="users" ToRole="user_role" />
           <NavigationProperty Name="user_type1" Relationship="Self.users_user_type_id_FK" FromRole="users" ToRole="user_type" />
         </EntityType>
+        <Association Name="fk_actor_country">
+          <End Role="country" Type="Self.country" Multiplicity="0..1" />
+          <End Role="actor" Type="Self.actor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actor">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_movie_actor_actor_id">
           <End Role="actor" Type="Self.actor" Multiplicity="0..1" />
           <End Role="movie_actor" Type="Self.movie_actor" Multiplicity="*" />
@@ -1105,18 +1178,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_discount_user_id">
-          <End Role="users" Type="Self.user" Multiplicity="0..1" />
-          <End Role="discount" Type="Self.discount" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="discount">
-              <PropertyRef Name="user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_invoice_discount_id">
           <End Role="discount" Type="Self.discount" Multiplicity="0..1" />
           <End Role="invoice" Type="Self.invoice" Multiplicity="*" />
@@ -1125,6 +1186,18 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="invoice">
+              <PropertyRef Name="discount_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_discount_discount_id">
+          <End Role="discount" Type="Self.discount" Multiplicity="0..1" />
+          <End Role="user_discount" Type="Self.user_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="discount">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_discount">
               <PropertyRef Name="discount_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -1357,6 +1430,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_user_discount_user_id">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="user_discount" Type="Self.user_discount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user_discount">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="user_profile_user_id_FK">
           <End Role="users" Type="Self.user" Multiplicity="0..1" />
           <End Role="user_profile" Type="Self.user_profile" Multiplicity="*" />
@@ -1450,11 +1535,16 @@
           <EntitySet Name="star_rating" EntityType="Self.star_rating" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="tickets" EntityType="Self.ticket" />
+          <EntitySet Name="user_discount" EntityType="Self.user_discount" />
           <EntitySet Name="user_profile" EntityType="Self.user_profile" />
           <EntitySet Name="user_role" EntityType="Self.user_role" />
           <EntitySet Name="user_type" EntityType="Self.user_type" />
           <EntitySet Name="user_type_user_role" EntityType="Self.user_type_user_role" />
           <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="fk_actor_country" Association="Self.fk_actor_country">
+            <End Role="country" EntitySet="countries" />
+            <End Role="actor" EntitySet="actors" />
+          </AssociationSet>
           <AssociationSet Name="FK_movie_actor_actor_id" Association="Self.FK_movie_actor_actor_id">
             <End Role="actor" EntitySet="actors" />
             <End Role="movie_actor" EntitySet="movie_actor" />
@@ -1467,13 +1557,13 @@
             <End Role="director" EntitySet="directors" />
             <End Role="movies" EntitySet="movies" />
           </AssociationSet>
-          <AssociationSet Name="FK_discount_user_id" Association="Self.FK_discount_user_id">
-            <End Role="users" EntitySet="users" />
-            <End Role="discount" EntitySet="discounts" />
-          </AssociationSet>
           <AssociationSet Name="FK_invoice_discount_id" Association="Self.FK_invoice_discount_id">
             <End Role="discount" EntitySet="discounts" />
             <End Role="invoice" EntitySet="invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_discount_discount_id" Association="Self.FK_user_discount_discount_id">
+            <End Role="discount" EntitySet="discounts" />
+            <End Role="user_discount" EntitySet="user_discount" />
           </AssociationSet>
           <AssociationSet Name="FK_movie_display_date_display_date_id" Association="Self.FK_movie_display_date_display_date_id">
             <End Role="display_date" EntitySet="display_date" />
@@ -1551,6 +1641,10 @@
             <End Role="users" EntitySet="users" />
             <End Role="star_rating" EntitySet="star_rating" />
           </AssociationSet>
+          <AssociationSet Name="FK_user_discount_user_id" Association="Self.FK_user_discount_user_id">
+            <End Role="users" EntitySet="users" />
+            <End Role="user_discount" EntitySet="user_discount" />
+          </AssociationSet>
           <AssociationSet Name="user_profile_user_id_FK" Association="Self.user_profile_user_id_FK">
             <End Role="users" EntitySet="users" />
             <End Role="user_profile" EntitySet="user_profile" />
@@ -1587,6 +1681,10 @@
               <MappingFragment StoreEntitySet="actor">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="actor_name" ColumnName="actor_name" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="country_id" ColumnName="country_id" />
+                <ScalarProperty Name="actor_img" ColumnName="actor_img" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1610,12 +1708,9 @@
             <EntityTypeMapping TypeName="CinemaWebModel.discount">
               <MappingFragment StoreEntitySet="discount">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="title" ColumnName="title" />
                 <ScalarProperty Name="dis_description" ColumnName="dis_description" />
                 <ScalarProperty Name="discount1" ColumnName="discount" />
-                <ScalarProperty Name="start_date" ColumnName="start_date" />
-                <ScalarProperty Name="end_date" ColumnName="end_date" />
                 <ScalarProperty Name="discount_status" ColumnName="discount_status" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1793,6 +1888,18 @@
                 <ScalarProperty Name="ticket_price" ColumnName="ticket_price" />
                 <ScalarProperty Name="ticket_status" ColumnName="ticket_status" />
                 <ScalarProperty Name="invoice_id" ColumnName="invoice_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_discount">
+            <EntityTypeMapping TypeName="CinemaWebModel.user_discount">
+              <MappingFragment StoreEntitySet="user_discount">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="discount_id" ColumnName="discount_id" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+                <ScalarProperty Name="discount_status" ColumnName="discount_status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

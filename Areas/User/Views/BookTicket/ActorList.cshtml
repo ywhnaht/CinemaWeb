@@ -1,0 +1,328 @@
+﻿@model CinemaWeb.Areas.User.Controllers.UserAccountController
+
+@{
+    CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
+    DateTime currentDate = DateTime.Now;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png" />
+    <title>Ohayou Cinema</title>
+    <link rel="stylesheet" href="~/Areas/User/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css" />
+    <link rel="stylesheet" href="~/Areas/User/assets/css/actorstyle.css?v=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="header">
+        <div class="container-fluid  p-4">
+            <div class="row align-items-center">
+                <div class="col-md-2 px-5 py-1">
+                    <a href="/User/UserHome/" class="navbar-brand">
+                        <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                    </a>
+                </div>
+                <div class="col-md-2 buyticket-area">
+                    <a href="/User/BookTicket/BookTicket" class="buyticket-btn btn">
+                        <img src="~/assets/images/subimg/btn-ticket.png" alt="" class="img-buy-btn img-fluid">
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-gr-1 list-group list-group-horizontal">
+                        <li class="list-group-item movie-area">
+                            Phim
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="movie-status list-group">
+                                <li class="movie-sta-text-1 py-1">
+                                    <i class="fa-solid fa-film"></i>
+                                    <a href="#">PHIM ĐANG CHIẾU</a>
+                                </li>
+                                <div class="movie-list py-1">
+                                    <div class="row">
+                                        @if (ViewBag.MovieList != null)
+                                        {
+                                            var count = 0;
+                                            foreach (var movie in ViewBag.MovieList)
+                                            {
+                                                if (movie.movie_status == true && count < 4)
+                                                {
+                                                    <div class="col-md-3 sub-movie-list">
+                                                        <a href="" class="text-dark-emphasis movie-name">
+                                                            <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                            <button class="buy-ticket-btn btn">
+                                                                <i class="ti-ticket"></i>
+                                                                Mua vé
+                                                            </button>
+                                                            <span>@movie.title</span>
+                                                        </a>
+                                                    </div>
+                                                    count++;
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                                <li class="movie-sta-text-2 py-1">
+                                    <i class="fa-solid fa-film"></i>
+                                    <a href="#">PHIM SẮP CHIẾU</a>
+                                </li>
+                                <div class="movie-list py-1">
+                                    <div class="row">
+                                        @if (ViewBag.MovieList != null)
+                                        {
+                                            var count = 0;
+                                            foreach (var movie in ViewBag.MovieList)
+                                            {
+                                                if (movie.movie_status == false && count < 4)
+                                                {
+                                                    <div class="col-md-3 sub-movie-list">
+                                                        <a href="" class="text-dark-emphasis movie-name">
+                                                            <img src="@movie.url_image" alt="" class="img-fluid img-movie">
+                                                            <button class="buy-ticket-btn btn">
+                                                                <i class="ti-ticket"></i>
+                                                                Mua vé
+                                                            </button>
+                                                            <span>@movie.title</span>
+                                                        </a>
+                                                    </div>
+                                                    count++;
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Góc Điện Ảnh
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/User/BookTicket/MovieType">Thể loại phim</a></li>
+                                <li><a href="/User/BookTicket/ActorList">Diễn viên</a></li>
+                                <li><a href="#">Đạo diễn</a></li>
+                                <li><a href="#">Bình luận phim</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item event-list text-center">
+                            Sự Kiện
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Ưu đãi</a></li>
+                                <li><a href="#">Phim hay tháng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item ticket-price text-center">
+                            Rạp/Giá vé
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Rạp Đà Nẵng</a></li>
+                            </ul>
+
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="col-md-1">
+                    <button class="search-btn btn">
+                        <i class="search-icon ti-search"></i>
+                    </button>
+                </div>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/HistoryTicket">
+                                                <i class="fa-solid fa-list-ol account-icon"></i>
+                                                Lịch Sử
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/logomini.png" alt="">
+                                @currentUser.full_name
+                            </div>
+                            <div class="row1" style="font-size: small; font-weight: 500;">
+                                <img class="icon" src="~/Areas/User/assets/images/logo/icon-gift.190935e4.png" alt="">
+                                0 Star
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="line-default"></div>
+    <div class="container wrapper">
+        <div class="content-wrapper">
+            <div class="row content">
+                <div class="col-md-9 left">
+                    <div class="option">
+                        <h1 class="text">DIỄN VIÊN</h1>
+                        <div class="row list-dropdown">
+                            <div class="col-md-3 item">
+                                @if (ViewBag.CountryName != null)
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        @ViewBag.CountryName
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                        Quốc gia
+                                    </button>
+                                }
+                                <ul class="dropdown-menu" id="country-dropdown">
+                                    @foreach (var country in ViewBag.CountryList)
+                                    {
+                                        <li><a class="dropdown-item" href="/User/BookTicket/ActorList/@(country.id)">@country.country_name</a></li>
+                                    }
+                                </ul>
+                            </div>
+                            @*<div class="col-md-3 item">
+                                <button type="button" class="btn-option btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                    Xem nhiều nhất
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Mới nhất</a></li>
+                                    <li><a class="dropdown-item" href="#">Đánh giá tốt nhất</a></li>
+                                </ul>
+                            </div>*@
+                        </div>
+                    </div>
+
+                    @if (TempData["ActorNotExist"] != null)
+                    {
+                        <div class="row actor-error">
+                            <img src="https://www.galaxycine.vn/_next/static/media/booking-fail.0c03e999.png" alt="" />
+                            <span class="text-dark-emphasis fw-medium py-2">@TempData["ActorNotExist"]</span>
+                        </div>
+                    }
+
+                    <div class="my-8 mv-list">
+                        <ul class="post-list">
+                            @foreach (var actor in ViewBag.ActorList)
+                            {
+                                <li class="movie">
+                                    <div class="row">
+                                        <div class="col-md-4 mv-poster">
+                                            <a href="/User/BookTicket/ActorDetail/@actor.id" class="img-link">
+                                                <img src="@actor.actor_img" alt="" class="poster">
+                                            </a>
+                                        </div>
+                                        <div class="col-md-8 mv-desciption">
+                                            <a href="/User/BookTicket/ActorDetail" class="actorname">
+                                                @actor.actor_name
+                                            </a>
+                                            <div class="post-description">
+                                                <button type="button" class="like-btn">
+                                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="thumbs-up" class="svg-inline--fa fa-thumbs-up " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="display:inline-block; height:1em; width:10px ">
+                                                        <path fill="currentColor" d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z">
+                                                        </path>
+                                                    </svg> Thích
+                                                </button>
+                                                <button class="view-btn">
+                                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="eye" class="svg-inline--fa fa-eye " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" style="display:inline-block; height:1em; width:10px ">
+                                                        <path fill="currentColor" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z">
+                                                        </path>
+                                                    </svg> 2932
+                                                </button>
+                                                <div class="description">
+                                                    <p class="des-text">
+                                                        @actor.title
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 right">
+                    <div class="row ">
+                        <h1 class="text-right">Phim đang chiếu</h1>
+                    </div>
+                    @if (ViewBag.MovieList != null)
+                    {
+                        var count = 0;
+                        foreach (var movie in ViewBag.MovieList)
+                        {
+                            if (movie.movie_status == true && count < 3)
+                            {
+                                <div class="row mv">
+                                    <a href="/User/BookTicket/MovieDetail/@movie.id" class="text-dark-emphasis movie-name">
+                                        <img src="@movie.url_large_image" alt="" class="img-fluid img-movie">
+                                        <button class="buy-ticket-btn btn">
+                                            <i class="ti-ticket"></i>
+                                            Mua vé
+                                        </button>
+                                        <span class="playing-movie">@movie.title</span>
+                                    </a>
+                                </div>
+                                count++;
+                            }
+                        }
+                    }
+                    <div class="row bonus">
+                        <div class="col-md-7"></div>
+                        <div class="col-md-4">
+                            <button type="button" class="new-mv">
+                                <a href="" class="">
+                                    Xem thêm
+                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 15px; height:15px; "><path fill="currentColor" d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"></path></svg>
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="line-default"></div>
+    <div class="container   galaxy">
+        <h1 class="text">OHAYOU CINEMA</h1>
+        <P>Có những cái tên mà khi nhắc đến luôn được xem là sự bảo chứng cho doanh thu phòng vé. Ngược lại, có nhiều cá nhân mà chỉ cần nghe đến cũng phải thốt lên “ôi đúng là thuốc độc phòng vé”. Bên cạnh đó, lại có những nhân vật từng nổi đình đám, nhưng rồi suốt bao lâu chẳng còn thấy ai nhắc đến</P>
+        <p>Các diễn viên điện ảnh thường được mệnh danh là “tắc kè hoa”. Lý do là bởi sự hóa thân đa dạng của họ trong từng loại vai khác nhau. Cũng là con người ấy, có thể ở phút trước còn khiến biết bao người căm phẫn, nhưng chỉ sau vài khoảnh khắc lại mang đến sự thương xót và đồng cảm ở người xem. Khán giả đôi khi cũng bàng hoàng nhận ra “bản chất thật” của người hùng trên phim chỉ bằng biểu cảm xuất sắc của người nghệ sĩ. Tất cả đem lại nhiều trạng thái cảm xúc lẫn lộn tới mức choáng ngợp. Làm thế nào lại có thể diễn một cách tài tình như vậy!</p>
+        <p>Yêu thích một diễn viên nào đó, mê mệt bởi vai diễn nào đấy bấy lâu. Thế nhưng quá nhiều nguồn thông tin khiến bạn bị rối. Không sao cả, Galaxy Cinema sẽ đem đến những thông tin khái quát chuẩn xác nhất về các diễn viên nổi tiếng xuất hiện trong những thước phim hay đang công phá rạp chiếu.</p>
+    </div>
+
+    <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Areas/User/assets/js/actorscript.js"></script>
+</body>
+</html>
+
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
+

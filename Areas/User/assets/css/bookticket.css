@@ -72,6 +72,16 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+    .sub-list-gr-1 li {
+        transition: all 0.3s ease;
+    }
+
+        .sub-list-gr-1 li:hover {
+            transition: all 0.3s ease;
+            background-color: #fb770b1a;
+            border-left: 4px solid;
+        }
+
 .sub-movie-list1 {
     padding-bottom: 1rem;
 }
@@ -613,4 +623,126 @@
     border-radius: 8px;
     letter-spacing: 0.5px;
     cursor: pointer;
+}
+
+/* Discount */
+
+.discount-selected {
+    text-decoration: line-through;
+}
+
+.discount-apply {
+
+}
+
+.content {
+    margin-top: 30px;
+}
+
+.card-box {
+    width: 400px;
+    height: 195px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    padding: 10px 10px;
+    position: relative;
+}
+
+.main,
+.copy-button {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    align-items: center;
+}
+
+.card-box::after {
+    position: absolute;
+    content: "";
+    height: 40px;
+    right: -20px;
+    border-radius: 40px;
+    z-index: 1;
+    top: 70px;
+    width: 40px;
+}
+
+.card-box::before {
+    position: absolute;
+    content: "";
+    height: 40px;
+    left: -20px;
+    border-radius: 40px;
+    z-index: 1;
+    top: 70px;
+    width: 40px;
+}
+
+.co-img img {
+    width: 100px;
+    height: 100px;
+    margin-left: 10px;
+    margin-bottom: 2rem;
+}
+
+.vertical {
+    border-left: 5px dotted black;
+    height: 120px;
+    position: absolute;
+    left: 40%;
+    top: 17%;
+}
+
+.content {
+    margin-left: 5rem;
+}
+
+.content h1 {
+    font-size: 35px;
+    margin-left: -20px;
+    color: #565656;
+}
+
+    .content h1 span {
+        font-size: 18px;
+    }
+
+.content h2 {
+    font-size: 18px;
+    margin-left: -20px;
+    color: #565656;
+    text-transform: uppercase;
+}
+
+.content p {
+    font-size: 16px;
+    color: #696969;
+    margin-left: -20px;
+}
+
+.copy-button {
+    position: relative;
+    margin: 12px 0 -5px 0;
+    height: 45px;
+    border-radius: 4px;
+    padding: 0 5px;
+}
+
+    .copy-button button {
+        position: absolute;
+        padding: 5px 20px;
+        background-color: #dc143c;
+        color: #fff;
+        border: 1px solid transparent;
+        top: -110%;
+        left: 7%;
+    }
+
+.buy {
+    position: absolute;
+    content: "";
+    bottom: 20px;
+    left: 20px;
+    background-color: #dc143c;
 }

@@ -136,12 +136,37 @@ namespace CinemaWeb.Areas.User.Controllers
             GetMovieStatus(movielist);
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
+            var currentUser = (user)Session["user"];
 
             var segments = System.Web.HttpContext.Current.Request.Url.Segments;
             var movieIdSegment = segments[segments.Length - 1].TrimEnd('/');
             var movieId = int.Parse(movieIdSegment);
 
+            var movieRatings = db.star_rating
+                                .Where(sr => sr.movie_id == movieId)
+                                .GroupBy(sr => sr.movie_id)
+                                .Select(x => new
+                                {
+                                    AverageRating = Math.Round((decimal)x.Average(sr => sr.rating_value), 1),
+                                    RatingCount = x.Count()
+                                })
+                                .FirstOrDefault();
+
             var movieItem = db.movies.FirstOrDefault(x => x.id == movieId);
+
+            if (movieRatings != null)
+            {
+                movieItem.rating = movieRatings.AverageRating;
+                ViewBag.RatingCount = movieRatings.RatingCount;
+                db.SaveChanges();
+            }
+            else
+            {
+                movieItem.rating = 0;
+                ViewBag.RatingCount = 0;
+                db.SaveChanges();
+            }
+
             ViewBag.movieItem = movieItem;
 
             var movieActor = db.movie_actor.Where(x => x.movie_id == movieId).ToList();
@@ -154,6 +179,38 @@ namespace CinemaWeb.Areas.User.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult MovieRating(int movieId, decimal rating)
+        {
+            var code = new { success = false, code = -1, averageRating = 0m, ratingCount = 0 };
+            var currentUser = (user)Session["user"];
+            var ratingValue = db.star_rating.FirstOrDefault(x => x.movie_id == movieId && x.user_id == currentUser.id);
+            if (ratingValue == null)
+            {
+                var newRating = new star_rating();
+                newRating.movie_id = movieId;
+                newRating.user_id = currentUser.id;
+                newRating.rating_value = rating;
+                db.star_rating.Add(newRating);
+                db.SaveChanges();
+                var movieRatings = db.star_rating
+                                    .Where(sr => sr.movie_id == movieId)
+                                    .GroupBy(sr => sr.movie_id)
+                                    .Select(x => new
+                                    {
+                                        AverageRating = Math.Round((decimal)x.Average(sr => sr.rating_value), 1),
+                                        RatingCount = x.Count()
+                                    })
+                                    .FirstOrDefault();
+
+                if (movieRatings != null)
+                {
+                    code = new { success = true, code = 1, averageRating = movieRatings.AverageRating, ratingCount = movieRatings.RatingCount };
+                }
+            }
+            
+            return Json(code);
+        }
         public ActionResult MovieType()
         {
             List<movy> movielist = db.movies.ToList();
@@ -322,6 +379,90 @@ namespace CinemaWeb.Areas.User.Controllers
             return View();
         }
 
+        public ActionResult ActorList()
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+            ViewBag.MovieList = movielist;
+
+            var countryList = db.countries.ToList();
+            ViewBag.CountryList = countryList;
+
+            var actorList = db.actors.ToList();
+
+            var segments = System.Web.HttpContext.Current.Request.Url.Segments;
+            var countryIdSegment = segments[segments.Length - 1].TrimEnd('/');
+            int? countryId = null;
+
+            if (!string.IsNullOrEmpty(countryIdSegment)) {
+                int parsedCountryId;
+                if (int.TryParse(countryIdSegment, out parsedCountryId))
+                {
+                    countryId = parsedCountryId;
+                }
+            }
+
+            if (countryId != null)
+            {
+                actorList = actorList.Where(x => x.country_id == countryId).ToList();
+                var countryName = db.countries.FirstOrDefault(x => x.id == countryId).country_name;
+                ViewBag.CountryName = countryName;
+                ViewBag.SelectedCountryId = countryId;
+            }
+            if (!actorList.Any())
+            {
+                TempData["ActorNotExist"] = "Không tìm thấy diễn viên!";
+            }
+            ViewBag.ActorList = actorList;
+
+            return View();
+        }
+
+        public ActionResult ActorDetail()
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+            ViewBag.MovieList = movielist;
+
+            var segments = System.Web.HttpContext.Current.Request.Url.Segments;
+            var actorIdSegment = segments[segments.Length - 1].TrimEnd('/');
+            int? actorId = int.Parse(actorIdSegment);
+
+            if (actorId != null)
+            {
+                var actorItem = db.actors.FirstOrDefault(x => x.id == actorId);
+                ViewBag.ActorItem = actorItem;
+            }
+
+            var movieActor = db.movie_actor.Where(x => x.actor_id == actorId).Select(x => x.movy).ToList();
+            ViewBag.MovieActor = movieActor;
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetDiscount()
+        {
+            var currentUser = (user)Session["user"];
+            DateTime currentDate = DateTime.Now;
+            var discountList = db.user_discount.Where(x => x.user_id == currentUser.id && x.start_date.Value.Month == currentDate.Month && x.discount_status == false)
+                                               .Select(y => new
+                                               {
+                                                   disId = y.discount_id,
+                                                   disStt = y.discount_status,
+                                                   disTitle = y.discount.title,
+                                                   disItem = y.discount.discount1,
+                                                   disDes = y.discount.dis_description,
+                                                   disEnd = y.end_date,
+                                                   disStart = y.start_date
+                                               })
+                                               .ToList();
+
+            return Json(discountList, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult PaymentFail()
         {
             if (Session["user"] == null)
@@ -499,6 +640,7 @@ namespace CinemaWeb.Areas.User.Controllers
             int displaydateId = (int)jsonObject["displaydateId"];
             int scheduleId = (int)jsonObject["scheduleId"];
             int roomId = (int)jsonObject["roomId"];
+            int? discountId = (int?)jsonObject["discountId"];
             JArray chosenSeatsArray = (JArray)jsonObject["chosenSeats"];
             int[] chosenSeats = chosenSeatsArray.ToObject<int[]>();
 
@@ -517,7 +659,21 @@ namespace CinemaWeb.Areas.User.Controllers
 
             db.invoices.Add(newInvoice);
             db.SaveChanges();
-            newInvoice.total_money = CalculateTotalMoney(chosenSeats);
+            
+            var total_money = CalculateTotalMoney(chosenSeats);
+            var discountItem = new discount();
+
+            if (discountId != null)
+                 discountItem = db.discounts.FirstOrDefault(x => x.id == discountId);
+
+            newInvoice.total_money = ((int?)(total_money - discountItem.discount1 * total_money));
+            foreach (var item in discountItem.user_discount)
+            {
+                if (currentUser.id == item.user_id)
+                {
+                    item.discount_status = true;
+                }
+            }
 
             foreach (var seatId in chosenSeats)
             {

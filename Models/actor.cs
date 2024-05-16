@@ -22,7 +22,12 @@ namespace CinemaWeb.Models
     
         public int id { get; set; }
         public string actor_name { get; set; }
+        public string title { get; set; }
+        public string description { get; set; }
+        public Nullable<int> country_id { get; set; }
+        public string actor_img { get; set; }
     
+        public virtual country country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<movie_actor> movie_actor { get; set; }
     }
