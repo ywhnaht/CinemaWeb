@@ -123,6 +123,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Add 'confirm-active' class to confirm button if there is at least one active star
             const activeStars = document.querySelectorAll('.star-active');
             if(activeStars.length > 0){
+                confirmBtn.classList.remove('confirm');
                 confirmBtn.classList.add('confirm-active');
             } else {
                 confirmBtn.classList.remove('confirm-active');

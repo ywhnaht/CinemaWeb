@@ -756,8 +756,8 @@
 }
 
 .confirm-active{
-    cursor: pointer;
-    background-color: (245 128 32);
+    cursor: pointer !important;
+    background-color:#f29538;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
