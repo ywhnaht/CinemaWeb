@@ -1,153 +1,280 @@
 ﻿@model CinemaWeb.Models.movy
 
 @{
-    Layout = null;
+    ViewBag.Title = "Create";
 }
 
-<!DOCTYPE html>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Edit Product - Dashboard Admin Template</title>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/assets/jquery-ui-datepicker/jquery-ui.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/templatemo-style.css">
 </head>
+
 <body>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    
-    
-    @using (Html.BeginForm()) 
-    {
-        @Html.AntiForgeryToken()
-        
-        <div class="form-horizontal">
-            <h4>movy</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
-                </div>
+    <nav class="navbar navbar-expand-xl">
+        <div class="container h-100">
+            <a class="navbar-brand" href="index.html">
+                <h1 class="tm-site-title mb-0">Ohayou Cinema</h1>
+            </a>
+            <button class="navbar-toggler ml-auto mr-0"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <i class="fas fa-bars tm-nav-icon"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto h-100">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="far fa-file-alt"></i>
+                            <span> Reports <i class="fas fa-angle-down"></i> </span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Daily Report</a>
+                            <a class="dropdown-item" href="#">Weekly Report</a>
+                            <a class="dropdown-item" href="#">Yearly Report</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="products.html">
+                            <i class="fas fa-shopping-cart"></i> Products
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="accounts.html">
+                            <i class="far fa-user"></i> Accounts
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="fas fa-cog"></i>
+                            <span> Settings <i class="fas fa-angle-down"></i> </span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="#">Billing</a>
+                            <a class="dropdown-item" href="#">Customize</a>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link d-block" href="login.html">
+                            Admin, <b>Logout</b>
+                        </a>
+                    </li>
+                </ul>
             </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.director_id, "director_id", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("director_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.director_id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.type_id, "type_id", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("type_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.type_id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.release_date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.release_date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.release_date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.end_date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.end_date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.end_date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.duration_minutes, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.duration_minutes, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.duration_minutes, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.country_id, "country_id", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("country_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.country_id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.created_at, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.created_at, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.created_at, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.movie_status, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.movie_status)
-                        @Html.ValidationMessageFor(model => model.movie_status, "", new { @class = "text-danger" })
+        </div>
+    </nav>
+    <div class="container tm-mt-big tm-mb-big">
+        <div class="row">
+            <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+                <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="tm-block-title d-inline-block">Thông tin chi tiết</h2>
+                        </div>
                     </div>
+                    <div class="tm-edit-product-row">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div style="margin: 0 auto">
+                                    <form action="" method="post" class="tm-edit-product-form">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="form-group mb-3">
+                                            <label for="name">
+                                                Tên phim
+                                            </label>
+                                            <div>
+                                                @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label for="expire_date">
+                                                Đạo diễn
+                                            </label>
+                                            <div>
+                                                @Html.DropDownList("director_id", null, htmlAttributes: new { @class = "custom-select tm-select-accounts" })
+                                                @Html.ValidationMessageFor(model => model.director_id, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group mb-3 col-xs-12 col-sm-6">
+                                                <label for="expire_date">
+                                                    Quốc gia
+                                                </label>
+                                                <div>
+                                                    @Html.DropDownList("country_id", null, htmlAttributes: new { @class = "custom-select tm-select-accounts" })
+                                                    @Html.ValidationMessageFor(model => model.country_id, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3 col-xs-12 col-sm-6">
+                                                <label for="stock">
+                                                    Thời lượng(phút)
+                                                </label>
+                                                <div>
+                                                    @Html.EditorFor(model => model.duration_minutes, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.duration_minutes, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group mb-3 col-xs-12 col-sm-6">
+                                                <label for="expire_date">
+                                                    Thể loại
+                                                </label>
+                                                <div>
+                                                    @Html.DropDownList("type_id", null, htmlAttributes: new { @class = "custom-select tm-select-accounts" })
+                                                    @Html.ValidationMessageFor(model => model.type_id, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3 col-xs-12 col-sm-6">
+                                                <label for="stock">
+                                                    Rating
+                                                </label>
+                                                <div>
+                                                    @Html.EditorFor(model => model.rating, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.rating, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="form-group mb-3 col-xs-12 col-sm-6">
+                                                <label for="release_date">
+                                                    Ngày bắt đầu
+                                                </label>
+                                                <div>
+                                                    @Html.EditorFor(model => model.release_date, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                                    @Html.ValidationMessageFor(model => model.release_date, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3 col-xs-12 col-sm-6">
+                                                <label for="end_date">
+                                                    Ngày kết thúc
+                                                </label>
+                                                <div>
+                                                    @Html.EditorFor(model => model.end_date, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                                    @Html.ValidationMessageFor(model => model.end_date, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label for="description">Mô tả</label>
+                                            <div>
+                                                @Html.TextAreaFor(model => model.description, 6, 50, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="name">
+                                                Link trailer
+                                            </label>
+                                            <div>
+                                                @Html.EditorFor(model => model.url_trailer, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.url_trailer, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="name">
+                                                Link ảnh đứng
+                                            </label>
+                                            <div>
+                                                @Html.EditorFor(model => model.url_image, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.url_image, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="name">
+                                                Link ảnh ngang
+                                            </label>
+                                            <div>
+                                                @Html.EditorFor(model => model.url_large_image, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.url_large_image, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <input type="submit" value="Create" class="btn btn-default" />
+                                            </div>
+                                        </div>
+</div>
+                                
+                            </div>
+                        }
+                    </form>
                 </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.url_image, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.url_image, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.url_image, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.rating, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.rating, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.rating, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.url_trailer, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.url_trailer, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.url_trailer, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.url_large_image, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.url_large_image, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.url_large_image, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
                 </div>
             </div>
         </div>
-    }
-    
-    <div>
-        @Html.ActionLink("Back to List", "Index")
     </div>
+    <footer class="tm-footer row tm-mt-small">
+        <div class="col-12 font-weight-light">
+            <p class="text-center text-white mb-0 px-4 small">
+                Copyright &copy; <b>2018</b> All rights reserved.
+
+                Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="~/Areas/Admin/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Areas/Admin/assets/jquery-ui-datepicker/jquery-ui.min.js"></script>
+    <script src="~/Areas/Admin/assets/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            $("#release_date").datepicker({
+                defaultDate: "12/22/2024"
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $("#end_date").datepicker({
+                defaultDate: "10/22/2024"
+            });
+        });
+    </script>
 </body>
 </html>
