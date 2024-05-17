@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Product Page - Admin HTML Template</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700"
+    />
+    <!-- https://fonts.google.com/specimen/Roboto -->
+    <link rel="stylesheet" href="css/fontawesome.min.css" />
+    <link rel="stylesheet" href="webfonts/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- https://fontawesome.com/ -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- https://getbootstrap.com/ -->
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <!--
+	Product Admin CSS Template
+	https://templatemo.com/tm-524-product-admin
+	-->
+  </head>
+
+  <body id="reportsPage">
+    <div class="header">
+      <div class="container-fluid  p-4">
+          <div class="row align-items-center">
+              <div class="col-md-1"></div>
+              <div class="col-md-2 px-5 py-1">
+                  <a href="" class = "navbar-brand">
+                      <img src="img/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                  </a>
+              </div>
+              <div class="col-md-6">
+                  <ul class="list-gr-1 list-group list-group-horizontal">
+                      <li class="list-group-item movie-area">
+                          <a href="index.html">
+                              Trang chủ
+                              <i class="ti-angle-down down-btn"></i>
+                          </a>                             
+                      </li>
+                      <li class="list-group-item movie-area">
+                          <a href="">
+                              Đơn hàng
+                              <i class="ti-angle-down down-btn"></i>
+                          </a>                             
+                      </li>
+
+                      <li class="list-group-item movie-area">
+                          <a href="">
+                              Quản lí rạp chiếu
+                              <i class="ti-angle-down down-btn"></i>
+                          </a>                             
+                      </li>   
+                      <li class="list-group-item movie-area">
+                          <a href="">
+                              Thống kê
+                              <i class="ti-angle-down down-btn"></i>
+                          </a>                             
+                      </li>
+                      <li class="list-group-item movie-area">
+                          <a href="">
+                              Rạp/Giá vé
+                              <i class="ti-angle-down down-btn"></i>
+                          </a>                             
+                      </li>
+                  </ul>
+              </div>
+            
+              <div class="col-md-1">
+                  <button class="search-btn btn">
+                      <i class="search-icon ti-search"></i>
+                  </button>
+              </div>
+              <div class="login-area col-md-2">
+                      <div class="account-wrapper">
+                          <img src="img/account.png" alt="" class="img-fluid account-img">
+                          <ul class="list-group account-list">
+                              <li class="list-group-item"><a href="account.html"><i class="fa-solid fa-id-badge account-icon"></i>
+                                  Tài Khoản</a></li>
+                              <li class="list-group-item"><a href="" class="js-logout"><i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                  Đăng Xuất</a></li>
+                          </ul>
+                      </div>               
+              </div>
+          </div>
+      </div>
+  </div>
+    <div class="container mt-5">
+      <div class="row tm-content-row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-products">
+            <div class="tm-product-table-container">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">TÊN MOVIE</th>
+                    <th scope="col">THỂ LOẠI</th>
+                    <th scope="col">QUỐC GIA</th>
+                    <th scope="col">NGÀY CÔNG CHIẾU</th>
+                    <th scope="col">NGÀY KẾT THÚC</th>
+                    <th scope="col">TRẠNG THÁI</th>
+                    <th scope="col">&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row"><input type="checkbox" /></th>
+                    <td class="tm-product-name">Exhuma: Quật Mộ Trùng Ma</td>
+                    <td>Kinh Dị</td>
+                    <td>Hàn Quốc</td>
+                    <td>2024-04-01</td>
+                    <td>2024-04-30</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary tm-product-delete-link" onclick="toggleTick(this)">
+                        <i class="far fa-check-square tm-product-tick-icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><input type="checkbox" /></th>
+                    <td class="tm-product-name">Godzilla x Kong: Đế Chế Mới</td>
+                    <td>Hành Động</td>
+                    <td>Mỹ</td>
+                    <td>2024-04-08</td>
+                    <td>2024-05-08</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary tm-product-delete-link" onclick="toggleTick(this)">
+                        <i class="far fa-check-square tm-product-tick-icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><input type="checkbox" /></th>
+                    <td class="tm-product-name">Suga | Agust D Tour D-Day The Movie</td>
+                    <td>Nhạc Kịch</td>
+                    <td>Hàn Quốc</td>
+                    <td>2024-04-10</td>
+                    <td>2024-05-10</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary tm-product-delete-link" onclick="toggleTick(this)">
+                        <i class="far fa-check-square tm-product-tick-icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><input type="checkbox" /></th>
+                    <td class="tm-product-name">Điềm Báo Của Quỷ</td>
+                    <td>Kinh Dị</td>
+                    <td>Ý</td>
+                    <td>2024-04-09</td>
+                    <td>2024-05-09</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary tm-product-delete-link" onclick="toggleTick(this)">
+                        <i class="far fa-check-square tm-product-tick-icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><input type="checkbox" /></th>
+                    <td class="tm-product-name">Thanh Xuân 18x2: Lữ Trình Hướng Về Em</td>
+                    <td>Lãng Mạn</td>
+                    <td>Đài Loan</td>
+                    <td>2024-04-05</td>
+                    <td>2024-05-05</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary tm-product-delete-link" onclick="toggleTick(this)">
+                        <i class="far fa-check-square tm-product-tick-icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><input type="checkbox" /></th>
+                    <td class="tm-product-name">Mùa Hè Của Luca</td>
+                    <td>Hoạt Hình</td>
+                    <td>Mỹ</td>
+                    <td>2024-05-02</td>
+                    <td>2024-06-02</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary tm-product-delete-link" onclick="toggleTick(this)">
+                        <i class="far fa-check-square tm-product-tick-icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><input type="checkbox" /></th>
+                    <td class="tm-product-name">Mèo Mập Mang 10 Mạng</td>
+                    <td>Hoạt hình</td>
+                    <td>Canada</td>
+                    <td>2024-04-26</td>
+                    <td>2024-05-26</td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary tm-product-delete-link" onclick="toggleTick(this)">
+                        <i class="far fa-check-square tm-product-tick-icon"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- table container -->
+            <a
+              href="add-product.html"
+              class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+            <button class="btn btn-primary btn-block text-uppercase">
+              Delete selected products
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="tm-footer row tm-mt-small">
+      <div class="col-12 font-weight-light">
+        <p class="text-center text-white mb-0 px-4 small">
+          Copyright &copy; <b>2018</b> All rights reserved. 
+          
+          Design: <a rel="nofollow noopener" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- https://jquery.com/download/ -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- https://getbootstrap.com/ -->
+    <script>
+      $(function() {
+        $(".tm-product-name").on("click", function() {
+          // Lấy dữ liệu của phim được bấm
+          var productName = $(this).text();
+    
+          // Chuyển hướng đến trang "product.html" và truyền dữ liệu của phim
+          window.location.href = "product.html?name=" + encodeURIComponent(productName);
+        });
+      });
+    </script>
+
+<script>
+  function toggleTick(button) {
+    button.classList.toggle('btn-outline-primary');
+    button.classList.toggle('btn-primary');
+    var icon = button.querySelector('.tm-product-tick-icon');
+    if (icon.classList.contains('fa-check-square')) {
+      icon.classList.remove('fa-check-square');
+      icon.classList.add('fa-square');
+    } else {
+      icon.classList.remove('fa-square');
+      icon.classList.add('fa-check-square');
+    }
+  }
+</script>
+  </body>
+</html>
