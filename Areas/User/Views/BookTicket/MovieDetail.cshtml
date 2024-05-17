@@ -138,7 +138,7 @@
                             <i class="ti-angle-down down-btn"></i>
                             <ul class="sub-list-gr-1 list-group">
                                 <li><a href="#">Ưu đãi</a></li>
-                                <li><a href="#">Phim hay tháng</a></li>
+                                <li><a href="/User/BookTicket/BestMovie">Phim hay tháng</a></li>
                             </ul>
                         </li>
 
@@ -442,9 +442,8 @@
                             }
                         }
                     }
-                    <div class="row bonus">
-                        <div class="col-md-7"></div>
-                        <div class="col-md-4">
+                    <div class="row bonus" style="margin: 0; padding-bottom: 1rem;">
+                        <div style=" justify-content: flex-end; padding: 0; display: flex;">
                             <button type="button" class="new-mv">
                                 <a href="playing.html" class="">
                                     Xem thêm
@@ -625,6 +624,12 @@
 
         $(this).on('click', function () {
             selectedRating = index + 1;
+            //$('#comfirmRating').addClass('confirm-active')
+            //if (selectRating >= 1)
+            //    $('#comfirmRating').addClass('confirm-active')
+            //else 
+            //    $('#comfirmRating').removeClass('confirm-active')
+            
             $('#selectedRating').val(selectedRating);
             for (let i = 0; i < $stars.length; i++) {
                 if (i < selectedRating) {
@@ -639,6 +644,7 @@
     $('#confirmRating').on('click', function () {
         const movieId = '@ViewBag.movieItem.id';
         const rating = $('#selectedRating').val();
+        //$('#comfirmRating').removeClass('confirm-active')
 
         $.ajax({
             url: '/User/BookTicket/MovieRating', 

@@ -11,8 +11,10 @@ using System.Data.Entity;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using WebGrease.Css.Extensions;
@@ -443,6 +445,38 @@ namespace CinemaWeb.Areas.User.Controllers
             return View();
         }
 
+        public class MovieByMonth
+        {
+            public int Year { get; set; }
+            public int Month { get; set; }
+            public movy Movie { get; set; }
+        }
+
+        public ActionResult BestMovie()
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+            ViewBag.MovieList = movielist;
+
+            var moviesByMonth = movielist
+                .GroupBy(m => new { m.release_date.Value.Year, m.release_date.Value.Month })
+                .Select(g => new MovieByMonth
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    Movie = g.OrderByDescending(m => m.rating).FirstOrDefault()
+                })
+                .OrderByDescending(m => m.Year)
+                .ThenByDescending(m => m.Month)
+                .ToList();
+            foreach (var item in moviesByMonth)
+            {
+            }
+            ViewBag.BestMovieList = moviesByMonth;
+            return View();
+        }
+
         [HttpGet]
         public ActionResult GetDiscount()
         {
@@ -524,8 +558,7 @@ namespace CinemaWeb.Areas.User.Controllers
                         //Thanh toan thanh cong
                         TempData["Message"] = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";
                         invoiceItem.invoice_status = true;
-                        var chosenSeat = db.seat_status.Where(x => x.room_schedule_detail_id == invoiceItem.room_schedule_detail_id && x.is_booked == true).ToList();
-                        AddTicket(chosenSeat, (int)invoiceId);
+                        //var chosenSeat = db.seat_status.Where(x => x.room_schedule_detail_id == invoiceItem.room_schedule_detail_id && x.is_booked == true).ToList();
                         var invoiceData = new
                         {
                             InvoiceId = invoiceItem.id,
@@ -547,10 +580,21 @@ namespace CinemaWeb.Areas.User.Controllers
                     {
                         //Thanh toan khong thanh cong. Ma loi: vnp_ResponseCode
                         TempData["Message"] = "Có lỗi xảy ra trong quá trình xử lý.Mã lỗi: " + vnp_ResponseCode;
+                        var ticketList = invoiceItem.tickets.ToList();
+                        List<seat_status> chosenSeat = new List<seat_status>();
+                        foreach (var ticket in ticketList)
+                        {
+                            chosenSeat.AddRange(ticket.seat.seat_status.Where(x => x.room_schedule_detail_id == invoiceItem.room_schedule_detail_id && x.is_booked == true && x.seat_id == ticket.seat_id));
+                            db.tickets.Remove(ticket);
+                            db.SaveChanges();
+                        }
+                            foreach (var seat in chosenSeat)
+                            {
+                                seat.is_booked = false;
+                            }
                         db.invoices.Remove(invoiceItem);
-                        var chosenSeat = db.seat_status.Where(x => x.room_schedule_detail_id == invoiceItem.room_schedule_detail_id && x.is_booked == true).ToList();
-                        chosenSeat.ForEach(x => x.is_booked = false);
                         db.SaveChanges();
+
                         return RedirectToAction("PaymentFail", "BookTicket", new { area = "User" });
                         //log.InfoFormat("Thanh toan loi, OrderId={0}, VNPAY TranId={1},ResponseCode={2}", orderId, vnpayTranId, vnp_ResponseCode);
                     }
@@ -560,6 +604,7 @@ namespace CinemaWeb.Areas.User.Controllers
         }
         public void CreateQrCode(string invoiceDataJson, invoice invoiceItem)
         {
+            byte[] compressedData = CompressString(invoiceDataJson);
             QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
             QRCodeData qRCodeData = QRCodeGenerator.GenerateQrCode(invoiceDataJson, QRCodeGenerator.ECCLevel.Q);
             QRCode qRCode = new QRCode(qRCodeData);
@@ -582,6 +627,19 @@ namespace CinemaWeb.Areas.User.Controllers
             db.SaveChanges();
         }
 
+        public static byte[] CompressString(string str)
+        {
+            var bytes = Encoding.UTF8.GetBytes(str);
+            using (var msi = new MemoryStream(bytes))
+            using (var mso = new MemoryStream())
+            {
+                using (var gs = new GZipStream(mso, CompressionMode.Compress))
+                {
+                    msi.CopyTo(gs);
+                }
+                return mso.ToArray();
+            }
+        }
         public void SendMail(invoice invoiceItem)
         {
             // Gửi mail khi thanh toán thành công
@@ -663,16 +721,22 @@ namespace CinemaWeb.Areas.User.Controllers
             var total_money = CalculateTotalMoney(chosenSeats);
             var discountItem = new discount();
 
-            if (discountId != null)
+            if (discountId != null) 
+            {
                  discountItem = db.discounts.FirstOrDefault(x => x.id == discountId);
 
-            newInvoice.total_money = ((int?)(total_money - discountItem.discount1 * total_money));
-            foreach (var item in discountItem.user_discount)
-            {
-                if (currentUser.id == item.user_id)
+                newInvoice.total_money = ((int?)(total_money - discountItem.discount1 * total_money));
+                foreach (var item in discountItem.user_discount)
                 {
-                    item.discount_status = true;
+                    if (currentUser.id == item.user_id)
+                    {
+                        item.discount_status = true;
+                    }
                 }
+            }
+            else
+            {
+                newInvoice.total_money = total_money;
             }
 
             foreach (var seatId in chosenSeats)
@@ -684,6 +748,7 @@ namespace CinemaWeb.Areas.User.Controllers
                 }
             }
             db.SaveChanges();
+            AddTicket(chosenSeats, newInvoice.id);
 
             var url = UrlPayment(newInvoice.id, currentUser.id);
             code = new { success = true, code = 1, Url = url };
@@ -720,15 +785,13 @@ namespace CinemaWeb.Areas.User.Controllers
             return totalPrice;
         }
 
-        public void AddTicket(List<seat_status> chosenSeats, int invoiceId)
+        public void AddTicket(int[] chosenSeats, int invoiceId)
         {
             var invoiceItem = db.invoices.FirstOrDefault(x => x.id == invoiceId);
-            if (invoiceItem.invoice_status == true)
-            {
                 var newTicket = new ticket();
                 foreach (var seatId in chosenSeats)
                 {
-                    var seat = db.seats.FirstOrDefault(s => s.id == seatId.seat_id);
+                    var seat = db.seats.FirstOrDefault(s => s.id == seatId);
                     if (seat != null)
                     {
                         newTicket.invoice_id = invoiceId;
@@ -739,7 +802,6 @@ namespace CinemaWeb.Areas.User.Controllers
                         db.SaveChanges();
                     }
                 }
-            }
         }
 
         #region
