@@ -662,6 +662,7 @@
 
 .modal-area .modal-content {
     height: auto !important;
+    width: 394px;
     border-top: solid 8px #f58020;
 }
 
@@ -750,7 +751,7 @@
     font-family: Nunito Sans, sans-serif !important;
 }
 
-.confirm-active {
+/*.confirm-active {
     cursor: pointer;
     background-color: rgb(245 128 32);
     width: 100%;
@@ -760,8 +761,13 @@
     font-size: .875rem;
     color: white;
     font-family: Nunito Sans, sans-serif !important;
-}
+}*/
 
+.confirm-active {
+    pointer-events: all;
+    cursor: pointer;
+    background-color: rgb(245 128 32);
+}
 
 
 /*.confirm:not(:disabled) {

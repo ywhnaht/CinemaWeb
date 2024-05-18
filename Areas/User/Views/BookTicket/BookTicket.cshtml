@@ -102,8 +102,8 @@
                             Góc Điện Ảnh
                             <i class="ti-angle-down down-btn"></i>
                             <ul class="sub-list-gr-1 list-group">
-                                <li><a href="#">Thể loại phim</a></li>
-                                <li><a href="#">Diễn viên</a></li>
+                                <li><a href="/User/BookTicket/MovieType">Thể loại phim</a></li>
+                                <li><a href="/User/BookTicket/ActorList">Diễn viên</a></li>
                                 <li><a href="#">Đạo diễn</a></li>
                                 <li><a href="#">Bình luận phim</a></li>
                             </ul>
@@ -114,7 +114,7 @@
                             <i class="ti-angle-down down-btn"></i>
                             <ul class="sub-list-gr-1 list-group">
                                 <li><a href="#">Ưu đãi</a></li>
-                                <li><a href="#">Phim hay tháng</a></li>
+                                <li><a href="/User/BookTicket/BestMovie">Phim hay tháng</a></li>
                             </ul>
                         </li>
 
@@ -914,12 +914,12 @@
         var selectedDateId = invoiceData.displaydateId;
         var selectedScheduleId = invoiceData.scheduleId;
         console.log(chosenSeats)
-        sendBookingData(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats, selectedDiscount.id)
+        sendBookingData(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats)
         $('#total-price').removeClass("discount-selected");
 
     })
 
-    function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats, discountId) {
+    function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats) {
         // Chuyển đổi mảng thành chuỗi JSON
         var data = {
             movieId: movieId,

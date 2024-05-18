@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Scan QR Code";
+}
+
+<h2>Scan QR Code</h2>
+
+<video id="video" width="100%" height="auto" autoplay></video>
+<button id="scanButton">Scan QR Code</button>
+
+<script type="text/javascript">
+    var video = document.getElementById('video');
+
+    // Get access to the camera
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+            video.srcObject = stream;
+            video.play();
+        });
+    }
+
+    document.getElementById('scanButton').addEventListener('click', function () {
+        var canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        var context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        var dataUrl = canvas.toDataURL('image/png');
+
+        fetch('/Staff/Ticket/Scan', {
+            method: 'POST',
+            body: JSON.stringify({ imageData: dataUrl }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                if (response.headers.get('Content-Type').includes('application/json')) {
+                    return response.json();
+                } else {
+                    throw new Error('Response is not JSON');
+                }
+            })
+            .then(data => {
+                alert('QR Code content: ' + data.content);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred: ' + error.message);
+            });
+    });
+
+</script>
