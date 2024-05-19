@@ -142,7 +142,7 @@
     border: none;
     width: 120px;
     height: 35px;
-    background-color: #F26B38;
+    background-color: rgb(242 107 56 / 1);
     color: #fff;
     position: absolute;
     top: 43%;
@@ -150,18 +150,21 @@
     transform: translate(-50%, -50%);
 }
 
-.movie-list .buy-ticket-btn:hover ~ .img-movie,
+.sub-movie-list1:hover img,
+.sub-movie-list:hover img {
+    filter: brightness(0.65);
+}
+    /*.movie-list .buy-ticket-btn:hover ~ .img-movie,
 .movie-list .img-movie:hover {
     filter: brightness(65%);
-}
+}*/
+    .movie-list .img-movie:hover + .buy-ticket-btn,
+    .movie-list .buy-ticket-btn:hover {
+        display: block;
+    }
 
-.movie-list .img-movie:hover + .buy-ticket-btn,
 .movie-list .buy-ticket-btn:hover {
-    display: block;
-}
-
-.movie-list .buy-ticket-btn:hover {
-    background-color: #f29538;
+    background-color: rgb(251 148 64 / 1);
 }
 
 .sub-movie-list1 {

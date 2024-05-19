@@ -326,6 +326,10 @@
     font-family: Nunito Sans, sans-serif;
 }
 
+.movie-list {
+    margin-top: 32px;
+}
+
 .post-list {
     list-style: none;
     margin-top: 2rem;
@@ -371,7 +375,7 @@
     border: 1px solid rgb(233 237 241);
 }
 
-.mvname {
+.actorname {
     font-style: normal;
     text-decoration: none;
     --tw-text-opacity: 1;
@@ -465,11 +469,6 @@
     border-width: 1px;
 }
 
-.playing-movie {
-    display: flex;
-    justify-content: center;
-}
-
 .new-mv a {
     color: #f29538;
     text-decoration: none;
@@ -497,3 +496,26 @@
     margin-top: 3rem;
     margin-bottom: 10rem;
 }
+
+.rating :hover {
+    color: #f29538;
+}
+
+.mv-rating {
+    margin-top: .5rem;
+}
+
+.rating {
+    font-size: 20px;
+    text-decoration: none;
+    color: #000;
+}
+
+    .rating .vote {
+        font-size: small;
+        color: dimgray;
+    }
+
+        .rating .vote:hover {
+            color: #f29538;
+        }

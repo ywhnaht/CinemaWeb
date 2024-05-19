@@ -165,5 +165,42 @@ namespace CinemaWeb.Areas.User.Controllers
             var redirectUrl = Url.Action("UserProfile", "UserHome", new { area = "User" });
             return Json(new { success = true, redirectUrl = redirectUrl });
         }
+
+        public ActionResult OhayouCinema()
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+            ViewBag.MovieList = movielist;
+            return View();
+        }
+        [HttpGet]
+        public ActionResult GetMovie(string displayDate)
+        {
+            if (DateTime.TryParseExact(displayDate, "ddMMyyyy", null, System.Globalization.DateTimeStyles.None, out DateTime parsedDate))
+            {
+                var allMovieDates = db.movie_display_date
+                    .Where(x => x.display_date.display_date1.HasValue)
+                    .ToList();
+
+                var movieDateList = allMovieDates
+                    .Where(x => x.display_date.display_date1.Value.Date == parsedDate.Date)
+                    .Select(x => new movy
+                    {
+                        id = x.movy.id,
+                        title = x.movy.title,
+                        url_image = x.movy.url_image,
+                    })
+                    .ToList();
+                
+                return Json(movieDateList, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { error = "Invalid date format" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
     }
 }
