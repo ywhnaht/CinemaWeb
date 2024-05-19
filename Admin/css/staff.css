@@ -48,11 +48,16 @@ html {
     background-color:#F26B38; 
     color: white;
     border-radius: 5px;
-    margin-right: 0;
+    margin-right: 10rem;
   }
   .report-btn:hover{
     cursor: pointer;
     background-color:#f58020;
+  }
+
+  .report-btn a{
+    text-decoration: none;
+    color: #f4f4f4;
   }
   
   .search-content-item input{
@@ -60,7 +65,7 @@ html {
     height: 3rem;
     border: none;
     border-radius: 5px;
-    padding-left: 2rem;  
+    padding-left: 1rem;
     --tw-text-opacity: 1;
     color: #4a4a4a;
     font-size:  1rem;
@@ -69,17 +74,10 @@ html {
    
   }
   
-  .fa-calendar-alt{
-    position: absolute;
-    display: inline-block;
-    color: #f58020;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-  }
   .getdate{
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    padding-left: 6rem;
     margin-top: 3rem;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -200,6 +198,11 @@ html {
   
   .theater{
     font-weight: 600;
+  }
+  .code{
+    font-weight: 600;
+    display: flex;
+    align-items: center;
   }
 
   .revenue{
@@ -327,8 +330,8 @@ html {
 }
 
 .account-wrapper {
+    display: inline-block;
   position: relative;
-  display: inline-block;
 }
 
 .account-img {
