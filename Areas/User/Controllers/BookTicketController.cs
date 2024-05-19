@@ -497,6 +497,16 @@ namespace CinemaWeb.Areas.User.Controllers
 
             return Json(discountList, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult MovieReview() 
+        {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+
+            movielist = movielist.OrderByDescending(m => m.release_date).ToList();
+            ViewBag.MovieList = movielist;
+            return View();
+        }
         public ActionResult PaymentFail()
         {
             if (Session["user"] == null)

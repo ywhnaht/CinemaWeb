@@ -117,7 +117,7 @@
     top: calc(100% + 0.5px);
     left: -30px;
     position: absolute;
-    z-index: 4;
+    z-index: 2;
     background-color: #fff;
     list-style-type: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -136,6 +136,7 @@
 .img-movie {
     margin-bottom: 10px;
     border-radius: 8px;
+    transition: filter 0.3s ease;
 }
 
 .ti-ticket {
@@ -147,7 +148,7 @@
     border: none;
     width: 120px;
     height: 35px;
-    background-color: #F26B38;
+    background-color: rgb(242 107 56 / 1);
     color: #fff;
     position: absolute;
     top: 43%;
@@ -155,32 +156,35 @@
     transform: translate(-50%, -50%);
 }
 
-    .movie-list .buy-ticket-btn:hover ~ .img-movie,
-    .movie-list .img-movie:hover {
-        filter: brightness(65%);
-    }
+.sub-movie-list1:hover img,
+.sub-movie-list:hover img {
+    filter: brightness(0.65);
+}
+/*.movie-list .buy-ticket-btn:hover ~ .img-movie,
+.movie-list .img-movie:hover {
+    filter: brightness(65%);
+}*/
+.movie-list .img-movie:hover + .buy-ticket-btn,
+.movie-list .buy-ticket-btn:hover {
+    display: block;
+}
 
-        .movie-list .img-movie:hover + .buy-ticket-btn,
-        .movie-list .buy-ticket-btn:hover {
-            display: block;
-        }
+.movie-list .buy-ticket-btn:hover {
+    background-color: rgb(251 148 64 / 1);
+}
 
-    .movie-list .buy-ticket-btn:hover {
-        background-color: #f29538;
-    }
+.sub-movie-list1 {
+    margin-bottom: 2rem;
+}
 
 .search-icon {
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 14px;
 }
 
 .search-btn {
     border: none;
-    padding-right: 0px;
-    padding-right: 0px;
-    margin-right: 0px;
+    padding-left: 34px;
     color: #777777;
-    margin-left: 70px;
 }
 
 /* Login */

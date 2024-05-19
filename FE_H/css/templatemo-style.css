@@ -707,8 +707,124 @@ input[type="checkbox"]:focus {
     max-height: 350px;
   }
 }
-
-.btn.tm-product-delete-link {
-  border: none; /* Loại bỏ viền */
-  padding: 0; /* Loại bỏ padding */
+.modal-content {
+  text-align: center;
+  position:fixed;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 40%;
+  pointer-events: auto;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: .3rem;
+  outline: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
 }
+
+
+.modal-dialog {
+  margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+}
+
+.box-add{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+}
+.form-header {
+  display: flex;
+  justify-content: space-between; /* Horizontally center the items */
+  align-items: center; /* Vertically center the items */
+  background-color: #e74c3c;
+  color: #ffffff;
+  font-weight: bold;
+  height: 3rem;
+  padding: 0.5rem 1.2rem;
+
+}
+.form-field {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.form-field label {
+  display: block;
+  font-weight: bold;
+}
+.form-field select,
+.form-field input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.my-button {
+  background-color: #e7e7e7;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+
+.my-button:hover {
+  background-color: #d3d3d3;
+}
+
+/* Active state (when clicked) */
+.my-button.active {
+  color: #ffffff;
+  background-color: orange;
+}
+
+.form-question {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 3rem;
+}
+.form-question__title {
+  color: #342357;
+  font-size: 1.5rem;
+}
+.input-container {
+  border-bottom: solid 2px #333333;
+}
+.input-container input {
+  border: none;
+  box-sizing: border-box;
+  outline: 0;
+  width: 100%;
+}
+
+.modal-schedule {
+  opacity: 0;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;  /* Stretches to full width */
+  height: 100%;  /* Stretches to full height */
+  background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent black background */
+  display: flex;  /* Centers the modal content horizontally */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-schedule.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+
+

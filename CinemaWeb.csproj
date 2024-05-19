@@ -449,6 +449,8 @@
     <Content Include="Areas\User\assets\css\actordetailstyle.css" />
     <Content Include="Areas\User\assets\css\actorstyle.css" />
     <Content Include="Areas\User\assets\css\bestmovie.css" />
+    <Content Include="Areas\User\assets\css\moviereview.css" />
+    <Content Include="Areas\User\assets\css\ohayoucinema.css" />
     <Content Include="Areas\User\assets\css\movietype.css" />
     <Content Include="Areas\User\assets\css\moviedetail.css" />
     <Content Include="Areas\User\assets\css\profilestyle.css" />
@@ -845,6 +847,11 @@
     <Content Include="assets\font\themify-icons\themify-icons.css" />
     <Content Include="assets\images\movie\exhumangang.jpg" />
     <Content Include="assets\images\movie\unname-movie.svg" />
+    <Content Include="assets\images\ohayou\banggiave-2024-da-nang_1703839474675.jpg" />
+    <Content Include="assets\images\ohayou\galaxy-da-nang-1_1698052206857.jpg" />
+    <Content Include="assets\images\ohayou\galaxy-da-nang-3_1698052210667.jpg" />
+    <Content Include="assets\images\ohayou\galaxy-da-nang-4_1698052214666.jpg" />
+    <Content Include="assets\images\ohayou\galaxy-da-nang-5_1698052220835.jpg" />
     <Content Include="assets\images\payment\booking-fail.0c03e999.png" />
     <Content Include="assets\images\payment\icon-rules.9c822007.png" />
     <Content Include="assets\images\payment\icon-success.c42e4e43.png" />
@@ -1414,6 +1421,11 @@
     <Content Include="FE_Q\assets\images\director\malignant-james-wan-4_1634895384659.jpg" />
     <Content Include="FE_Q\assets\images\director\the-conjuring-2-banner-preview.jpg" />
     <Content Include="FE_Q\assets\images\director\wan1.jpg" />
+    <Content Include="FE_Q\assets\images\galaxy\banggiave-2024-da-nang_1703839474675.jpg" />
+    <Content Include="FE_Q\assets\images\galaxy\galaxy-da-nang-1_1698052206857.jpg" />
+    <Content Include="FE_Q\assets\images\galaxy\galaxy-da-nang-3_1698052210667.jpg" />
+    <Content Include="FE_Q\assets\images\galaxy\galaxy-da-nang-4_1698052214666.jpg" />
+    <Content Include="FE_Q\assets\images\galaxy\galaxy-da-nang-5_1698052220835.jpg" />
     <Content Include="FE_Q\assets\images\gold.ff661579.png" />
     <Content Include="FE_Q\assets\images\gstar.svg" />
     <Content Include="FE_Q\assets\images\icon-gift.190935e4.png" />
@@ -1619,6 +1631,8 @@
     <Content Include="Areas\Staff\Views\web.config" />
     <Content Include="Areas\Staff\Views\Ticket\Index.cshtml" />
     <Content Include="Areas\Staff\Views\Ticket\ScanQRCode.cshtml" />
+    <Content Include="Areas\User\Views\UserHome\OhayouCinema.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\MovieReview.cshtml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
