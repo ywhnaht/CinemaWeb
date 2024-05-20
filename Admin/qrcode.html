@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quét mã QR</title>
+    <link rel="icon" href="img/cinema-logo.png" type="image/png">
+</head>
+<body>
+    <div id="qr-result">
+        <h1>Scan QR</h1>
+        <div style="display: flex; justify-content: center;">
+            <div id="qr-reader" style="width: 500px;"></div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        function domReady(fn) {
+            if (document.readyState === "complete" || document.readyState === "interactive") {
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+
+        domReady(function() {
+            var myqr = document.getElementById('qr-result');
+            var lastResult, countResults = 0;
+
+            function onScanSuccess(decodeText, decodeResult) {
+                if (decodeText !== lastResult) {
+                    ++countResults;
+                    lastResult = decodeText;
+
+                    alert("Your QR is: " + decodeText);
+                    myqr.innerHTML = `You scanned ${countResults} : ${decodeText}`;
+                }
+            }
+
+            var html5QrcodeScanner = new Html5QrcodeScanner(
+                "qr-reader", { fps: 10, qrbox: 250 }
+            );
+            html5QrcodeScanner.render(onScanSuccess);
+        });
+    </script>
+</body>
+</html>
