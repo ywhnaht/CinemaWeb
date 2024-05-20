@@ -143,7 +143,8 @@ namespace CinemaWeb.Areas.User.Controllers
 
             if (!string.IsNullOrEmpty(pass))
             {
-                currentUser.user_password = pass;
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(pass);
+                currentUser.hashed_pass = hashedPassword;
                 if (updateUser != null)
                 {
                     updateUser.user_password = pass;

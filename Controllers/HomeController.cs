@@ -9,6 +9,9 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using BCrypt.Net;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace CinemaWeb.Controllers
 {
@@ -44,8 +47,9 @@ namespace CinemaWeb.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult SignIn()
+        public ActionResult SignIn(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -54,27 +58,27 @@ namespace CinemaWeb.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult SignIn(string email, string pass)
+        public ActionResult SignIn(string email, string pass, string returnUrl)
         {
             var user = db.users.FirstOrDefault(x => x.email == email);
             if (user != null)
             {
-               if (user.user_password == pass)
+               if (BCrypt.Net.BCrypt.Verify(pass, user.hashed_pass))
                 {
                     if (user.user_type == 1)
                     {
                         Session["user"] = user;
-                        return RedirectToAction("Index", "UserHome", new { area = "User" });
+                        return RedirectToLocal(returnUrl, "Index", "UserHome", "User");
                     }
                     else if (user.user_type == 2)
                     {
                         Session["admin"] = user;
-                        return RedirectToAction("Index", "AdminHome", new { area = "Admin" });
+                        return RedirectToLocal(returnUrl, "Index", "AdminHome", "Admin");
                     }
                     else
                     {
                         Session["staff"] = user;
-                        return RedirectToAction("Index", "StaffHome", new { area = "Staff" });
+                        return RedirectToLocal(returnUrl, "Index", "StaffHome", "Staff");
                     }
                 }
                else
@@ -89,9 +93,17 @@ namespace CinemaWeb.Controllers
                 ViewBag.ErrorEmail = "Email không tồn tại!";
                 return View("SignIn");
             }
-
         }
-       
+
+        private ActionResult RedirectToLocal(string returnUrl, string action, string controller, string area)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction(action, controller, new { area });
+        }
+
         //HTTP GET
         public ActionResult SignUp()
         {
@@ -103,7 +115,7 @@ namespace CinemaWeb.Controllers
         {
             user newUser = new user();
             var _user = db.users.FirstOrDefault(x => x.email == email);
-            if (_user != null)
+            if (db.users.Any(x => x.email == email))
             {
                 ViewBag.ErrorEmailExist = "Email đã tồn tại!";
                 return View("SignUp");
@@ -123,7 +135,8 @@ namespace CinemaWeb.Controllers
                     newUser.full_name = name;
                     newUser.email = email;
                     newUser.date_of_birth = dateofbirth;
-                    newUser.user_password = pass;
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(pass);
+                    newUser.hashed_pass = hashedPassword;
                     db.users.Add(newUser);
                     db.SaveChanges();
                     Session["user"] = newUser;

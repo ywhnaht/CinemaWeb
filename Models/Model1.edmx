@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CinemaWebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CinemaWebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="actor">
           <Key>
             <PropertyRef Name="id" />
@@ -256,12 +256,13 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="full_name" Type="nvarchar" MaxLength="255" />
           <Property Name="email" Type="varchar" MaxLength="255" />
-          <Property Name="user_password" Type="varchar" MaxLength="15" />
+          <Property Name="user_password" Type="varchar" MaxLength="255" />
           <Property Name="user_phone" Type="varchar" MaxLength="15" />
           <Property Name="user_type" Type="tinyint" />
           <Property Name="date_of_birth" Type="date" />
           <Property Name="created" Type="datetime" />
           <Property Name="user_status" Type="tinyint" />
+          <Property Name="hashed_pass" Type="varchar" MaxLength="255" />
         </EntityType>
         <Association Name="fk_actor_country">
           <End Role="country" Type="Self.country" Multiplicity="0..1" />
@@ -528,7 +529,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ticket_invoice_id">
-          <End Role="invoice" Type="Self.invoice" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="invoice">
@@ -803,8 +806,7 @@
             <End Role="users" EntitySet="users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CinemaWebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1115,12 +1117,13 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="full_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="user_password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="user_password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="user_phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="user_type" Type="Byte" />
           <Property Name="date_of_birth" Type="DateTime" Precision="0" />
           <Property Name="created" Type="DateTime" Precision="3" />
           <Property Name="user_status" Type="Byte" />
+          <Property Name="hashed_pass" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="invoices" Relationship="Self.FK_invoice_user_id" FromRole="users" ToRole="invoice" />
           <NavigationProperty Name="movie_review" Relationship="Self.FK_movie_review_user_id" FromRole="users" ToRole="movie_review" />
           <NavigationProperty Name="star_rating" Relationship="Self.FK_star_rating_user_id" FromRole="users" ToRole="star_rating" />
@@ -1239,7 +1242,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ticket_invoice_id">
-          <End Role="invoice" Type="Self.invoice" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="invoice">
@@ -1957,6 +1962,7 @@
                 <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
                 <ScalarProperty Name="created" ColumnName="created" />
                 <ScalarProperty Name="user_status" ColumnName="user_status" />
+                <ScalarProperty Name="hashed_pass" ColumnName="hashed_pass" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

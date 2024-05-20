@@ -63,7 +63,7 @@ namespace CinemaWeb.Areas.User.Controllers
         }
         // GET: User/BookTicket
 
-        [UserAuthorize(roleId = (int)RoleName.BookTicket)]
+        //[UserAuthorize(roleId = (int)RoleName.BookTicket)]
         public ActionResult BookTicket()
         {
             List<movy> movielist = db.movies.ToList();
@@ -614,27 +614,29 @@ namespace CinemaWeb.Areas.User.Controllers
         }
         public void CreateQrCode(string invoiceDataJson, invoice invoiceItem)
         {
-            byte[] compressedData = CompressString(invoiceDataJson);
-            QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
-            QRCodeData qRCodeData = QRCodeGenerator.GenerateQrCode(invoiceDataJson, QRCodeGenerator.ECCLevel.Q);
-            QRCode qRCode = new QRCode(qRCodeData);
-
-            using (MemoryStream ms = new MemoryStream())
+            using (QRCodeGenerator qRCodeGenerator = new QRCodeGenerator())
             {
-                using (Bitmap bitmap = qRCode.GetGraphic(20))
+                try
                 {
-                    bitmap.Save(ms, ImageFormat.Png);
-                    invoiceItem.qrcode_image = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                    QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode(invoiceDataJson, QRCodeGenerator.ECCLevel.Q);
+                    QRCode qRCode = new QRCode(qRCodeData);
+
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        using (Bitmap bitmap = qRCode.GetGraphic(20))
+                        {
+                            bitmap.Save(ms, ImageFormat.Png);
+                            invoiceItem.qrcode_image = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
+                        }
+                    }
+
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("An error occurred: " + ex.Message);
                 }
             }
-
-            // Lấy thông tin từ qrcode
-            // Giả sử qrData là chuỗi dữ liệu nhận được từ mã QR
-            //string qrData = "Chuỗi_dữ_liệu_từ_mã_QR";
-            //var invoiceData = JsonConvert.DeserializeObject<InvoiceData>(qrData);
-            // invoiceData bây giờ là một đối tượng có các thuộc tính tương ứng với thông tin của hóa đơn
-
-            db.SaveChanges();
         }
 
         public static byte[] CompressString(string str)
@@ -653,7 +655,7 @@ namespace CinemaWeb.Areas.User.Controllers
         public void SendMail(invoice invoiceItem)
         {
             // Gửi mail khi thanh toán thành công
-            var MovieImage = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.movy.url_large_image;
+            var MovieImage = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.movy.url_image;
             var MovieTitle = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.movy.title;
             var MovieSchedule = invoiceItem.room_schedule_detail.schedule_detail.schedule.schedule_time.Value.ToString(@"hh\:mm");
             var MovieDayOfWeek = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Value.DayOfWeek;
@@ -676,16 +678,17 @@ namespace CinemaWeb.Areas.User.Controllers
             }
 
             string contentInvoice = System.IO.File.ReadAllText(Server.MapPath("~/Areas/User/Common/invoice.html"));
-            //contentInvoice = contentInvoice.Replace("{{MovieImage}}", MovieImage);
+            contentInvoice = contentInvoice.Replace("{{MovieImage}}", MovieImage);
             contentInvoice = contentInvoice.Replace("{{MovieTitle}}", MovieTitle);
             contentInvoice = contentInvoice.Replace("{{MovieSchedule}}", MovieSchedule);
             contentInvoice = contentInvoice.Replace("{{MovieDayOfWeek}}", MovieDayOfWeek.ToString());
             contentInvoice = contentInvoice.Replace("{{MovieDate}}", MovieDate);
             contentInvoice = contentInvoice.Replace("{{TicketSeat}}", TicketSeat);
-            //contentInvoice = contentInvoice.Replace("{{QrCode}}", QrCode);
+            contentInvoice = contentInvoice.Replace("{{QrCode}}", QrCode);
             contentInvoice = contentInvoice.Replace("{{InvoiceId}}", invoiceItem.id.ToString());
             contentInvoice = contentInvoice.Replace("{{TotalMoney}}", invoiceItem.total_money.ToString());
             CinemaWeb.Areas.User.Common.Common.SendMail("Ohayou Cinema", "Chúc mừng bạn đã đặt vé thành công!", contentInvoice, invoiceItem.user.email);
+            System.Diagnostics.Debug.WriteLine(contentInvoice);
         }
 
         [HttpPost]

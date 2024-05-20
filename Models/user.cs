@@ -35,6 +35,7 @@ namespace CinemaWeb.Models
         public Nullable<System.DateTime> date_of_birth { get; set; }
         public Nullable<System.DateTime> created { get; set; }
         public Nullable<byte> user_status { get; set; }
+        public string hashed_pass { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<invoice> invoices { get; set; }

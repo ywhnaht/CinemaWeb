@@ -62,6 +62,9 @@
     <Reference Include="Autofac.Integration.Mvc, Version=6.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>packages\Autofac.Mvc5.6.1.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>packages\BCrypt.Net-Next.4.0.3\lib\net472\BCrypt.Net-Next.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -1620,6 +1623,12 @@
     <Content Include="Areas\Admin\Views\Movie\Index.cshtml" />
     <Content Include="FE_Q\images - Shortcut %282%29.lnk" />
     <Content Include="FE_Q\images - Shortcut.lnk" />
+    <Content Include="Areas\User\Views\BookTicket\BestMovie.cshtml" />
+    <Content Include="Areas\Staff\Views\web.config" />
+    <Content Include="Areas\Staff\Views\Ticket\Index.cshtml" />
+    <Content Include="Areas\Staff\Views\Ticket\ScanQRCode.cshtml" />
+    <Content Include="Areas\User\Views\UserHome\OhayouCinema.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\MovieReview.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -1627,12 +1636,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\User\Views\BookTicket\BestMovie.cshtml" />
-    <Content Include="Areas\Staff\Views\web.config" />
-    <Content Include="Areas\Staff\Views\Ticket\Index.cshtml" />
-    <Content Include="Areas\Staff\Views\Ticket\ScanQRCode.cshtml" />
-    <Content Include="Areas\User\Views\UserHome\OhayouCinema.cshtml" />
-    <Content Include="Areas\User\Views\BookTicket\MovieReview.cshtml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
