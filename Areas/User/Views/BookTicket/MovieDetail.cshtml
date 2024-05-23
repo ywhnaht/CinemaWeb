@@ -25,7 +25,7 @@
 }
 
 @{
-    CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
+    var currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["user"];
     DateTime currentDate = DateTime.Now;
 }
 
@@ -774,79 +774,94 @@
         });
     }
     function selectSchedule(scheduleId, selectedDateId, selectedMovieId) {
+        var returnUrl = "/User/BookTicket/BookTicket"
         // Lưu thông tin vào localStorage
         localStorage.setItem('selectedMovieId', selectedMovieId);
         localStorage.setItem('selectedDateId', selectedDateId);
         localStorage.setItem('selectedScheduleId', scheduleId);
         // Chuyển trang BookTicket
-        window.location.href = '/User/BookTicket/BookTicket/';
-    }
-    $(document).ready(function () {
-    const $stars = $('.star');
-    let selectedRating = 0;
-
-    $stars.each(function (index) {
-        $(this).on('mouseover', function () {
-            for (let i = 0; i <= index; i++) {
-                $stars.eq(i).find('path').attr('fill', '#ffad0d');
-            }
-        });
-
-        $(this).on('mouseout', function () {
-            if (index >= selectedRating) { // Chỉ reset màu cho các sao sau ngôi sao đã chọn
-                for (let i = 0; i <= index; i++) {
-                    if (i >= selectedRating) {
-                        $stars.eq(i).find('path').attr('fill', '#A0A3A7');
-                    }
-                }
-            }
-        });
-
-        $(this).on('click', function () {
-            selectedRating = index + 1;
-            //$('#comfirmRating').addClass('confirm-active')
-            //if (selectRating >= 1)
-            //    $('#comfirmRating').addClass('confirm-active')
-            //else 
-            //    $('#comfirmRating').removeClass('confirm-active')
-            
-            $('#selectedRating').val(selectedRating);
-            for (let i = 0; i < $stars.length; i++) {
-                if (i < selectedRating) {
-                    $stars.eq(i).find('path').attr('fill', '#ffad0d');
-                } else {
-                    $stars.eq(i).find('path').attr('fill', '#A0A3A7');
-                }
-            }
-        });
-    });
-
-    $('#confirmRating').on('click', function () {
-        const movieId = '@ViewBag.movieItem.id';
-        const rating = $('#selectedRating').val();
-        //$('#comfirmRating').removeClass('confirm-active')
-
         $.ajax({
-            url: '/User/BookTicket/MovieRating', 
-            method: 'POST',
-            data: {
-                movieId: movieId,
-                rating: rating
-            },
-            success: function (response) {
-                if (response.code == 1) {
-                    $('.average-rating').text(response.averageRating.toFixed(1)); 
-                    $('.rating-count').text("(" + response.ratingCount + " bình chọn)");
-                }
-                else if (response.code == -1) {
-                    $('.error-mess').text("Bạn đã đánh giá phim này rồi!")
+            url: '/Home/CheckLoginStatus',
+            type: 'GET',
+            success: function (result) {
+                if (result.loggedIn) {
+                    window.location.href = returnUrl;
+                } else {
+                    var url = "/Home/SignIn?returnUrl=" + encodeURIComponent(returnUrl);
+                    window.location.href = url;
                 }
             },
             error: function (error) {
-                console.log(error)
+                console.error(error);
             }
         });
-    });
+    }
+    $(document).ready(function () {
+        const $stars = $('.star');
+        let selectedRating = 0;
+
+        $stars.each(function (index) {
+            $(this).on('mouseover', function () {
+                for (let i = 0; i <= index; i++) {
+                    $stars.eq(i).find('path').attr('fill', '#ffad0d');
+                }
+            });
+
+            $(this).on('mouseout', function () {
+                if (index >= selectedRating) { // Chỉ reset màu cho các sao sau ngôi sao đã chọn
+                    for (let i = 0; i <= index; i++) {
+                        if (i >= selectedRating) {
+                            $stars.eq(i).find('path').attr('fill', '#A0A3A7');
+                        }
+                    }
+                }
+            });
+
+            $(this).on('click', function () {
+                selectedRating = index + 1;
+                //$('#comfirmRating').addClass('confirm-active')
+                //if (selectRating >= 1)
+                //    $('#comfirmRating').addClass('confirm-active')
+                //else
+                //    $('#comfirmRating').removeClass('confirm-active')
+
+                $('#selectedRating').val(selectedRating);
+                for (let i = 0; i < $stars.length; i++) {
+                    if (i < selectedRating) {
+                        $stars.eq(i).find('path').attr('fill', '#ffad0d');
+                    } else {
+                        $stars.eq(i).find('path').attr('fill', '#A0A3A7');
+                    }
+                }
+            });
+        });
+
+        $('#confirmRating').on('click', function () {
+            const movieId = '@ViewBag.movieItem.id';
+            const rating = $('#selectedRating').val();
+            //$('#comfirmRating').removeClass('confirm-active')
+
+            $.ajax({
+                url: '/User/BookTicket/MovieRating',
+                method: 'POST',
+                data: {
+                    movieId: movieId,
+                    rating: rating
+                },
+                success: function (response) {
+                    if (response.code == 1) {
+                        $('.average-rating').text(response.averageRating.toFixed(1));
+                        $('.rating-count').text("(" + response.ratingCount + " bình chọn)");
+                    }
+                    else if (response.code == -1) {
+                        $('.error-mess').text("Bạn đã đánh giá phim này rồi!")
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        });
 });
 
 

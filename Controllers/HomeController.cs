@@ -85,45 +85,51 @@ namespace CinemaWeb.Controllers
                 {
                     ViewBag.ErrorPass = "Mật khẩu không đúng!";
                     ViewBag.Email = email;
+                    ViewBag.ReturnUrl = returnUrl;
                     return View("SignIn");
                 }
             }
             else
             {
                 ViewBag.ErrorEmail = "Email không tồn tại!";
+                ViewBag.ReturnUrl = returnUrl;
                 return View("SignIn");
             }
         }
 
         private ActionResult RedirectToLocal(string returnUrl, string action, string controller, string area)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            if (Url.IsLocalUrl(returnUrl) && !string.IsNullOrEmpty(returnUrl))
             {
                 return Redirect(returnUrl);
             }
             return RedirectToAction(action, controller, new { area });
         }
 
+
         //HTTP GET
-        public ActionResult SignUp()
+        public ActionResult SignUp(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
         //HTTP POST
         [HttpPost]
-        public ActionResult SignUp(string name, string email, DateTime dateofbirth, string pass, string confirmpass)
+        public ActionResult SignUp(string name, string email, DateTime dateofbirth, string pass, string confirmpass, string returnUrl)
         {
             user newUser = new user();
             var _user = db.users.FirstOrDefault(x => x.email == email);
             if (db.users.Any(x => x.email == email))
             {
                 ViewBag.ErrorEmailExist = "Email đã tồn tại!";
+                ViewBag.ReturnUrl = returnUrl;
                 return View("SignUp");
             }
             else {
                 if (pass != confirmpass)
                 {
                     ViewBag.ErrorPassNotsame = "Mật khẩu không khớp!";
+                    ViewBag.ReturnUrl = returnUrl;
                     ViewBag.Name = name; // Truyền lại name và các thông tin khác để hiển thị lại trong modal
                     ViewBag.Email = email;
                     ViewBag.DateOfBirth = dateofbirth;
@@ -140,7 +146,7 @@ namespace CinemaWeb.Controllers
                     db.users.Add(newUser);
                     db.SaveChanges();
                     Session["user"] = newUser;
-                    return RedirectToAction("Index", "UserHome", new { area = "User" });
+                    return RedirectToLocal(returnUrl, "Index", "UserHome", "User");
                 }
             }       
         }
@@ -150,5 +156,13 @@ namespace CinemaWeb.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        public ActionResult CheckLoginStatus()
+        {
+            var currentUser = Session["user"];
+            bool loggedIn = currentUser != null;
+            return Json(new { loggedIn = loggedIn }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
