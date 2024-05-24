@@ -459,9 +459,9 @@
                         var redirectUrl = response.redirectUrl;
                         if (redirectUrl) {
                             window.location.href = redirectUrl;
+                            alert("Cập nhật thông tin thành công")
                         }
                     } else {
-                        // Nếu có lỗi, hiển thị thông báo lỗi
                         $(".error-message").text(response.message);
                     }
                 }

@@ -733,6 +733,7 @@
 
 .un-click {
     pointer-events: none !important;
+    opacity: .65;
 }
 
 .time-btn a {

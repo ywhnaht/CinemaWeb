@@ -890,13 +890,14 @@
     }
     $(document).on('click', '.room-list .seat-item', function (event) {
         event.preventDefault();
-        $('.un-click').removeClass('un-click')
 
         const price = 60000;
         const seatRow = $(this).attr('data-row');
         const seatNum = $(this).attr('data-seat');
 
         var selectedSeats = $('.room-list .seat-item.seat-selected').length;
+        
+
         if ($(this).hasClass('seat-selected')) {
             $(this).removeClass('seat-selected');
             totalprice -= price;
@@ -910,9 +911,10 @@
             totalprice += price;
             addSeat(seatRow, seatNum);
         }
-
+ 
         $('#total-price').text(totalprice.toLocaleString());
         $('#sum-money').text(totalprice.toLocaleString());
+        updateContinueButtonState();
     })
     function addSeat(row, seatNum) {
         var chosenSeat = $('#chosen-seats').text().split(' ');
@@ -925,18 +927,27 @@
         chosenSeat = chosenSeat.filter(seat => seat !== row + seatNum);
         $('#chosen-seats').text(chosenSeat.join(' '));
     }
+    function updateContinueButtonState() {
+        var selectedSeats = $('.room-list .seat-item.seat-selected').length;
+        if (selectedSeats === 0) {
+            $('.continueBtn').addClass('un-click');
+        } else {
+            $('.continueBtn').removeClass('un-click');
+        }
+    }
+
+    $(document).ready(function () {
+        updateContinueButtonState();
+    });
+
     var countdownInterval;
     function continueBooking() {
-        //saveSelectedSeatsToDatabase()
 
-        // Bắt đầu bộ đếm ngược trong 5 phút (300000 milliseconds)
         var countdownTime = 300000; // 5 phút
         countdownInterval = setInterval(function () {
             countdownTime -= 1000; // Giảm thời gian đếm ngược mỗi giây
             if (countdownTime <= 0) {
                 clearInterval(countdownInterval); // Dừng bộ đếm ngược khi đến 0
-                // Xử lý khi hết thời gian đếm ngược, ví dụ: xóa trạng thái ghế đã chọn
-                //resetSelectedSeats();
                 window.location.reload();
             }
             // Hiển thị thời gian đếm ngược trong giao diện người dùng
@@ -946,7 +957,7 @@
 
     function resetCountdown() {
         clearInterval(countdownInterval); // Dừng bộ đếm ngược nếu đang hoạt động
-        displayCountdownTime(300000); // Hiển thị thời gian ban đầu (5 phút)
+        displayCountdownTime(300000); 
     }
 
     function displayCountdownTime(time) {
@@ -1026,7 +1037,6 @@
         // Cập nhật giá tiền mới lên thẻ span có id là sum-money
         $('#total-price').addClass("discount-selected")
         $('#sum-money').text(newTotalAmount.toLocaleString('en-US'));
-        //alert('Khuyến mãi ' + discountAmount + '% đã được chọn.');
     }
 
     // ấn tiếp tục thì chuyển sang trang thanh toán
@@ -1034,6 +1044,7 @@
     var buyTicketListData
     $(document).on('click', '.continueBtn', function (event) {
         if ($(this).hasClass('un-click') || chosenSeats == null) {
+            console.log("seat: " + chosenSeats)
             return
         }
         var returnUrl = window.location.href;
@@ -1108,7 +1119,6 @@
         console.log(chosenSeats)
         sendBookingData(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats)
         $('#total-price').removeClass("discount-selected");
-
     })
 
     function sendBookingData(movieId, displaydateId, scheduleId, roomId, chosenSeats) {

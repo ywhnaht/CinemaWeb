@@ -115,40 +115,48 @@ namespace CinemaWeb.Controllers
         }
         //HTTP POST
         [HttpPost]
-        public ActionResult SignUp(string name, string email, DateTime dateofbirth, string pass, string confirmpass, string returnUrl)
+        public ActionResult SignUp(string name, string email, DateTime dateofbirth, string pass, string confirmpass, string returnUrl, string verifyCode)
         {
-            user newUser = new user();
+            if (Session["verifycode"].ToString() == verifyCode)
+            {
+                user newUser = new user();
+                if (newUser.user_type == null) newUser.user_type = 1;
+                newUser.full_name = name;
+                newUser.email = email;
+                newUser.date_of_birth = dateofbirth;
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(pass);
+                newUser.hashed_pass = hashedPassword;
+                db.users.Add(newUser);
+                db.SaveChanges();
+                Session["user"] = newUser;
+                return RedirectToLocal(returnUrl, "Index", "UserHome", "User");
+            }
+            else
+            {
+                return Json(new { success = false, message = "Mã xác thực không chính xác!" });
+            }
+        }
+
+        public ActionResult CheckExistAccount(string name, string email, string pass, string confirmpass, string returnUrl)
+        {
             var _user = db.users.FirstOrDefault(x => x.email == email);
             if (db.users.Any(x => x.email == email))
             {
-                ViewBag.ErrorEmailExist = "Email đã tồn tại!";
+                //ViewBag.ErrorEmailExist = "Email đã tồn tại!";
                 ViewBag.ReturnUrl = returnUrl;
-                return View("SignUp");
+                return Json(new { success = false, message = "Email đã tồn tại!" });
             }
-            else {
+            else
+            {
                 if (pass != confirmpass)
                 {
-                    ViewBag.ErrorPassNotsame = "Mật khẩu không khớp!";
+                    //ViewBag.ErrorPassNotsame = "Mật khẩu không khớp!";
                     ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.Name = name; // Truyền lại name và các thông tin khác để hiển thị lại trong modal
-                    ViewBag.Email = email;
-                    ViewBag.DateOfBirth = dateofbirth;
-                    return View("SignUp");
+                    return Json(new { success = false, message = "Mật khẩu không khớp!" });
                 }
-                else
-                {
-                    if (newUser.user_type == null) newUser.user_type = 1;
-                    newUser.full_name = name;
-                    newUser.email = email;
-                    newUser.date_of_birth = dateofbirth;
-                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(pass);
-                    newUser.hashed_pass = hashedPassword;
-                    db.users.Add(newUser);
-                    db.SaveChanges();
-                    Session["user"] = newUser;
-                    return RedirectToLocal(returnUrl, "Index", "UserHome", "User");
-                }
-            }       
+                else 
+                    return Json(new { success = true, message = "" });
+            }
         }
         public ActionResult SignOut()
         {
@@ -163,6 +171,40 @@ namespace CinemaWeb.Controllers
             bool loggedIn = currentUser != null;
             return Json(new { loggedIn = loggedIn }, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public ActionResult ForgetPassword(string registerEmail)
+        {
+            var user = db.users.FirstOrDefault(x => x.email == registerEmail);
+            if (user != null)
+            {
+                string newPass = Membership.GeneratePassword(8, 0);
+                string hassedPass = BCrypt.Net.BCrypt.HashPassword(newPass);
+                user.hashed_pass = hassedPass;
+                db.SaveChanges();
 
+                string content = "<p>Xin chào " + user.full_name + "</p> <br><br>";
+                content += "<span>Theo yêu cầu của bạn, Ohayou Cinema xin gửi lại bạn thông tin mật mã tài khoản</span> <br><br>";
+                content += "<p>Password: " + newPass + "</p>";
+
+                CinemaWeb.Areas.User.Common.Common.SendMail("Ohayou Cinema", "Reset Password", content, registerEmail);
+                return Json(new { success = true, message = "Gửi mail thành công" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Email không tồn tại" });
+            }
+        }
+
+        public ActionResult VerifyEmail(string email, string name)
+        {
+            string verifyCode = Membership.GeneratePassword(8, 0);
+            Session["verifycode"] = verifyCode;
+            string content = "<p>Xin chào " + name + "</p> <br><br>";
+            content += "<span>Cảm ơn bạn đã đăng ký tài khoản, Ohayou Cinema xin gửi bạn mã xác thực</span> <br><br>";
+            content += "<p>Verify Code: " + verifyCode + "</p>";
+
+            CinemaWeb.Areas.User.Common.Common.SendMail("Ohayou Cinema", "Verify Email", content, email);
+            return Json(new { success = true, message = "Gửi mail thành công" });
+        }
     }
 }

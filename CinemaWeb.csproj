@@ -876,6 +876,7 @@
     <Content Include="Areas\User\assets\js\bootstrap.js" />
     <Content Include="Areas\User\assets\js\bootstrap.min.js" />
     <Content Include="assets\images\subimg\download.png" />
+    <Content Include="assets\images\subimg\ohayoucinema.svg" />
     <Content Include="assets\js\signup.js" />
     <Content Include="assets\js\signin.js" />
     <Content Include="assets\js\scripts.js" />

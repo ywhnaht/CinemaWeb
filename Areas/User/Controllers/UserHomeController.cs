@@ -144,14 +144,13 @@ namespace CinemaWeb.Areas.User.Controllers
             if (!string.IsNullOrEmpty(pass))
             {
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(pass);
-                currentUser.hashed_pass = hashedPassword;
+                
                 if (updateUser != null)
                 {
-                    updateUser.user_password = pass;
+                    updateUser.hashed_pass = hashedPassword;
                 }
             }
 
-            // Kiểm tra nếu chỉ có name được nhập mới
             if (!string.IsNullOrEmpty(name))
             {
                 currentUser.full_name = name;
@@ -162,7 +161,6 @@ namespace CinemaWeb.Areas.User.Controllers
             }
             db.SaveChanges();
 
-            // Trả về kết quả thành công
             var redirectUrl = Url.Action("UserProfile", "UserHome", new { area = "User" });
             return Json(new { success = true, redirectUrl = redirectUrl });
         }
