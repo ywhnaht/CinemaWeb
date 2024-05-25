@@ -56,8 +56,8 @@ namespace CinemaWeb.Controllers
         //
         // POST: /Account/Login
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public ActionResult SignIn(string email, string pass, string returnUrl)
         {
             var user = db.users.FirstOrDefault(x => x.email == email);
@@ -83,17 +83,14 @@ namespace CinemaWeb.Controllers
                 }
                else
                 {
-                    ViewBag.ErrorPass = "Mật khẩu không đúng!";
-                    ViewBag.Email = email;
                     ViewBag.ReturnUrl = returnUrl;
-                    return View("SignIn");
+                    return Json(new { success = false, message = "Mật khẩu không đúng!" });
                 }
             }
             else
             {
-                ViewBag.ErrorEmail = "Email không tồn tại!";
                 ViewBag.ReturnUrl = returnUrl;
-                return View("SignIn");
+                return Json(new { success = false, message = "Email không tồn tại!" });
             }
         }
 
@@ -103,7 +100,7 @@ namespace CinemaWeb.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction(action, controller, new { area });
+            return Json(new { success = true, url = Url.Action(action, controller, new { area }) });
         }
 
 
@@ -115,7 +112,7 @@ namespace CinemaWeb.Controllers
         }
         //HTTP POST
         [HttpPost]
-        public ActionResult SignUp(string name, string email, DateTime dateofbirth, string pass, string confirmpass, string returnUrl, string verifyCode)
+        public ActionResult SignUp(string name, string email, DateTime dateofbirth, string pass, string returnUrl, string verifyCode)
         {
             if (Session["verifycode"].ToString() == verifyCode)
             {
@@ -136,13 +133,12 @@ namespace CinemaWeb.Controllers
                 return Json(new { success = false, message = "Mã xác thực không chính xác!" });
             }
         }
-
+        [HttpPost]
         public ActionResult CheckExistAccount(string name, string email, string pass, string confirmpass, string returnUrl)
         {
             var _user = db.users.FirstOrDefault(x => x.email == email);
             if (db.users.Any(x => x.email == email))
             {
-                //ViewBag.ErrorEmailExist = "Email đã tồn tại!";
                 ViewBag.ReturnUrl = returnUrl;
                 return Json(new { success = false, message = "Email đã tồn tại!" });
             }
@@ -150,7 +146,6 @@ namespace CinemaWeb.Controllers
             {
                 if (pass != confirmpass)
                 {
-                    //ViewBag.ErrorPassNotsame = "Mật khẩu không khớp!";
                     ViewBag.ReturnUrl = returnUrl;
                     return Json(new { success = false, message = "Mật khẩu không khớp!" });
                 }
@@ -177,7 +172,7 @@ namespace CinemaWeb.Controllers
             var user = db.users.FirstOrDefault(x => x.email == registerEmail);
             if (user != null)
             {
-                string newPass = Membership.GeneratePassword(8, 0);
+                string newPass = GenerateRandomPassword(8);
                 string hassedPass = BCrypt.Net.BCrypt.HashPassword(newPass);
                 user.hashed_pass = hassedPass;
                 db.SaveChanges();
@@ -194,10 +189,10 @@ namespace CinemaWeb.Controllers
                 return Json(new { success = false, message = "Email không tồn tại" });
             }
         }
-
+        [HttpPost]
         public ActionResult VerifyEmail(string email, string name)
         {
-            string verifyCode = Membership.GeneratePassword(8, 0);
+            string verifyCode = GenerateRandomPassword(8);
             Session["verifycode"] = verifyCode;
             string content = "<p>Xin chào " + name + "</p> <br><br>";
             content += "<span>Cảm ơn bạn đã đăng ký tài khoản, Ohayou Cinema xin gửi bạn mã xác thực</span> <br><br>";
@@ -205,6 +200,28 @@ namespace CinemaWeb.Controllers
 
             CinemaWeb.Areas.User.Common.Common.SendMail("Ohayou Cinema", "Verify Email", content, email);
             return Json(new { success = true, message = "Gửi mail thành công" });
+        }
+        public string GenerateRandomPassword(int length)
+        {
+            string allowedLetterChars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+            string allowedNumberChars = "0123456789";
+            char[] chars = new char[length];
+            Random rd = new Random();
+            bool useLetter = true;
+            for (int i = 0; i < length; i++)
+            {
+                if (useLetter)
+                {
+                    chars[i] = allowedLetterChars[rd.Next(0, allowedLetterChars.Length)];
+                    useLetter = false;
+                }
+                else
+                {
+                    chars[i] = allowedNumberChars[rd.Next(0, allowedNumberChars.Length)];
+                    useLetter = true;
+                }
+            }
+            return new string(chars);
         }
     }
 }

@@ -51,5 +51,6 @@ namespace CinemaWeb.Models
         public virtual DbSet<user_type> user_type { get; set; }
         public virtual DbSet<user_type_user_role> user_type_user_role { get; set; }
         public virtual DbSet<user> users { get; set; }
+        public virtual DbSet<notification> notifications { get; set; }
     }
 }

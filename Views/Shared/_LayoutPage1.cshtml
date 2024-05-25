@@ -93,10 +93,10 @@
                         </button>
                         <img class="g-star-img" src="~/assets/images/logo/gstar.svg" alt="G-star">
                     </div>
-                    <div class="modal" id="js-modal">
+                    <div class="modal signin-modal" id="js-modal">
                         <div class="login-container" id="js-login-container">
                             <div class="form-container sign-up">
-                                <form class="signup-form" method="post" action="/Home/SignUp">
+                                <form class="signup-form">
                                     @Html.AntiForgeryToken()
                                     <h1>Tạo Tài Khoản</h1>
                                     <input name="name" type="text" required placeholder="Name">
@@ -106,23 +106,19 @@
                                     <input name="confirmpass" type="password" required placeholder="Confirm Password">
                                     <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                                     <span class="text-danger error-message">
-                                        @ViewBag.ErrorEmailExist
-                                        @ViewBag.ErrorPassNotsame
                                     </span>
-                                    <button type="submit" class="js-signup" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#verifyCode">Đăng Ký</button>
+                                    <button type="submit" class="js-signup">Đăng Ký</button>
                                 </form>
                             </div>
 
                             <div class="form-container sign-in">
-                                <form class="signin-form" method="post" action="/Home/SignIn">
+                                <form class="signin-form">
                                     @Html.AntiForgeryToken()
                                     <h1>Đăng Nhập</h1>
                                     <input name="email" type="email" required placeholder="Email">
                                     <input name="pass" type="password" required placeholder="Password">
                                     <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                                     <span class="text-danger error-message">
-                                        @ViewBag.ErrorEmail
-                                        @ViewBag.ErrorPass
                                     </span>
                                     <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#forgetPass">Quên mật khẩu?</a>
                                     <button type="submit" class="js-signin">Đăng Nhập</button>
@@ -173,7 +169,7 @@
                                                 Vui lòng nhập mã xác thực chúng tôi đã gửi vào email của bạn đã đăng ký.
                                             </span>
                                             <label style="color: rgb(119 119 119 /1); font-weight: 600; font-size: 12px">Verify Code</label>
-                                            <input name="verifyCode" type="email" required placeholder="Nhập mã xác thực" />
+                                            <input name="verifyCode" type="text" required placeholder="Nhập mã xác thực" />
                                             <span class="text-danger response-mess"></span>
                                             <button type="submit">Xác nhận</button>
                                         </form>
@@ -249,11 +245,45 @@
     <script src="~/assets/js/scripts.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
-        function redirectToSignIn(targetUrl) {
-            var url = "/Home/SignIn?returnUrl=" + encodeURIComponent(targetUrl);
-            console.log("Redirect URL:", url); // Kiểm tra URL
-            window.location.href = url;
+        function redirectToSignIn(returnUrl) {
+            $('.signin-modal').addClass('open')
+            sessionStorage.setItem('returnUrl', returnUrl);
         }
+
+        $('.signin-form').submit(function (e) {
+            e.preventDefault();
+            var email = $('.signin-form input[name="email"]').val();
+            var pass = $('.signin-form input[name="pass"]').val();
+            var returnUrl = $('.signin-form input[name="returnUrl"]').val();
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            $.ajax({
+                url: '/Home/SignIn',
+                type: 'POST',
+                data: {
+                    email: email,
+                    pass: pass,
+                    returnUrl: returnUrl,
+                    __RequestVerificationToken: token 
+                },
+                success: function (data) {
+                    if (data.success === false) {
+                        $('.error-message').text(data.message)
+                    }
+                    else {
+                        var returnUrl = sessionStorage.getItem('returnUrl');
+                        sessionStorage.removeItem('returnUrl');
+                        if (returnUrl) {
+                            window.location.href = returnUrl;
+                        }
+                        else 
+                            window.location.href = data.url;
+                    }
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        })
 
         $('.signup-form').submit(function (e) {
             e.preventDefault();
@@ -265,10 +295,16 @@
             $.ajax({
                 url: '/Home/CheckExistAccount',
                 type: 'POST',
-                data: { email: email, name: name, pass: pass, confirmpass: confirmpass, returnUrl: returnUrl },
+                data: {
+                    email: email,
+                    name: name,
+                    pass: pass,
+                    confirmpass: confirmpass,
+                    returnUrl: returnUrl
+                },
                 success: function (data) {
                     if (data.success) {
-                        SendVerifyCode(email)
+                        SendVerifyCode(email, name)
                     }
                     else {
                         $('.error-message').text(data.message)
@@ -280,13 +316,17 @@
             })
         })
 
-        function SendVerifyCode(email) {
+        function SendVerifyCode(email, name) {
             $.ajax({
-                url: '/Home/VerifyCode',
+                url: '/Home/VerifyEmail',
                 type: 'POST',
-                data: { email: email},
+                data: { email: email, name: name },
                 success: function (data) {
-           
+                    if (data.success) {
+                        $('#verifyCode').modal('show');
+                    } else {
+                        $('.error-message').text(data.message);
+                    }
                 },
                 error: function (err) {
                     console.log(err)
@@ -300,7 +340,6 @@
             var name = $('.signup-form input[name="name"]').val();
             var email = $('.signup-form input[name="email"]').val();
             var pass = $('.signup-form input[name="pass"]').val();
-            var confirmpass = $('.signup-form input[name="confirmpass"]').val();
             var dateofbirth = $('.signup-form input[name="dateofbirth"]').val();
             var returnUrl = $('.signup-form input[name="returnUrl"]').val();
             $.ajax({
@@ -311,12 +350,21 @@
                     email: email,
                     dateofbirth: dateofbirth,
                     pass: pass,
-                    confirmpass: confirmpass,
                     returnUrl: returnUrl,
                     verifyCode: verifyCode
                 },
                 success: function (data) {
-                    $('.response-mess').text(data.message)
+                    if (data.success === false)
+                        $('.response-mess').text(data.message)
+                    else {
+                        var returnUrl = sessionStorage.getItem('returnUrl');
+                        sessionStorage.removeItem('returnUrl');
+                        if (returnUrl) {
+                            window.location.href = returnUrl;
+                        }
+                        else
+                            window.location.href = data.url;
+                    }
                 },
                 error: function (err) {
                     console.log(err)
@@ -339,8 +387,7 @@
                 }
             })
         })
-        $('.forgetPass-form input').click(() => {
-            console.log("Hello")
+        $('input').click(() => {
             $('.response-mess').text("")
         })
 

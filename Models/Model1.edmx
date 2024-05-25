@@ -119,6 +119,17 @@
           <Property Name="url_trailer" Type="varchar" MaxLength="255" />
           <Property Name="url_large_image" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="notification">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="content" Type="nvarchar(max)" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="status" Type="bit" />
+          <Property Name="date_create" Type="datetime" />
+          <Property Name="sub_content" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="room">
           <Key>
             <PropertyRef Name="id" />
@@ -420,6 +431,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_notification_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="notification" Type="Self.notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notification">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_room_schedule_detail_room_id">
           <End Role="room" Type="Self.room" Multiplicity="0..1" />
           <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="*" />
@@ -662,6 +685,7 @@
           <EntitySet Name="movie_review" EntityType="Self.movie_review" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="movie_type" EntityType="Self.movie_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="movies" EntityType="Self.movies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="notification" EntityType="Self.notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="room" EntityType="Self.room" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="room_schedule_detail" EntityType="Self.room_schedule_detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="schedule" EntityType="Self.schedule" Schema="dbo" store:Type="Tables" />
@@ -728,6 +752,10 @@
           <AssociationSet Name="FK_movies_type_id" Association="Self.FK_movies_type_id">
             <End Role="movie_type" EntitySet="movie_type" />
             <End Role="movies" EntitySet="movies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notification_users" Association="Self.FK_notification_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="notification" EntitySet="notification" />
           </AssociationSet>
           <AssociationSet Name="FK_room_schedule_detail_room_id" Association="Self.FK_room_schedule_detail_room_id">
             <End Role="room" EntitySet="room" />
@@ -1132,6 +1160,7 @@
           <NavigationProperty Name="user_role" Relationship="Self.FK_user_role_create_by" FromRole="users" ToRole="user_role" />
           <NavigationProperty Name="user_role1" Relationship="Self.FK_user_role_update_by" FromRole="users" ToRole="user_role" />
           <NavigationProperty Name="user_type1" Relationship="Self.users_user_type_id_FK" FromRole="users" ToRole="user_type" />
+          <NavigationProperty Name="notifications" Relationship="CinemaWebModel.FK_notification_users" FromRole="user" ToRole="notification" />
         </EntityType>
         <Association Name="fk_actor_country">
           <End Role="country" Type="Self.country" Multiplicity="0..1" />
@@ -1674,7 +1703,36 @@
             <End Role="user_type" EntitySet="user_type" />
             <End Role="users" EntitySet="users" />
           </AssociationSet>
+          <EntitySet Name="notifications" EntityType="CinemaWebModel.notification" />
+          <AssociationSet Name="FK_notification_users" Association="CinemaWebModel.FK_notification_users">
+            <End Role="user" EntitySet="users" />
+            <End Role="notification" EntitySet="notifications" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="notification">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="user" Relationship="CinemaWebModel.FK_notification_users" FromRole="notification" ToRole="user" />
+          <Property Name="date_create" Type="DateTime" Precision="3" />
+          <Property Name="sub_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_notification_users">
+          <End Type="CinemaWebModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="CinemaWebModel.notification" Role="notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notification">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1963,6 +2021,18 @@
                 <ScalarProperty Name="created" ColumnName="created" />
                 <ScalarProperty Name="user_status" ColumnName="user_status" />
                 <ScalarProperty Name="hashed_pass" ColumnName="hashed_pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notifications">
+            <EntityTypeMapping TypeName="CinemaWebModel.notification">
+              <MappingFragment StoreEntitySet="notification">
+                <ScalarProperty Name="sub_content" ColumnName="sub_content" />
+                <ScalarProperty Name="date_create" ColumnName="date_create" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

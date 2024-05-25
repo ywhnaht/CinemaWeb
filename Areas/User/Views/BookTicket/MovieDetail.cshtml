@@ -327,10 +327,10 @@
                             </button>
                             <img class="g-star-img" src="~/assets/images/logo/gstar.svg" alt="G-star">
                         </div>
-                        <div class="modal" id="js-modal">
+                        <div class="modal signin-modal" id="js-modal">
                             <div class="login-container" id="js-login-container">
                                 <div class="form-container sign-up">
-                                    <form method="post" action="/Home/SignUp">
+                                    <form method="post" action="/Home/SignUp" class="signup-form">
                                         @Html.AntiForgeryToken()
                                         <h1>Tạo Tài Khoản</h1>
                                         <input name="name" type="text" required placeholder="Name">
@@ -338,25 +338,23 @@
                                         <input name="dateofbirth" type="date" required placeholder="Date Of Birth">
                                         <input name="pass" type="password" required placeholder="Password">
                                         <input name="confirmpass" type="password" required placeholder="Confirm Password">
+                                        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                                         <span class="text-danger error-message">
-                                            @ViewBag.ErrorEmailExist
-                                            @ViewBag.ErrorPassNotsame
                                         </span>
                                         <button type="submit" class="js-signup">Đăng Ký</button>
                                     </form>
                                 </div>
 
                                 <div class="form-container sign-in">
-                                    <form method="post" action="/Home/SignIn">
+                                    <form method="post" action="/Home/SignIn" class="signin-form">
                                         @Html.AntiForgeryToken()
                                         <h1>Đăng Nhập</h1>
                                         <input name="email" type="email" required placeholder="Email">
                                         <input name="pass" type="password" required placeholder="Password">
+                                        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                                         <span class="text-danger error-message">
-                                            @ViewBag.ErrorEmail
-                                            @ViewBag.ErrorPass
                                         </span>
-                                        <a href="#">Quên mật khẩu?</a>
+                                        <a style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#forgetPass">Quên mật khẩu?</a>
                                         <button type="submit" class="js-signin">Đăng Nhập</button>
                                     </form>
                                 </div>
@@ -371,6 +369,44 @@
                                             <h1>Chưa có tài khoản?</h1>
                                             <p>Đăng ký tài khoản với thông tin cá nhân của bạn</p>
                                             <button class="hidden" id="js-register">Đăng Ký</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal -->
+                                <div @*style="display: flex; align-items: center"*@ class="modal fade" id="forgetPass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" style="display: flex; justify-content: center">
+                                        <div class="modal-content" style="width: 400px; height: 450px">
+                                            <img src="~/assets/images/subimg/ohayoucinema.svg" class="rounded mx-auto d-block" alt="" style="margin-top: 2rem">
+                                            <p style="font-weight: 500; display: flex; margin-top: 1rem; justify-content: center;">Quên Mật Khẩu?</p>
+
+                                            <form class="forgetPass-form">
+                                                <span style="font-size: 13px">
+                                                    Vui lòng cung cấp email đăng nhập, chúng tôi sẽ gửi mã cho bạn.
+                                                </span>
+                                                <label style="color: rgb(119 119 119 /1); font-weight: 600; font-size: 12px">Email</label>
+                                                <input name="registerEmail" type="email" required placeholder="Nhập email đã đăng ký" />
+                                                <span class="text-danger response-mess"></span>
+                                                <button type="submit">Cấp lại mật khẩu</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div @*style="display: flex; align-items: center"*@ class="modal fade" id="verifyCode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" style="display: flex; justify-content: center">
+                                        <div class="modal-content" style="width: 400px; height: 450px">
+                                            <img src="~/assets/images/subimg/ohayoucinema.svg" class="rounded mx-auto d-block" alt="" style="margin-top: 2rem">
+                                            <p style="font-weight: 500; display: flex; margin-top: 1rem; justify-content: center;">Xác Thực Email</p>
+
+                                            <form class="verifyCode-form">
+                                                <span style="font-size: 13px; margin: 1rem 0;">
+                                                    Vui lòng nhập mã xác thực chúng tôi đã gửi vào email của bạn đã đăng ký.
+                                                </span>
+                                                <label style="color: rgb(119 119 119 /1); font-weight: 600; font-size: 12px">Verify Code</label>
+                                                <input name="verifyCode" type="text" required placeholder="Nhập mã xác thực" />
+                                                <span class="text-danger response-mess"></span>
+                                                <button type="submit">Xác nhận</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -642,14 +678,156 @@
 
 
     <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
-
+    <script src="~/assets/js/ajax-functions.js"></script>
     @*<script src="~/Areas/User/assets/js/moviedetail.js"></script>*@
 
 </body>
 </html>
 
+
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+
+    $('.signin-form').submit(function (e) {
+        e.preventDefault();
+        var email = $('.signin-form input[name="email"]').val();
+        var pass = $('.signin-form input[name="pass"]').val();
+        var returnUrl = $('.signin-form input[name="returnUrl"]').val();
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        $.ajax({
+            url: '/Home/SignIn',
+            type: 'POST',
+            data: {
+                email: email,
+                pass: pass,
+                returnUrl: returnUrl,
+                __RequestVerificationToken: token
+            },
+            success: function (data) {
+                if (data.success === false) {
+                    $('.error-message').text(data.message)
+                }
+                else {
+                    var returnUrl = sessionStorage.getItem('returnUrl');
+                    sessionStorage.removeItem('returnUrl');
+                    if (returnUrl) {
+                        window.location.href = returnUrl;
+                    }
+                    else
+                        window.location.href = data.url;
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    })
+    $('.signup-form').submit(function (e) {
+        e.preventDefault();
+        var email = $('input[name="email"]').val();
+        var name = $('input[name="name"]').val();
+        var pass = $('input[name="pass"]').val();
+        var confirmpass = $('input[name="confirmpass"]').val();
+        var returnUrl = $('input[name="returnUrl"]').val();
+        $.ajax({
+            url: '/Home/CheckExistAccount',
+            type: 'POST',
+            data: {
+                email: email,
+                name: name,
+                pass: pass,
+                confirmpass: confirmpass,
+                returnUrl: returnUrl
+            },
+            success: function (data) {
+                if (data.success) {
+                    SendVerifyCode(email, name)
+                }
+                else {
+                    $('.error-message').text(data.message)
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    })
+
+    function SendVerifyCode(email, name) {
+        $.ajax({
+            url: '/Home/VerifyEmail',
+            type: 'POST',
+            data: { email: email, name: name },
+            success: function (data) {
+                if (data.success) {
+                    $('#verifyCode').modal('show');
+                } else {
+                    $('.error-message').text(data.message);
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+
+    $('.verifyCode-form').submit(function (e) {
+        e.preventDefault();
+        var verifyCode = $('input[name="verifyCode"]').val();
+        var name = $('.signup-form input[name="name"]').val();
+        var email = $('.signup-form input[name="email"]').val();
+        var pass = $('.signup-form input[name="pass"]').val();
+        var dateofbirth = $('.signup-form input[name="dateofbirth"]').val();
+        var returnUrl = $('.signup-form input[name="returnUrl"]').val();
+        $.ajax({
+            url: '/Home/SignUp',
+            type: 'POST',
+            data: {
+                name: name,
+                email: email,
+                dateofbirth: dateofbirth,
+                pass: pass,
+                returnUrl: returnUrl,
+                verifyCode: verifyCode
+            },
+            success: function (data) {
+                if (data.success === false)
+                    $('.response-mess').text(data.message)
+                else {
+                    var returnUrl = sessionStorage.getItem('returnUrl');
+                    sessionStorage.removeItem('returnUrl');
+                    if (returnUrl) {
+                        window.location.href = returnUrl;
+                    }
+                    else
+                        window.location.href = data.url;
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    })
+
+    $('.forgetPass-form').submit(function (e) {
+        e.preventDefault();
+        var registerEmail = $('input[name="registerEmail"]').val();
+        $.ajax({
+            url: '/Home/ForgetPassword',
+            type: 'POST',
+            data: { registerEmail: registerEmail },
+            success: function (data) {
+                $('.response-mess').text(data.message)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    })
+    $('input').click(() => {
+        $('.response-mess').text("")
+    })
+
     function formatTime(timeitem, choose) {
         var hour = timeitem.getHours();
         var minute = timeitem.getMinutes();
@@ -787,8 +965,8 @@
                 if (result.loggedIn) {
                     window.location.href = returnUrl;
                 } else {
-                    var url = "/Home/SignIn?returnUrl=" + encodeURIComponent(returnUrl);
-                    window.location.href = url;
+                    $('.signin-modal').addClass('modal-open')
+                    sessionStorage.setItem('returnUrl', returnUrl);
                 }
             },
             error: function (error) {

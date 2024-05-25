@@ -290,6 +290,9 @@
     <Compile Include="Models\movy.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\notification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Payment\VnPayLibrary.cs" />
     <Compile Include="Models\room.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -877,6 +880,7 @@
     <Content Include="Areas\User\assets\js\bootstrap.min.js" />
     <Content Include="assets\images\subimg\download.png" />
     <Content Include="assets\images\subimg\ohayoucinema.svg" />
+    <Content Include="assets\js\ajax-functions.js" />
     <Content Include="assets\js\signup.js" />
     <Content Include="assets\js\signin.js" />
     <Content Include="assets\js\scripts.js" />

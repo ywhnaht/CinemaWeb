@@ -78,6 +78,9 @@ namespace CinemaWeb.Areas.User.Controllers
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
 
+            var notification = db.notifications.Where(x => x.user_id ==  currentUser.id).ToList();
+            ViewBag.NotificationList = notification;
+
             int totalSpent = 0;
             ViewBag.MovieList = movielist;
             var invoiceList = db.invoices.Where(x => x.user_id == currentUser.id).OrderByDescending(x => x.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1).ToList();
