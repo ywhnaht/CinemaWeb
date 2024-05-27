@@ -574,7 +574,7 @@ namespace CinemaWeb.Areas.User.Controllers
                         notification.sub_content = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.movy.title + ", Suất: " +
                                                    invoiceItem.room_schedule_detail.schedule_detail.schedule.schedule_time.Value.ToString(@"hh\:mm") + ", " +
                                                    invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Value.ToString("dd/MM/yyyy");
-                        notification.status = true;
+                        notification.status = false;
                         notification.date_create = DateTime.Now;
                         db.notifications.Add(notification);
                         db.SaveChanges();

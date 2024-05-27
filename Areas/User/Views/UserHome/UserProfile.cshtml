@@ -261,12 +261,15 @@
                                 <a class="text-dark-emphasis fw-medium active" href="#profile-infor" data-bs-toggle="list" data-bs-target="#profile-infor" role="tab">Thông tin cá nhân</a>
                             </li>
                             <li class="col-md-3 list-group-item" style="padding-left: 3rem;">
-                                <a class="text-dark-emphasis fw-medium position-relative" href="#notice" data-bs-toggle="list" data-bs-target="#notice" role="tab">
+                                <a class="text-dark-emphasis fw-medium position-relative notification" href="#notice" data-bs-toggle="list" data-bs-target="#notice" role="tab">
                                     Thông báo
-                                    <span style="font-size: 9px; top: 2px !important; left: 95px !important;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        1
-                                        <span class="visually-hidden">unread messages</span>
-                                    </span>
+                                    @if (ViewBag.TotalNotice > 0)
+                                    {
+                                        <span style="font-size: 9px; top: 2px !important; left: 95px !important; background-color: #F26B38;" class="total-notice position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                                            @ViewBag.TotalNotice
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    }
                                 </a>
                             </li>
                             <li class="col-md-3 list-group-item">
@@ -447,7 +450,16 @@
                                             &nbsp;
                                             <span>, @notice.date_create.ToString("dd/MM/yyyy")</span>
                                         </div>
-                                        
+                                        <div class="col-md-2 ticket-more-detail" style=" color: #F26B38;">
+                                            @if (notice.status == false)
+                                            {
+                                                <i class="fa-solid fa-circle-exclamation"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             }
@@ -494,6 +506,21 @@
             });
         });
     });
+
+    $('.notification').on('click', () => {
+        $.ajax({
+            url: "/User/UserHome/NoticeStatus",
+            type: "POST",
+            success: function (data) {
+                if (data.success) {
+                    $('.total-notice').hide()
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    })
 
     
 

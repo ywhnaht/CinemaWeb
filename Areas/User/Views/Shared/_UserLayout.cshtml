@@ -94,10 +94,14 @@
                                 <div class="account-wrapper">
                                     <div class="position-relative">
                                         <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
-                                        <span style="font-size: 10px; top: 10px !important; left: 54px !important;" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            1
-                                            <span class="visually-hidden">unread messages</span>
-                                        </span>
+                                        @if (ViewBag.TotalNotice > 0)
+                                        {
+                                            <span style="font-size: 10px; top: 10px !important; left: 54px !important; background-color: #F26B38" class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                                                @ViewBag.TotalNotice
+                                                <span class="visually-hidden">unread messages</span>
+                                            </span>
+                                        }
+
                                     </div>
                                     <ul class="list-group account-list">
                                         <li class="list-group-item">
