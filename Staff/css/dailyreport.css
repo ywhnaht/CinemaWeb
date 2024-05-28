@@ -48,16 +48,11 @@ html {
     background-color:#F26B38; 
     color: white;
     border-radius: 5px;
-    margin-right: 10rem;
+    margin-right: 0;
   }
   .report-btn:hover{
     cursor: pointer;
     background-color:#f58020;
-  }
-
-  .report-btn a{
-    text-decoration: none;
-    color: #f4f4f4;
   }
   
   .search-content-item input{
@@ -65,7 +60,7 @@ html {
     height: 3rem;
     border: none;
     border-radius: 5px;
-    padding-left: 1rem;
+    padding-left: 2rem;  
     --tw-text-opacity: 1;
     color: #4a4a4a;
     font-size:  1rem;
@@ -74,10 +69,17 @@ html {
    
   }
   
+  .fa-calendar-alt{
+    position: absolute;
+    display: inline-block;
+    color: #f58020;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+  }
   .getdate{
     display: flex;
-    justify-content: left;
-    padding-left: 6rem;
+    justify-content: center;
     margin-top: 3rem;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -173,68 +175,31 @@ html {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
   }
   .list{
     list-style: none ;
   }
   .mv-name
   {
-    display: flex;
-    align-items: center;
+    margin-top: 30px;
     font-weight: 500;
-    font-family: Nunito Sans, sans-serif !important;
-    color: #4a4a4a;
   }
   
   .date
   {
-    margin-top: 1rem;
+    margin-top: 20px;
     font-size: small;
     font-weight: 500;
   }
-  .seat{
-   
+  .price{
+    margin-top: 30px;
     font-size: 1rem;
     font-weight: 500;
     color:#f58020 ;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
-
-  .check-in{
-    border: none;
-    background-color: #F26B38;
-    border-radius: 5px;
-    padding: 10px;
-    color: white;
-    font-size: 1rem;
-    font-weight: 400;
-   
-   
- }
-
- .check-btn{
-  display: flex;
-  justify-content: center;
-  align-items: center;
- }
-
- .check-in:hover{
-  background-color: #f58020;
-  cursor: pointer;
- }
   
   .theater{
     font-weight: 600;
-    margin-bottom: 0;
-  }
-  .code{
-    font-weight: 600;
-    display: flex;
-    align-items: center;
   }
 
   .revenue{
@@ -362,8 +327,8 @@ html {
 }
 
 .account-wrapper {
-    display: inline-block;
   position: relative;
+  display: inline-block;
 }
 
 .account-img {

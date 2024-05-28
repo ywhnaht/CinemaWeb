@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+.buyticket-btn  {
+    font-size: 15px;
+    color: #fff;
+    border: none;
+}
+
+.img-buy-btn {
+    width: 110px;
+    height: auto;
+}
+
+
+/* List */
+.list-group-horizontal {
+    border: none;
+    margin-left: -30px;
+    cursor: pointer;
+}
+
+.list-group-item {
+    border: none;
+    border-radius: 0;
+}
+.list-group-item:last-child {
+    border-right: none;
+}
+
+.list-gr-1 {
+    font-size: 14px;
+}
+
+.movie-area,
+.cinema-corner,
+.event-list,
+.ticket-price {
+    padding: 20px 10px;
+}
+
+.list-gr-1 li {
+    position: relative;
+}
+
+.list-gr-1 li:hover {
+    color: #F26B38;
+}
+
+.sub-list-gr-1 {
+    display: none;
+    min-width: 200px;
+    top: calc(100% + 0.5px);
+    left: -35px;
+    position: absolute;
+    z-index: 2;
+    background-color: #fff;
+    line-height: 2.4;
+    list-style-type: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.movie-area a,
+.sub-list-gr-1 a {
+    text-decoration: none;
+    color: #000;
+}
+
+.movie-area:hover .movie-status,
+.cinema-corner:hover .sub-list-gr-1,
+.event-list:hover .sub-list-gr-1,
+.ticket-price:hover .sub-list-gr-1
+ {
+    color: #F26B38;
+    display: block;
+}
+
+.movie-area li:hover a,
+.sub-list-gr-1 li:hover a {
+    color: #F26B38;
+}
+
+.down-btn {
+    font-size: 8px;
+}
+
+/* Movie-List */
+.movie-status {
+    display: none;
+    padding: 10px 20px;
+    min-width: 720px;
+    top: calc(100% + 0.5px);
+    left: -30px;
+    position: absolute;
+    z-index: 2;
+    background-color: #fff;
+    list-style-type: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.movie-list .col-md-3 {
+    position: relative;
+  
+}
+
+.img-movie {
+    padding-bottom: 10px;
+    transition: filter 0.3s ease;
+}
+
+.ti-ticket {
+    font-size: 15px;
+}
+
+.movie-list .buy-ticket-btn {
+    display: none;
+    border: none;
+    width: 120px; 
+    height: 35px;
+    background-color: #F26B38;
+    color: #fff;
+    position: absolute;
+    top: 43%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+.movie-list .buy-ticket-btn:hover ~ .img-movie,
+.movie-list .img-movie:hover {
+    filter: brightness(65%); 
+}
+
+.movie-list .img-movie:hover + .buy-ticket-btn,
+.movie-list .buy-ticket-btn:hover {
+    display: block;
+}
+
+.movie-list .buy-ticket-btn:hover {
+    background-color: #f29538;
+
+}
+
+.search-icon {
+    font-size: 14px;
+}
+
+.search-btn {
+    border: none;
+    padding-left: 34px;
+    color: #777777;
+}
+.header{
+    background-color: white;
+}
+
+
+.account-wrapper {
+    position: relative;
+}
+
+.account-img {
+    width: 75px;
+    height: auto;
+    padding: 10px 20px;
+}
+
+.account-list li:hover a {
+    color: #F26B38;
+}
+
+.account-list a {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+}
+
+.account-list {
+    display: none;
+    text-decoration: none;
+    min-width: 150px;
+    top: calc(100% + 0.5px);
+    left: 20px;
+    justify-content: center;
+    position: absolute;
+    z-index: 2;
+    background-color: #fff;
+    list-style-type: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.account-icon {
+    padding-right: 10px;
+}
+
+.account-wrapper:hover .account-list {
+    display: block;
+}
