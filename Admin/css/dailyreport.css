@@ -159,6 +159,8 @@ html {
     display: flex;
     justify-content: center;
     padding-top: 4rem;
+    overflow: auto;
+    height: 40rem;
   }
   
   .history-box .mv-img img{
@@ -369,3 +371,6 @@ html {
   display: block;
 }
 
+.chart{
+  margin-top: 3rem;
+}

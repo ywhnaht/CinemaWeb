@@ -237,30 +237,31 @@ html {
     align-items: center;
   }
 
-  .revenue{
-    border-radius: 25px;
-    background-color: #f58020;
-    color: #fff;
-    width: 20rem;
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
-    margin-right: 2rem;
-
-  }
-.Label-price{
-    padding-left: 1rem;
-    margin-right: .5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: Nunito Sans, sans-serif !important;
+.scan-title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Nunito Sans, sans-serif !important;
+  color: #4a4a4a;
 }
-.total{
-    display: flex;
-    justify-content: center;
-    margin-bottom: 5rem
-    
+
+.html5-qrcode-element{
+  position: relative;
+  height: 2rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border: none;
+  background-color:#F26B38; 
+  color: white;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  text-decoration: none important;
+}
+
+.html5-qrcode-element:hover{
+  background-color: #f58020;
+  cursor: pointer;
 }
   
 /* header*/
