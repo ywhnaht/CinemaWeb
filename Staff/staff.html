@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="icon" href="img/cinema-logo.png" type="image/png">
-    <title>Admin</title>
+    <title>Staff</title>
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:400,700"
@@ -28,12 +28,13 @@
         <div class="container-fluid  p-4">
             <div class="row align-items-center">
                 <div class="col-md-1"></div>
-                <div class="col-md-2 py-1">
+                <div class="col-md-2 px-5 py-1">
                     <a href="" class = "navbar-brand">
                         <img src="img/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-7"></div>
+                <!-- <div class="col-md-7">
                     <ul class="list-gr-1 list-group list-group-horizontal">
                         <li class="list-group-item movie-area">
                             <a href="index.html">
@@ -54,7 +55,7 @@
                             </a>  
                         </li>   
                     </ul>
-                </div>
+                </div> -->
                 <div class="login-area col-md-2">
                     <button class="search-btn btn">
                         <i class="search-icon ti-search"></i>
@@ -62,7 +63,7 @@
                         <div class="account-wrapper">
                             <img src="img/account.png" alt="" class="img-fluid account-img">
                             <ul class="list-group account-list">
-                                <li class="list-group-item"><a href="account.html"><i class="fa-solid fa-id-badge account-icon"></i>
+                                <li class="list-group-item"><a href="staffProfile.html"><i class="fa-solid fa-id-badge account-icon"></i>
                                     Tài Khoản</a></li>
                                 <li class="list-group-item"><a href="" class="js-logout"><i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
                                     Đăng Xuất</a></li>
@@ -83,9 +84,20 @@
                 <button class="report-btn">
                     Tìm kiếm
                 </button>
-                <button class="report-btn">
-                    <a href="qrcode.html">Quét mã QR</a>
+                <button class="report-btn accordion-toggle " data-bs-toggle="modal" data-bs-target="#qr-scan" aria-expanded="false">Quét mã QR
                 </button>
+                <div class="modal" id = "qr-scan">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div id="qr-result">
+                                <h1 class = "scan-title">Scan QR</h1>
+                                <div style="display: flex; justify-content: center;">
+                                    <div id="qr-reader" style="width: 500px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="list-report">
                 <ul class="list">
@@ -97,12 +109,16 @@
                             <div class="col-md-4 mv-name">
                                 Exhuma: Quật mộ trùng ma
                             </div>
-                            <div class="col-md-3 date">
+                            <div class="col-md-2 date">
                                 <p class = "theater">Rạp 1</p>
                                 <p>20:00h Thứ ba, 09/04/2024</p>
                             </div>
-                            <div class="col-md-2 code">DJ123</div>
-                            <div class="col-md-2 price">60.000đ</div>
+                            <div class="col-md-1 code">DJ123</div>
+                            <div class="col-md-2 seat">D1</div>
+                            <div class="col-md-2 check-btn">
+                                <button class = "check-in">Check in</button>
+                            </div>
+
                         </div>
                     </li>
                     <li class="list-item">
@@ -113,12 +129,16 @@
                             <div class="col-md-4 mv-name">
                                 Exhuma: Quật mộ trùng ma
                             </div>
-                            <div class="col-md-3 date">
+                            <div class="col-md-2 date">
                                 <p class = "theater">Rạp 1</p>
                                 <p>20:00h Thứ ba, 09/04/2024</p>
                             </div>
-                            <div class="col-md-2 code">DJ123</div>
-                            <div class="col-md-2 price">60.000đ</div>
+                            <div class="col-md-1 code">DJ123</div>
+                            <div class="col-md-2 seat">D1 D2 D3 D4 D5 D6</div>
+                            <div class="col-md-2 check-btn">
+                                <button class = "check-in">Check in</button>
+                            </div>
+
                         </div>
                     </li>
                     <li class="list-item">
@@ -129,12 +149,16 @@
                             <div class="col-md-4 mv-name">
                                 Exhuma: Quật mộ trùng ma
                             </div>
-                            <div class="col-md-3 date">
+                            <div class="col-md-2 date">
                                 <p class = "theater">Rạp 1</p>
                                 <p>20:00h Thứ ba, 09/04/2024</p>
                             </div>
-                            <div class="col-md-2 code">DJ123</div>
-                            <div class="col-md-2 price">60.000đ</div>
+                            <div class="col-md-1 code">DJ123</div>
+                            <div class="col-md-2 seat">D1</div>
+                            <div class="col-md-2 check-btn">
+                                <button class = "check-in">Check in</button>
+                            </div>
+
                         </div>
                     </li>
                     <li class="list-item">
@@ -145,12 +169,16 @@
                             <div class="col-md-4 mv-name">
                                 Exhuma: Quật mộ trùng ma
                             </div>
-                            <div class="col-md-3 date">
+                            <div class="col-md-2 date">
                                 <p class = "theater">Rạp 1</p>
                                 <p>20:00h Thứ ba, 09/04/2024</p>
                             </div>
-                            <div class="col-md-2 code">DJ123</div>
-                            <div class="col-md-2 price">60.000đ</div>
+                            <div class="col-md-1 code">DJ123</div>
+                            <div class="col-md-2 seat">D1</div>
+                            <div class="col-md-2 check-btn">
+                                <button class = "check-in">Check in</button>
+                            </div>
+
                         </div>
                     </li>
                     <li class="list-item">
@@ -161,12 +189,16 @@
                             <div class="col-md-4 mv-name">
                                 Exhuma: Quật mộ trùng ma
                             </div>
-                            <div class="col-md-3 date">
+                            <div class="col-md-2 date">
                                 <p class = "theater">Rạp 1</p>
                                 <p>20:00h Thứ ba, 09/04/2024</p>
                             </div>
-                            <div class="col-md-2 code">DJ123</div>
-                            <div class="col-md-2 price">60.000đ</div>
+                            <div class="col-md-1 code">DJ123</div>
+                            <div class="col-md-2 seat">D1</div>
+                            <div class="col-md-2 check-btn">
+                                <button class = "check-in">Check in</button>
+                            </div>
+
                         </div>
                     </li>
                     <li class="list-item">
@@ -177,30 +209,20 @@
                             <div class="col-md-4 mv-name">
                                 Exhuma: Quật mộ trùng ma
                             </div>
-                            <div class="col-md-3 date">
+                            <div class="col-md-2 date">
                                 <p class = "theater">Rạp 1</p>
                                 <p>20:00h Thứ ba, 09/04/2024</p>
                             </div>
-                            <div class="col-md-2 code">DJ123</div>
-                            <div class="col-md-2 price">60.000đ</div>
+                            <div class="col-md-1 code">DJ123</div>
+                            <div class="col-md-2 seat">D1</div>
+                            <div class="col-md-2 check-btn">
+                                <button class = "check-in">Check in</button>
+                            </div>
+
                         </div>
                     </li>
-                    <li class="list-item">
-                        <div class="row history-box">
-                            <div class="col-md-1 mv-img" style="margin-top: 0;">
-                                <img src="img/exhuma.jpg" alt="">
-                            </div>
-                            <div class="col-md-4 mv-name">
-                                Exhuma: Quật mộ trùng ma
-                            </div>
-                            <div class="col-md-3 date">
-                                <p class = "theater">Rạp 1</p>
-                                <p>20:00h Thứ ba, 09/04/2024</p>
-                            </div>
-                            <div class="col-md-2 code">DJ123</div>
-                            <div class="col-md-2 price">60.000đ</div>
-                        </div>
-                    </li>
+                    
+                  
                 </ul>
                 
             
@@ -211,6 +233,35 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        function domReady(fn) {
+            if (document.readyState === "complete" || document.readyState === "interactive") {
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+
+        domReady(function() {
+            var myqr = document.getElementById('qr-result');
+            var lastResult, countResults = 0;
+
+            function onScanSuccess(decodeText, decodeResult) {
+                if (decodeText !== lastResult) {
+                    ++countResults;
+                    lastResult = decodeText;
+
+                    alert("Your QR is: " + decodeText);
+                    myqr.innerHTML = `You scanned ${countResults} : ${decodeText}`;
+                }
+            }
+
+            var html5QrcodeScanner = new Html5QrcodeScanner(
+                "qr-reader", { fps: 10, qrbox: 250 }
+            );
+            html5QrcodeScanner.render(onScanSuccess);
+        });
+    </script>
 
 
 

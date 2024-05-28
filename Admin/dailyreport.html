@@ -105,6 +105,15 @@
     <div class="line-default"></div>
     <div class="container wrapper">
         <div class="wrapper-content">
+            <div class="row chart">
+                <div class="col-md-5">
+                    <canvas id="monthChart" width="350" height="300"></canvas>
+                </div>
+                <div class="col-md-2"></div>
+               <div class="col-md-5">
+                    <canvas id="yearChart" width="350" height="300"></canvas>
+               </div>
+            </div>
             <div class="getdate">
                 <div class="search-content-item">
                     <i class="far fa-calendar-alt"></i>
@@ -269,9 +278,104 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
         flatpickr("#myID", {
             dateFormat: "d-m-Y",
         });
     </script>
+   
+    <script>
+        const ctx = document.getElementById('monthChart').getContext('2d');
+        
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+            datasets: [{
+              label: 'Doanh thu tháng',
+              data: [1, 2, 3, 5, 2, 3, 5, 9, 1, 4, 5, 2],
+              backgroundColor: 
+                '#f26b38',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                  font: {
+                    size: 14
+                  }
+                }
+              },
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  label: function(context) {
+                    return `Doanh thu: ${context.parsed.y}`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      </script>
+      <script>
+        const ct = document.getElementById('yearChart').getContext('2d');
+        
+        new Chart(ct, {
+          type: 'bar',
+          data: {
+            labels: ['2020', '2021', '2022', '2023', '2024'],
+            datasets: [{
+              label: 'Doanh thu năm',
+              data: [1, 2, 3, 5, 2, 3, 5, 9, 1, 4, 5, 2],
+              backgroundColor: 
+                '#f26b38',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                  font: {
+                    size: 14
+                  }
+                }
+              },
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  label: function(context) {
+                    return `Doanh thu: ${context.parsed.y}`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      </script>
 </body>

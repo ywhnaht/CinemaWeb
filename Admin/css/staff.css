@@ -173,31 +173,63 @@ html {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
   }
   .list{
     list-style: none ;
   }
   .mv-name
   {
-    margin-top: 30px;
+    display: flex;
+    align-items: center;
     font-weight: 500;
+    font-family: Nunito Sans, sans-serif !important;
+    color: #4a4a4a;
   }
   
   .date
   {
-    margin-top: 20px;
+    margin-top: 1rem;
     font-size: small;
     font-weight: 500;
   }
-  .price{
-    margin-top: 30px;
+  .seat{
+   
     font-size: 1rem;
     font-weight: 500;
     color:#f58020 ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
+
+  .check-in{
+    border: none;
+    background-color: #F26B38;
+    border-radius: 5px;
+    padding: 10px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+   
+   
+ }
+
+ .check-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+
+ .check-in:hover{
+  background-color: #f58020;
+  cursor: pointer;
+ }
   
   .theater{
     font-weight: 600;
+    margin-bottom: 0;
   }
   .code{
     font-weight: 600;
