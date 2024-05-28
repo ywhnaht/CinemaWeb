@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CinemaWebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CinemaWebModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="actor">
           <Key>
             <PropertyRef Name="id" />
@@ -118,6 +118,17 @@
           <Property Name="rating" Type="decimal" Precision="3" Scale="1" />
           <Property Name="url_trailer" Type="varchar" MaxLength="255" />
           <Property Name="url_large_image" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="notification">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="content" Type="nvarchar(max)" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="status" Type="bit" />
+          <Property Name="date_create" Type="datetime" />
+          <Property Name="sub_content" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="room">
           <Key>
@@ -256,12 +267,13 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="full_name" Type="nvarchar" MaxLength="255" />
           <Property Name="email" Type="varchar" MaxLength="255" />
-          <Property Name="user_password" Type="varchar" MaxLength="15" />
+          <Property Name="user_password" Type="varchar" MaxLength="255" />
           <Property Name="user_phone" Type="varchar" MaxLength="15" />
           <Property Name="user_type" Type="tinyint" />
           <Property Name="date_of_birth" Type="date" />
           <Property Name="created" Type="datetime" />
           <Property Name="user_status" Type="tinyint" />
+          <Property Name="hashed_pass" Type="varchar" MaxLength="255" />
         </EntityType>
         <Association Name="fk_actor_country">
           <End Role="country" Type="Self.country" Multiplicity="0..1" />
@@ -419,6 +431,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_notification_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="notification" Type="Self.notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notification">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_room_schedule_detail_room_id">
           <End Role="room" Type="Self.room" Multiplicity="0..1" />
           <End Role="room_schedule_detail" Type="Self.room_schedule_detail" Multiplicity="*" />
@@ -528,7 +552,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ticket_invoice_id">
-          <End Role="invoice" Type="Self.invoice" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="invoice">
@@ -659,6 +685,7 @@
           <EntitySet Name="movie_review" EntityType="Self.movie_review" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="movie_type" EntityType="Self.movie_type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="movies" EntityType="Self.movies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="notification" EntityType="Self.notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="room" EntityType="Self.room" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="room_schedule_detail" EntityType="Self.room_schedule_detail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="schedule" EntityType="Self.schedule" Schema="dbo" store:Type="Tables" />
@@ -725,6 +752,10 @@
           <AssociationSet Name="FK_movies_type_id" Association="Self.FK_movies_type_id">
             <End Role="movie_type" EntitySet="movie_type" />
             <End Role="movies" EntitySet="movies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notification_users" Association="Self.FK_notification_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="notification" EntitySet="notification" />
           </AssociationSet>
           <AssociationSet Name="FK_room_schedule_detail_room_id" Association="Self.FK_room_schedule_detail_room_id">
             <End Role="room" EntitySet="room" />
@@ -803,8 +834,7 @@
             <End Role="users" EntitySet="users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CinemaWebModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1115,12 +1145,13 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="full_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="user_password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="user_password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="user_phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="user_type" Type="Byte" />
           <Property Name="date_of_birth" Type="DateTime" Precision="0" />
           <Property Name="created" Type="DateTime" Precision="3" />
           <Property Name="user_status" Type="Byte" />
+          <Property Name="hashed_pass" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="invoices" Relationship="Self.FK_invoice_user_id" FromRole="users" ToRole="invoice" />
           <NavigationProperty Name="movie_review" Relationship="Self.FK_movie_review_user_id" FromRole="users" ToRole="movie_review" />
           <NavigationProperty Name="star_rating" Relationship="Self.FK_star_rating_user_id" FromRole="users" ToRole="star_rating" />
@@ -1129,6 +1160,7 @@
           <NavigationProperty Name="user_role" Relationship="Self.FK_user_role_create_by" FromRole="users" ToRole="user_role" />
           <NavigationProperty Name="user_role1" Relationship="Self.FK_user_role_update_by" FromRole="users" ToRole="user_role" />
           <NavigationProperty Name="user_type1" Relationship="Self.users_user_type_id_FK" FromRole="users" ToRole="user_type" />
+          <NavigationProperty Name="notifications" Relationship="CinemaWebModel.FK_notification_users" FromRole="user" ToRole="notification" />
         </EntityType>
         <Association Name="fk_actor_country">
           <End Role="country" Type="Self.country" Multiplicity="0..1" />
@@ -1239,7 +1271,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ticket_invoice_id">
-          <End Role="invoice" Type="Self.invoice" Multiplicity="0..1" />
+          <End Role="invoice" Type="Self.invoice" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="invoice">
@@ -1669,7 +1703,36 @@
             <End Role="user_type" EntitySet="user_type" />
             <End Role="users" EntitySet="users" />
           </AssociationSet>
+          <EntitySet Name="notifications" EntityType="CinemaWebModel.notification" />
+          <AssociationSet Name="FK_notification_users" Association="CinemaWebModel.FK_notification_users">
+            <End Role="user" EntitySet="users" />
+            <End Role="notification" EntitySet="notifications" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="notification">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="status" Type="Boolean" />
+          <NavigationProperty Name="user" Relationship="CinemaWebModel.FK_notification_users" FromRole="notification" ToRole="user" />
+          <Property Name="date_create" Type="DateTime" Precision="3" />
+          <Property Name="sub_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_notification_users">
+          <End Type="CinemaWebModel.user" Role="user" Multiplicity="0..1" />
+          <End Type="CinemaWebModel.notification" Role="notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notification">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1957,6 +2020,19 @@
                 <ScalarProperty Name="date_of_birth" ColumnName="date_of_birth" />
                 <ScalarProperty Name="created" ColumnName="created" />
                 <ScalarProperty Name="user_status" ColumnName="user_status" />
+                <ScalarProperty Name="hashed_pass" ColumnName="hashed_pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notifications">
+            <EntityTypeMapping TypeName="CinemaWebModel.notification">
+              <MappingFragment StoreEntitySet="notification">
+                <ScalarProperty Name="sub_content" ColumnName="sub_content" />
+                <ScalarProperty Name="date_create" ColumnName="date_create" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="content" ColumnName="content" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

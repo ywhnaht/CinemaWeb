@@ -62,14 +62,26 @@
     <Reference Include="Autofac.Integration.Mvc, Version=6.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>packages\Autofac.Mvc5.6.1.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>packages\BCrypt.Net-Next.4.0.3\lib\net472\BCrypt.Net-Next.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.8.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Hangfire.Core.1.8.12\lib\net46\Hangfire.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.Logging.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="QRCoder, Version=1.5.1.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
       <HintPath>packages\QRCoder.1.5.1\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=3.9.0.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>packages\Quartz.3.9.0\lib\net472\Quartz.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -90,6 +102,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -287,6 +300,9 @@
     <Compile Include="Models\movy.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\notification.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Payment\VnPayLibrary.cs" />
     <Compile Include="Models\room.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -335,6 +351,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="SupportFile\NotificationJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\assets\css\bootstrap.min.css" />
@@ -873,6 +890,8 @@
     <Content Include="Areas\User\assets\js\bootstrap.js" />
     <Content Include="Areas\User\assets\js\bootstrap.min.js" />
     <Content Include="assets\images\subimg\download.png" />
+    <Content Include="assets\images\subimg\ohayoucinema.svg" />
+    <Content Include="assets\js\ajax-functions.js" />
     <Content Include="assets\js\signup.js" />
     <Content Include="assets\js\signin.js" />
     <Content Include="assets\js\scripts.js" />
@@ -1620,6 +1639,12 @@
     <Content Include="Areas\Admin\Views\Movie\Index.cshtml" />
     <Content Include="FE_Q\images - Shortcut %282%29.lnk" />
     <Content Include="FE_Q\images - Shortcut.lnk" />
+    <Content Include="Areas\User\Views\BookTicket\BestMovie.cshtml" />
+    <Content Include="Areas\Staff\Views\web.config" />
+    <Content Include="Areas\Staff\Views\Ticket\Index.cshtml" />
+    <Content Include="Areas\Staff\Views\Ticket\ScanQRCode.cshtml" />
+    <Content Include="Areas\User\Views\UserHome\OhayouCinema.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\MovieReview.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -1627,12 +1652,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\User\Views\BookTicket\BestMovie.cshtml" />
-    <Content Include="Areas\Staff\Views\web.config" />
-    <Content Include="Areas\Staff\Views\Ticket\Index.cshtml" />
-    <Content Include="Areas\Staff\Views\Ticket\ScanQRCode.cshtml" />
-    <Content Include="Areas\User\Views\UserHome\OhayouCinema.cshtml" />
-    <Content Include="Areas\User\Views\BookTicket\MovieReview.cshtml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

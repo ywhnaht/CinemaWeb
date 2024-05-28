@@ -261,7 +261,16 @@
                                 <a class="text-dark-emphasis fw-medium active" href="#profile-infor" data-bs-toggle="list" data-bs-target="#profile-infor" role="tab">Thông tin cá nhân</a>
                             </li>
                             <li class="col-md-3 list-group-item" style="padding-left: 3rem;">
-                                <a class="text-dark-emphasis fw-medium" href="#notice" data-bs-toggle="list" data-bs-target="#notice" role="tab">Thông báo</a>
+                                <a class="text-dark-emphasis fw-medium position-relative notification" href="#notice" data-bs-toggle="list" data-bs-target="#notice" role="tab">
+                                    Thông báo
+                                    @if (ViewBag.TotalNotice > 0)
+                                    {
+                                        <span style="font-size: 9px; top: 2px !important; left: 95px !important; background-color: #F26B38;" class="total-notice position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                                            @ViewBag.TotalNotice
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    }
+                                </a>
                             </li>
                             <li class="col-md-3 list-group-item">
                                 <a class="text-dark-emphasis fw-medium" href="#gift" data-bs-toggle="list" data-bs-target="#gift" role="tab">Quà tặng</a>
@@ -364,15 +373,15 @@
                         <div class="tab-pane active py-3" id="profile-infor" role="tabpanel">
                             <div class="row bg-white infor-detail">
                                 <div class="col-md-5 p-4 infor-col-1">
-                                    <span>Họ và tên</span>
+                                    <label>Họ và tên</label>
                                     <p>@currentUser.full_name</p>
-                                    <span>Email</span>
+                                    <label>Email</label>
                                     <p>@currentUser.email</p>
                                 </div>
                                 <div class="col-md-5 p-4">
-                                    <span>Ngày sinh</span>
+                                    <label>Ngày sinh</label>
                                     <p>@currentUser.date_of_birth.Value.ToString("dd/MM/yyyy")</p>
-                                    <span>Mật khẩu</span>
+                                    <label>Mật khẩu</label>
                                     <p>********</p>
                                     <button class="btn update-btn update accordion-toggle" data-bs-toggle="modal" data-bs-target="#update" aria-expanded="false">Thay đổi</button>
                                 </div>
@@ -425,6 +434,35 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="notice" role="tabpanel">
+                            @foreach (var notice in ViewBag.NotificationList)
+                            {
+                                <div class="row ticket-detail my-3">
+                                    <div class="bg-white ticket-container align-items-center">
+                                        <div class="col-md-1 history-img">
+                                            <img src="~/assets/images/logo/cinema-logo.png" alt="">
+                                        </div>
+                                        <div class="col-md-5 ticket-movie-name">
+                                            <span>@notice.content</span> <br/>
+                                            <span style=" font-weight: 400; font-size: 12px;">@notice.sub_content</span>
+                                        </div>
+                                        <div class="col-md-4 ticket-time-detail">
+                                            <span>@notice.date_create.ToString(@"hh\:mm")</span>
+                                            &nbsp;
+                                            <span>, @notice.date_create.ToString("dd/MM/yyyy")</span>
+                                        </div>
+                                        <div class="col-md-2 ticket-more-detail" style=" color: #F26B38;">
+                                            @if (notice.status == false)
+                                            {
+                                                <i class="fa-solid fa-circle-exclamation"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                         <div class="tab-pane" id="gift" role="tabpanel">
                         </div>
@@ -459,15 +497,30 @@
                         var redirectUrl = response.redirectUrl;
                         if (redirectUrl) {
                             window.location.href = redirectUrl;
+                            alert("Cập nhật thông tin thành công")
                         }
                     } else {
-                        // Nếu có lỗi, hiển thị thông báo lỗi
                         $(".error-message").text(response.message);
                     }
                 }
             });
         });
     });
+
+    $('.notification').on('click', () => {
+        $.ajax({
+            url: "/User/UserHome/NoticeStatus",
+            type: "POST",
+            success: function (data) {
+                if (data.success) {
+                    $('.total-notice').hide()
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    })
 
     
 

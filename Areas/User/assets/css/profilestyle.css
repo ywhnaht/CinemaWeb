@@ -270,7 +270,7 @@
 
 .profile-sidebar {
     max-height: 38rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 
 .total-money {
@@ -337,19 +337,24 @@
 }
 
 .infor-detail {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
     margin-right: 4rem;
 }
 
     .infor-detail p {
         background-color: #eee;
         border: none;
-        margin: 8px 0;
         padding: 10px 15px;
         font-size: 13px;
         border-radius: 8px;
         width: 100%;
         outline: none;
+    }
+
+    .infor-detail label {
+        color: rgb(119 119 119 / 1);
+        font-weight: 600;
+        font-size: 13px;
     }
 
 .infor-col-1 {

@@ -8,6 +8,7 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using CinemaWeb.App_Start;
+using System.Data.Entity;
 
 namespace CinemaWeb.Areas.User.Controllers
 {
@@ -60,6 +61,32 @@ namespace CinemaWeb.Areas.User.Controllers
             List<movy> movielist = db.movies.ToList();
             GetMovieStatus(movielist);
 
+            var currentUser = (user)Session["user"];
+            int count = db.notifications.Where(x => x.status == false && x.user_id == currentUser.id).Count();
+            ViewBag.TotalNotice = count;
+
+            //var totalInvoice = db.invoices.Where(x => x.invoice_status == true && x.user_id == currentUser.id).ToList();
+            //foreach (var invoiceItem in totalInvoice)
+            //{
+            //    if (invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1 == currentDate.Date &&
+            //    (invoiceItem.room_schedule_detail.schedule_detail.start_time - currentDate.TimeOfDay) < TimeSpan.FromHours(3) &&
+            //    (invoiceItem.room_schedule_detail.schedule_detail.start_time - currentDate.TimeOfDay) > TimeSpan.FromHours(0))
+            //    {
+            //        var notice = new notification
+            //        {
+            //            content = "Bạn ơi, 3 tiếng nữa suất chiếu bắt đầu đó!",
+            //            sub_content = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.movy.title + " sẽ bắt đầu lúc " +
+            //                                       invoiceItem.room_schedule_detail.schedule_detail.schedule.schedule_time.Value.ToString(@"hh\:mm") + ", " +
+            //                                       invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Value.ToString("dd/MM/yyyy"),
+            //            user_id = currentUser.id,
+            //            date_create = currentDate,
+            //            status = false
+            //        };
+            //        db.notifications.Add(notice);
+            //    }
+            //}
+
+            //db.SaveChanges();
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
             return View();
@@ -77,6 +104,12 @@ namespace CinemaWeb.Areas.User.Controllers
 
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
+
+            var notification = db.notifications.Where(x => x.user_id ==  currentUser.id).OrderBy(x => x.status).ToList();
+            ViewBag.NotificationList = notification;
+
+            int count = notification.Where(x => x.status == false && x.user_id == currentUser.id).Count();
+            ViewBag.TotalNotice = count;
 
             int totalSpent = 0;
             ViewBag.MovieList = movielist;
@@ -97,6 +130,20 @@ namespace CinemaWeb.Areas.User.Controllers
 
             ViewBag.totalSpent = totalSpent;
             return View();
+        }
+        [HttpPost]
+        public ActionResult NoticeStatus()
+        {
+            var currentUser = (user)Session["user"];
+            var notifications = db.notifications.Where(x => x.user_id == currentUser.id && x.status == false).ToList();
+
+            foreach (var notification in notifications)
+            {
+                notification.status = true;
+                db.SaveChanges();
+                //db.Entry(notification).State = EntityState.Modified;
+            }
+            return Json(new { success = true });
         }
         public ActionResult HistoryTicket()
         {
@@ -143,14 +190,14 @@ namespace CinemaWeb.Areas.User.Controllers
 
             if (!string.IsNullOrEmpty(pass))
             {
-                currentUser.user_password = pass;
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(pass);
+                
                 if (updateUser != null)
                 {
-                    updateUser.user_password = pass;
+                    updateUser.hashed_pass = hashedPassword;
                 }
             }
 
-            // Kiểm tra nếu chỉ có name được nhập mới
             if (!string.IsNullOrEmpty(name))
             {
                 currentUser.full_name = name;
@@ -161,7 +208,6 @@ namespace CinemaWeb.Areas.User.Controllers
             }
             db.SaveChanges();
 
-            // Trả về kết quả thành công
             var redirectUrl = Url.Action("UserProfile", "UserHome", new { area = "User" });
             return Json(new { success = true, redirectUrl = redirectUrl });
         }
