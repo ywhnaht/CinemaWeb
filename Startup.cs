@@ -6,6 +6,7 @@ using System.Web.Services.Description;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
+using System.Threading.Tasks;
 
 [assembly: OwinStartupAttribute(typeof(CinemaWeb.Startup))]
 namespace CinemaWeb
@@ -14,26 +15,7 @@ namespace CinemaWeb
     {
         public void Configuration(IAppBuilder app)
         {
-            //ConfigureAuth(app);
-            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler().Result;
-            scheduler.Start().Wait();
-
-            // Định nghĩa job và trigger
-            IJobDetail job = JobBuilder.Create<NotificationJob>()
-                .WithIdentity("notificationJob", "group1")
-                .Build();
-
-            ITrigger trigger = TriggerBuilder.Create()
-                .WithIdentity("notificationTrigger", "group1")
-                .StartNow()
-                .WithSimpleSchedule(x => x
-                    .WithIntervalInHours(1)  // Lập lịch mỗi giờ
-                    .RepeatForever())
-                .Build();
-
-            // Lên lịch job với trigger
-            scheduler.ScheduleJob(job, trigger).Wait();
+            Task.Run(() => QuartzConfig.ConfigureQuartz()).Wait();
         }
-        
     }
 }

@@ -18,6 +18,7 @@ namespace CinemaWeb.Models
         public Nullable<int> seat_id { get; set; }
         public Nullable<int> room_schedule_detail_id { get; set; }
         public Nullable<bool> is_booked { get; set; }
+        public Nullable<System.DateTime> hold_until { get; set; }
     
         public virtual room_schedule_detail room_schedule_detail { get; set; }
         public virtual seat seat { get; set; }
