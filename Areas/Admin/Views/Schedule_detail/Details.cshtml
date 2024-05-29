@@ -1,0 +1,58 @@
+﻿@model CinemaWeb.Models.schedule_detail
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>schedule_detail</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.start_time)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.start_time)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.end_time)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.end_time)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.movie_display_date.id)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.movie_display_date.id)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.schedule.id)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.schedule.id)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

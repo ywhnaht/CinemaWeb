@@ -237,6 +237,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieController.cs" />
+    <Compile Include="Areas\Admin\Controllers\Schedule_detailController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffHomeController.cs" />
     <Compile Include="Areas\Staff\Controllers\TicketController.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
@@ -314,6 +315,8 @@
     <Compile Include="Models\schedule.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ScheduleDetailCreateViewModel.cs" />
+    <Compile Include="Models\ScheduleDetailViewModel.cs" />
     <Compile Include="Models\schedule_detail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -1660,6 +1663,11 @@
     </Content>
     <Content Include="Areas\Staff\Views\Shared\_StaffLayout.cshtml" />
     <Content Include="Areas\Staff\Views\StaffHome\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule_detail\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule_detail\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule_detail\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule_detail\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule_detail\Index.cshtml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
