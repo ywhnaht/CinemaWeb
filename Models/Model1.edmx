@@ -60,6 +60,7 @@
           <Property Name="total_money" Type="int" />
           <Property Name="room_schedule_detail_id" Type="int" />
           <Property Name="qrcode_image" Type="varchar(max)" />
+          <Property Name="is_used" Type="bit" />
         </EntityType>
         <EntityType Name="movie_actor">
           <Key>
@@ -906,6 +907,7 @@
           <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_invoice_room_schedule_detail_id" FromRole="invoice" ToRole="room_schedule_detail" />
           <NavigationProperty Name="user" Relationship="Self.FK_invoice_user_id" FromRole="invoice" ToRole="users" />
           <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_invoice_id" FromRole="invoice" ToRole="ticket" />
+          <Property Name="is_used" Type="Boolean" />
         </EntityType>
         <EntityType Name="movie_actor">
           <Key>
@@ -1791,6 +1793,7 @@
           <EntitySetMapping Name="invoices">
             <EntityTypeMapping TypeName="CinemaWebModel.invoice">
               <MappingFragment StoreEntitySet="invoice">
+                <ScalarProperty Name="is_used" ColumnName="is_used" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="discount_id" ColumnName="discount_id" />

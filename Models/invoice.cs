@@ -29,6 +29,7 @@ namespace CinemaWeb.Models
         public Nullable<int> total_money { get; set; }
         public Nullable<int> room_schedule_detail_id { get; set; }
         public string qrcode_image { get; set; }
+        public Nullable<bool> is_used { get; set; }
     
         public virtual discount discount { get; set; }
         public virtual room_schedule_detail room_schedule_detail { get; set; }

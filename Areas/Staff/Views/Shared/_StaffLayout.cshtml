@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
+    <title>Staff</title>
+    @*<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:400,700" />*@
+    <link rel="stylesheet" href="~/Staff/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <!-- https://getbootstrap.com/ -->
+    <link rel="stylesheet" href="~/Areas/Staff/assets/css/staff.css">
+    <!--
+    Product Admin CSS Template
+    https://templatemo.com/tm-524-product-admin
+    -->
+</head>
+<body id="reportsPage">
+    <div class="header">
+        <div class="container-fluid  p-4">
+            <div class="row align-items-center">
+                <div class="col-md-1"></div>
+                <div class="col-md-2 px-5 py-1">
+                    <a href="" class="navbar-brand">
+                        <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                    </a>
+                </div>
+                <div class="col-md-6"></div>
+                <!-- <div class="col-md-7">
+                    <ul class="list-gr-1 list-group list-group-horizontal">
+                        <li class="list-group-item movie-area">
+                            <a href="index.html">
+                                Trang chủ
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+                        <li class="list-group-item movie-area">
+                            <a href="">
+                                Đơn hàng
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+                        <li class="list-group-item movie-area">
+                            <a href="">
+                                Thống kê
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            @RenderSection("UserName", required: false);
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="line-default"></div>
+    <div class="container wrapper">
+        @RenderBody()
+        <div class="wrapper-content">
+            <div class="getdate">
+                <div class="search-content-item">
+                    <input id="myID" placeholder="Nhập mã">
+                </div>
+                <button class="report-btn">
+                    Tìm kiếm
+                </button>
+                <button class="report-btn accordion-toggle " data-bs-toggle="modal" data-bs-target="#qr-scan" aria-expanded="false">
+                    Quét mã QR
+                </button>
+                <div class="modal" id="qr-scan">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div id="qr-result">
+                                <h1 class="scan-title">Scan QR</h1>
+                                <div style="display: flex; justify-content: center;">
+                                    <div id="qr-reader" style="width: 500px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-report">
+                <ul class="list">
+                    <li class="list-item">
+                        <div class="row history-box">
+                            <div class="col-md-1 mv-img" style="margin-top: 0;">
+                                <img src="" alt="">
+                            </div>
+                            <div class="col-md-4 mv-name">
+                                <span>Exhuma: Quật mộ trùng ma</span>
+                            </div>
+                            <div class="col-md-2 date">
+                                <p class="theater">Rạp 1</p>
+                                <p class="time-detail">20:00h Thứ ba, 09/04/2024</p>
+                            </div>
+                            <div class="col-md-1 code">DJ123</div>
+                            <div class="col-md-2 seat">D1</div>
+                            <div class="col-md-2 check-btn">
+                                <button class="check-in">Check in</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        function getDayOfWeek(dateitem) {
+            var days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+            return days[dateitem.getDay()];
+        }
+        var html5QrcodeScanner;
+        var Id = ""
+
+        function initializeQrScanner() {
+            var myqr = document.getElementById('qr-result');
+            var lastResult, countResults = 0;
+
+            function onScanSuccess(decodeText, decodeResult) {
+                if (decodeText !== lastResult) {
+                    ++countResults;
+                    lastResult = decodeText;
+                    Id = decodeText
+
+                    $.ajax({
+                        url: "/Staff/StaffHome/GetInvoice",
+                        type: "GET",
+                        data: { invoiceId: decodeText },
+                        success: function (data) {
+                            if (data.success) {
+                                var invoice = data.invoiceData
+                                console.log(invoice)
+                                $('.mv-img img').attr('src', invoice.MovieImage)
+                                $('.mv-name span').text(invoice.MovieName)
+                                $('.theater').text(invoice.RoomName)
+                                $('.time-detail').text(invoice.Schedule + " " + invoice.DayOfWeek + ", " + invoice.Date)
+                                for (var i = 0; i < invoice.Seat.length; i++) {
+                                    $('.seat').text(invoice.Seat[i].Column + invoice.Seat[i].Row + " ")
+                                }
+
+                                $('#qr-scan').modal('hide')
+
+                                $('.check-in').on('click', () => {
+                                    $.ajax({
+                                        url: "/Staff/StaffHome/CheckIn",
+                                        type: "POST",
+                                        data: { invoiceId: invoice.InvoiceId },
+                                        success: function (data) {
+                                            if (data.success) {
+                                                alert(data.message)
+                                            }
+                                            else {
+                                                alert(data.message)
+                                            }
+                                        },
+                                        error: function (err) {
+
+                                        }
+                                    })
+                                })
+                            }
+                            else {
+                                alert(data.message);
+                            }
+                        },
+                        error: function (err) {
+
+                        }
+                    })
+                    //alert("Your QR is: " + decodeText);
+                    //myqr.innerHTML = `You scanned ${countResults} : ${decodeText}`;
+                }
+            }
+
+            html5QrcodeScanner = new Html5QrcodeScanner(
+                "qr-reader", { fps: 10, qrbox: 250 }
+            );
+            html5QrcodeScanner.render(onScanSuccess);
+        }
+
+        
+
+        // Hàm được gọi khi modal được mở
+        $('#qr-scan').on('shown.bs.modal', function () {
+            initializeQrScanner();
+        });
+
+        // Hàm được gọi khi modal bị đóng
+        $('#qr-scan').on('hidden.bs.modal', function () {
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.clear();
+                document.getElementById('qr-reader').innerHTML = ''; // Xóa nội dung bên trong để tránh lỗi
+            }
+        });
+    </script>
+</body>
+</html>
