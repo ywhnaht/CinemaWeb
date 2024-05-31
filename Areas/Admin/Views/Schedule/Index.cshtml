@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Product Page - Admin HTML Template</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/schedule.css?v=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+</head>
+
+<body id="reportsPage">
+    <div class="header">
+        <div class="container-fluid p-4">
+            <div class="row align-items-center">
+                <div class="col-md-2 px-5 py-1">
+                    <a href="/User/UserHome/" class="navbar-brand">
+                        <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                    </a>
+                </div>
+                <div class="col-md-1 buyticket-area">
+                    <a href="" class="buyticket-btn btn">
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-gr-1 list-group list-group-horizontal">
+                        <li class="list-group-item movie-area">
+                            <a href="/Admin/AdminHome">
+                                Trang chủ
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+
+                        <li class="list-group-item movie-area">
+                            <a href="/Admin/AdminHome/InvoiceList">
+                                Đơn hàng
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí rạp phim
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Movie/AllMovie">Phim</a></li>
+                                <li><a href="#">Suất chiếu</a></li>
+                                <li><a href="#">Nhân viên</a></li>
+                                <li><a href="#">Khách hàng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item event-list text-center">
+                            Thống kê
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Theo tháng</a></li>
+                                <li><a href="#">Theo năm</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item ticket-price text-center">
+                            Rạp/Giá vé
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="#">Rạp Đà Nẵng</a></li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-1">
+                    <button class="search-btn btn">
+                        <i class="search-icon ti-search"></i>
+                    </button>
+                </div>
+                <div class="login-area col-md-2">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            @*@RenderSection("UserName", required: false)*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="line-default"></div>
+    <div class="container wrapper row">
+        <div class="col-md-2">
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="list-profile-list" data-bs-toggle="list" href="#movie-list" role="tab" aria-controls="movie-list">Tất cả</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#movie-list" role="tab" aria-controls="movie-list">Rạp 1</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#movie-list" role="tab" aria-controls="movie-list">Rạp 2</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#movie-list" role="tab" aria-controls="movie-list">Rạp 3</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#movie-list" role="tab" aria-controls="movie-list">Rạp 4</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#movie-list" role="tab" aria-controls="movie-list">Rạp 5</a>
+            </div>
+        </div>
+        <div class="wrapper-content col-md-10">
+            <form class="getdate">
+                <div class="search-content-item">
+                    <input id="myID" placeholder="Nhập mã">
+                </div>
+                <button class="report-btn">
+                    Tìm kiếm
+                </button>
+                @*<input id="selectedDate" name="selectedTime" type="date" />*@
+                <div class="datetime-picker position-relative">
+                    <i class="far fa-calendar-alt position-absolute"></i>
+                    <input id="selectedDate" name="selectedTime" type="date" style="padding-left: 2rem; height: 3rem; " placeholder="Chọn ngày" />
+                </div>
+            </form>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade" id="movie-list" role="tabpanel" aria-labelledby="list-profile-list">
+                    <table class="table" id="resultTable">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Tên Phim</th>
+                                <th scope="col">Thời Lượng</th>
+                                <th scope="col">Suất Chiếu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr("#selectedDate", {
+            dateFormat: "Y-m-d",
+        });
+    </script>
+
+</body>
+</html>
+
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#selectedDate').change(function () {
+            var selectedDate = $('#selectedDate').val();
+            console.log("Hello" + selectedDate)
+
+            $.ajax({
+                url: '/Admin/Schedule/GetSchedule',
+                type: 'POST',
+                data: {
+                    displayDate: selectedDate
+                },
+                success: function (response) {
+                    var resultTable = $('#resultTable tbody');
+                    resultTable.empty();
+                    var movieList = response.movieList
+
+                    $.each(movieList, function (index, movie) {
+                        var showTimesHtml = '';
+                        $.each(movie.ShowTimes, function (i, showTime) {
+                            showTimesHtml += '<span class="btn">' + showTime + '</span> ';
+                        });
+
+                        var movieHtml = '<tr>';
+                        movieHtml += '<th scope="row"><img style="border-radius: 5px;width: 50px" src="' + movie.MovieImage + '" /></th>';
+                        movieHtml += '<td>' + movie.MovieTitle + '</td>';
+                        movieHtml += '<td>' + movie.Duration + ' phút</td>';
+                        movieHtml += '<td>' + showTimesHtml + '</td>';
+                        movieHtml += '<td><a style="color: #F26B38;" href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>';
+                        movieHtml += '</tr>';
+
+                        resultTable.append(movieHtml);
+                    });
+                },
+                error: function (error) {
+                    // Xử lý lỗi nếu có
+                    console.log(error);
+                }
+            });
+        });
+    })
+</script>
