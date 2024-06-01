@@ -554,3 +554,8 @@ span.flatpickr-weekday {
     left: 10px;
     transform: translateY(-50%);
 }
+
+/*Room List*/
+.room-list .active {
+    background-color: rgb(3 78 162 / 1) !important;
+}

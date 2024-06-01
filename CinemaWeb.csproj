@@ -237,9 +237,8 @@
     <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieController.cs" />
-    <Compile Include="Areas\Admin\Controllers\Schedule_detailController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ScheduleController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffHomeController.cs" />
-    <Compile Include="Areas\Staff\Controllers\TicketController.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
     <Compile Include="Areas\User\Common\Common.cs" />
     <Compile Include="Areas\User\Controllers\BookTicketController.cs" />
@@ -361,6 +360,7 @@
     <Compile Include="SupportFile\NotificationJob.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\assets\css\schedule.css" />
     <Content Include="Areas\Admin\assets\css\bootstrap.min.css" />
     <Content Include="Areas\Admin\assets\css\fontawesome.min.css" />
     <Content Include="Areas\Admin\assets\css\templatemo-style.css" />
@@ -405,6 +405,7 @@
     <Content Include="Areas\Admin\assets\jquery-ui-datepicker\jquery-ui.theme.css" />
     <Content Include="Areas\Admin\assets\jquery-ui-datepicker\jquery-ui.theme.min.css" />
     <Content Include="Areas\Admin\assets\jquery-ui-datepicker\LICENSE.txt" />
+    <Content Include="Areas\Admin\assets\js\schedule.js" />
     <Content Include="Areas\Admin\assets\js\bootstrap.min.js" />
     <Content Include="Areas\Admin\assets\js\Chart.min.js" />
     <Content Include="Areas\Admin\assets\js\jquery-3.3.1.min.js" />
@@ -471,6 +472,7 @@
     <Content Include="Areas\Admin\assets\webfonts\fa-regular-400.svg" />
     <Content Include="Areas\Admin\assets\webfonts\fa-solid-900.svg" />
     <Content Include="Areas\Staff\assets\css\staff.css" />
+    <Content Include="Areas\Staff\assets\css\staffProfile.css" />
     <Content Include="Areas\User\assets\css\actordetailstyle.css" />
     <Content Include="Areas\User\assets\css\actorstyle.css" />
     <Content Include="Areas\User\assets\css\bestmovie.css" />
@@ -1650,8 +1652,6 @@
     <Content Include="FE_Q\images - Shortcut.lnk" />
     <Content Include="Areas\User\Views\BookTicket\BestMovie.cshtml" />
     <Content Include="Areas\Staff\Views\web.config" />
-    <Content Include="Areas\Staff\Views\Ticket\Index.cshtml" />
-    <Content Include="Areas\Staff\Views\Ticket\ScanQRCode.cshtml" />
     <Content Include="Areas\User\Views\UserHome\OhayouCinema.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\MovieReview.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
@@ -1663,11 +1663,12 @@
     </Content>
     <Content Include="Areas\Staff\Views\Shared\_StaffLayout.cshtml" />
     <Content Include="Areas\Staff\Views\StaffHome\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule_detail\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule_detail\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule_detail\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule_detail\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule_detail\Index.cshtml" />
+    <Content Include="Areas\Staff\Views\StaffHome\StaffProfile.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Schedule\Index.cshtml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />

@@ -16,10 +16,12 @@ namespace CinemaWeb.Areas.Admin.Controllers
         private Cinema_Web_Entities db = new Cinema_Web_Entities();
 
         // GET: Admin/Schedule
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
+            var roomList = db.rooms.ToList();
+            ViewBag.RoomList = roomList;
             var schedule_detail = db.schedule_detail.Include(s => s.movie_display_date).Include(s => s.schedule);
-            return View(await schedule_detail.ToListAsync());
+            return View();
         }
 
         [HttpPost]
@@ -51,6 +53,43 @@ namespace CinemaWeb.Areas.Admin.Controllers
                   }).ToList();
 
             return Json(new {success = true, movieList});
+        }
+
+        [HttpPost]
+        public ActionResult MovieByRoom(int roomId, DateTime displayDate)
+        {
+            var movies = (from m in db.movies
+                          join mdd in db.movie_display_date on m.id equals mdd.movie_id
+                          join dd in db.display_date on mdd.display_date_id equals dd.id
+                          join sd in db.schedule_detail on mdd.id equals sd.movie_display_date_id
+                          join s in db.schedules on sd.schedule_id equals s.id
+                          join rsd in db.room_schedule_detail on sd.id equals rsd.schedule_detail_id
+                          where dd.display_date1 == displayDate &&
+                            (roomId == 0 || rsd.room_id == roomId)
+                          orderby s.id
+                          select new
+                          {
+                              MovieTitle = m.title,
+                              MovieImage = m.url_image,
+                              Duration = m.duration_minutes,
+                              ShowTimes = s.schedule_time,
+                              RoomId = rsd.room_id
+                          }).ToList();
+            //if (roomId != 0)
+            //{
+            //    movies.Where(x => x.RoomId == roomId).ToList();
+            //}
+
+            var movieList = movies.GroupBy(m => new { m.MovieTitle, m.MovieImage, m.Duration })
+                  .Select(g => new
+                  {
+                      MovieTitle = g.Key.MovieTitle,
+                      MovieImage = g.Key.MovieImage,
+                      Duration = g.Key.Duration,
+                      ShowTimes = g.Select(m => m.ShowTimes.Value.ToString(@"hh\:mm")).ToList() 
+                  }).ToList();
+
+            return Json(new { success = true, movieList });
         }
 
 
