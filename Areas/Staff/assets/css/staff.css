@@ -144,6 +144,7 @@
     display: block;
 }
 
+
 html {
     font-size: 16px;
     overflow-x: hidden;
@@ -168,7 +169,6 @@ html {
     align-items: center;
   }
 
-/*report*/
 .line-default{
     border-bottom: 6px solid #f4f4f4;
   
@@ -306,7 +306,7 @@ html {
   }
   
   .history-box .mv-img img{
-    padding-top: 10px;
+    margin-top: 6px;
     max-width: 6rem;
     max-height: 5rem;
     display: block; 
@@ -402,7 +402,7 @@ html {
   border-radius: 5px;
   margin-bottom: 1rem;
   margin-top: 1rem;
-  text-decoration: none !important;
+  text-decoration: none important;
 }
 
 .html5-qrcode-element:hover{
@@ -410,5 +410,4 @@ html {
   cursor: pointer;
 }
   
-
 

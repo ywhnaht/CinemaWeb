@@ -1,0 +1,196 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+    CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["staff"];
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
+    <title>Staff</title>
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Areas/Staff/assets/css/staffProfile.css">
+</head>
+<body id="reportsPage">
+    <div class="header">
+        <div class="container-fluid  p-4">
+            <div class="row align-items-center">
+                <div class="col-md-1"></div>
+                <div class="col-md-2 px-5 py-1">
+                    <a href="staff.html" class="navbar-brand">
+                        <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                    </a>
+                </div>
+                <div class="col-md-6"></div>
+
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/Staff/StaffHome/StaffProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Staff/StaffHome/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="align-items: center; display: flex;">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                @currentUser.full_name
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid wrapper">
+        <div class="row wrapper-content">
+            <div class="col-md-3 avata">
+                <img class="img-fluid" src="~/Staff/img/icon-success.c42e4e43.png" alt="">
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-8 infor">
+                <h2>Thông tin cá nhân</h2>
+                <div class="row user-infor-box">
+                    <div class="col-md-6 box-left">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <div class="form remove">
+                                <i class=" fa-solid fa-user icon"></i>
+                                <input type="text" required placeholder="@currentUser.full_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <div class="form remove">
+                                <i class="fa-solid fa-envelope - icon"></i>
+                                <input type="text" required placeholder="@currentUser.email">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 box-right">
+                        <div class="form-group">
+                            <label for="date">Date of birth</label>
+                            <div class="form remove">
+                                <i class="far fa-calendar-alt icon"></i>
+                                <input type="text" required placeholder="@currentUser.date_of_birth.Value.ToString("dd/MM/yyyy")">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Password">Password</label>
+                            <div class="form remove">
+                                <i class="fa-solid fa-key icon"></i>
+                                <input type="password" required placeholder="********">
+                            </div>
+                        </div>
+                        <div class="form-group" style="justify-content: end; display: flex">
+                            <button class="update accordion-toggle " data-bs-toggle="modal" data-bs-target="#update" aria-expanded="false">Thay đổi</button>
+                        </div>
+                        <div class="modal edit-modal" id="update">
+                            <div class="modal-dialog">
+                                <div class="modal-content update-box">
+                                    <p>NHẬP THÔNG TIN CHỈNH SỬA</p>
+                                    <div class="row user-infor-box">
+                                        <div class="subform-group">
+                                            <label for="name">Name</label>
+                                            <div class="subform">
+                                                <i class="fa-solid fa-user sub-icon"></i>
+                                                <input name="name" type="text" required placeholder="@currentUser.full_name">
+                                            </div>
+                                        </div>
+                                        <div class="subform-group">
+                                            <label for="email">Email</label>
+                                            <div class="subform remove">
+                                                <i class="fa-solid fa-envelope sub-icon"></i>
+                                                <input type="email" required placeholder="@currentUser.email">
+                                            </div>
+                                        </div>
+                                        <div class="subform-group">
+                                            <label for="date">Date of birth</label>
+                                            <div class="subform">
+                                                <i class="far fa-calendar-alt sub-icon"></i>
+                                                <input type="text" required placeholder="@currentUser.date_of_birth.Value.ToString("dd/MM/yyyy")">
+                                            </div>
+                                        </div>
+                                        <div class="subform-group">
+                                            <label for="Password">Password</label>
+                                            <div class="subform">
+                                                <i class="fa-solid fa-key sub-icon"></i>
+                                                <input name="pass" type="password" required placeholder="********">
+                                            </div>
+                                        </div>
+                                        <span class="response-mess" style="display: flex; justify-content:center"></span>
+                                        <div class=" update-btn">
+                                            <button class="updateBtn">Cập nhật</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".subform input").click(function () {
+            $(".resonse-mess").text("")
+        })
+
+        $('.edit-modal').on('hidden.bs.modal', function () {
+            $(".resonse-mess").text("")
+        })
+
+        $(".updateBtn").click(function (e) {
+            e.preventDefault()
+            var name = $(".subform input[name='name']").val();
+            var pass = $(".subform input[name='pass']").val();
+
+            $.ajax({
+                url: "/Staff/StaffHome/UpdateInfor",
+                method: "POST",
+                data: { name: name, pass: pass },
+                success: function (response) {
+                    if (response.success) {
+                        //var redirectUrl = response.redirectUrl;
+                        $('.resonse-mess').text(response.message)
+                    }
+                }
+            });
+        });
+    });
+</script>

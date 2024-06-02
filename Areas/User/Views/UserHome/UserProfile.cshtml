@@ -284,13 +284,14 @@
                             </div>
                             @foreach (var invoiceitem in ViewBag.invoiceList)
                             {
-                                DateTime currentMonthYear = new DateTime(invoiceitem.day_create.Year, invoiceitem.day_create.Month, 1);
+                                DateTime currentMonthYear = new DateTime(invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Year, 
+                                                                        invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Month, 1);
                                 bool sameMonthYear = currentMonthYear == previousMonthYear;
 
                                 if (!sameMonthYear)
                                 {
                                     <div class="row text-center ticket-month">
-                                        <span>Tháng @invoiceitem.day_create.ToString("MM/yyyy")</span>
+                                        <span>Tháng @invoiceitem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.ToString("MM/yyyy")</span>
                                     </div>
                                 }
 

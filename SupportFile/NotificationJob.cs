@@ -21,9 +21,6 @@ public class NotificationJob : IJob
                 (invoiceItem.room_schedule_detail.schedule_detail.start_time - currentDate.TimeOfDay) < TimeSpan.FromHours(3) &&
                 (invoiceItem.room_schedule_detail.schedule_detail.start_time - currentDate.TimeOfDay) > TimeSpan.FromHours(0))
                 {
-                    
-
-                    
                     var notice = new notification
                     {
                         content = "Bạn ơi, 3 tiếng nữa suất chiếu bắt đầu đó!",

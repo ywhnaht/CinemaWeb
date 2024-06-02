@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -8,12 +8,9 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- https://fonts.google.com/specimen/Roboto -->
-    <link rel="stylesheet" href="css/fontawesome.min.css" />
-    <!-- https://fontawesome.com/ -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <!-- https://getbootstrap.com/ -->
-    <link rel="stylesheet" href="css/templatemo-style.css">
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/templatemo-style.css">
     <!--
     Product Admin CSS Template
     https://templatemo.com/tm-524-product-admin
@@ -21,85 +18,133 @@
 </head>
 
 <body id="reportsPage">
-    <nav class="navbar navbar-expand-xl">
-        <div class="container h-100">
-            <a class="navbar-brand" href="index.html">
-                <h1 class="tm-site-title mb-0">Ohayou Cinema</h1>
-            </a>
-            <button class="navbar-toggler ml-auto mr-0"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <i class="fas fa-bars tm-nav-icon"></i>
-            </button>
+    <div class="" id="home">
+        <div class="header">
+            <div class="container-fluid p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-2 px-5 py-1">
+                        <a href="/User/UserHome/" class="navbar-brand">
+                            <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="col-md-1 buyticket-area">
+                        <a href="" class="buyticket-btn btn">
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-gr-1 list-group list-group-horizontal">
+                            <li class="list-group-item movie-area">
+                                <a href="/Admin/AdminHome">
+                                    Trang chủ
+                                    <i class="ti-angle-down down-btn"></i>
+                                </a>
+                            </li>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mx-auto h-100">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle"
-                           href="#"
-                           id="navbarDropdown"
-                           role="button"
-                           data-toggle="dropdown"
-                           aria-haspopup="true"
-                           aria-expanded="false">
-                            <i class="far fa-file-alt"></i>
-                            <span> Reports <i class="fas fa-angle-down"></i> </span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Daily Report</a>
-                            <a class="dropdown-item" href="#">Weekly Report</a>
-                            <a class="dropdown-item" href="#">Yearly Report</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="products.html">
-                            <i class="fas fa-shopping-cart"></i> Products
-                        </a>
-                    </li>
+                            <li class="list-group-item movie-area">
+                                <a href="/Admin/AdminHome/InvoiceList">
+                                    Đơn hàng
+                                    <i class="ti-angle-down down-btn"></i>
+                                </a>
+                            </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="accounts.html">
-                            <i class="far fa-user"></i> Accounts
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle"
-                           href="#"
-                           id="navbarDropdown"
-                           role="button"
-                           data-toggle="dropdown"
-                           aria-haspopup="true"
-                           aria-expanded="false">
-                            <i class="fas fa-cog"></i>
-                            <span> Settings <i class="fas fa-angle-down"></i> </span>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Profile</a>
-                            <a class="dropdown-item" href="#">Billing</a>
-                            <a class="dropdown-item" href="#">Customize</a>
+                            <li class="list-group-item cinema-corner text-center">
+                                Quản lí rạp phim
+                                <i class="ti-angle-down down-btn"></i>
+                                <ul class="sub-list-gr-1 list-group">
+                                    <li><a href="/Admin/Movie/AllMovie">Phim</a></li>
+                                    <li><a href="#">Suất chiếu</a></li>
+                                    <li><a href="#">Nhân viên</a></li>
+                                    <li><a href="#">Khách hàng</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="list-group-item event-list text-center">
+                                Thống kê
+                                <i class="ti-angle-down down-btn"></i>
+                                <ul class="sub-list-gr-1 list-group">
+                                    <li><a href="#">Theo tháng</a></li>
+                                    <li><a href="#">Theo năm</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="list-group-item ticket-price text-center">
+                                Rạp/Giá vé
+                                <i class="ti-angle-down down-btn"></i>
+                                <ul class="sub-list-gr-1 list-group">
+                                    <li><a href="#">Rạp Đà Nẵng</a></li>
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="search-btn btn">
+                            <i class="search-icon ti-search"></i>
+                        </button>
+                    </div>
+                    <div class="login-area col-md-2">
+                        <div class="row">
+                            <div class="col-auto">
+                                <div class="show-login js-show-login">
+                                    <div class="account-wrapper">
+                                        <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                        <ul class="list-group account-list">
+                                            <li class="list-group-item">
+                                                <a href="/User/UserHome/UserProfile">
+                                                    <i class="fa-solid fa-id-badge account-icon"></i>
+                                                    Tài Khoản
+                                                </a>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <a href="/Home/SignOut" class="js-logout">
+                                                    <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                    Đăng Xuất
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                @*@RenderSection("UserName", required: false)*@
+                            </div>
                         </div>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link d-block" href="login.html">
-                            Admin, <b>Logout</b>
-                        </a>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="text-white mt-5 mb-5">Welcome back, <b>Admin</b></p>
+                </div>
+            </div>
+            <!-- row -->
+            <div class="row tm-content-row">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+                    <div class="tm-bg-primary-dark tm-block">
+                        <h2 class="tm-block-title">Latest Hits</h2>
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+                    <div class="tm-bg-primary-dark tm-block">
+                        <h2 class="tm-block-title">Performance</h2>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+                    <div class="tm-bg-primary-dark tm-block tm-block-taller">
+                        <h2 class="tm-block-title">Storage Information</h2>
+                        <div id="pieChartContainer">
+                            <canvas id="pieChart" class="chartjs-render-monitor" width="200" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal-schedule" id="Add-Schedule">
         <div class="modal-dialog box-add">
@@ -288,32 +333,27 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 
-    <script>
-        // Add event listeners to buttons
-        const buttons = document.querySelectorAll('.my-button');
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Toggle active class
-                buttons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-            });
-        });
-    </script>
+    <script>// Add event listeners to buttons
+      const buttons = document.querySelectorAll('.my-button');
+      buttons.forEach(button => {
+          button.addEventListener('click', () => {
+              // Toggle active class
+              buttons.forEach(btn => btn.classList.remove('active'));
+              button.classList.add('active');
+          });
+      });</script>
 
-    <script>
-        const btnOpen = document.getElementById('btn-open');
-        const btnClose = document.getElementById('btn-close');
-        const modalContent = document.querySelector('.modal-schedule'); // Use querySelector for more flexibility
+    <script>const btnOpen = document.getElementById('btn-open');
+    const btnClose = document.getElementById('btn-close');
+    const modalContent = document.querySelector('.modal-schedule'); // Use querySelector for more flexibility
 
-        btnOpen.addEventListener('click', () => {
-            modalContent.classList.add('open');
-        });
+    btnOpen.addEventListener('click', () => {
+      modalContent.classList.add('open');
+    });
 
-        btnClose.addEventListener('click', () => {
-            modalContent.classList.remove('open');
-        });
-
-    </script>
+    btnClose.addEventListener('click', () => {
+      modalContent.classList.remove('open');
+    });</script>
 
 </body>
 </html>

@@ -60,6 +60,7 @@
           <Property Name="total_money" Type="int" />
           <Property Name="room_schedule_detail_id" Type="int" />
           <Property Name="qrcode_image" Type="varchar(max)" />
+          <Property Name="is_used" Type="bit" />
         </EntityType>
         <EntityType Name="movie_actor">
           <Key>
@@ -181,6 +182,7 @@
           <Property Name="seat_id" Type="int" />
           <Property Name="room_schedule_detail_id" Type="int" />
           <Property Name="is_booked" Type="bit" />
+          <Property Name="hold_until" Type="datetime" />
         </EntityType>
         <EntityType Name="star_rating">
           <Key>
@@ -905,6 +907,7 @@
           <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_invoice_room_schedule_detail_id" FromRole="invoice" ToRole="room_schedule_detail" />
           <NavigationProperty Name="user" Relationship="Self.FK_invoice_user_id" FromRole="invoice" ToRole="users" />
           <NavigationProperty Name="tickets" Relationship="Self.FK_ticket_invoice_id" FromRole="invoice" ToRole="ticket" />
+          <Property Name="is_used" Type="Boolean" />
         </EntityType>
         <EntityType Name="movie_actor">
           <Key>
@@ -1045,6 +1048,7 @@
           <Property Name="is_booked" Type="Boolean" />
           <NavigationProperty Name="room_schedule_detail" Relationship="Self.FK_seat_status_room_schedule_detail" FromRole="seat_status" ToRole="room_schedule_detail" />
           <NavigationProperty Name="seat" Relationship="Self.FK_seat_status_seat" FromRole="seat_status" ToRole="seat" />
+          <Property Name="hold_until" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="star_rating">
           <Key>
@@ -1789,6 +1793,7 @@
           <EntitySetMapping Name="invoices">
             <EntityTypeMapping TypeName="CinemaWebModel.invoice">
               <MappingFragment StoreEntitySet="invoice">
+                <ScalarProperty Name="is_used" ColumnName="is_used" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="discount_id" ColumnName="discount_id" />
@@ -1915,6 +1920,7 @@
           <EntitySetMapping Name="seat_status">
             <EntityTypeMapping TypeName="CinemaWebModel.seat_status">
               <MappingFragment StoreEntitySet="seat_status">
+                <ScalarProperty Name="hold_until" ColumnName="hold_until" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="seat_id" ColumnName="seat_id" />
                 <ScalarProperty Name="room_schedule_detail_id" ColumnName="room_schedule_detail_id" />

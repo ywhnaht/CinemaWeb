@@ -13,10 +13,13 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net.Mail;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using WebGrease.Css.Extensions;
 
 namespace CinemaWeb.Areas.User.Controllers
@@ -579,19 +582,19 @@ namespace CinemaWeb.Areas.User.Controllers
                         db.notifications.Add(notification);
                         db.SaveChanges();
                         //var chosenSeat = db.seat_status.Where(x => x.room_schedule_detail_id == invoiceItem.room_schedule_detail_id && x.is_booked == true).ToList();
-                        var invoiceData = new
-                        {
-                            InvoiceId = invoiceItem.id,
-                            UserId = invoiceItem.user_id,
-                            TotalMoney = invoiceItem.total_money,
-                            MovieName = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.movy.title,
-                            Date = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1,
-                            Schedule = invoiceItem.room_schedule_detail.schedule_detail.schedule.schedule_time,
-                            RoomName = invoiceItem.room_schedule_detail.room.room_name,
-                            Seat = invoiceItem.tickets.Select(t => new { t.seat.seat_row, t.seat.seat_column, t.seat.price })
-                        };
+                        //var invoiceData = new
+                        //{
+                        //    InvoiceId = invoiceItem.id,
+                            //UserId = invoiceItem.user_id,
+                            //TotalMoney = invoiceItem.total_money,
+                            //MovieName = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.movy.title,
+                            //Date = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1,
+                            //Schedule = invoiceItem.room_schedule_detail.schedule_detail.schedule.schedule_time,
+                            //RoomName = invoiceItem.room_schedule_detail.room.room_name,
+                            //Seat = invoiceItem.tickets.Select(t => new { t.seat.seat_row, t.seat.seat_column, t.seat.price })
+                        //};
 
-                        string invoiceDataJson = JsonConvert.SerializeObject(invoiceData); 
+                        string invoiceDataJson = JsonConvert.SerializeObject(invoiceItem.id); 
                         CreateQrCode(invoiceDataJson, invoiceItem);
                         SendMail(invoiceItem);
                         return RedirectToAction("PaymentSuccess", "BookTicket", new { area = "User" });
@@ -611,6 +614,7 @@ namespace CinemaWeb.Areas.User.Controllers
                             foreach (var seat in chosenSeat)
                             {
                                 seat.is_booked = false;
+                                seat.hold_until = null;
                             }
                         db.invoices.Remove(invoiceItem);
                         db.SaveChanges();
@@ -649,19 +653,6 @@ namespace CinemaWeb.Areas.User.Controllers
             }
         }
 
-        public static byte[] CompressString(string str)
-        {
-            var bytes = Encoding.UTF8.GetBytes(str);
-            using (var msi = new MemoryStream(bytes))
-            using (var mso = new MemoryStream())
-            {
-                using (var gs = new GZipStream(mso, CompressionMode.Compress))
-                {
-                    msi.CopyTo(gs);
-                }
-                return mso.ToArray();
-            }
-        }
         public void SendMail(invoice invoiceItem)
         {
             // Gửi mail khi thanh toán thành công
@@ -681,11 +672,16 @@ namespace CinemaWeb.Areas.User.Controllers
                 }
             }
 
-            var QrCode = "";
+            byte[] qrCodeImageBytes = null;
+
             if (invoiceItem.qrcode_image != null)
-            {
-                QrCode = invoiceItem.qrcode_image;
-            }
+                qrCodeImageBytes = Convert.FromBase64String(invoiceItem.qrcode_image.Replace("data:image/png;base64,", ""));
+
+            //var QrCode = "";
+            //if (invoiceItem.qrcode_image != null)
+            //{
+            //    QrCode = invoiceItem.qrcode_image;
+            //}
 
             string contentInvoice = System.IO.File.ReadAllText(Server.MapPath("~/Areas/User/Common/invoice.html"));
             contentInvoice = contentInvoice.Replace("{{MovieImage}}", MovieImage);
@@ -694,10 +690,14 @@ namespace CinemaWeb.Areas.User.Controllers
             contentInvoice = contentInvoice.Replace("{{MovieDayOfWeek}}", MovieDayOfWeek.ToString());
             contentInvoice = contentInvoice.Replace("{{MovieDate}}", MovieDate);
             contentInvoice = contentInvoice.Replace("{{TicketSeat}}", TicketSeat);
-            contentInvoice = contentInvoice.Replace("{{QrCode}}", QrCode);
+            //contentInvoice = contentInvoice.Replace("{{QrCode}}", QrCode);
             contentInvoice = contentInvoice.Replace("{{InvoiceId}}", invoiceItem.id.ToString());
             contentInvoice = contentInvoice.Replace("{{TotalMoney}}", invoiceItem.total_money.ToString());
-            CinemaWeb.Areas.User.Common.Common.SendMail("Ohayou Cinema", "Chúc mừng bạn đã đặt vé thành công!", contentInvoice, invoiceItem.user.email);
+            //if (qrCodeImageBytes != null)
+            //{
+            //    contentInvoice = contentInvoice.Replace("{{QrCode}}", "<img src=\"cid:qrcode_image\" />");
+            //}
+            CinemaWeb.Areas.User.Common.Common.SendMailWithQRCode("Ohayou Cinema", "Chúc mừng bạn đã đặt vé thành công!", contentInvoice, invoiceItem.user.email, qrCodeImageBytes);
             System.Diagnostics.Debug.WriteLine(contentInvoice);
         }
 
@@ -768,6 +768,7 @@ namespace CinemaWeb.Areas.User.Controllers
                 if (seatStatus != null)
                 {
                     seatStatus.is_booked = true;
+                    seatStatus.hold_until = null;
                 }
             }
             db.SaveChanges();
@@ -826,7 +827,93 @@ namespace CinemaWeb.Areas.User.Controllers
                     }
                 }
         }
+        [HttpPost]
+        public ActionResult HoldSeat()
+        {
+            string jsonData;
+            using (var reader = new StreamReader(Request.InputStream))
+            {
+                jsonData = reader.ReadToEnd();
+            }
 
+            JObject jsonObject = JObject.Parse(jsonData);
+
+            int movieId = (int)jsonObject["movieId"];
+            int displaydateId = (int)jsonObject["displaydateId"];
+            int scheduleId = (int)jsonObject["scheduleId"];
+            int roomId = (int)jsonObject["roomId"];
+            JArray chosenSeatsArray = (JArray)jsonObject["chosenSeats"];
+            int[] chosenSeats = chosenSeatsArray.ToObject<int[]>();
+
+            var selectedSeat = db.seat_status.Where(x => x.room_schedule_detail.room_id == roomId &&
+                                                         x.room_schedule_detail.schedule_detail.schedule_id == scheduleId &&
+                                                         x.room_schedule_detail.schedule_detail.movie_display_date.display_date_id == displaydateId &&
+                                                         x.room_schedule_detail.schedule_detail.movie_display_date.movie_id == movieId)
+                                             .ToList();
+
+            DateTime holdUntil = DateTime.Now.AddMinutes(5);
+            foreach (var seatId in chosenSeats)
+           {
+                var seatItem = selectedSeat.FirstOrDefault(x => x.seat_id == seatId);
+                if (seatItem != null)
+                {
+                    if (!(bool)seatItem.is_booked)
+                    {
+                        seatItem.is_booked = true;
+                        seatItem.hold_until = holdUntil;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "Ghế đã được chọn. Vui lòng chọn ghế khác!" });
+                    }
+                }
+           }
+            return Json(new { success = true, message = "Thành công!" });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveHoldSeat()
+        {
+            string jsonData;
+            using (var reader = new StreamReader(Request.InputStream))
+            {
+                jsonData = reader.ReadToEnd();
+            }
+
+            JObject jsonObject = JObject.Parse(jsonData);
+
+            int movieId = (int)jsonObject["movieId"];
+            int displaydateId = (int)jsonObject["displaydateId"];
+            int scheduleId = (int)jsonObject["scheduleId"];
+            int roomId = (int)jsonObject["roomId"];
+            JArray chosenSeatsArray = (JArray)jsonObject["chosenSeats"];
+            int[] chosenSeats = chosenSeatsArray.ToObject<int[]>();
+
+            var selectedSeat = db.seat_status.Where(x => x.room_schedule_detail.room_id == roomId &&
+                                                         x.room_schedule_detail.schedule_detail.schedule_id == scheduleId &&
+                                                         x.room_schedule_detail.schedule_detail.movie_display_date.display_date_id == displaydateId &&
+                                                         x.room_schedule_detail.schedule_detail.movie_display_date.movie_id == movieId)
+                                             .ToList();
+            foreach (var seatId in chosenSeats)
+            {
+                var seatItem = selectedSeat.FirstOrDefault(x => x.seat_id == seatId);
+                if (seatItem != null)
+                {
+                    if ((bool)seatItem.is_booked)
+                    {
+                        seatItem.is_booked = false;
+                        seatItem.hold_until = null;
+                        db.SaveChanges();
+                    }
+                    //else
+                    //{
+                    //    return Json(new { success = false, message = "Ghế đã được chọn. Vui lòng chọn ghế khác!" });
+                    //}
+                }
+            }
+            return Json(new { success = true, message = "Thành công!" });
+        }
         #region
         //Thanh toán vnpay
         public string UrlPayment(int invoiceId, int userId)
