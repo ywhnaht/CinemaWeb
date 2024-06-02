@@ -559,3 +559,107 @@ span.flatpickr-weekday {
 .room-list .active {
     background-color: rgb(3 78 162 / 1) !important;
 }
+
+/*Add Schedule*/
+.movie-item-selected {
+    margin-left: 2px;
+    border-top: 6px solid #f58020;
+    border-radius: 5px;
+}
+
+.movie-selected-img {
+    width: 100px;
+    height: auto;
+    border-radius: 6px !important;
+}
+
+.movie-img-wrapper {
+    padding: 12px 25px;
+}
+
+.name-selected {
+    margin-bottom: -8px;
+}
+
+.dashed-line {
+    margin: 5px 1rem;
+    border-bottom: 1px dashed;
+}
+
+.movie-item-selected .total-money {
+    padding: 17px 22px;
+}
+
+    .movie-item-selected .total-money span {
+        font-weight: 500;
+    }
+
+.total-money .money-item {
+    color: #f58020;
+}
+
+.movie-name-wrapper {
+    padding: 12px 6px;
+}
+
+    .movie-name-wrapper span {
+        margin: 5px 0;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+.ticket-selected-detail {
+    margin-left: 1rem;
+    margin-bottom: 4px;
+}
+
+    .ticket-selected-detail span {
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+
+.returnBtn {
+    color: #f58020;
+    border: none;
+    background-color: rgb(249 249 249 / 1);
+}
+
+    .returnBtn:hover {
+        color: #f58020;
+    }
+
+.return-item {
+    padding-left: 60px;
+}
+
+.continueBtn {
+    color: #fff !important;
+    background-color: rgb(245 128 32 / 1) !important;
+    border: 1px solid transparent;
+    cursor: pointer !important;
+    border-radius: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 8px 30px;
+}
+
+.add-schedule {
+    background-color: rgb(249 249 249 / 1);
+}
+
+.movie-schedule span:hover {
+    background-color: #f26b36;
+    color: #fff;
+}
+
+.selected {
+    background-color: #f26b36;
+    color: #fff;
+}
+
+.un-click {
+    pointer-events: none !important;
+    opacity: .65;
+}

@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CinemaWeb.Models;
+using System.Data.Entity.Core.Objects;
 
 namespace CinemaWeb.Areas.Admin.Controllers
 {
@@ -20,6 +21,13 @@ namespace CinemaWeb.Areas.Admin.Controllers
         {
             var roomList = db.rooms.ToList();
             ViewBag.RoomList = roomList;
+            var movieList = db.movies.Where(x => x.movie_status != null).ToList();
+            ViewBag.MovieList = movieList;
+            var scheduleList = db.schedules.ToList();
+            ViewBag.ScheduleList = scheduleList;
+            foreach (var item in scheduleList)
+            {
+            }
             var schedule_detail = db.schedule_detail.Include(s => s.movie_display_date).Include(s => s.schedule);
             return View();
         }
@@ -73,7 +81,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
                               MovieImage = m.url_image,
                               Duration = m.duration_minutes,
                               ShowTimes = s.schedule_time,
-                              RoomId = rsd.room_id
+                              RoomId = rsd.room_id,
                           }).ToList();
             //if (roomId != 0)
             //{
@@ -90,6 +98,111 @@ namespace CinemaWeb.Areas.Admin.Controllers
                   }).ToList();
 
             return Json(new { success = true, movieList });
+        }
+
+        [HttpPost]
+        public ActionResult MovieSelected(int movieId)
+        {
+            var movie = db.movies
+                  .Where(x => x.id == movieId)
+                  .Select(x => new
+                  {
+                      x.title,
+                      x.url_image,
+                      x.release_date,
+                      x.end_date
+                  })
+                  .FirstOrDefault();
+
+            if (movie != null)
+            {
+                DateTime currentDate = DateTime.Now;
+                DateTime minDate;
+
+                if (movie.release_date < currentDate)
+                {
+                    minDate = currentDate;
+                }
+                else
+                {
+                    minDate = movie.release_date.Value;
+                }
+
+                var displayDate = new
+                {
+                    movieTitle = movie.title,
+                    movieImage = movie.url_image,
+                    dateFrom = minDate.ToString("yyyy-MM-dd"),
+                    dateEnd = movie.end_date.Value.ToString("yyyy-MM-dd")
+                };
+                return Json(new { success = true, displayDate });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Không tìm thấy phim" });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetScheduleValid(int movieId, DateTime displayDate, int roomId)
+        {
+            var movie = db.movies.FirstOrDefault(x => x.id == movieId);
+
+            int durationMinute;
+            int.TryParse(movie.duration_minutes, out durationMinute);
+            var schedules = (from m in db.movies
+                             join mdd in db.movie_display_date on m.id equals mdd.movie_id
+                             join dd in db.display_date on mdd.display_date_id equals dd.id
+                             join sd in db.schedule_detail on mdd.id equals sd.movie_display_date_id
+                             join s in db.schedules on sd.schedule_id equals s.id
+                             join rsd in db.room_schedule_detail on sd.id equals rsd.schedule_detail_id
+                             where dd.display_date1 == displayDate && rsd.room_id == roomId
+                             orderby s.id
+                             select new
+                             {
+                                 DurationMinute = m.duration_minutes,
+                                 ScheduleDetailId = sd.id,
+                                 StartTime = s.schedule_time,
+                                 EndTime = s.schedule_time
+                             }).ToList();
+
+            var scheduleTime = schedules.Select(x => new { x.StartTime, EndTime = x.EndTime.Value.Add(TimeSpan.FromMinutes(int.Parse(x.DurationMinute))) }).ToList();
+            var duration = TimeSpan.FromMinutes(durationMinute);
+
+            var scheduleAll = db.schedules.ToList();
+
+            var scheduleList = scheduleAll.Select(x => new
+            {
+                scheduleId = x.id,
+                timeFrom = x.schedule_time,
+                timeEnd = x.schedule_time.Value.Add(duration)
+            }).ToList();
+
+            //var scheduleValid = (from sv in scheduleList
+            //                     where !scheduleTime.Any(x => sv.timeFrom.Value >= x.StartTime.Value && sv.timeEnd <= x.EndTime)
+            //                     select sv.timeFrom
+            //                     ).ToList();
+
+            var scheduleValid = (from sv in scheduleList
+                                 where !scheduleTime.Any(x => sv.timeEnd >= x.StartTime && sv.timeFrom <= x.EndTime)
+                                 select new
+                                 {
+                                     sv.timeFrom,
+                                     sv.scheduleId
+                                 }
+                          ).ToList();
+
+            if (scheduleValid.Any())
+            {
+                var allschedule = scheduleValid.Select(x => new
+                {
+                    ScheduleId = x.scheduleId,
+                    Schedule = x.timeFrom.Value.ToString(@"hh\:mm")
+                }).ToList();
+                return Json(new { success = true, allschedule});
+            }
+
+            return Json(new { success = false, message = "Hiện không có suất chiếu trông"});
         }
 
 
