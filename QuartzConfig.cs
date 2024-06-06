@@ -54,5 +54,19 @@ public static class QuartzConfig
             .Build();
 
         await scheduler.ScheduleJob(releaseJob, releaseTrigger);
+
+        IJobDetail removeSeatStatusJob = JobBuilder.Create<RemoveSeatStatusJob>()
+            .WithIdentity("removeSeatStatusJob", "group1")
+            .Build();
+
+        ITrigger removeSeatStatusTrigger = TriggerBuilder.Create()
+            .WithIdentity("removeSeatStatusTrigger", "group1")
+            .StartNow()
+            .WithSimpleSchedule(x => x
+                .WithIntervalInMinutes(5)
+                .RepeatForever())
+            .Build();
+
+        await scheduler.ScheduleJob(removeSeatStatusJob, removeSeatStatusTrigger);
     }
 }

@@ -616,7 +616,7 @@
                         //var seat = seatList[i][k]
                         var seat = results[0].Seats[k];
                         var colItem = $('<div class="col-md-1"></div>')
-                        var seatItem = $('<span class="btn btn-outline-secondary seat-item"></span>').attr('id', 'seat-' + seat.SeatId)
+                        var seatItem = $('<span class="seat-item"></span>').attr('id', 'seat-' + seat.SeatId)
                         console.log(seat.SeatStt)
                         if (seat.SeatStt) {
                             seatItem.addClass('seat-sold disabled-hover')

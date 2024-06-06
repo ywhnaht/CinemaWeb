@@ -122,7 +122,7 @@
                 <div class="search-content-item">
                     <input id="myID" placeholder="Nhập mã">
                 </div>
-            
+
                 <button type="button" class="report-btn" data-bs-toggle="modal" data-bs-target="#scheduleModal">
                     Thêm suất chiếu
                 </button>
@@ -132,7 +132,7 @@
                     <div class="modal-dialog" style="float: left">
                         <div class="modal-content" style=" margin-left: 19rem; height: 28.5rem!important; width: 50rem;">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm Suất Chiếu</h1>
+                                <h1 style="padding-left: 5px; border-left: 6px solid rgb(3 78 162 / 1); font-weight: 500; text-transform: uppercase; font-size: 17px !important;" class="modal-title fs-5" id="exampleModalLabel">Thêm Suất Chiếu</h1>
                                 @*<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>*@
                             </div>
                             <div class="modal-body" style=" padding-top: 0; padding-bottom: 0;">
@@ -157,7 +157,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <label style="color: rgb(119 119 119 / 1); font-weight: 600; font-size: 13px;">Chọn rạp</label>
-                                                <select id="roomSelected" @*style=" margin-left: 12px; margin-top: 4px;"*@ class="form-select">
+                                                <select id="roomSelected" style="width: 14.3rem;" class="form-select">
                                                     @*<option selected></option>*@
                                                     @foreach (var room in ViewBag.RoomList)
                                                     {
@@ -179,21 +179,21 @@
                                                     <img class="movie-selected-img" src="~/assets/images/movie/unname-movie.svg" alt="">
                                                 </div>
                                                 <div class="col-md-7 mx-2 movie-name-wrapper">
-                                                    <div class="row mx-1">
+                                                    <div class="row mx-2">
                                                         <span class="movie-selected-name"></span>
                                                         <span class="movie-selected-date"></span>
                                                         <span class="movie-selected-room"></span>
                                                     </div>
                                                 </div>
                                                 @*<div class="ticket-selected-detail">
-                                                    <div class="row">
-                                                        <span>Ngày 24/06/2004</span>
-                                                    </div>
-                                                    <div class="row d-inline-block">
-                                                        <span>RẠP 1</span>
-                                                        <span></span>
-                                                    </div>
-                                                </div>*@
+                                                <div class="row">
+                                                    <span>Ngày 24/06/2004</span>
+                                                </div>
+                                                <div class="row d-inline-block">
+                                                    <span>RẠP 1</span>
+                                                    <span></span>
+                                                </div>
+                                            </div>*@
                                             </div>
                                             <div class="row dashed-line"></div>
                                             <div class="row align-items-center total-money">
@@ -221,7 +221,7 @@
                 @*<input id="selectedDate" name="selectedTime" type="date" />*@
                 <div class="position-relative">
                     <i class="far fa-calendar-alt position-absolute"></i>
-                    <input id="selectedDate" min="2024-06-02" max="2024-06-30" name="selectedTime" type="date" style="padding-left: 2rem; height: 3rem; " placeholder="Chọn ngày" />
+                    <input id="selectedDate" min="2024-06-02" max="2024-06-30" name="selectedTime" type="date" style="outline: none; padding-left: 2rem; height: 3rem; " placeholder="Chọn ngày" />
                 </div>
             </form>
             <div class="tab-content" id="nav-tabContent">
@@ -241,6 +241,74 @@
                 </div>
             </div>
 
+            <!-- Modal -->
+            <div class="modal fade" id="schedule-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="float: left">
+                    <div class="modal-content" style="width: 72rem; height:auto; margin-left: 7rem">
+                        <div class="row schedule-detail-content m-2">
+                            <div class="col-md-4" style="border-right: 2px solid rgb(3 78 162 / 1);">
+                                <div class="row modal-header">
+                                    <h1 style="padding-left: 5px; border-left: 6px solid rgb(3 78 162 / 1); font-weight: 500; text-transform: uppercase; font-size: 17px !important;">Chi tiết suất chiếu</h1>
+                                </div>
+                                <div class="row my-3 mv-name">
+                                    <label style="color: rgb(119 119 119 / 1); font-weight: 600; font-size: 13px;">Tên phim</label>
+                                    <span style=" margin-left: 12px; margin-top: 4px;">
+                                        @*Exhuma: Quật mộ trùng ma*@
+                                    </span>
+                                </div>
+
+                                <div class="row my-3 mv-date">
+                                    <label style="color: rgb(119 119 119 / 1); font-weight: 600; font-size: 13px;">Ngày chiếu</label>
+                                    <span style=" margin-left: 12px; margin-top: 4px;">
+                                        @*24/06/2004*@
+                                    </span>
+                                </div>
+
+                                <div class="row my-3 mv-room">
+                                    <label style="color: rgb(119 119 119 / 1); font-weight: 600; font-size: 13px;">Rạp chiếu</label>
+                                    <span style=" margin-left: 12px; margin-top: 4px;">
+                                        @*RẠP 1*@
+                                    </span>
+                                </div>
+
+                                <div class="row my-3 mv-showtimes">
+                                    <label style="color: rgb(119 119 119 / 1); font-weight: 600; font-size: 13px;">Suất chiếu</label>
+                                    @*<span style="border: 1px solid #f26b36 !important; width: 80px;" class="btn mx-3 my-1">
+                                        11:20
+                                    </span>
+                                    <span style="border: 1px solid #f26b36 !important; width: 80px;" class="btn mx-3 my-1">
+                                        11:20
+                                    </span>
+                                    <span style="border: 1px solid #f26b36 !important; width: 80px;" class="btn mx-3 my-1">
+                                        11:20
+                                    </span>*@
+                                </div>
+                                <div class="row text-center align-items-center ticket-next-btn">
+                                    <div class="continue-item justify-content-center">
+                                        <button class="my-4 btn removeBtn un-click">
+                                            <span>Xóa</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row modal-header">
+                                    <h1 style="padding-left: 5px; border-left: 6px solid rgb(3 78 162 / 1); font-weight: 500; text-transform: uppercase; font-size: 17px !important;">Danh sách ghế</h1>
+                                </div>
+                                <div class="row my-3 seat-status">
+                                    <div class="col-md-4 total-seat"></div>
+                                    <div class="col-md-4 booked-seat"></div>
+                                    <div class="col-md-4 available-seat"></div>
+                                </div>
+
+                                <div class="row seat-list">
+
+                                </div>   
+                            </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -265,6 +333,9 @@
         dateFormat: "Y-m-d",
     });
 
+    var chosenSchedule = []
+    var roomId = 0
+
     $(document).ready(function () {
         $('#selectedDate').change(function () {
             var selectedDate = $('#selectedDate').val();
@@ -273,7 +344,8 @@
                 url: '/Admin/Schedule/GetSchedule',
                 type: 'POST',
                 data: {
-                    displayDate: selectedDate
+                    displayDate: selectedDate,
+                    roomId: roomId
                 },
                 success: function (response) {
                     var resultTable = $('#resultTable tbody');
@@ -283,7 +355,7 @@
                     $.each(movieList, function (index, movie) {
                         var showTimesHtml = '';
                         $.each(movie.ShowTimes, function (i, showTime) {
-                            showTimesHtml += '<span style="border: 1px solid #f26b36 !important;" class="btn mx-1">' + showTime + '</span> ';
+                            showTimesHtml += '<span style="border: 1px solid #f26b36 !important; width: 80px;" class="btn mx-1 my-1">' + showTime + '</span> ';
                         });
 
                         var movieHtml = '<tr>';
@@ -291,11 +363,13 @@
                         movieHtml += '<td>' + movie.MovieTitle + '</td>';
                         movieHtml += '<td>' + movie.Duration + ' phút</td>';
                         movieHtml += '<td>' + showTimesHtml + '</td>';
-                        movieHtml += '<td><a style="color: #F26B38;" href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>';
+                        movieHtml += '<td><a class="open-modal" style="color: #F26B38;" data-bs-toggle="modal" data-bs-target="#schedule-detail" data-movie-id="' + movie.MovieId + '" data-display-date="' + selectedDate + '" data-room-id="' + roomId + '"><i class="fa-regular fa-pen-to-square"></i></a></td>';
                         movieHtml += '</tr>';
 
                         resultTable.append(movieHtml);
                     });
+
+                    getScheduleDetail()
                 },
                 error: function (error) {
                     // Xử lý lỗi nếu có
@@ -303,12 +377,10 @@
                 }
             });
         });
-
-        
     })
 
-    $(document).on('click', '.room-item', function (e) { // Changed to a regular function
-        var roomId = parseInt($(this).attr('id').substring(5)); // 'this' now correctly refers to the clicked element
+    $(document).on('click', '.room-item', function (e) { 
+        roomId = parseInt($(this).attr('id').substring(5));
         console.log("Room " + roomId)
         var selectedDate = $('#selectedDate').val();
         $.ajax({
@@ -327,7 +399,7 @@
                 $.each(movieList, function (index, movie) {
                     var showTimesHtml = '';
                     $.each(movie.ShowTimes, function (i, showTime) {
-                        showTimesHtml += '<span style="border: 1px solid #f26b36 !important;" class="btn mx-1">' + showTime + '</span> ';
+                        showTimesHtml += '<span style="border: 1px solid #f26b36 !important; width: 80px;" class="btn mx-1 my-1">' + showTime + '</span> ';
                     });
 
                     var movieHtml = '<tr>';
@@ -335,11 +407,12 @@
                     movieHtml += '<td>' + movie.MovieTitle + '</td>';
                     movieHtml += '<td>' + movie.Duration + ' phút</td>';
                     movieHtml += '<td>' + showTimesHtml + '</td>';
-                    movieHtml += '<td><a style="color: #F26B38;" href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>';
+                    movieHtml += '<td><a class="open-modal" style="color: #F26B38;" data-bs-toggle="modal" data-bs-target="#schedule-detail" data-movie-id="' + movie.MovieId + '" data-display-date="' + selectedDate + '" data-room-id="' + roomId + '"><i class="fa-regular fa-pen-to-square"></i></a></td>';
                     movieHtml += '</tr>';
 
                     resultTable.append(movieHtml);
                 });
+                getScheduleDetail()
             },
             error: function (err) {
                 console.log(err)
@@ -349,7 +422,7 @@
     $(document).ready(function () {
         $("#movieSelected").change(function () {
             var selectedMovie = $(this).val();
-            
+            chosenSchedule.splice(0, chosenSchedule.length)
             console.log("Movie" + selectedMovie)
             $.ajax({
                 url: '/Admin/Schedule/MovieSelected',
@@ -378,8 +451,6 @@
             console.log("Date " + selectedDate)
             $('.movie-selected-date').text(selectedDate)
         });
-
-
     })
 
     $(document).ready(function () {
@@ -389,6 +460,7 @@
             var selectedDate = $('#movieDate').val();
             var selectRoom = $('#roomSelected').val();
             var selectedMovie = $('#movieSelected').val();
+            chosenSchedule.splice(0, chosenSchedule.length)
             $.ajax({
                 url: '/Admin/Schedule/GetScheduleValid',
                 type: 'POST',
@@ -416,15 +488,49 @@
         });
     })
 
+    
+
     $(document).on('click', '.movie-schedule span', function () {
-        if ($(this).hasClass('selected')) 
-            $(this).removeClass('selected')
-        else {
-            $(this).addClass('selected')
+        var id = $(this).attr('id');
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+            var index = chosenSchedule.indexOf(id);
+            if (index > -1) {
+                chosenSchedule.splice(index, 1);
+            }
+        } else {
+            $(this).addClass('selected');
+            chosenSchedule.push(id);
         }
         var totalSchedule = $('.movie-schedule .selected').length;
         $('#sum-money').text(totalSchedule + " suất")
+        console.log("chosenSchedule: " + chosenSchedule)
         updateContinueButtonState()
+    })
+
+    $(document).on('click', '.continueBtn', function () {
+        var selectedDate = $('#movieDate').val();
+        var selectRoom = $('#roomSelected').val();
+        var selectedMovie = $('#movieSelected').val();
+        var data = {
+            movieId: selectedMovie,
+            displayDate: selectedDate,
+            scheduleDetail: chosenSchedule,
+            roomId: selectRoom
+        }
+        $.ajax({
+            url: '/Admin/Schedule/AddSchedule',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                if (response.success)
+                    alert("Thêm suất chiếu thành công")
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
     })
 
     function updateContinueButtonState() {
@@ -437,8 +543,149 @@
         }
     }
 
+    function updateRemoveButtonState() {
+        var totalSchedule = $('.mv-showtimes .schedule-selected').length;
+        if (totalSchedule === 0) {
+            $('.removeBtn').addClass('un-click')
+        }
+        else {
+            $('.removeBtn').removeClass('un-click')
+        }
+    }
+
     $(document).ready(function () {
         updateContinueButtonState();
+        updateRemoveButtonState();
     });
 
+    function getScheduleDetail () {
+        $('.open-modal').click(function () {
+            var movieId = $(this).data('movie-id');
+            var displayDate = $(this).data('display-date');
+            var RoomId = $(this).data('room-id');
+
+            $.ajax({
+                url: '/Admin/Schedule/GetScheduleDetails',
+                type: 'POST',
+                data: {
+                    movieId: movieId,
+                    displayDate: displayDate,
+                    roomId: RoomId
+                },
+                success: function (response) {
+                    if (response.success) {
+                        var details = response.details;
+                        $('.mv-name span').text(details.MovieTitle);
+                        $('.mv-date span').text(details.DisplayDate);
+                        $('.mv-room span').text(details.RoomName);
+                        var showTimesHtml = '';
+                        $.each(details.ShowTimes, function (i, showTime) {
+                            showTimesHtml += '<span data-room-schedule="' + showTime.RoomScheduleDetailId + '" class="mx-3 my-1 schedule-detail-item">' + showTime.ShowTime + '</span> ';
+                        });
+                        $('.mv-showtimes').html(showTimesHtml);
+                        var seatsHtml = '';
+                        //$.each(details.Seats, function (i, seat) {
+                        //    seatsHtml += '<div class="seat">' + seat + '</div>';
+                        //});
+                        //$('.seat-list').html(seatsHtml);
+                    } else {
+                        console.log(response.message);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+        })
+    }
+
+    $(document).on('click', '.schedule-detail-item', function () {
+        var roomScheduleDetailId = $(this).data('room-schedule');
+        removeScheduleSelected()
+        $(this).addClass('schedule-selected')
+        updateRemoveButtonState()
+        $('.seat-list').html('')
+
+        $.ajax({
+            url: '/Admin/Schedule/GetSeatDetails',
+            type: 'POST',
+            data: {
+                roomScheduleDetailId: roomScheduleDetailId
+            },
+            success: function (response) {
+                if (response.success) {
+                    var seatList = response.seatList;
+                    var groupedSeats = {};
+
+                    var totalSeats = seatList.length;
+                    var bookedSeats = seatList.filter(seat => seat.IsBooked).length;
+                    var availableSeats = totalSeats - bookedSeats;
+
+                    $.each(seatList, function (index, seat) {
+                        var row = seat.Seat.charAt(0); 
+                        if (!groupedSeats[row]) {
+                            groupedSeats[row] = [];
+                        }
+                        groupedSeats[row].push(seat);
+                    });
+
+                    var seatHtml = '';
+                    var sortedRows = Object.keys(groupedSeats).sort();
+
+                    $.each(sortedRows, function (index, row) {
+                        var seats = groupedSeats[row];
+                        seats.sort(function (a, b) {
+                            return parseInt(a.Seat.slice(1)) - parseInt(b.Seat.slice(1));
+                        });
+
+                        seatHtml += '<div class="seat-row row my-2 justify-content-center align-items-center">';
+                        $.each(seats, function (index, seat) {
+                            if (seat.IsBooked === true) {
+                                seatHtml += '<span class="seat col-md-1 mx-2 seat-sold">' + seat.Seat + '</span> ';
+                            }
+                            else {
+                                seatHtml += '<span class="seat col-md-1 mx-2">' + seat.Seat + '</span> ';
+                            } 
+                        });
+                        seatHtml += '</div>';
+                    });
+
+                    $('.seat-list').html(seatHtml);
+
+                    $('.total-seat').text('Tổng số ghế: ' + totalSeats);
+                    $('.booked-seat').text('Đã đặt: ' + bookedSeats);
+                    $('.available-seat').text('Còn trống: ' + availableSeats);
+
+                    RemoveSchedule(roomScheduleDetailId)
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    })
+
+    function removeScheduleSelected() {
+        $('.mv-showtimes span').removeClass('schedule-selected')
+    }
+
+    function RemoveSchedule(roomScheduleDetailId) {
+        $(document).on('click', '.removeBtn', function () {
+            $.ajax({
+                url: '/Admin/Schedule/RemoveSchedule',
+                type: 'POST',
+                data: {
+                    roomscheduledetailId: roomScheduleDetailId
+                },
+                success: function (response) {
+                    alert(response.message)
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+        })
+    }
 </script>

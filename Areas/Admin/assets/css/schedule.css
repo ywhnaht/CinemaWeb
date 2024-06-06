@@ -315,7 +315,7 @@ button:focus {
     color: #4a4a4a;
     font-size: 1rem;
     font-weight: 400;
-    font-family: Nunito Sans, sans-serif !important;
+    outline: none;
 }
 
 .getdate {
@@ -450,12 +450,16 @@ span.flatpickr-weekday {
 }
 
 .seat {
-    font-size: .875rem;
-    font-weight: 500;
-    color: #f58020;
-    display: flex;
     justify-content: center;
+    display: flex;
     align-items: center;
+    height: 37px;
+    border-radius: 4px;
+    border: 2px solid #f58020;
+    width: 40px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #000;
 }
 
 .check-in {
@@ -555,8 +559,13 @@ span.flatpickr-weekday {
     transform: translateY(-50%);
 }
 
-/*Room List*/
-.room-list .active {
+.flatpickr-input[readonly] {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+    /*Room List*/
+    .room-list .active {
     background-color: rgb(3 78 162 / 1) !important;
 }
 
@@ -619,21 +628,6 @@ span.flatpickr-weekday {
         line-height: 1.8;
     }
 
-
-.returnBtn {
-    color: #f58020;
-    border: none;
-    background-color: rgb(249 249 249 / 1);
-}
-
-    .returnBtn:hover {
-        color: #f58020;
-    }
-
-.return-item {
-    padding-left: 60px;
-}
-
 .continueBtn {
     color: #fff !important;
     background-color: rgb(245 128 32 / 1) !important;
@@ -662,4 +656,58 @@ span.flatpickr-weekday {
 .un-click {
     pointer-events: none !important;
     opacity: .65;
+}
+
+.mv-name span,
+.mv-date span,
+.mv-room span {
+    width: 20rem;
+    height: 35px;
+    margin-left: 12px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    align-items: center;
+    display: flex;
+}
+
+.removeBtn {
+    color: #fff !important;
+    background-color: rgb(245 128 32 / 1) !important;
+    border: 1px solid transparent;
+    cursor: pointer !important;
+    border-radius: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 8px 30px;
+}
+
+.seat-sold {
+    background-color: #f58020;
+    color: #fff;
+    padding: 10px 10px;
+    border: none;
+}
+
+.total-seat,
+.booked-seat,
+.available-seat {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.schedule-selected {
+    color: #fff;
+    background-color: #f58020;
+}
+
+.schedule-detail-item {
+    display: flex;
+    border: 1px solid #f26b36 !important;
+    width: 80px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
 }

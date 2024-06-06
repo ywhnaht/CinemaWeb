@@ -358,6 +358,7 @@
     <Compile Include="SupportFile\ChangeSeatStatusJob.cs" />
     <Compile Include="SupportFile\DeleteNotificationJob.cs" />
     <Compile Include="SupportFile\NotificationJob.cs" />
+    <Compile Include="SupportFile\RemoveSeatStatusJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\assets\css\schedule.css" />
