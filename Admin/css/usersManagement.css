@@ -175,6 +175,7 @@ html {
     padding-bottom: 3rem;
 }
 .wrapper-content{
+  
     margin-left: 10rem;
     margin-right: 10rem;
     background-color:#fff;
@@ -194,4 +195,9 @@ html {
     font-weight: 400;
     font-family: Nunito Sans, sans-serif !important;
     
+ }
+ .table-name{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
  }

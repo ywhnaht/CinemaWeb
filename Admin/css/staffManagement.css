@@ -224,7 +224,7 @@ html {
   
   .getdate{
     display: flex;
-    justify-content: center;
+    padding-left: 2rem;
     align-items: center;
     margin-top: 3rem;
     margin-bottom: 3rem;
@@ -386,3 +386,9 @@ html {
   display: flex;
   justify-content: center;
 }
+
+.table-name{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+ }
