@@ -215,7 +215,7 @@
                                             {
                                                 <div class="col-md-3 sub-movie-list1" data-movieId="@movie.id" onclick="selectMovie('@movie.id')">
                                                     <img src="@movie.url_image" alt="" class="img-fluid img-movie">
-                                                    <span class="text-dark-emphasis movie-name">@movie.title</span>
+                                                    <span class="text-dark-emphasis fw-medium movie-name">@movie.title</span>
                                                 </div>
                                             }
                                         }
@@ -372,7 +372,7 @@
                 datelist.append(datelistside)
                 var schedulecinema = $('<div></div>').addClass('tab-content schedule-cinema')
                 var cinemaname = $('<div></div>').addClass('row')
-                var nameitem = $('<h2></h2>').addClass('movie-text cinema-name').text('Ohayou Đà Nẵng')
+                var nameitem = $('<h2></h2>').addClass('movie-text mx-3 cinema-name').text('Ohayou Đà Nẵng')
                 cinemaname.append(nameitem)
                 schedulecinema.append(cinemaname)
                 $('.datetime-container').append(datelist)
@@ -616,10 +616,11 @@
                         //var seat = seatList[i][k]
                         var seat = results[0].Seats[k];
                         var colItem = $('<div class="col-md-1"></div>')
-                        var seatItem = $('<span class="btn btn-outline-secondary seat-item"></span>').attr('id', 'seat-' + seat.SeatId)
+                        var seatItem = $('<span class="seat-item"></span>').attr('id', 'seat-' + seat.SeatId)
                         console.log(seat.SeatStt)
                         if (seat.SeatStt) {
-                            seatItem.addClass('seat-sold disabled-hover')
+                            seatItem.addClass('seat-sold')
+                            colItem.addClass('disable-hover')
                         }
                         else {
                             seatItem.attr({

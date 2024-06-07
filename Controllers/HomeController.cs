@@ -75,7 +75,7 @@ namespace CinemaWeb.Controllers
                         Session["admin"] = user;
                         return RedirectToLocal(returnUrl, "Index", "AdminHome", "Admin");
                     }
-                    else
+                    else 
                     {
                         Session["staff"] = user;
                         return RedirectToLocal(returnUrl, "Index", "StaffHome", "Staff");

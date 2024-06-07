@@ -428,18 +428,14 @@
                 <img src="@ViewBag.movieItem.url_image" alt="" class="mv-img">
             }
             <div class="trailer-btn">
-                <a href="#trailer" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#trailer" aria-expanded="false" target="_blank">
+                <a href="#trailer" class="accordion-toggle" data-bs-toggle="modal" data-bs-target="#trailer" data-trailer-url="@ViewBag.movieItem.url_trailer" aria-expanded="false" target="_blank">
                     <img src="~/Areas/User/assets/images/btn/button-play.2f9c0030.png" alt="" class="play-img object-cover" loading="lazy">
                 </a>
             </div>
             <div class="modal fade modal-lg" id="trailer">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <video width="100%" height="555" controls autoplay>
-                            <source src="@ViewBag.movieItem.url_trailer" type="video/ogg">
-                        </video>
-
-                        @*<iframe height="555" src="@ViewBag.movieItem.url_trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>*@
+                        <iframe id="trailerVideo" width="100%" height="555" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -1041,6 +1037,29 @@
             });
         });
 });
+
+    $(document).ready(function () {
+        $('#trailer').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); 
+            var trailerUrl = button.data('trailer-url');
+
+            var videoId;
+            if (trailerUrl.includes('youtu.be')) {
+                videoId = trailerUrl.split('/').pop().split('?')[0];
+            } else if (trailerUrl.includes('youtube.com/watch')) {
+                videoId = trailerUrl.split('v=')[1].split('&')[0];
+            }
+
+            var embedUrl = 'https://www.youtube.com/embed/' + videoId;
+
+            var modal = $(this);
+            modal.find('#trailerVideo').attr('src', embedUrl);
+        });
+
+        $('#trailer').on('hide.bs.modal', function () {
+            $(this).find('#trailerVideo').attr('src', '');
+        });
+    });
 
 
 

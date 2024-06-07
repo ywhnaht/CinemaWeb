@@ -705,18 +705,14 @@ namespace CinemaWeb.Areas.User.Controllers
         public ActionResult GetInvoice()
         {
             var code = new { success = false, code = -1, Url = "" };
-            // Chuyển đổi JSON thành đối tượng hoặc mảng phù hợp
             string jsonData;
             using (var reader = new StreamReader(Request.InputStream))
             {
                 jsonData = reader.ReadToEnd();
             }
 
-            // Chuyển đổi chuỗi JSON thành đối tượng JObject
             JObject jsonObject = JObject.Parse(jsonData);
 
-            //return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, 4));
-            // Lấy các giá trị từ đối tượng JObject
             int movieId = (int)jsonObject["movieId"];
             int displaydateId = (int)jsonObject["displaydateId"];
             int scheduleId = (int)jsonObject["scheduleId"];
@@ -733,9 +729,10 @@ namespace CinemaWeb.Areas.User.Controllers
             var currentUser = (user)Session["user"];
             var newInvoice = new invoice();
             newInvoice.user_id = currentUser.id;
+            newInvoice.invoice_status = false;
             newInvoice.room_schedule_detail_id = GetRoomScheduleDetailId(roomId, displaydateId, scheduleId, movieId);
-            //newInvoice.day_create = DateTime.Now;
-            newInvoice.day_create = DateTime.UtcNow;
+            newInvoice.day_create = DateTime.Now;
+            //newInvoice.day_create = DateTime.UtcNow;
             newInvoice.total_ticket = chosenSeats.Length;
 
             db.invoices.Add(newInvoice);
