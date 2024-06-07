@@ -322,7 +322,7 @@ button:focus {
     display: flex;
     justify-content: left;
     padding-left: 6rem;
-    margin-top: 3rem;
+    margin-top: 1rem;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     border-radius: 5px;
@@ -662,7 +662,7 @@ span.flatpickr-weekday {
 .mv-date span,
 .mv-room span {
     width: 20rem;
-    height: 35px;
+    min-height: 45px;
     margin-left: 12px;
     margin-top: 4px;
     border: 1px solid #ccc;
@@ -710,4 +710,15 @@ span.flatpickr-weekday {
     justify-content: center;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.closeBtn, .confirmBtn {
+    color: #fff !important;
+    background-color: rgb(245 128 32 / 1) !important;
+    border: 1px solid transparent;
+    cursor: pointer !important;
+    border-radius: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 8px 30px;
 }

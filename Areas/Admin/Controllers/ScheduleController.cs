@@ -196,6 +196,22 @@ namespace CinemaWeb.Areas.Admin.Controllers
                                  EndTime = s.schedule_time
                              }).ToList();
 
+            var schedulesInDay = (from m in db.movies
+                             join mdd in db.movie_display_date on m.id equals mdd.movie_id
+                             join dd in db.display_date on mdd.display_date_id equals dd.id
+                             join sd in db.schedule_detail on mdd.id equals sd.movie_display_date_id
+                             join s in db.schedules on sd.schedule_id equals s.id
+                             join rsd in db.room_schedule_detail on sd.id equals rsd.schedule_detail_id
+                             where dd.display_date1 == displayDate
+                             orderby s.id
+                             select new
+                             {
+                                 DurationMinute = m.duration_minutes,
+                                 ScheduleDetailId = sd.id,
+                                 StartTime = s.schedule_time,
+                                 EndTime = s.schedule_time
+                             }).ToList();
+
             var scheduleTime = schedules.Select(x => new { x.StartTime, EndTime = x.EndTime.Value.Add(TimeSpan.FromMinutes(int.Parse(x.DurationMinute))) }).ToList();
             var duration = TimeSpan.FromMinutes(durationMinute);
 
@@ -210,6 +226,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
 
             var scheduleValid = (from sv in scheduleList
                                  where !scheduleTime.Any(x => sv.timeEnd >= x.StartTime && sv.timeFrom <= x.EndTime)
+                                 && !schedulesInDay.Any(sc => sc.StartTime == sv.timeFrom)
                                  select new
                                  {
                                      sv.timeFrom,
@@ -226,7 +243,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
                 }).ToList();
                 return Json(new { success = true, allschedule});
             }
-
+            
             return Json(new { success = false, message = "Hiện không có suất chiếu trông"});
         }
 
@@ -257,7 +274,10 @@ namespace CinemaWeb.Areas.Admin.Controllers
                     continue;
                 }
                 TimeSpan startTime = scheduleTime.Value;
-                TimeSpan endTime = startTime.Add(duration);
+                TimeSpan endTime = (startTime + duration).TotalHours >= 24
+                                    ? (startTime + duration).Subtract(new TimeSpan(24, 0, 0))
+                                    : startTime + duration;
+
 
                 var _schedule = new schedule_detail
                 {
@@ -321,7 +341,8 @@ namespace CinemaWeb.Areas.Admin.Controllers
                                        DisplayDate = displayDateEntity.display_date1,
                                        RoomName = r.room_name,
                                        ShowTime = s.schedule_time,
-                                       RoomScheduleDetailId = rsd.id
+                                       RoomScheduleDetailId = rsd.id,
+                                       ScheduleDetailId = sd.id
                                    }).ToList()
                                    .Select(x => new
                                    {
@@ -329,7 +350,8 @@ namespace CinemaWeb.Areas.Admin.Controllers
                                        DisplayDate = x.DisplayDate.Value.ToString("dd/MM/yyyy"),
                                        x.RoomName,
                                        ShowTime = x.ShowTime.Value.ToString(@"hh\:mm"),
-                                       x.RoomScheduleDetailId
+                                       x.RoomScheduleDetailId,
+                                       x.ScheduleDetailId
                                    }).ToList();
 
             if (scheduleDetails.Any())
@@ -346,7 +368,8 @@ namespace CinemaWeb.Areas.Admin.Controllers
                         ShowTimes = scheduleDetails.Select(x => new
                         {
                             x.ShowTime,
-                            x.RoomScheduleDetailId
+                            x.RoomScheduleDetailId,
+                            x.ScheduleDetailId
                         }).ToList(),
                     }
                 });
@@ -384,129 +407,24 @@ namespace CinemaWeb.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult RemoveSchedule(int roomscheduledetailId)
+        public ActionResult RemoveSchedule(int scheduleDetailId)
         {
             try
             {
-                var roomschedule = db.room_schedule_detail.FirstOrDefault(x => x.id == roomscheduledetailId);
-                if (roomschedule == null)
+                var schedule_detail = db.schedule_detail.FirstOrDefault(x => x.id == scheduleDetailId);
+                if (schedule_detail == null)
                     return Json(new { success = false, message = "Không tìm thấy suất chiếu!" });
 
-                db.room_schedule_detail.Remove(roomschedule);
+                db.schedule_detail.Remove(schedule_detail);
                 db.SaveChanges();
                 return Json(new { success = true, message = "Xóa suất chiếu thành công!" });
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                // Log the exception (optional)
                 Console.WriteLine(ex);
 
-                // Handle the concurrency issue
                 return Json(new { success = false, message = "Có lỗi xảy ra khi xóa suất chiếu. Có thể suất chiếu đã bị xóa bởi người khác." });
             }
-        }
-
-        // GET: Admin/Schedule/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //schedule_detail schedule_detail = await db.schedule_detail.FindAsync(id);
-            //if (schedule_detail == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            return View();
-        }
-
-        // GET: Admin/Schedule/Create
-        public ActionResult Create()
-        {
-            ViewBag.movie_display_date_id = new SelectList(db.movie_display_date, "id", "id");
-            ViewBag.schedule_id = new SelectList(db.schedules, "id", "id");
-            return View();
-        }
-
-        // POST: Admin/Schedule/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,movie_display_date_id,schedule_id,start_time,end_time")] schedule_detail schedule_detail)
-        {
-            if (ModelState.IsValid)
-            {
-                db.schedule_detail.Add(schedule_detail);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.movie_display_date_id = new SelectList(db.movie_display_date, "id", "id", schedule_detail.movie_display_date_id);
-            ViewBag.schedule_id = new SelectList(db.schedules, "id", "id", schedule_detail.schedule_id);
-            return View(schedule_detail);
-        }
-
-        // GET: Admin/Schedule/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            schedule_detail schedule_detail = await db.schedule_detail.FindAsync(id);
-            if (schedule_detail == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.movie_display_date_id = new SelectList(db.movie_display_date, "id", "id", schedule_detail.movie_display_date_id);
-            ViewBag.schedule_id = new SelectList(db.schedules, "id", "id", schedule_detail.schedule_id);
-            return View(schedule_detail);
-        }
-
-        // POST: Admin/Schedule/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "id,movie_display_date_id,schedule_id,start_time,end_time")] schedule_detail schedule_detail)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(schedule_detail).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewBag.movie_display_date_id = new SelectList(db.movie_display_date, "id", "id", schedule_detail.movie_display_date_id);
-            ViewBag.schedule_id = new SelectList(db.schedules, "id", "id", schedule_detail.schedule_id);
-            return View(schedule_detail);
-        }
-
-        // GET: Admin/Schedule/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            schedule_detail schedule_detail = await db.schedule_detail.FindAsync(id);
-            if (schedule_detail == null)
-            {
-                return HttpNotFound();
-            }
-            return View(schedule_detail);
-        }
-
-        // POST: Admin/Schedule/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            schedule_detail schedule_detail = await db.schedule_detail.FindAsync(id);
-            db.schedule_detail.Remove(schedule_detail);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

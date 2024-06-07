@@ -106,9 +106,9 @@
     </div>
 
     <div class="line-default"></div>
-    <div class="container wrapper row">
+    <div class="wrapper row m-3">
         <div class="col-md-2">
-            <div class="list-group room-list" id="list-tab" role="tablist">
+            <div class="list-group room-list" id="list-tab" role="tablist" style="margin-top: 1rem">
                 <a id="room-0" class="list-group-item list-group-item-action room-item active" data-bs-toggle="list" href="#movie-list" role="tab" aria-controls="movie-list" data-roomid="0">Tất cả</a>
                 <a id="room-1" class="list-group-item list-group-item-action room-item" data-bs-toggle="list" href="#movie-list" role="tab" aria-controls="movie-list" data-roomid="1">Rạp 1</a>
                 <a id="room-2" class="list-group-item list-group-item-action room-item" data-bs-toggle="list" href="#movie-list" role="tab" aria-controls="movie-list" data-roomid="2">Rạp 2</a>
@@ -207,7 +207,7 @@
                                         </div>
                                         <div class="row text-center align-items-center ticket-next-btn">
                                             <div class="continue-item justify-content-center">
-                                                <button class="my-4 btn continueBtn un-click">
+                                                <button class="my-4 continueBtn un-click">
                                                     <span>Thêm Suất</span>
                                                 </button>
                                             </div>
@@ -221,7 +221,7 @@
                 @*<input id="selectedDate" name="selectedTime" type="date" />*@
                 <div class="position-relative">
                     <i class="far fa-calendar-alt position-absolute"></i>
-                    <input id="selectedDate" min="2024-06-02" max="2024-06-30" name="selectedTime" type="date" style="outline: none; padding-left: 2rem; height: 3rem; " placeholder="Chọn ngày" />
+                    <input id="selectedDate" min="@DateTime.Now" name="selectedTime" type="date" style="outline: none; padding-left: 2rem; height: 3rem; " placeholder="Chọn ngày" />
                 </div>
             </form>
             <div class="tab-content" id="nav-tabContent">
@@ -273,15 +273,6 @@
 
                                 <div class="row my-3 mv-showtimes">
                                     <label style="color: rgb(119 119 119 / 1); font-weight: 600; font-size: 13px;">Suất chiếu</label>
-                                    @*<span style="border: 1px solid #f26b36 !important; width: 80px;" class="btn mx-3 my-1">
-                                        11:20
-                                    </span>
-                                    <span style="border: 1px solid #f26b36 !important; width: 80px;" class="btn mx-3 my-1">
-                                        11:20
-                                    </span>
-                                    <span style="border: 1px solid #f26b36 !important; width: 80px;" class="btn mx-3 my-1">
-                                        11:20
-                                    </span>*@
                                 </div>
                                 <div class="row text-center align-items-center ticket-next-btn">
                                     <div class="continue-item justify-content-center">
@@ -304,13 +295,28 @@
 
                                 <div class="row seat-list">
 
-                                </div>   
+                                </div>
                             </div>
-                    </div>
+                            <div @*style="display: flex; align-items: center"*@ class="modal fade" id="removeSchedule" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" style="display: flex; justify-content: center">
+                                    <div class="modal-content" style="width: 400px; height: 300px; margin-top: 8rem; box-shadow: 0 0 12px #ccc; ">
+                                        <img src="~/assets/images/subimg/ohayoucinema.svg" class="rounded mx-auto d-block" alt="" style="margin-top: 2rem">
+                                        <p style="font-weight: 500; display: flex; margin-top: 1rem; justify-content: center;">Bạn có chắc chắn muốn xóa suất chiếu này?</p>
+
+                                        <form class="forgetPass-form row my-2 mx-3">
+                                            <button type="button" class="closeBtn col-md-5" data-bs-dismiss="modal">Đóng</button>
+                                            <div class="col-md-2"></div>
+                                            <button class="confirmBtn col-md-5">Xác nhận</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
 
+        </div>
     </div>
 
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
@@ -324,7 +330,8 @@
         });
     </script>
 
-</body>
+
+     </body>
 </html>
 
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -563,6 +570,10 @@
             var movieId = $(this).data('movie-id');
             var displayDate = $(this).data('display-date');
             var RoomId = $(this).data('room-id');
+            $('.seat-list').html('')
+            $('.total-seat').text('');
+            $('.booked-seat').text('');
+            $('.available-seat').text('');
 
             $.ajax({
                 url: '/Admin/Schedule/GetScheduleDetails',
@@ -580,14 +591,10 @@
                         $('.mv-room span').text(details.RoomName);
                         var showTimesHtml = '';
                         $.each(details.ShowTimes, function (i, showTime) {
-                            showTimesHtml += '<span data-room-schedule="' + showTime.RoomScheduleDetailId + '" class="mx-3 my-1 schedule-detail-item">' + showTime.ShowTime + '</span> ';
+                            showTimesHtml += '<span data-room-schedule="' + showTime.RoomScheduleDetailId + '" data-schedule-detail="' + showTime.ScheduleDetailId + '" class="mx-3 my-1 schedule-detail-item">' + showTime.ShowTime + '</span> ';
                         });
                         $('.mv-showtimes').html(showTimesHtml);
                         var seatsHtml = '';
-                        //$.each(details.Seats, function (i, seat) {
-                        //    seatsHtml += '<div class="seat">' + seat + '</div>';
-                        //});
-                        //$('.seat-list').html(seatsHtml);
                     } else {
                         console.log(response.message);
                     }
@@ -601,10 +608,14 @@
 
     $(document).on('click', '.schedule-detail-item', function () {
         var roomScheduleDetailId = $(this).data('room-schedule');
+        var scheduleDetailId = $(this).data('schedule-detail');
         removeScheduleSelected()
         $(this).addClass('schedule-selected')
         updateRemoveButtonState()
         $('.seat-list').html('')
+        $('.total-seat').text('');
+        $('.booked-seat').text('');
+        $('.available-seat').text('');
 
         $.ajax({
             url: '/Admin/Schedule/GetSeatDetails',
@@ -656,7 +667,7 @@
                     $('.booked-seat').text('Đã đặt: ' + bookedSeats);
                     $('.available-seat').text('Còn trống: ' + availableSeats);
 
-                    RemoveSchedule(roomScheduleDetailId)
+                    RemoveSchedule(scheduleDetailId)
                 } else {
                     alert(response.message);
                 }
@@ -671,20 +682,25 @@
         $('.mv-showtimes span').removeClass('schedule-selected')
     }
 
-    function RemoveSchedule(roomScheduleDetailId) {
+    function RemoveSchedule(scheduleDetailId) {
         $(document).on('click', '.removeBtn', function () {
-            $.ajax({
-                url: '/Admin/Schedule/RemoveSchedule',
-                type: 'POST',
-                data: {
-                    roomscheduledetailId: roomScheduleDetailId
-                },
-                success: function (response) {
-                    alert(response.message)
-                },
-                error: function (err) {
-                    console.log(err)
-                }
+            $('#removeSchedule').modal('show')
+            
+            $(document).on('click', '.confirmBtn', function () {
+                $.ajax({
+                    url: '/Admin/Schedule/RemoveSchedule',
+                    type: 'POST',
+                    data: {
+                        scheduleDetailId: scheduleDetailId
+                    },
+                    success: function (response) {
+                        $('#removeSchedule').modal('hide')
+                        alert(response.message)
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
             })
         })
     }

@@ -14,6 +14,7 @@
 
 .buyticket-btn {
     font-size: 15px;
+    font-size: 15px;
     color: #fff;
     border: none;
 }
@@ -205,7 +206,15 @@
     color: #F26B38;
 }
 
+.account-list li:hover {
+    border-radius: 0;
+    transition: all 0.3s ease;
+    background-color: #fb770b1a;
+    border-left: 4px solid #F26B38;
+}
+
 .account-list a {
+    padding: 10px 4px;
     text-decoration: none;
     color: #000;
     font-size: 14px;
@@ -526,8 +535,14 @@
 }
 
 .movie-text {
+    margin-top: 16px;
+    margin-bottom: 24px;
+    padding-left: 5px;
+    align-items: center;
+    display: flex;
+    height: 2rem;
+    border-left: 6px solid #034EA2;
     font-size: 20px;
-    padding: 20px 8px;
     font-weight: 600;
 }
 
@@ -627,10 +642,6 @@
     font-size: 14px;
     display: flex;
     justify-content: center;
-}
-
-.cinema-name {
-    padding-left: 18px;
 }
 
 .time-list {
@@ -806,10 +817,9 @@
     margin-bottom: 2rem;
 }
 
-.disabled-hover:hover {
-    color: inherit !important;
-    background-color: inherit !important;
+.disabled-hover {
     cursor: default !important;
+    pointer-events: none !important;
 }
 
 
