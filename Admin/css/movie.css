@@ -201,6 +201,7 @@ html {
     width: 8rem;
   }
   .search-content-item .date .dropdown input{
+    outline: none;
     display:inline-block;
     width: 8rem;
     padding-left: 2.5rem;
@@ -251,6 +252,7 @@ html {
   }
 
   .search-content-item input{
+    outline: none;
     width: 15rem;
     height: 3rem;
     border: none;
@@ -275,6 +277,7 @@ html {
 }
 
 .subform-group .subform input{
+  outline: none;
     width: 360px;
     height: 38px;
     --tw-bg-opacity: 1;
@@ -344,17 +347,23 @@ html {
 }
 
 .detail-btn{
-  
-  color: #fff;
+  background-color: rgba(0, 0, 0, 0);
   border:none;
   cursor: pointer;
 }
 
+.fa-regular:hover{
+  color: #f58020;
+  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition-duration: 0.5s;
+  transition-property: all;
+  scale: 1.2;
+}
 .fa-regular{
   color: #F26B38;
   font-weight: 600;
+  transition: transform 0.1s, box-shadow 0.3s;
 }
-
 .deleteBtn{
   height: 2.5rem;
   width: 8rem;
@@ -463,6 +472,7 @@ html {
     opacity: 1;
 }
 .search-key input{
+  outline: none;
     width: 15rem;
     height:3rem;
     --tw-bg-opacity: 1;
@@ -498,6 +508,7 @@ html {
 }
 
 .subform-group .subform input{
+  outline: none;
     width: 19rem;
     height:3rem;
     --tw-bg-opacity: 1;
@@ -507,6 +518,7 @@ html {
 }
 
 .subform-group .subform textarea{
+  outline: none;
     padding-left: 3rem;
     --tw-bg-opacity: 1;
     background-color: rgb(249 249 249 / var(--tw-bg-opacity));
@@ -547,4 +559,80 @@ html {
   align-items: center;
   gap: 5rem;
   margin-bottom: 3rem;
+}
+
+/*search-input*/
+.input-box{
+  position: relative;
+  height: 55px;
+  max-width: 55px;
+  width: 100%;
+  margin: 0 40px;
+  border-radius: 6px;
+  background-color: #fff;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.input-box.open{
+  max-width: 350px;
+}
+input{
+  position: relative;
+  outline: none;
+  border: none;
+  height: 100%;
+  width: 100%;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  background-color: #fff;
+}
+.input-box.open{
+  padding: 0 15px 0 65px;
+}
+.icon{
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  width: 60px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+}
+.search-icon,
+.close-icon{
+  position: absolute;
+  top: 50%;
+  font-size: 30px;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.search-icon{
+  color:#f58020;
+  transform: translateY(-50%) rotate(90deg);
+}
+.input-box.open .search-icon{
+  transform: translateY(-50%) rotate(0);
+}
+.close-icon{
+  right: -45px;
+  color: #f58028;
+  padding: 5px;
+  margin-right: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+.input-box.open .close-icon{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) rotate(180deg);
+}
+.search-icon:hover{
+  cursor: pointer;
+}
+
+.close-icon:hover{
+  cursor: pointer;
 }

@@ -169,9 +169,7 @@ html {
     border-bottom: 6px solid #f4f4f4;
   
   }
-  .wrapper{
-    margin-top: 3rem;
-  }
+ 
   .wrapper-content{
     padding: 0;
   }
@@ -224,16 +222,198 @@ html {
 }
 
 .title-row{
-    margin-bottom: 2rem;
-    font-family: Nunito Sans, sans-serif !important;
+  margin-top: 5rem;
+  font-family: Nunito Sans, sans-serif !important;
+  display: flex;
+  margin-left: 5.2rem; 
+  margin-bottom: 2rem;
+  
+}
+
+.title-row span{
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #4a4a4a;
 }
 
 .frame:hover{
    
-    transform: translateY(-10px);
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: 0.7s;
+    transition-property: all;
+    scale: 1.1;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     
 } 
 .chart{
     margin: 5rem;
+    margin-top: 5rem;
+}
+
+.fa-gauge{
+  background: #f58020;
+    color: white;
+    padding: 5px;
+    font-size: 1.5rem;
+    height: 2.2rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+}
+
+
+
+
+/*progress*/
+.circular-progress{
+  position: relative;
+  height: 55px;
+  width: 55px;
+  border-radius: 50%;
+  background: conic-gradient(#7d2ae8 3.6deg, #ededed 0deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.circular-progress::before{
+  content: "";
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+.progress-value{
+  position: relative;
+  font-size: 15px;
+  font-weight: 600;
+  color: #7d2ae8;
+
+}
+/*noti*/
+.fa-bell{
+  background: #f58020;
+  color: white;
+  padding: 5px;
+  font-size: 1.5rem;
+  height: 2.2rem;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+}
+.noti-title span{
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #4a4a4a;
+}
+.noti-title{
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+  font-family: Nunito Sans, sans-serif !important;
+  display: flex;
+   margin-left: 5.2rem; 
+ 
+}
+.noti .outer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10rem;
+  margin-bottom: 20rem;
+}
+.noti .card{
+  background: #fff;
+  width: 50rem;
+  display: flex;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+  animation: animate 8s linear infinite;
+  animation-delay: calc(2s * var(--delay));
+}
+.outer:hover .card{
+  animation-play-state: paused;
+}
+.noti .card:last-child{
+  animation-delay: calc(-2s * var(--delay));
+}
+@keyframes animate {
+  0%{
+    opacity: 0;
+    transform: translateY(100%) scale(0.5);
+  }
+  5%, 20%{
+    opacity: 0.4;
+    transform: translateY(100%) scale(0.7);
+  }
+  25%, 40%{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0%) scale(1);
+  }
+  45%, 60%{
+    opacity: 0.4;
+    transform: translateY(-100%) scale(0.7);
+  }
+  65%, 100%{
+    opacity: 0;
+    transform: translateY(-100%) scale(0.5);
+  }
+}
+.card .content{
+  display: flex;
+  margin-left: 5rem;
+  display: flex;
+  align-items: center;
+}
+.noti .card .img{
+  height: 50px;
+  width: 50px;
+  position: absolute;
+  left: 1rem;
+  background: #fff;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+}
+.card .img img{
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+}
+
+.details span{
+  font-weight: 600;
+  font-size: 18px;
+  color: #4a4a4a;
+}
+
+.details{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 5rem;
+}
+
+.details p{
+  margin: 0;
+}
+
+.content a{
+  text-decoration: none;
+  margin-left: 20rem;
+
+}
+
+.fa-circle-info{
+  color: #f58028;
+  font-size: 1.5rem;
+  display: flex;
+ 
 }
