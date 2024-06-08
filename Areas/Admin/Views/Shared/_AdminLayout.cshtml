@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    var currentAdmin = (CinemaWeb.Models.user)HttpContext.Current.Session["admin"];
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,7 +16,7 @@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
-    <link rel="stylesheet" href="~/Areas/Admin/assets/css/adminstyle.css">
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/adminstyle.css?v=1">
 </head>
 
 <body id="reportsPage">
@@ -21,28 +25,28 @@
             <div class="row align-items-center">
                 <div class="col-md-1"></div>
                 <div class="col-md-2 py-1">
-                    <a href="" class="navbar-brand">
+                    <a href="/Admin/AdminHome" style="margin-right: 2rem; display: flex;">
                         <img src="img/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
-                <div class="col-md-7">
-                    <ul class="list-gr-1 list-group list-group-horizontal">
+                <div class="col-md-6">
+                    <ul class="list-gr-1 list-group list-group-horizontal" style="display: flex; justify-content: center;">
                         <li class="list-group-item movie-area">
-                            <a href="homepage.html">
+                            <a href="/Admin/AdminHome">
                                 Trang chủ
                                 <i class="ti-angle-down down-btn"></i>
                             </a>
                         </li>
 
                         <li class="list-group-item movie-area">
-                            <a href="">
+                            <div>
                                 Quản lí rạp chiếu
                                 <i class="ti-angle-down down-btn"></i>
                                 <ul class="sub-list-gr-1 list-group">
                                     <li><a href="movie.html">Phim</a></li>
-                                    <li><a href="">Suất chiếu</a></li>
+                                    <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
                                 </ul>
-                            </a>
+                            </div>
                         </li>
                         <li class="list-group-item movie-area">
                             <a href="dailyreport.html">
@@ -52,37 +56,43 @@
                         </li>
 
                         <li class="list-group-item movie-area">
-                            <a href="">
+                            <div>
                                 Quản lí tài khoản
                                 <i class="ti-angle-down down-btn"></i>
                                 <ul class="sub-list-gr-1 list-group">
                                     <li><a href="staffManagement.html">Nhân viên</a></li>
                                     <li><a href="usersManagement.html">Khách hàng</a></li>
                                 </ul>
-                            </a>
+                            </div>
                         </li>
                     </ul>
                 </div>
                 <div class="login-area col-md-2">
-                    <button class="search-btn btn">
-                        <i class="search-icon ti-search"></i>
-                    </button>
-                    <div class="account-wrapper">
-                        <img src="img/account.png" alt="" class="img-fluid account-img">
-                        <ul class="list-group account-list">
-                            <li class="list-group-item">
-                                <a href="adminprofile.html">
-                                    <i class="fa-solid fa-id-badge account-icon"></i>
-                                    Tài Khoản
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="" class="js-logout">
-                                    <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
-                                    Đăng Xuất
-                                </a>
-                            </li>
-                        </ul>
+                    <div class="col-auto">
+                        <div class="show-login js-show-login">
+                            <div class="account-wrapper">
+                                <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                <ul class="list-group account-list">
+                                    <li class="list-group-item">
+                                        <a href="/Admin/AdminHome/AdminProfile">
+                                            <i class="fa-solid fa-id-badge account-icon"></i>
+                                            Tài Khoản
+                                        </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a href="/Home/SignOut" class="js-logout">
+                                            <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                            Đăng Xuất
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto" style=" display: flex; align-items: center;">
+                        <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                            @currentAdmin.full_name
+                        </div>
                     </div>
 
                 </div>
@@ -94,7 +104,8 @@
     <div class="container-fluid wrapper">
         <div class="container wrapper-content">
             <div class="row title-row">
-                <h4>TỔNG QUAN</h4>
+                <i class="fa-solid fa-gauge"></i>
+                <span class="link-name">Tổng quan</span>
             </div>
             <div class="row list">
                 <div class="col-md-3 frame">
@@ -171,8 +182,11 @@
                 <div class="col-md-3 frame">
                     <a href="dailyreport.html">
                         <div class="row frame-item">
-                            <div class="col-md-3 icon">
-                                <i class="fa-solid fa-dollar-sign"></i>
+                            <div class="col-md-3">
+                                <div class="circular-progress">
+                                    <span class="progress-value">0%</span>
+                                </div>
+
                             </div>
                             <div class="col-md-9 item">
                                 <p class="number">20</p>
@@ -182,15 +196,68 @@
                     </a>
                 </div>
             </div>
-            <div class="chart">
-                <canvas id="monthChart"></canvas>
+            <!-- <div class="col-md-6">
+                <div class="chart" >
+                    <canvas id="monthChart" ></canvas>
+                </div>
+            </div> -->
+            <div class="noti">
+                <div class="row noti-title">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="link-name">Thông báo</span>
+                </div>
+                <div class="outer">
+                    <div class="card" style="--delay:-1;">
+                        <div class="content">
+                            <div class="img"><img src="img/icon-rules.9c822007.png" alt=""></div>
+                            <div class="details">
+                                <span class="name">Vé</span>
+                                <p>Bạn có 20 đơn đặt chỗ mới!</p>
+                            </div>
+                            <a href="dailyreport.html"><i class="fa-solid fa-circle-info"></i></a>
+                        </div>
+                    </div>
+                    <div class="card" style="--delay:0;">
+                        <div class="content">
+                            <div class="img"><img src="img/icon-rules.9c822007.png" alt=""></div>
+                            <div class="details">
+                                <span class="name">Khách hàng</span>
+                                <p>Bạn có 20 khách hàng mới!</p>
+                            </div>
+                            <a href="usersManagement.html"><i class="fa-solid fa-circle-info"></i></a>
+                        </div>
+                    </div>
+                    <div class="card" style="--delay:1;">
+                        <div class="content">
+                            <div class="img"><img src="img/icon-rules.9c822007.png" alt=""></div>
+                            <div class="details">
+                                <span class="name">Vé</span>
+                                <p>Bạn có 20 đơn đặt chỗ mới!</p>
+                            </div>
+                            <a href="dailyreport.html"><i class="fa-solid fa-circle-info"></i></a>
+                        </div>
+                    </div>
+                    <div class="card" style="--delay:2;">
+                        <div class="content">
+                            <div class="img"><img src="img/icon-rules.9c822007.png" alt=""></div>
+                            <div class="details">
+                                <span class="name">Vé</span>
+                                <p>Bạn có 20 đơn đặt chỗ mới!</p>
+                            </div>
+                            <a href="dailyreport.html"><i class="fa-solid fa-circle-info"></i></a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('monthChart').getContext('2d');
+    @*<script>
+        //const ctx = document.getElementById('monthChart').getContext('2d');
 
         new Chart(ctx, {
             type: 'bar',
@@ -234,6 +301,22 @@
                 }
             }
         });
+    </script>*@
+    <script>
+        let circularProgress = document.querySelector(".circular-progress"),
+            progressValue = document.querySelector(".progress-value");
+        let progressStartValue = 0,
+            progressEndValue = 90,
+            speed = 100;
+
+        let progress = setInterval(() => {
+            progressStartValue++;
+            progressValue.textContent = `${progressStartValue}%`
+            circularProgress.style.background = `conic-gradient(#7d2ae8 ${progressStartValue * 3.6}deg, #ededed 0deg)`
+            if (progressStartValue == progressEndValue) {
+                clearInterval(progress);
+            }
+        }, speed);
     </script>
 </body>
 

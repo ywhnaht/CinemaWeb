@@ -371,35 +371,6 @@ button:focus {
     margin-right: 3rem;
 }
 
-.flatpickr-months .flatpickr-month {
-    background-color: #f58020;
-}
-
-.flatpickr-current-month .flatpickr-monthDropdown-months {
-    background-color: #f58020;
-}
-
-.flatpickr-weekdays {
-    background-color: #f58020;
-}
-
-.flatpickr-calender .arrowTop::after {
-    border-bottom-color: #f58020;
-}
-
-.flatpickr-calender .arrowBottom::after {
-    border-bottom-color: #f58020;
-}
-
-span.flatpickr-weekday {
-    background-color: #f58020;
-    color: white;
-}
-
-.flatpickr-day.today {
-    background-color: #f58020;
-}
-
 .list-report {
     margin-top: 4rem;
     margin-bottom: 2rem;

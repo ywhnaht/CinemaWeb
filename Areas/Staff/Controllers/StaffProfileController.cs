@@ -15,13 +15,10 @@ namespace CinemaWeb.Areas.Staff.Controllers
         {
             var currentUser = System.Web.HttpContext.Current.Session["staff"] as user;
 
-            if (currentUser == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
 
             // Truyền thông tin qua ViewBag
             ViewBag.CurrentUser = currentUser;
+            ViewBag.Name = currentUser.full_name;
 
             // Hoặc truyền qua Model
             return View(currentUser);
