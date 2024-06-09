@@ -238,6 +238,7 @@
     <Compile Include="Areas\Admin\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieController.cs" />
     <Compile Include="Areas\Admin\Controllers\ScheduleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\StaffController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffHomeController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffProfileController.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
@@ -363,6 +364,7 @@
     <Compile Include="SupportFile\RemoveSeatStatusJob.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\assets\css\staffmanage.css" />
     <Content Include="Areas\Admin\assets\css\schedule.css" />
     <Content Include="Areas\Admin\assets\css\bootstrap.min.css" />
     <Content Include="Areas\Admin\assets\css\fontawesome.min.css" />
@@ -1674,6 +1676,7 @@
     <Content Include="Areas\Admin\Views\Schedule\Index.cshtml" />
     <Content Include="Areas\Staff\Views\StaffProfile\StaffProfile.cshtml" />
     <Content Include="Areas\Staff\Views\StaffProfile\_ProfilePartialView.cshtml" />
+    <Content Include="Areas\Admin\Views\Staff\StaffList.cshtml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />

@@ -1,5 +1,6 @@
-﻿@{
-    var currentStaff = ViewBag.CurrentUser as CinemaWeb.Models.user;
+﻿@model CinemaWeb.Models.user
+@{
+    var currentStaff = ViewBag.CurrentUser;
 }
 
 
@@ -52,7 +53,7 @@
                         </div>
                         <div class="col-auto" style="align-items: center; display: flex;">
                             <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
-                                @(currentStaff?.full_name)
+                                @ViewBag.Name
                             </div>
                         </div>
                     </div>
