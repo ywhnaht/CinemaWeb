@@ -799,6 +799,7 @@
 }
 
 .seat-sold {
+    pointer-events: none;
     background-color: #d0d0d0;
     padding: 10px 10px;
     border: none;

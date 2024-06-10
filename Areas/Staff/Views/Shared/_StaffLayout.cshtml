@@ -135,11 +135,54 @@
             </div>
         </div>
 
+        <div class="toast-mess">
+            <div class="toast-mess-content">
+                <i class="fas fa-solid fa-check check"></i>
+                <i class="ti-close error"></i>
+                <div class="message">
+                    <span class="text text-1"></span>
+                    <span class="text text-2"></span>
+                </div>
+            </div>
+
+            <i class="fa-solid fa-xmark close"></i>
+            <div class="progress-btn"></div>
+        </div>
+
     </div>
     <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
+
+        let timer1, timer2;
+
+        function showtoastmess(success, message1, message2) {
+            $('.text-1').text(message1);
+            $('.text-2').text(message2);
+            if (success) {
+                $('.check').show();
+                $('.error').hide();
+            } else {
+                $('.check').hide();
+                $('.error').show();
+            }
+            $('.toast-mess').addClass("active");
+            $('.progress-btn').addClass("active");
+
+            timer1 = setTimeout(() => {
+                $('.toast-mess').removeClass("active");
+            }, 5000); // 1s = 1000 milliseconds
+
+            timer2 = setTimeout(() => {
+                $('.progress-btn').removeClass("active");
+            }, 5300);
+        }
+
+        if (sessionStorage.getItem('signinSuccess')) {
+            showtoastmess(true, 'Welcome', 'Đăng nhập thành công');
+            sessionStorage.removeItem('signinSuccess');
+        }
 
         var html5QrcodeScanner;
         var Id = ""

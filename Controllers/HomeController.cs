@@ -12,12 +12,15 @@ using System.Web.Security;
 using BCrypt.Net;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using Microsoft.AspNet.SignalR;
+using CinemaWeb.SupportFile;
 
 namespace CinemaWeb.Controllers
 {
     public class HomeController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
+        IHubContext _hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
         public void GetMovieStatus(List<movy> movielist)
         {
             DateTime currentDate = DateTime.Now;
@@ -41,6 +44,7 @@ namespace CinemaWeb.Controllers
         {
             List<movy> movielist = db.movies.ToList();
             GetMovieStatus(movielist);
+            db.SaveChanges();
             movielist = movielist.OrderByDescending(m => m.release_date).ToList();
             ViewBag.MovieList = movielist;
             return View();
@@ -123,8 +127,25 @@ namespace CinemaWeb.Controllers
                 newUser.date_of_birth = dateofbirth;
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(pass);
                 newUser.hashed_pass = hashedPassword;
+                newUser.created = DateTime.Now;
                 db.users.Add(newUser);
                 db.SaveChanges();
+
+                var adminList = db.users.Where(x => x.user_type == 2).ToList();
+                var adminNotice = new notification();
+                foreach (var admin in adminList)
+                {
+                    adminNotice.user_id = admin.id;
+                    adminNotice.content = "Khách hàng mới";
+                    adminNotice.sub_content = "Người dùng " + newUser.full_name + " đã đăng ký tài khoản thành công!";
+                    adminNotice.date_create = DateTime.Now;
+                    adminNotice.status = false;
+                    db.notifications.Add(adminNotice);
+                    db.SaveChanges();
+                }
+
+                _hubContext.Clients.All.broadcastNotification(adminNotice.content, adminNotice.sub_content);
+
                 Session["user"] = newUser;
                 return RedirectToLocal(returnUrl, "Index", "UserHome", "User");
             }

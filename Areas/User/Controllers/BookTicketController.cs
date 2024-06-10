@@ -1,6 +1,8 @@
 ﻿using CinemaWeb.App_Start;
 using CinemaWeb.Models;
+using CinemaWeb.SupportFile;
 using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using QRCoder;
@@ -27,6 +29,7 @@ namespace CinemaWeb.Areas.User.Controllers
     public class BookTicketController : Controller
     {
         Cinema_Web_Entities db = new Cinema_Web_Entities();
+        IHubContext _hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
         public enum RoleName
         {
             AddMovie = 1, 
@@ -581,18 +584,22 @@ namespace CinemaWeb.Areas.User.Controllers
                         notification.date_create = DateTime.Now;
                         db.notifications.Add(notification);
                         db.SaveChanges();
-                        //var chosenSeat = db.seat_status.Where(x => x.room_schedule_detail_id == invoiceItem.room_schedule_detail_id && x.is_booked == true).ToList();
-                        //var invoiceData = new
-                        //{
-                        //    InvoiceId = invoiceItem.id,
-                            //UserId = invoiceItem.user_id,
-                            //TotalMoney = invoiceItem.total_money,
-                            //MovieName = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.movy.title,
-                            //Date = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1,
-                            //Schedule = invoiceItem.room_schedule_detail.schedule_detail.schedule.schedule_time,
-                            //RoomName = invoiceItem.room_schedule_detail.room.room_name,
-                            //Seat = invoiceItem.tickets.Select(t => new { t.seat.seat_row, t.seat.seat_column, t.seat.price })
-                        //};
+
+                        var adminList = db.users.Where(x => x.user_type == 2).ToList();
+                        var adminNotice = new notification();
+                        foreach (var admin in adminList)
+                        {
+                            adminNotice.user_id = admin.id;
+                            adminNotice.content = "Vé";
+                            adminNotice.sub_content = "Người dùng " + invoiceItem.user.full_name + " đã đặt vé thành công!";
+                            adminNotice.date_create = DateTime.Now;
+                            adminNotice.status = false;
+                            db.notifications.Add(adminNotice);
+                            db.SaveChanges();
+                        }
+                        
+
+                        _hubContext.Clients.All.broadcastNotification(adminNotice.content, adminNotice.sub_content);
 
                         string invoiceDataJson = JsonConvert.SerializeObject(invoiceItem.id); 
                         CreateQrCode(invoiceDataJson, invoiceItem);

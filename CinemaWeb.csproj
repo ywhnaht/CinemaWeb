@@ -68,6 +68,12 @@
     <Reference Include="Hangfire.Core, Version=1.8.12.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Hangfire.Core.1.8.12\lib\net46\Hangfire.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.SignalR.Core.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -237,8 +243,10 @@
     <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Admin\Controllers\MovieController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RevenueController.cs" />
     <Compile Include="Areas\Admin\Controllers\ScheduleController.cs" />
     <Compile Include="Areas\Admin\Controllers\StaffController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffHomeController.cs" />
     <Compile Include="Areas\Staff\Controllers\StaffProfileController.cs" />
     <Compile Include="Areas\Staff\StaffAreaRegistration.cs" />
@@ -359,11 +367,14 @@
     <Compile Include="Startup.cs" />
     <Compile Include="SupportFile\ChangeSeatStatusJob.cs" />
     <Compile Include="SupportFile\DeleteNotificationJob.cs" />
+    <Compile Include="SupportFile\NotificationHub.cs" />
     <Compile Include="SupportFile\NotificationJob.cs" />
     <Compile Include="SupportFile\RemoveInvoiceJob.cs" />
     <Compile Include="SupportFile\RemoveSeatStatusJob.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\assets\css\revenue.css" />
+    <Content Include="Areas\Admin\assets\css\usermanage.css" />
     <Content Include="Areas\Admin\assets\css\staffmanage.css" />
     <Content Include="Areas\Admin\assets\css\schedule.css" />
     <Content Include="Areas\Admin\assets\css\bootstrap.min.css" />
@@ -907,6 +918,7 @@
     <Content Include="Areas\User\assets\js\bootstrap.js" />
     <Content Include="Areas\User\assets\js\bootstrap.min.js" />
     <Content Include="assets\images\subimg\download.png" />
+    <Content Include="assets\images\subimg\icon-rules.9c822007.png" />
     <Content Include="assets\images\subimg\ohayoucinema.svg" />
     <Content Include="assets\js\ajax-functions.js" />
     <Content Include="assets\js\signup.js" />
@@ -1677,6 +1689,8 @@
     <Content Include="Areas\Staff\Views\StaffProfile\StaffProfile.cshtml" />
     <Content Include="Areas\Staff\Views\StaffProfile\_ProfilePartialView.cshtml" />
     <Content Include="Areas\Admin\Views\Staff\StaffList.cshtml" />
+    <Content Include="Areas\Admin\Views\User\UserList.cshtml" />
+    <Content Include="Areas\Admin\Views\Revenue\OveralRevenue.cshtml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
@@ -1686,6 +1700,8 @@
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

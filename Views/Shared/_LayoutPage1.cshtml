@@ -270,6 +270,7 @@
                         $('.error-message').text(data.message)
                     }
                     else {
+                        sessionStorage.setItem('signinSuccess', true);
                         var returnUrl = sessionStorage.getItem('returnUrl');
                         sessionStorage.removeItem('returnUrl');
                         if (returnUrl) {
@@ -357,6 +358,7 @@
                     if (data.success === false)
                         $('.response-mess').text(data.message)
                     else {
+                        sessionStorage.setItem('signupSuccess', true);
                         var returnUrl = sessionStorage.getItem('returnUrl');
                         sessionStorage.removeItem('returnUrl');
                         if (returnUrl) {

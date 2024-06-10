@@ -427,6 +427,45 @@ namespace CinemaWeb.Areas.Admin.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult SearchSchedule(string query, DateTime displayDate)
+        {
+            var schedules = (from mdd in db.movie_display_date
+                             join d in db.display_date on mdd.display_date_id equals d.id
+                             join sd in db.schedule_detail on mdd.id equals sd.movie_display_date_id
+                             join s in db.schedules on sd.schedule_id equals s.id
+                             join rsd in db.room_schedule_detail on sd.id equals rsd.schedule_detail_id
+                             join r in db.rooms on rsd.room_id equals r.id
+                             join m in db.movies on mdd.movie_id equals m.id
+                             where (m.title.Contains(query) || r.room_name.Contains(query)) && d.display_date1 == displayDate
+                             orderby s.id
+                             select new
+                             {
+                                 MovieId = m.id,
+                                 MovieTitle = m.title,
+                                 MovieImage = m.url_image,
+                                 Duration = m.duration_minutes,
+                                 ShowTimes = s.schedule_time,
+                                 RoomId = rsd.room_id,
+                             }).ToList();
+
+            if (schedules.Any())
+            {
+                var movieList = schedules.GroupBy(m => new { m.MovieId, m.MovieTitle, m.MovieImage, m.Duration })
+                  .Select(g => new
+                  {
+                      MovieId = g.Key.MovieId,
+                      MovieTitle = g.Key.MovieTitle,
+                      MovieImage = g.Key.MovieImage,
+                      Duration = g.Key.Duration,
+                      ShowTimes = g.Select(m => m.ShowTimes.Value.ToString(@"hh\:mm")).ToList()
+                  }).ToList();
+
+                return Json(new { success = true, movieList}, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false, message = "Không tìm thấy suất chiếu" }, JsonRequestBehavior.AllowGet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

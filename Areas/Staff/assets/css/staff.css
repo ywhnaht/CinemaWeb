@@ -402,12 +402,125 @@ html {
   border-radius: 5px;
   margin-bottom: 1rem;
   margin-top: 1rem;
-  text-decoration: none important;
+  text-decoration: none !important;
 }
 
 .html5-qrcode-element:hover{
   background-color: #f58020;
   cursor: pointer;
 }
-  
+
+/* toast-mess message */
+.toast-mess {
+    position: fixed;
+    top: 25px;
+    right: 30px;
+    border-radius: 12px;
+    background: #fff;
+    padding: 12px 30px 10px 20px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    border-left: 6px solid #4070f4;
+    overflow: hidden;
+    transform: translateX(calc(100% + 30px));
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+    display: flex !important;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+}
+
+    .toast-mess.active {
+        transform: translateX(0%);
+    }
+
+    .toast-mess .toast-mess-content {
+        display: flex;
+        align-items: center;
+    }
+
+.toast-mess-content .check {
+    display: flex;
+    margin-right: 2rem;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    width: 35px;
+    background-color: #4070f4;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.toast-mess-content .error {
+    display: flex;
+    margin-right: 2rem;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    width: 35px;
+    background-color: red;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 900;
+    border-radius: 50%;
+}
+
+.toast-mess-content .message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.message .text {
+    font-size: 15px;
+    font-weight: 400;
+    color: #666666;
+}
+
+    .message .text.text-1 {
+        font-weight: 600;
+        color: #333;
+    }
+
+.toast-mess .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+    .toast-mess .close:hover {
+        opacity: 1;
+    }
+
+.toast-mess .progress-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: #ddd;
+}
+
+    .toast-mess .progress-btn:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #4070f4;
+    }
+
+.progress-btn.active:before {
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    100% {
+        right: 100%;
+    }
+}
 

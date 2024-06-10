@@ -20,15 +20,17 @@
 </head>
 <body id="reportsPage">
     <div class="header">
-        <div class="container-fluid  p-4">
+        <div class="container-fluid p-4">
             <div class="row align-items-center">
-                <div class="col-md-1"></div>
-                <div class="col-md-2 py-1">
-                    <a href="/Admin/AdminHome" style="margin-right: 2rem">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2 px-4 py-1">
+                    <a href="/User/UserHome/" class="navbar-brand">
                         <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
-                <div class="col-md-6">
+
+                <div class="col-md-6" style=" display: flex; justify-content: center; align-items: center;">
                     <ul class="list-gr-1 list-group list-group-horizontal">
                         <li class="list-group-item movie-area">
                             <a href="/Admin/AdminHome">
@@ -37,63 +39,59 @@
                             </a>
                         </li>
 
-                        <li class="list-group-item movie-area">
-                            <a href="">
-                                Quản lí rạp chiếu
-                                <i class="ti-angle-down down-btn"></i>
-                                <ul class="sub-list-gr-1 list-group">
-                                    <li><a href="movie.html">Phim</a></li>
-                                    <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
-                                </ul>
-                            </a>
-                        </li>
-                        <li class="list-group-item movie-area">
-                            <a href="dailyreport.html">
-                                Doanh thu
-                                <i class="ti-angle-down down-btn"></i>
-                            </a>
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí rạp chiếu
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Movie/AllMovie">Phim</a></li>
+                                <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
+                            </ul>
                         </li>
 
-                        <li class="list-group-item movie-area">
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí tài khoản
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Staff/StaffList">Nhân viên</a></li>
+                                <li><a href="/Admin/User/UserList">Khách hàng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item movie-area text-center">
                             <a href="">
-                                Quản lí tài khoản
+                                Doanh thu
                                 <i class="ti-angle-down down-btn"></i>
-                                <ul class="sub-list-gr-1 list-group">
-                                    <li><a href="/Admin/Staff/StaffList">Nhân viên</a></li>
-                                    <li><a href="/Admin/User/UserList">Khách hàng</a></li>
-                                </ul>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div class="login-area col-md-2">
-                    <div class="col-auto">
-                        <div class="show-login js-show-login">
-                            <div class="account-wrapper">
-                                <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
-                                <ul class="list-group account-list">
-                                    <li class="list-group-item">
-                                        <a href="/Admin/AdminHome/AdminProfile">
-                                            <i class="fa-solid fa-id-badge account-icon"></i>
-                                            Tài Khoản
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="/Home/SignOut" class="js-logout">
-                                            <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
-                                            Đăng Xuất
-                                        </a>
-                                    </li>
-                                </ul>
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-auto" style=" display: flex; align-items: center;">
-                        <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
-                            @*@currentAdmin.full_name*@
+                        <div class="col-auto">
+                            @*@RenderSection("UserName", required: false)*@
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
