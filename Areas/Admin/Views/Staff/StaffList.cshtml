@@ -65,7 +65,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="login-area col-md-2">
+                <div class="login-area col-md-3">
                     <div class="row">
                         <div class="col-auto">
                             <div class="show-login js-show-login">
@@ -88,8 +88,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-auto">
-                            @*@RenderSection("UserName", required: false)*@
+                        <div class="col-auto" style="display: flex; align-items: center;">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                @currentAdmin.full_name
+                            </div>
                         </div>
                     </div>
                 </div>

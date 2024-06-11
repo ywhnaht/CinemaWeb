@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentAdmin = (CinemaWeb.Models.user)HttpContext.Current.Session["admin"];
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -58,7 +62,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="login-area col-md-2">
+                <div class="login-area col-md-3">
                     <div class="row">
                         <div class="col-auto">
                             <div class="show-login js-show-login">
@@ -81,8 +85,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-auto">
-                            @*@RenderSection("UserName", required: false)*@
+                        <div class="col-auto" style="display: flex; align-items: center;">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                @currentAdmin.full_name
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -104,8 +110,8 @@
             </div>
         </div>
         <div class="wrapper-content">
-            
-            <table  class="table table-striped">
+
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Tên</th>
@@ -135,8 +141,8 @@
         searchIcon.addEventListener("click", () => inputBox.classList.add("open"));
         closeIcon.addEventListener("click", () => inputBox.classList.remove("open"));
     </script>
-</body >
-</html >
+</body>
+</html>
 
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>

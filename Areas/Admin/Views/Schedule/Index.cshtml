@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var currentAdmin = (CinemaWeb.Models.user)HttpContext.Current.Session["admin"];
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -54,14 +58,14 @@
                         </li>
 
                         <li class="list-group-item movie-area text-center">
-                            <a href="">
+                            <a href="/Admin/Revenue/OveralRevenue">
                                 Doanh thu
                                 <i class="ti-angle-down down-btn"></i>
                             </a>
                         </li>
                     </ul>
                 </div>
-                <div class="login-area col-md-2">
+                <div class="login-area col-md-3">
                     <div class="row">
                         <div class="col-auto">
                             <div class="show-login js-show-login">
@@ -84,8 +88,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-auto">
-                            @*@RenderSection("UserName", required: false)*@
+                        <div class="col-auto" style="display: flex; align-items: center;">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                @currentAdmin.full_name
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -113,7 +119,7 @@
                         <i class="uil uil-search search-icon"></i>
                     </span>
                     <i class="uil uil-times close-icon"></i>
-                </div>     
+                </div>
 
                 <button type="button" class="report-btn" data-bs-toggle="modal" data-bs-target="#scheduleModal">
                     Thêm suất chiếu
@@ -418,7 +424,7 @@
         });
     })
 
-    $(document).on('click', '.room-item', function (e) { 
+    $(document).on('click', '.room-item', function (e) {
         roomId = parseInt($(this).attr('id').substring(5));
         console.log("Room " + roomId)
         var selectedDate = $('#selectedDate').val();
@@ -527,7 +533,7 @@
         });
     })
 
-    
+
 
     $(document).on('click', '.movie-schedule span', function () {
         var id = $(this).attr('id');
@@ -602,7 +608,7 @@
         updateRemoveButtonState();
     });
 
-    function getScheduleDetail () {
+    function getScheduleDetail() {
         $('.open-modal').click(function () {
             var movieId = $(this).data('movie-id');
             var displayDate = $(this).data('display-date');
@@ -670,7 +676,7 @@
                     var availableSeats = totalSeats - bookedSeats;
 
                     $.each(seatList, function (index, seat) {
-                        var row = seat.Seat.charAt(0); 
+                        var row = seat.Seat.charAt(0);
                         if (!groupedSeats[row]) {
                             groupedSeats[row] = [];
                         }
@@ -693,7 +699,7 @@
                             }
                             else {
                                 seatHtml += '<span class="seat col-md-1 mx-2">' + seat.Seat + '</span> ';
-                            } 
+                            }
                         });
                         seatHtml += '</div>';
                     });
@@ -724,7 +730,7 @@
         $(document).on('click', '.removeBtn', function () {
             $('#removeSchedule').modal('show')
             $('#schedule-detail').modal('hide')
-            
+
             $(document).on('click', '.confirmBtn', function () {
                 $.ajax({
                     url: '/Admin/Schedule/RemoveSchedule',

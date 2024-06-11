@@ -1681,10 +1681,6 @@
     <Content Include="Areas\Staff\Views\Shared\_StaffLayout.cshtml" />
     <Content Include="Areas\Staff\Views\StaffHome\Index.cshtml" />
     <Content Include="Areas\Staff\Views\StaffHome\StaffProfile.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Schedule\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Schedule\Index.cshtml" />
     <Content Include="Areas\Staff\Views\StaffProfile\StaffProfile.cshtml" />
     <Content Include="Areas\Staff\Views\StaffProfile\_ProfilePartialView.cshtml" />
