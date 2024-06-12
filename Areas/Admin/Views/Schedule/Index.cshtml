@@ -115,7 +115,7 @@
             <div class="getdate">
                 <div class="input-box">
                     <input type="text" id="search-schedule" value="" placeholder="Tìm kiếm...">
-                    <span class="icon">
+                    <span class="icon" style=" position: absolute; height: 100%; top: 0; left: 0; width: 60px; border-radius: 6px; display: flex; justify-content: center; background-color: #fff;">
                         <i class="uil uil-search search-icon"></i>
                     </span>
                     <i class="uil uil-times close-icon"></i>
@@ -574,8 +574,10 @@
                     updateScheduleList(selectedDate, selectRoom)
                     showtoastmess(true, 'Thành công', 'Thêm suất chiếu thành công!')
                 }
-                else
-                    showtoastmess(false, 'Lỗi', 'Không thể thêm suất chiếu!')
+                else {
+                    $('#scheduleModal').modal('hide')
+                    showtoastmess(false, 'Lỗi', response.message)
+                }
             },
             error: function (err) {
                 console.log(err)
@@ -734,6 +736,13 @@
             if (scheduleDetailId.length === 0) {
                 $('#schedule-detail').modal('hide')
                 showtoastmess(false,"Lỗi", "Vui lòng chọn ít nhất một suất chiếu để xóa!");
+                return;
+            }
+
+            var bookedSeat = $('.seat-sold').length;
+            if (bookedSeat != 0) {
+                $('#schedule-detail').modal('hide')
+                showtoastmess(false, "Lỗi", "Không thể xóa suất chiếu đã có ghế được chọn!");
                 return;
             }
             $('#removeSchedule').modal('show')

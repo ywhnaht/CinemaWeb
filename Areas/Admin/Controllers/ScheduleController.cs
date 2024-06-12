@@ -261,7 +261,41 @@ namespace CinemaWeb.Areas.Admin.Controllers
             int[] scheduleDetail = chosenSchedule.ToObject<int[]>();
             var movieItem = db.movies.FirstOrDefault(x => x.id == movieId);
             var movieDisplayDate = db.movie_display_date.FirstOrDefault(x => x.display_date.display_date1 == displaydate && x.movie_id == movieId);
+            TimeSpan bufferTime = TimeSpan.FromMinutes(30);
             TimeSpan duration = TimeSpan.FromMinutes(int.Parse(movieItem.duration_minutes));
+            var existingSchedules = new List<schedule>();
+            foreach (var scheduleId in scheduleDetail)
+            {
+                var scheduleTime = db.schedules.FirstOrDefault(x => x.id == scheduleId);
+                if (scheduleTime == null)
+                {
+                    continue;
+                }
+                existingSchedules.Add(scheduleTime);
+            }
+
+            for (int i = 0; i < existingSchedules.Count; i++)
+            {
+                for (int j = i + 1; j < existingSchedules.Count; j++)
+                {
+                    var startTime1 = existingSchedules[i].schedule_time;
+                    var startTime2 = existingSchedules[j].schedule_time;
+
+                    if (startTime1.HasValue && startTime2.HasValue)
+                    {
+                        TimeSpan endTime1 = (startTime1.Value + duration + bufferTime).TotalHours >= 24
+                                            ? (startTime1.Value + duration + bufferTime).Subtract(new TimeSpan(24, 0, 0))
+                                            : startTime1.Value + duration + bufferTime;
+
+                        if ((startTime2.Value >= startTime1.Value && startTime2.Value < endTime1) ||
+                            (startTime1.Value >= startTime2.Value && startTime1.Value < (startTime2.Value + duration + bufferTime)))
+                        {
+                            return Json(new { success = false, message = "Vui lòng chọn các suất chiếu cách nhau " + (duration + bufferTime) + " phút!" });
+                        }
+                    }
+                }
+            }
+
             foreach (var scheduleId in scheduleDetail)
             {
                 var scheduleTime = db.schedules.FirstOrDefault(x => x.id == scheduleId)?.schedule_time;
@@ -270,10 +304,9 @@ namespace CinemaWeb.Areas.Admin.Controllers
                     continue;
                 }
                 TimeSpan startTime = scheduleTime.Value;
-                TimeSpan endTime = (startTime + duration).TotalHours >= 24
-                                    ? (startTime + duration).Subtract(new TimeSpan(24, 0, 0))
-                                    : startTime + duration;
-
+                TimeSpan endTime = (startTime + duration + bufferTime).TotalHours >= 24
+                            ? (startTime + duration + bufferTime).Subtract(new TimeSpan(24, 0, 0))
+                            : startTime + duration + bufferTime;
 
                 var _schedule = new schedule_detail
                 {

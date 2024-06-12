@@ -169,18 +169,6 @@
     margin-bottom: 2rem;
 }
 
-.search-icon {
-    font-size: 15px;
-    font-weight: 500;
-}
-
-.search-btn {
-    border: none;
-    padding-right: 0px;
-    margin-right: 0px;
-    color: #777777;
-    margin-left: 70px;
-}
 
 .login-area {
     display: flex;
@@ -872,18 +860,6 @@ span.flatpickr-weekday {
     font-size: 16px;
     font-weight: 400;
     color: #333;
-    background-color: #fff;
-}
-
-.icon {
-    position: absolute;
-    height: 100%;
-    top: 0;
-    left: 0;
-    width: 60px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: center;
     background-color: #fff;
 }
 

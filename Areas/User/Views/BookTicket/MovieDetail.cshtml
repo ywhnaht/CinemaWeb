@@ -562,11 +562,11 @@
                             </p>
                             <p>
                                 <span class="introduce">
-                                    <a href="playing.html">Phim mới</a>
+                                    <a href="/User/UserHome">Phim mới</a>
                                     <strong>@ViewBag.movieItem.title</strong>
                                     &nbsp;dự kiến ra mắt tại
                                     <em>
-                                        <a href="/User/UserHome/">Ohayou Cinema</a>
+                                        <a href="/User/UserHome/OhayouCinema">Ohayou Cinema</a>
                                     </em>
                                     từ @ViewBag.movieItem.release_date.ToString("dd/MM/yyyy")
                                 </span>
@@ -657,7 +657,7 @@
                     <div class="row bonus" style="margin: 0; padding-bottom: 1rem;">
                         <div style=" justify-content: flex-end; padding: 0; display: flex;">
                             <button type="button" class="new-mv">
-                                <a href="playing.html" class="">
+                                <a href="/User/UserHome" class="">
                                     Xem thêm
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="angle-right" class="svg-inline--fa fa-angle-right ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="width: 15px; height:15px; "><path fill="currentColor" d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"></path></svg>
                                 </a>
@@ -953,6 +953,7 @@
         localStorage.setItem('selectedMovieId', selectedMovieId);
         localStorage.setItem('selectedDateId', selectedDateId);
         localStorage.setItem('selectedScheduleId', scheduleId);
+
         // Chuyển trang BookTicket
         $.ajax({
             url: '/Home/CheckLoginStatus',
@@ -1036,7 +1037,7 @@
                 }
             });
         });
-});
+    });
 
     $(document).ready(function () {
         $('#trailer').on('show.bs.modal', function (event) {
@@ -1061,6 +1062,13 @@
         });
     });
 
+    $(document).on('click', '.date-time-item', function () {
+        RemoveAllSchedule()
+        $(this).addClass('hovered')
+    })
 
+    function RemoveAllSchedule() {
+        $('.date-time-item').removeClass('hovered')
+    }
 
 </script>

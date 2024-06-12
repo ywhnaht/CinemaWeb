@@ -307,6 +307,19 @@
                 </div>
             </div>
         </div>
+        <div class="toast-mess">
+            <div class="toast-mess-content">
+                <i class="fas fa-solid fa-check check"></i>
+                <i class="ti-close error"></i>
+                <div class="message">
+                    <span class="text text-1"></span>
+                    <span class="text text-2"></span>
+                </div>
+            </div>
+
+            <i class="fa-solid fa-xmark close"></i>
+            <div class="progress-btn"></div>
+        </div>
     </div>
     <div class="footer">
     </div>
@@ -318,6 +331,30 @@
 
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+    let timer1, timer2;
+
+    function showtoastmess(success, message1, message2) {
+        $('.text-1').text(message1);
+        $('.text-2').text(message2);
+        if (success) {
+            $('.check').show();
+            $('.error').hide();
+        } else {
+            $('.check').hide();
+            $('.error').show();
+        }
+        $('.toast-mess').addClass("active");
+        $('.progress-btn').addClass("active");
+
+        timer1 = setTimeout(() => {
+            $('.toast-mess').removeClass("active");
+        }, 5000); // 1s = 1000 milliseconds
+
+        timer2 = setTimeout(() => {
+            $('.progress-btn').removeClass("active");
+        }, 5300);
+    }
+
     function getDayOfWeek(dateitem) {
         var days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
         return days[dateitem.getDay()];
@@ -598,6 +635,7 @@
             data: { scheduleId: selectedScheduleId, displaydateId: selectedDateId, movieId: selectedMovieId },
             success: function (data)
             {
+                resetCountdown()
                 var results = data;
                 $('.seat-container').html('')
                 var seattextDiv = $('<div></div>').addClass('row')
@@ -732,7 +770,7 @@
             removeSeat(seatRow, seatNum);
         } else {
             if (selectedSeats >= 6) {
-                alert('Bạn chỉ được chọn tối đa 6 ghế!')
+                showtoastmess(false, 'Lưu ý','Bạn chỉ được chọn tối đa 6 ghế!')
                 return
             }
             $(this).addClass('seat-selected');
@@ -808,28 +846,6 @@
             $("#timer-clock").text(countdownString);
         }
     }
-
-    //function holdSeat(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats) {
-    //    var data = {
-    //        movieId: movieId,
-    //        displaydateId: displaydateId,
-    //        scheduleId: scheduleId,
-    //        roomId: roomId,
-    //        chosenSeats: chosenSeats,
-    //        discountId: selectedDiscount ? selectedDiscount.id : null
-    //    };
-    //    $.ajax({
-    //        url: "/User/BookTicket/HoldSeat",
-    //        type: "POST",
-    //        contentType: 'application/json',
-    //        data: JSON.stringify(data), // Gửi dữ liệu JSON
-    //        success: function (response) {
-    //            if (!response.success) {
-
-    //            }
-    //        },
-    //    })
-    //}
 
     function removeHoldSeat(selectedMovieId, selectedDateId, selectedScheduleId, selectedRoomId, chosenSeats) {
         var data = {
@@ -1000,7 +1016,7 @@
                     }
                 }
                 else {
-                    // Hiện thông báo ghế đã được đặt
+                    showtoastmess(false, "Lỗi", response.message)
                 }
             },
         })
@@ -1064,30 +1080,37 @@
 
     $(document).ready(function () {
         var MovieId = localStorage.getItem('selectedMovieId');
+        var DateId = localStorage.getItem('selectedDateId');
+        var ScheduleId = localStorage.getItem('selectedScheduleId');
+
         if (MovieId) {
+            console.log('Selected Movie ID:', MovieId);
             $(".sub-movie-list1[data-movieId='" + MovieId + "']").trigger('click');
             localStorage.removeItem('selectedMovieId');
         }
 
-        var DateId = localStorage.getItem('selectedDateId');
+       
         if (DateId) {
             setTimeout(function () {
-                console.log(DateId);
-                $(".date-time-item[data-displaydateId='" + DateId + "']").trigger('click');
-                $(".date-time-item a[data-displaydateId='" + DateId + "']").trigger('click');
+                console.log('Selected Date ID:', DateId);
+                selectDate(DateId, MovieId)
+                //$(".date-time-item a[data-displaydateId='" + DateId + "']").trigger('click');
+               /* $(".date-time-item[data-displaydateId='" + DateId + "']").trigger('click');*/
                 localStorage.removeItem('selectedDateId');
             }, 1000); // Đặt độ trễ 500ms (0.5 giây)
         }
 
-        var ScheduleId = localStorage.getItem('selectedScheduleId');
         if (ScheduleId) {
+            console.log('Selected Schedule ID:', ScheduleId);
             setTimeout(function () {
                 console.log(ScheduleId);
-                $(".time-item[data-scheduleId='" + ScheduleId + "']").trigger('click');
-                $(".time-btn a[data-scheduleId='" + ScheduleId + "']").trigger('click');
+                selectSchedule(ScheduleId, DateId, MovieId)
+                //$(".time-btn a[data-scheduleId='" + ScheduleId + "']").trigger('click');
+                //$(".time-item[data-scheduleId='" + ScheduleId + "']").trigger('click');
                 localStorage.removeItem('selectedScheduleId');
             }, 1500); // Đặt độ trễ 1000ms (1 giây)
         }
     });
+
 
 </script>
