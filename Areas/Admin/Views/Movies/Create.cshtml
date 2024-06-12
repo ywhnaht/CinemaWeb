@@ -1,149 +1,213 @@
-﻿@model CinemaWeb.Models.movy
+@model CinemaWeb.Models.movy
 
 @{
-    Layout = null;
+    ViewBag.Title = "Create";
 }
 
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Create</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" href="img/cinema-logo.png" type="image/png">
+    <title>Admin - Add Movie</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
+    <link rel="stylesheet" href="~/Admin/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="~/Admin/webfonts/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="~/Admin/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="~/Admin/text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/addMovie.css">
 </head>
-<body>
-    @using (Html.BeginForm()) 
-    {
-        @Html.AntiForgeryToken()
-        
-        <div class="form-horizontal">
-            <h4>movy</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.director_id, "director_id", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("director_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.director_id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.type_id, "type_id", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("type_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.type_id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.release_date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.release_date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.release_date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.end_date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.end_date, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.end_date, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.duration_minutes, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.duration_minutes, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.duration_minutes, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.country_id, "country_id", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("country_id", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.country_id, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.created_at, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.created_at, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.created_at, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.movie_status, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <div class="checkbox">
-                        @Html.EditorFor(model => model.movie_status)
-                        @Html.ValidationMessageFor(model => model.movie_status, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.url_image, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.url_image, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.url_image, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.rating, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.rating, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.rating, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.url_trailer, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.url_trailer, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.url_trailer, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                @Html.LabelFor(model => model.url_large_image, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.url_large_image, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.url_large_image, "", new { @class = "text-danger" })
-                </div>
-            </div>
-    
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }
-    
-    <div>
-        @Html.ActionLink("Back to List", "Index")
+
+<body id="reportsPage">
+    <div class="header">
     </div>
+    <div class="line-default"></div>
+
+    <div class="container-fluid wrapper">
+        <div class="container update-box">
+            <h2>NHẬP THÔNG TIN PHIM</h2>
+            @using (Html.BeginForm("Create", "Movies", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row tm-edit-product-row">
+                    <div class="col-xl-6 col-lg-6 col-md-12">
+                        <div class="subform-group">
+                            <label for="email">Tên phim</label>
+                            <div class="subform">
+                                <i class="fa-solid fa-clapperboard sub-icon"></i>
+                                @Html.TextBoxFor(model => model.title, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="subform-group">
+                            <label for="email">Mô tả</label>
+                            <div class="subform">
+                                <i class="fa-solid fa-pen sub-icon"></i>
+                                @Html.TextAreaFor(model => model.description, 6, 50, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="search-content-item">
+                            <div class="date">
+                                <label for="email">Thể loại</label>
+                                @Html.DropDownList("type_id", null, htmlAttributes: new { @class = "btn dropdown-toggle choose-btn" })
+                                <ul class="dropdown-menu list-option">
+                                    @Html.ValidationMessageFor(model => model.type_id, "", new { @class = "text-danger" })
+                                </ul>
+                            </div>
+                            <div class="date">
+                                <label for="email">Quốc gia</label>
+                                @Html.DropDownList("country_id", null, htmlAttributes: new { @class = "btn dropdown-toggle choose-btn" })
+                                <ul class="dropdown-menu list-option">
+                                    @Html.ValidationMessageFor(model => model.country_id, "", new { @class = "text-danger" })
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="search-content-item">
+                            <div class="date">
+                                <label for="email">Thời lượng (phút)</label>
+                                <div class="dropdown">
+                                    @Html.EditorFor(model => model.duration_minutes, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.duration_minutes, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="date">
+                                <label for="email">Rating phim</label>
+                                <div class="dropdown">
+                                    @Html.EditorFor(model => model.rating, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.rating, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="search-content-item">
+                            <div class="date">
+                                <label for="email">Ngày công chiếu</label>
+                                <div class="dropdown">
+                                    <i class="far fa-calendar-alt sub-icon"></i>
+                                    @Html.EditorFor(model => model.release_date, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                    @Html.ValidationMessageFor(model => model.release_date, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="date">
+                                <label for="email">Ngày kết thúc</label>
+                                <div class="dropdown">
+                                    <i class="far fa-calendar-alt sub-icon"></i>
+                                    @Html.EditorFor(model => model.end_date, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                    @Html.ValidationMessageFor(model => model.end_date, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subform-group">
+                            <label for="director_name">Đạo diễn</label>
+                            <div class="subform">
+                                <i class="fa-solid fa-video sub-icon"></i>
+                                @Html.EditorFor(model => model.director_name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.director_name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="subform-group">
+                            <label for="actors">Diễn viên</label>
+                            <div id="actors-container" class="subform">
+                                <!-- Actors will be dynamically added here -->
+                            </div>
+                            <button type="button" id="add-actor-btn" class="btn btn-primary addBtn">+</button>
+                        </div>
+
+                        <div class="subform-group">
+                            <label for="email">Trailer phim</label>
+                            <div class="subform">
+                                <i class="fa-solid fa-clapperboard sub-icon"></i>
+                                @Html.TextBoxFor(model => model.url_trailer, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.url_trailer, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+                        <div class="mv-img">
+                            <div class="upload-img">
+                                <i class="fas">
+                                    <img id="largeImagePreview" src="" alt="Hình ảnh ngang" class="img-fluid d-block mx-auto" />
+                                    @Html.ValidationMessageFor(model => model.url_large_image, "", new { @class = "text-danger" })
+                                </i>
+                            </div>
+                            <div class="custom-file mt-3 mb-3">
+                                <input id="fileLargeImage" name="fileLargeImage" type="file" style="display:none;" onchange="previewImage(event, 'largeImagePreview')" />
+                                <input type="button" class="btn btn-primary addBtn mx-auto" value="Ảnh ngang" onclick="document.getElementById('fileLargeImage').click();" />
+                            </div>
+                        </div>
+                        <div class="mv-img">
+                            <div class="upload-img">
+                                <i class="fas">
+                                    <img id="imagePreview" src="" alt="Hình ảnh dọc" class="img-fluid d-block mx-auto" />
+                                    @Html.ValidationMessageFor(model => model.url_image, "", new { @class = "text-danger" })
+                                </i>
+                            </div>
+                            <div class="custom-file mt-3 mb-3">
+                                <input id="fileImage" name="fileImage" type="file" style="display:none;" onchange="previewImage(event, 'imagePreview')" />
+                                <input type="button" class="btn btn-primary addBtn mx-auto" value="Ảnh dọc" onclick="document.getElementById('fileImage').click();" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="optionBtn">
+                    <button type="submit" value="Create" class="btn btn-primary addBtn btn-primary-custom">
+                        Tạo phim mới
+                    </button>
+
+                </div>
+            }
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr(".datepicker", {
+            dateFormat: "Y-m-d",
+        });
+    </script>
+    <script>
+        function previewImage(event, previewId) {
+            var output = document.getElementById(previewId);
+            var file = event.target.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                output.src = "https://localhost:44323/uploads/" + file.name; // Đường dẫn tương đối của ảnh từ máy chủ
+            };
+
+            reader.readAsDataURL(file); // Đọc file và kích hoạt sự kiện onload
+        }
+        //function previewImage(event, previewId) {
+        //    var reader = new FileReader();
+        //    var output = document.getElementById(previewId);
+        //    reader.onload = function (e) {
+        //        output.src = "https://localhost:44323/uploads/" + file.name;
+        //    }
+        //    reader.readAsDataURL(file);
+        //}
+    </script>
+    <script>
+        document.getElementById("add-actor-btn").addEventListener("click", function () {
+            var container = document.getElementById("actors-container");
+            var newInput = document.createElement("div");
+            newInput.className = "actor-input";
+            newInput.innerHTML = `
+                    <i class="fa-solid fa-users sub-icon"></i>
+                    <input type="text" name="ActorNames" class="form-control" placeholder="Nhập tên diễn viên">
+                `;
+            container.appendChild(newInput);
+        });
+    </script>
+
 </body>
 </html>
