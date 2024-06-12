@@ -49,10 +49,6 @@ namespace CinemaWeb.Areas.Admin.Controllers
             ViewBag.MovieList = movielist;
             var scheduleList = db.schedules.ToList();
             ViewBag.ScheduleList = scheduleList;
-            foreach (var item in scheduleList)
-            {
-            }
-            var schedule_detail = db.schedule_detail.Include(s => s.movie_display_date).Include(s => s.schedule);
             return View();
         }
 
@@ -302,7 +298,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
                     {
                         seat_id = seat.id,
                         room_schedule_detail_id = roomscheduleDetail.id,
-                        is_booked = false
+                        is_booked = false,
                     };
                     db.seat_status.Add(seatStatus);
                 }
@@ -423,7 +419,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
             {
                 Console.WriteLine(ex);
 
-                return Json(new { success = false, message = "Có lỗi xảy ra khi xóa suất chiếu. Có thể suất chiếu đã bị xóa bởi người khác." });
+                return Json(new { success = false, message = "Có lỗi xảy ra khi xóa suất chiếu!" });
             }
         }
 

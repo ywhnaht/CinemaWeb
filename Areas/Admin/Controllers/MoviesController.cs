@@ -11,18 +11,18 @@ using CinemaWeb.Models;
 
 namespace CinemaWeb.Areas.Admin.Controllers
 {
-    public class MovieController : Controller
+    public class MoviesController : Controller
     {
         private Cinema_Web_Entities db = new Cinema_Web_Entities();
 
-        // GET: Admin/Movie
+        // GET: Admin/Movies
         public async Task<ActionResult> Index()
         {
             var movies = db.movies.Include(m => m.country).Include(m => m.director).Include(m => m.movie_type);
             return View(await movies.ToListAsync());
         }
 
-        // GET: Admin/Movie/Details/5
+        // GET: Admin/Movies/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,7 +37,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
             return View(movy);
         }
 
-        // GET: Admin/Movie/Create
+        // GET: Admin/Movies/Create
         public ActionResult Create()
         {
             ViewBag.country_id = new SelectList(db.countries, "id", "country_name");
@@ -46,7 +46,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Admin/Movie/Create
+        // POST: Admin/Movies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,7 +66,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
             return View(movy);
         }
 
-        // GET: Admin/Movie/Edit/5
+        // GET: Admin/Movies/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,7 +84,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
             return View(movy);
         }
 
-        // POST: Admin/Movie/Edit/5
+        // POST: Admin/Movies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -103,7 +103,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
             return View(movy);
         }
 
-        // GET: Admin/Movie/Delete/5
+        // GET: Admin/Movies/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -118,7 +118,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
             return View(movy);
         }
 
-        // POST: Admin/Movie/Delete/5
+        // POST: Admin/Movies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)

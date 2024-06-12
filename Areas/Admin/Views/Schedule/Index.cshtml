@@ -710,7 +710,6 @@
                     $('.booked-seat').text('Đã đặt: ' + bookedSeats);
                     $('.available-seat').text('Còn trống: ' + availableSeats);
 
-                    RemoveSchedule(scheduleDetailId)
                 } else {
                     $('#schedule-detail').modal('hide')
                     showtoastmess(false, 'Lỗi', response.message)
@@ -726,12 +725,20 @@
         $('.mv-showtimes span').removeClass('schedule-selected')
     }
 
-    function RemoveSchedule(scheduleDetailId) {
-        $(document).on('click', '.removeBtn', function () {
+    function RemoveSchedule() {
+        $(document).off('click', '.removeBtn').on('click', '.removeBtn', function () {
+            var scheduleDetailId = $('.mv-showtimes .schedule-selected').map(function () {
+                return $(this).data('schedule-detail');
+            }).get();
+            console.log("selectedScheduleIds: " + scheduleDetailId);
+            if (scheduleDetailId.length === 0) {
+                $('#schedule-detail').modal('hide')
+                showtoastmess(false,"Lỗi", "Vui lòng chọn ít nhất một suất chiếu để xóa!");
+                return;
+            }
             $('#removeSchedule').modal('show')
             $('#schedule-detail').modal('hide')
-
-            $(document).on('click', '.confirmBtn', function () {
+            $(document).off('click', '.confirmBtn').on('click', '.confirmBtn', function () {
                 $.ajax({
                     url: '/Admin/Schedule/RemoveSchedule',
                     type: 'POST',
@@ -757,6 +764,10 @@
             })
         })
     }
+
+    $(document).ready(function () {
+        RemoveSchedule();
+    });
 
     function updateScheduleList(selectedDate, roomId) {
         $.ajax({
