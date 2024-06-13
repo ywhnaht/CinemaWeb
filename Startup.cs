@@ -16,6 +16,7 @@ namespace CinemaWeb
         public void Configuration(IAppBuilder app)
         {
             Task.Run(() => QuartzConfig.ConfigureQuartz()).Wait();
+            app.MapSignalR();
         }
     }
 }

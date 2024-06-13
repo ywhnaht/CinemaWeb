@@ -20,15 +20,17 @@
 </head>
 <body id="reportsPage">
     <div class="header">
-        <div class="container-fluid  p-4">
+        <div class="container-fluid p-4">
             <div class="row align-items-center">
-                <div class="col-md-1"></div>
-                <div class="col-md-2 py-1">
-                    <a href="/Admin/AdminHome" style="margin-right: 2rem">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2 px-4 py-1">
+                    <a href="/User/UserHome/" class="navbar-brand">
                         <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
-                <div class="col-md-6">
+
+                <div class="col-md-6" style=" display: flex; justify-content: center; align-items: center;">
                     <ul class="list-gr-1 list-group list-group-horizontal">
                         <li class="list-group-item movie-area">
                             <a href="/Admin/AdminHome">
@@ -37,63 +39,61 @@
                             </a>
                         </li>
 
-                        <li class="list-group-item movie-area">
-                            <a href="">
-                                Quản lí rạp chiếu
-                                <i class="ti-angle-down down-btn"></i>
-                                <ul class="sub-list-gr-1 list-group">
-                                    <li><a href="movie.html">Phim</a></li>
-                                    <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
-                                </ul>
-                            </a>
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí rạp chiếu
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Movie/AllMovie">Phim</a></li>
+                                <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
+                            </ul>
                         </li>
-                        <li class="list-group-item movie-area">
-                            <a href="dailyreport.html">
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí tài khoản
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Staff/StaffList">Nhân viên</a></li>
+                                <li><a href="/Admin/User/UserList">Khách hàng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item movie-area text-center">
+                            <a href="">
                                 Doanh thu
                                 <i class="ti-angle-down down-btn"></i>
                             </a>
                         </li>
-
-                        <li class="list-group-item movie-area">
-                            <a href="">
-                                Quản lí tài khoản
-                                <i class="ti-angle-down down-btn"></i>
-                                <ul class="sub-list-gr-1 list-group">
-                                    <li><a href="/Admin/Staff/StaffList">Nhân viên</a></li>
-                                    <li><a href="/Admin/User/UserList">Khách hàng</a></li>
-                                </ul>
-                            </a>
-                        </li>
                     </ul>
                 </div>
-                <div class="login-area col-md-2">
-                    <div class="col-auto">
-                        <div class="show-login js-show-login">
-                            <div class="account-wrapper">
-                                <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
-                                <ul class="list-group account-list">
-                                    <li class="list-group-item">
-                                        <a href="/Admin/AdminHome/AdminProfile">
-                                            <i class="fa-solid fa-id-badge account-icon"></i>
-                                            Tài Khoản
-                                        </a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="/Home/SignOut" class="js-logout">
-                                            <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
-                                            Đăng Xuất
-                                        </a>
-                                    </li>
-                                </ul>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="display: flex; align-items: center;">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                @currentAdmin.full_name
                             </div>
                         </div>
                     </div>
-                    <div class="col-auto" style=" display: flex; align-items: center;">
-                        <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
-                            @*@currentAdmin.full_name*@
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -102,7 +102,7 @@
     <div class="container-fluid wrapper">
         <div class="getdate">
             <div class="input-box">
-                <input type="text" placeholder="Tìm kiếm...">
+                <input type="text" id="search-staff" value="" placeholder="Tìm kiếm...">
                 <span class="icon">
                     <i class="uil uil-search search-icon"></i>
                 </span>
@@ -120,28 +120,28 @@
                                 <label for="name">Tên</label>
                                 <div class="subform">
                                     <i class="fa-solid fa-user sub-icon"></i>
-                                    <input  type="text" required placeholder="Nhập tên">
+                                    <input class="name-staff" type="text" required placeholder="Nhập tên">
                                 </div>
                             </div>
                             <div class="subform-group">
                                 <label for="email">Email</label>
                                 <div class="subform">
                                     <i class="fa-solid fa-envelope sub-icon"></i>
-                                    <input type="text" required placeholder="Nhập email">
+                                    <input class="email-staff" type="email" required placeholder="Nhập email">
                                 </div>
                             </div>
                             <div class="subform-group">
                                 <label for="date">Ngày sinh</label>
                                 <div class="subform">
                                     <i class="far fa-calendar-alt sub-icon"></i>
-                                    <input  type="date" id="staffDate" required placeholder="Nhập ngày sinh">
+                                    <input class="date-staff" type="date" id="staffDate" required placeholder="Nhập ngày sinh">
                                 </div>
                             </div>
                             <div class="subform-group">
                                 <label for="Password">Mật khẩu</label>
                                 <div class="subform remove">
                                     <i class="fa-solid fa-key sub-icon"></i>
-                                    <input type="password" required placeholder="********">
+                                    <input placeholder="Mật khẩu sẽ được gửi qua email đăng ký">
                                 </div>
                             </div>
                             <div class="update-btn">
@@ -164,10 +164,10 @@
                         <th>Email</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="staff-list">
                     @foreach (var staff in ViewBag.StaffList)
                     {
-                        <tr>
+                        <tr data-staff-id="@staff.id">
                             <td>@staff.full_name</td>
                             <td>@staff.date_of_birth.ToString("dd/MM/yyyy")</td>
                             <td>@staff.email</td>
@@ -177,67 +177,81 @@
                                 </button>
                             </td>
                         </tr>
-                        <div class="modal" id="delete">
-                            <div class="modal-dialog">
-                                <div class="modal-content update-box">
-                                    <p>Bạn có chắc chắc muốn xóa nhân viên này?</p>
-                                    <img src="~/assets/images/subimg/ohayoucinema.svg" alt="" style="height: 8rem;">
-                                    <div class="option">
-                                        <button data-staff-id="@staff.id" class="deleteBtn">Xóa</button>
-                                        <button class="cancelBtn">Hủy</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal" id="detail">
-                            <div class="modal-dialog">
-                                <div class="modal-content update-box">
-                                    <p>THÔNG TIN NHÂN VIÊN</p>
-                                    <div class="user-infor-box">
-                                        <div class="subform-group">
-                                            <label for="name">Tên</label>
-                                            <div class="subform">
-                                                <i class="fa-solid fa-user sub-icon"></i>
-                                                <input class="staff-name" type="text" required>
-                                            </div>
-                                        </div>
-                                        <div class="subform-group">
-                                            <label for="email">Email</label>
-                                            <div class="subform">
-                                                <i class="fa-solid fa-envelope sub-icon"></i>
-                                                <input class="staff-email" type="text" required>
-                                            </div>
-                                        </div>
-                                        <div class="subform-group">
-                                            <label for="date">Ngày sinh</label>
-                                            <div class="subform">
-                                                <i class="far fa-calendar-alt sub-icon"></i>
-                                                <input class="staff-dateofbirth" id="staffBirthDate" type="date" required placeholder="Ngày sinh">
-                                            </div>
-                                        </div>
-                                        <div class="subform-group">
-                                            <label for="Password">Mật khẩu</label>
-                                            <div class="subform">
-                                                <i class="fa-solid fa-key sub-icon"></i>
-                                                <input class="staff-pass" type="password" required placeholder="********">
-                                            </div>
-                                        </div>
-                                        <div class="text-center" style="color: #dd0707">
-                                            <span class="error-message" style="font-size: 14px"></span>
-                                        </div>
-                                        <div class="update-btn">
-                                            <button data-staff-id="@staff.id" class="updateBtn">Cập nhật</button>
-                                            <button class="removeBtn accordion-toggle " data-bs-toggle="modal" data-bs-target="#delete" aria-expanded="false">Xóa</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     }
 
+                    <div class="modal" id="detail">
+                        <div class="modal-dialog">
+                            <div class="modal-content update-box">
+                                <p>THÔNG TIN NHÂN VIÊN</p>
+                                <div class="user-infor-box">
+                                    <div class="subform-group">
+                                        <label for="name">Tên</label>
+                                        <div class="subform">
+                                            <i class="fa-solid fa-user sub-icon"></i>
+                                            <input class="staff-name" type="text" required>
+                                        </div>
+                                    </div>
+                                    <div class="subform-group">
+                                        <label for="email">Email</label>
+                                        <div class="subform">
+                                            <i class="fa-solid fa-envelope sub-icon"></i>
+                                            <input class="staff-email" type="text" required>
+                                        </div>
+                                    </div>
+                                    <div class="subform-group">
+                                        <label for="date">Ngày sinh</label>
+                                        <div class="subform">
+                                            <i class="far fa-calendar-alt sub-icon"></i>
+                                            <input class="staff-dateofbirth" id="staffBirthDate" type="date" required placeholder="Ngày sinh">
+                                        </div>
+                                    </div>
+                                    <div class="subform-group">
+                                        <label for="Password">Mật khẩu</label>
+                                        <div class="subform">
+                                            <i class="fa-solid fa-key sub-icon"></i>
+                                            <input class="staff-pass" type="password" required placeholder="********">
+                                        </div>
+                                    </div>
+                                    <div class="text-center" style="color: #dd0707">
+                                        <span class="error-message" style="font-size: 14px"></span>
+                                    </div>
+                                    <div class="update-btn">
+                                        @*<button class="updateBtn">Cập nhật</button>*@
+                                        <button class="removeBtn accordion-toggle " data-bs-toggle="modal" data-bs-target="#delete" aria-expanded="false">Xóa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal" id="delete">
+                        <div class="modal-dialog">
+                            <div class="modal-content update-box">
+                                <p>Bạn có chắc chắc muốn xóa nhân viên này?</p>
+                                <img src="~/assets/images/subimg/ohayoucinema.svg" alt="" style="height: 8rem;">
+                                <div class="option">
+                                    <button class="deleteBtn">Xóa</button>
+                                    <button class="cancelBtn" data-bs-dismiss="modal" aria-label="Close">Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </tbody>
             </table>
         </div>
+        <div class="toast-mess">
+            <div class="toast-mess-content">
+                <i class="fas fa-solid fa-check check"></i>
+                <i class="ti-close error"></i>
+                <div class="message">
+                    <span class="text text-1"></span>
+                    <span class="text text-2"></span>
+                </div>
+            </div>
+
+            <i class="fa-solid fa-xmark close"></i>
+            <div class="progress-btn"></div>
+        </div>
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -255,6 +269,7 @@
         flatpickr("#staffBirthDate", {
             dateFormat: "Y-m-d",
         });
+
     </script>
 </body>
 </html>
@@ -265,10 +280,78 @@
         dateFormat: "Y-m-d",
     });
 
+    let timer1, timer2;
+    let staffId
+
+    function showtoastmess(success, message1, message2) {
+        $('.text-1').text(message1);
+        $('.text-2').text(message2);
+        if (success) {
+            $('.check').show();
+            $('.error').hide();
+        } else {
+            $('.check').hide();
+            $('.error').show();
+        }
+        $('.toast-mess').addClass("active");
+        $('.progress-btn').addClass("active");
+
+        timer1 = setTimeout(() => {
+            $('.toast-mess').removeClass("active");
+        }, 5000); // 1s = 1000 milliseconds
+
+        timer2 = setTimeout(() => {
+            $('.progress-btn').removeClass("active");
+        }, 5300);
+    }
+
+    $('.close').on("click", function () {
+        $('.toast-mess').removeClass("active");
+
+        setTimeout(() => {
+            $('.progress-btn').removeClass("active");
+        }, 300);
+
+        clearTimeout(timer1);
+        clearTimeout(timer2);
+    });
+
+    $('#search-staff').on('input', function () {
+        var query = $(this).val();
+        $.ajax({
+            url: '/Admin/Staff/SearchStaff',
+            type: 'GET',
+            data: { query: query },
+            success: function (response) {
+                $('#staff-list').empty();
+
+                if (response.success) {
+                    response.staffList.forEach(function (staff) {
+                        var newRow = '<tr data-staff-id="' + staff.id + '">' +
+                            '<td>' + staff.full_name + '</td>' +
+                            '<td>' + new Date(staff.staffDate).toLocaleDateString('vi-VN') + '</td>' +
+                            '<td>' + staff.email + '</td>' +
+                            '<td>' +
+                            '<button class="detail-btn accordion-toggle" data-staff-id="' + staff.id + '" data-bs-toggle="modal" data-bs-target="#detail" aria-expanded="false">' +
+                            '<i class="fa-regular fa-pen-to-square"></i>' +
+                            '</button>' +
+                            '</td>' +
+                            '</tr>';
+                        $('#staff-list').append(newRow);
+                    });
+                } else {
+                    $('#staff-list').append('<tr><td colspan="4">Không tìm thấy nhân viên</td></tr>');
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
     
     var dateofbirth = ""
     $(document).on('click', '.detail-btn', function () {
-        var staffId = $(this).data('staff-id');
+        staffId = $(this).data('staff-id');
 
         $.ajax({
             url: '/Admin/Staff/StaffDetail',
@@ -285,7 +368,7 @@
                     $('.staff-dateofbirth').val(staffItem.StaffDate)
                     console.log("Hello")
                 } else {
-                    alert(response.message);
+                    showtoastmess(false, 'Lỗi', response.message);
                 }
             },
             error: function (error) {
@@ -294,39 +377,107 @@
         });
     })
 
-    $(document).ready(function () {
-        $(".subform input").click(function () {
-            $(".error-message").text("");
-        });
+    //$(document).ready(function () {
+    //    $(".subform input").click(function () {
+    //        $(".error-message").text("");
+    //    });
 
-        $('#staffBirthDate').change(function () {
-            dateofbirth = $('#staffBirthDate').val();
-            console.log("date " + dateofbirth)
-        })
+    //    $('#staffBirthDate').change(function () {
+    //        dateofbirth = $('#staffBirthDate').val();
+    //        console.log("date " + dateofbirth)
+    //    })
 
-        $('.updateBtn').click(function (e) {
-            var staffId = $(this).data('staff-id')
-            var name = $('.staff-name').val();
-            var email = $('.staff-email').val();
-            console.log("email " + email)
-            var pass = $('.staff-pass').val();
+    //    $('.updateBtn').click(function (e) {
+    //        var name = $('.staff-name').val();
+    //        var email = $('.staff-email').val();
+    //        console.log("email " + email)
+    //        var pass = $('.staff-pass').val();
 
-            $.ajax({
-                url: '/Admin/Staff/UpdateStaffInfor',
-                type: 'POST',
-                data: { staffId: staffId, name: name, email: email, dateofbirth: dateofbirth, pass: pass },
-                success: function (response) {
-                    if (response.success) {
-                        var redirectUrl = response.redirectUrl;
-                        if (redirectUrl) {
-                            window.location.href = redirectUrl;
-                            alert("Cập nhật thông tin thành công")
-                        }
-                    } else {
-                        $('.error-message').text(response.message);
-                    }
+    //        $.ajax({
+    //            url: '/Admin/Staff/UpdateStaffInfor',
+    //            type: 'POST',
+    //            data: { staffId: staffId, name: name, email: email, dateofbirth: dateofbirth, pass: pass },
+    //            success: function (response) {
+    //                if (response.success) {
+    //                    var row = $('tr[data-staff-id="' + staffId + '"]');
+    //                    row.find('td:eq(0)').text(name);
+    //                    row.find('td:eq(1)').text(new Date(dateofbirth).toLocaleDateString('vi-VN'));
+    //                    row.find('td:eq(2)').text(email);
+
+    //                    $('#detail').modal('hide');
+    //                    showtoastmess(true, 'Thành công', 'Cập nhật thông tin nhân viên thành công')
+    //                } else {
+    //                    $('.error-message').text(response.message);
+    //                }
+    //            }
+    //        });
+    //    });
+    //});
+
+    $(document).on('click', '.deleteBtn', function () {
+        var row = $('tr[data-staff-id="' + staffId + '"]');
+
+        $.ajax({
+            url: '/Admin/Staff/DeleteStaff',
+            type: 'POST',
+            data: {
+                staffId: staffId
+            },
+            success: function (response) {
+                if (response.success) {
+                    row.remove()
+                    $('#delete').modal('hide');
+                    showtoastmess(true, 'Thành công', 'Xóa nhân viên thành công')
+                } else {
+                    showtoastmess(false, 'Lỗi', response.message)
                 }
-            });
+            },
+            error: function (error) {
+                console.log(error);
+            }
         });
-    });
+    })
+    var staffDate = ""
+    $('#staffDate').change(function () {
+        staffDate = $('#staffDate').val();
+        console.log("date " + staffDate)
+    })
+
+    $(document).on('click', '.addBtn', function () {
+        var name = $('.name-staff').val()
+        var email = $('.email-staff').val()
+        var dateofbirth = staffDate
+
+        $.ajax({
+            url: '/Admin/Staff/AddStaff',
+            type: 'POST',
+            data: {
+                name: name,
+                email: email,
+                dateofbirth: dateofbirth
+            },
+            success: function (response) {
+                if (response.success) {
+                    var newRow = '<tr data-staff-id="' + response.staffId + '">' +
+                        '<td>' + name + '</td>' +
+                        '<td>' + new Date(dateofbirth).toLocaleDateString('vi-VN') + '</td>' +
+                        '<td>' + email + '</td>' +
+                        '<td>' +
+                        '<button class="detail-btn accordion-toggle" data-staff-id="' + response.staffId + '" data-bs-toggle="modal" data-bs-target="#detail" aria-expanded="false">' +
+                        '<i class="fa-regular fa-pen-to-square"></i>' +
+                        '</button>' +
+                        '</td>' +
+                        '</tr>';
+                    $('#staff-list').append(newRow);
+                    $('#addStaff').modal('hide')
+                    showtoastmess(true, 'Thành công', 'Thêm nhân viên thành công')
+                } else {
+                    showtoastmess(false, 'Lỗi', response.message)
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    })
 </script>

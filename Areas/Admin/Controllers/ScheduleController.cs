@@ -49,10 +49,6 @@ namespace CinemaWeb.Areas.Admin.Controllers
             ViewBag.MovieList = movielist;
             var scheduleList = db.schedules.ToList();
             ViewBag.ScheduleList = scheduleList;
-            foreach (var item in scheduleList)
-            {
-            }
-            var schedule_detail = db.schedule_detail.Include(s => s.movie_display_date).Include(s => s.schedule);
             return View();
         }
 
@@ -265,7 +261,41 @@ namespace CinemaWeb.Areas.Admin.Controllers
             int[] scheduleDetail = chosenSchedule.ToObject<int[]>();
             var movieItem = db.movies.FirstOrDefault(x => x.id == movieId);
             var movieDisplayDate = db.movie_display_date.FirstOrDefault(x => x.display_date.display_date1 == displaydate && x.movie_id == movieId);
+            TimeSpan bufferTime = TimeSpan.FromMinutes(30);
             TimeSpan duration = TimeSpan.FromMinutes(int.Parse(movieItem.duration_minutes));
+            var existingSchedules = new List<schedule>();
+            foreach (var scheduleId in scheduleDetail)
+            {
+                var scheduleTime = db.schedules.FirstOrDefault(x => x.id == scheduleId);
+                if (scheduleTime == null)
+                {
+                    continue;
+                }
+                existingSchedules.Add(scheduleTime);
+            }
+
+            for (int i = 0; i < existingSchedules.Count; i++)
+            {
+                for (int j = i + 1; j < existingSchedules.Count; j++)
+                {
+                    var startTime1 = existingSchedules[i].schedule_time;
+                    var startTime2 = existingSchedules[j].schedule_time;
+
+                    if (startTime1.HasValue && startTime2.HasValue)
+                    {
+                        TimeSpan endTime1 = (startTime1.Value + duration + bufferTime).TotalHours >= 24
+                                            ? (startTime1.Value + duration + bufferTime).Subtract(new TimeSpan(24, 0, 0))
+                                            : startTime1.Value + duration + bufferTime;
+
+                        if ((startTime2.Value >= startTime1.Value && startTime2.Value < endTime1) ||
+                            (startTime1.Value >= startTime2.Value && startTime1.Value < (startTime2.Value + duration + bufferTime)))
+                        {
+                            return Json(new { success = false, message = "Vui lòng chọn các suất chiếu cách nhau " + (duration + bufferTime) + " phút!" });
+                        }
+                    }
+                }
+            }
+
             foreach (var scheduleId in scheduleDetail)
             {
                 var scheduleTime = db.schedules.FirstOrDefault(x => x.id == scheduleId)?.schedule_time;
@@ -274,10 +304,9 @@ namespace CinemaWeb.Areas.Admin.Controllers
                     continue;
                 }
                 TimeSpan startTime = scheduleTime.Value;
-                TimeSpan endTime = (startTime + duration).TotalHours >= 24
-                                    ? (startTime + duration).Subtract(new TimeSpan(24, 0, 0))
-                                    : startTime + duration;
-
+                TimeSpan endTime = (startTime + duration + bufferTime).TotalHours >= 24
+                            ? (startTime + duration + bufferTime).Subtract(new TimeSpan(24, 0, 0))
+                            : startTime + duration + bufferTime;
 
                 var _schedule = new schedule_detail
                 {
@@ -302,7 +331,7 @@ namespace CinemaWeb.Areas.Admin.Controllers
                     {
                         seat_id = seat.id,
                         room_schedule_detail_id = roomscheduleDetail.id,
-                        is_booked = false
+                        is_booked = false,
                     };
                     db.seat_status.Add(seatStatus);
                 }
@@ -423,8 +452,47 @@ namespace CinemaWeb.Areas.Admin.Controllers
             {
                 Console.WriteLine(ex);
 
-                return Json(new { success = false, message = "Có lỗi xảy ra khi xóa suất chiếu. Có thể suất chiếu đã bị xóa bởi người khác." });
+                return Json(new { success = false, message = "Có lỗi xảy ra khi xóa suất chiếu!" });
             }
+        }
+
+        [HttpGet]
+        public ActionResult SearchSchedule(string query, DateTime displayDate)
+        {
+            var schedules = (from mdd in db.movie_display_date
+                             join d in db.display_date on mdd.display_date_id equals d.id
+                             join sd in db.schedule_detail on mdd.id equals sd.movie_display_date_id
+                             join s in db.schedules on sd.schedule_id equals s.id
+                             join rsd in db.room_schedule_detail on sd.id equals rsd.schedule_detail_id
+                             join r in db.rooms on rsd.room_id equals r.id
+                             join m in db.movies on mdd.movie_id equals m.id
+                             where (m.title.Contains(query) || r.room_name.Contains(query)) && d.display_date1 == displayDate
+                             orderby s.id
+                             select new
+                             {
+                                 MovieId = m.id,
+                                 MovieTitle = m.title,
+                                 MovieImage = m.url_image,
+                                 Duration = m.duration_minutes,
+                                 ShowTimes = s.schedule_time,
+                                 RoomId = rsd.room_id,
+                             }).ToList();
+
+            if (schedules.Any())
+            {
+                var movieList = schedules.GroupBy(m => new { m.MovieId, m.MovieTitle, m.MovieImage, m.Duration })
+                  .Select(g => new
+                  {
+                      MovieId = g.Key.MovieId,
+                      MovieTitle = g.Key.MovieTitle,
+                      MovieImage = g.Key.MovieImage,
+                      Duration = g.Key.Duration,
+                      ShowTimes = g.Select(m => m.ShowTimes.Value.ToString(@"hh\:mm")).ToList()
+                  }).ToList();
+
+                return Json(new { success = true, movieList}, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false, message = "Không tìm thấy suất chiếu" }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

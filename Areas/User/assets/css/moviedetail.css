@@ -1023,3 +1023,7 @@
 .btn-item2 {
     padding-left: 0;
 }
+
+.hovered {
+    background-color: #034EA2;
+}

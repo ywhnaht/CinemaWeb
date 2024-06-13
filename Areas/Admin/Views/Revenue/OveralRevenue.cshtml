@@ -1,0 +1,382 @@
+﻿@{
+    var currentAdmin = (CinemaWeb.Models.user)HttpContext.Current.Session["admin"];
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
+    <title>Admin</title>
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/revenue.css?v=1">
+</head>
+
+<body id="reportsPage">
+    <div class="header">
+        <div class="container-fluid p-4">
+            <div class="row align-items-center">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2 px-4 py-1">
+                    <a href="/User/UserHome/" class="navbar-brand">
+                        <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                    </a>
+                </div>
+
+                <div class="col-md-6" style=" display: flex; justify-content: center; align-items: center;">
+                    <ul class="list-gr-1 list-group list-group-horizontal">
+                        <li class="list-group-item movie-area">
+                            <a href="/Admin/AdminHome">
+                                Trang chủ
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí rạp chiếu
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Movie/AllMovie">Phim</a></li>
+                                <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí tài khoản
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Staff/StaffList">Nhân viên</a></li>
+                                <li><a href="/Admin/User/UserList">Khách hàng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item movie-area text-center">
+                            <a href="/Admin/Revenue/OveralRevenue">
+                                Doanh thu
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="display: flex; align-items: center;">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                @currentAdmin.full_name
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="line-default"></div>
+    <div class="container wrapper" style="max-width: 1140px !important">
+        <div class="wrapper-content">
+            <div class="row chart">
+                <div class="col-md-5">
+                    <canvas id="monthChart" width="350" height="300"></canvas>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    <canvas id="yearChart" width="350" height="300"></canvas>
+                </div>
+            </div>
+            <div class="getdate">
+                <div class="search-content-item">
+                    <i class="far fa-calendar-alt"></i>
+                    <input id="dateFrom" placeholder="Từ ngày">
+                </div>
+                <div class="search-content-item">
+                    <i class="far fa-calendar-alt"></i>
+                    <input id="dateEnd" placeholder="Đến ngày">
+                </div>
+                <div class="dropdown ">
+                    <button type="button" class="btn dropdown-toggle movie-selected choose-btn" data-bs-toggle="dropdown">
+                        <i class="fas fa-search"></i>
+                        Phim
+                    </button>
+                    <ul class="dropdown-menu list-option">
+                        <li data-movie-id="0" class="dropdown-item movie-item option-item">Tất cả</li>
+                        @foreach (var movie in ViewBag.MovieList)
+                        {
+                            <li data-movie-id="@movie.id" class="dropdown-item movie-item option-item">@movie.title</li>
+                        }
+                    </ul>
+                </div>
+                <div class="dropdown ">
+                    <button type="button" class="btn dropdown-toggle room-selected choose-btn" data-bs-toggle="dropdown">
+                        <i class="fas fa-search"></i>
+                        Rạp
+                    </button>
+                    <ul class="dropdown-menu list-option">
+                        <li data-room-id="0" class="dropdown-item room-item option-item">Tất cả</li>
+                        @foreach (var room in ViewBag.RoomList)
+                        {
+                            <li data-room-id="@room.id" class="dropdown-item room-item option-item">@room.room_name</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="list-report">
+                <div class="row movie-error">
+                    <img src="https://www.galaxycine.vn/_next/static/media/booking-fail.0c03e999.png" alt="" />
+                    <span class="text-dark-emphasis fw-medium py-2"></span>
+                </div>
+                <ul id="revenueList" class="list">
+                    
+                </ul>
+            </div>
+            <div class="total">
+                <div class="revenue">
+                    <span class="Label-price">Tổng vé:</span>
+                    <span class="total-count total-ticket">0</span>
+                </div>
+                <div class="revenue">
+                    <span class="Label-price">Tổng doanh thu:</span>
+                    <span class="total-count total-money">0đ</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        var monthlySales = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.MonthlySales));
+            var yearlySales = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.YearlySales));
+
+            var monthlyLabels = monthlySales.map(d => 'Tháng ' + d.Month);
+            var monthlyValues = monthlySales.map(d => d.TotalRevenue);
+
+            const monthCtx = document.getElementById('monthChart').getContext('2d');
+            new Chart(monthCtx, {
+                type: 'bar',
+                data: {
+                    labels: monthlyLabels,
+                    datasets: [{
+                        label: 'Doanh thu tháng',
+                        data: monthlyValues,
+                        backgroundColor: '#f26b38',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 100000,
+                                callback: function (value) {
+                                    return value === 0 ? '0' : (value / 1000) + 'k'; 
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: function (context) {
+                                    return `Doanh thu: ${context.parsed.y.toLocaleString()} nghìn đồng`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            var yearlyLabels = yearlySales.map(d => d.Year);
+            var yearlyValues = yearlySales.map(d => d.TotalRevenue);
+
+            const yearCtx = document.getElementById('yearChart').getContext('2d');
+            new Chart(yearCtx, {
+                type: 'bar',
+                data: {
+                    labels: yearlyLabels,
+                    datasets: [{
+                        label: 'Doanh thu năm',
+                        data: yearlyValues,
+                        backgroundColor: '#f26b38',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 100000,
+                                callback: function (value) {
+                                    return value === 0 ? '0' : (value / 1000) + 'k'; 
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                label: function (context) {
+                                    return `Doanh thu: ${context.parsed.y.toLocaleString()} nghìn đồng`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+    </script>
+</body>
+</html>
+
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    flatpickr("#dateFrom", {
+        dateFormat: "Y-m-d",
+    });
+    flatpickr("#dateEnd", {
+        dateFormat: "Y-m-d",
+    });
+
+    var dateFrom = ""
+    var dateEnd = ""
+    var roomId = 0
+    var movieId = 0
+    $('#dateFrom').change(function () {
+        dateFrom = $('#dateFrom').val()
+    })
+
+    $('#dateEnd').change(function () {
+        dateEnd = $('#dateEnd').val()
+        GetRevenue(movieId, roomId, dateFrom, dateEnd)
+    })
+
+    $('.movie-item').click(function () {
+        movieId = $(this).data('movie-id')
+        movieName = $(this).text()
+        $('.movie-selected').text(movieName)
+        GetRevenue(movieId, roomId, dateFrom, dateEnd)
+    })
+
+    $('.room-item').click(function () {
+        roomId = $(this).data('room-id')
+        roomName = $(this).text()
+        $('.room-selected').text(roomName)
+        GetRevenue(movieId, roomId, dateFrom, dateEnd)
+    })
+
+    function GetRevenue(movieId, roomId, dateFrom, dateEnd) {
+        $.ajax({
+            url: '/Admin/Revenue/GetRevenue',
+            type: 'GET',
+            data: {
+                movieId: movieId,
+                roomId: roomId,
+                dateFrom: dateFrom,
+                dateEnd: dateEnd
+            },
+            success: function (response) {
+                if (response.success) {
+                    $('.list-report').addClass('d-flex')
+                    $('.movie-error').removeClass('d-flex')
+                    console.log("Hello")
+                    var revenueList = response.totalInvoice
+                    var totalTicket = 0, totalMoney = 0
+                    var listHtml = '';
+                    revenueList.forEach(function (item) {
+                        var seatHtml = ''
+                        item.SeatList.forEach(function (seat) {
+                            totalTicket++
+                            seatHtml += `${seat.seat_column}${seat.seat_row} `;
+                        });
+                        totalMoney += item.TotalMoney
+                        listHtml += `
+                                <li class="list-item">
+                                    <div class="row history-box">
+                                        <div class="col-md-1 mv-img" style="margin-top: 0;">
+                                            <img src="${item.MovieImage}" alt="">
+                                        </div>
+                                        <div class="col-md-5 mv-name">
+                                            <span>${item.MovieTitle}</span>
+                                        </div>
+                                        <div class="col-md-2 date">
+                                            <p class="theater">${item.RoomName}</p>
+                                            <p>${item.ScheduleTime} ${item.DisplayDate}</p>
+                                        </div>
+                                        <div class="col-md-2 seat"> 
+                                             ${seatHtml}
+                                        </div>
+                                        <div class="col-md-2 price">
+                                            ${item.TotalMoney.toLocaleString()}đ
+                                        </div>
+                                    </div>
+                                </li>`;
+                    });
+                    $('#revenueList').html(listHtml);
+                    $('.total-ticket').text(totalTicket)
+                    $('.total-money').text(totalMoney.toLocaleString('vi-VN') + "đ")
+                } else {
+                    $('#revenueList').html('');
+                    $('.list-report').addClass('d-flex')
+                    $('.movie-error span').text(response.message)
+                    $('.movie-error').addClass('d-flex')
+                    $('.total-ticket').text(0)
+                    $('.total-money').text("0đ")
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        })
+    }
+
+</script>

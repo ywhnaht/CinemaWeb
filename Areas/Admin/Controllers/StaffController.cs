@@ -87,5 +87,99 @@ namespace CinemaWeb.Areas.Admin.Controllers
             var redirectUrl = Url.Action("StaffList", "Staff", new { area = "Admin" });
             return Json(new { success = true, redirectUrl = redirectUrl });
         }
+
+        [HttpPost]
+        public ActionResult DeleteStaff(int staffId)
+        {
+            var staffItem = db.users.FirstOrDefault(x => x.id == staffId && x.user_type == 3);
+            if (staffItem ==  null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy nhân viên" });
+            }
+
+            db.users.Remove(staffItem);
+            db.SaveChanges();
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public ActionResult AddStaff(string name, string email, DateTime dateofbirth)
+        {
+            var newStaff = new user();
+            var checkEmail = db.users.FirstOrDefault(x => x.email == email);
+            if (checkEmail != null)
+                return Json(new { success = false, message = "Email đã tồn tại" });
+            newStaff.email = email;
+            newStaff.full_name = name;
+            newStaff.date_of_birth = dateofbirth;
+            newStaff.user_type = 3;
+            string newPass = GenerateRandomPassword(8);
+            string hassedPass = BCrypt.Net.BCrypt.HashPassword(newPass);
+            newStaff.hashed_pass = hassedPass;
+            db.users.Add(newStaff);
+            db.SaveChanges();
+
+            string content = "<p>Xin chào " + newStaff.full_name + "</p> <br><br>";
+            content += "<span>Chúc mừng bạn đã trở thành nhân viên chính thức của Ohayou Cinema, chúng tôi xin gửi tài khoản đăng nhập dành cho bạn</span> <br><br>";
+            content += "<p>Email: " + email + "</p> <br>";
+            content += "<p>Mật khẩu: " + newPass + "</p>";
+
+            CinemaWeb.Areas.User.Common.Common.SendMail("Ohayou Cinema", "Mật khẩu tài khoản nhân viên", content, email);
+            return Json(new { success = true, message = "Thêm nhân viên thành công" });
+        }
+
+        [HttpGet]
+        public ActionResult SearchStaff(string query)
+        {
+            var staffLists = db.users
+                .Where(x => (x.full_name.Contains(query) || x.email.Contains(query)) && x.user_type == 3)
+                .Select(x => new {
+                    id = x.id,
+                    full_name = x.full_name,
+                    date_of_birth = x.date_of_birth,
+                    email = x.email
+                })
+                .ToList();
+
+            if (staffLists.Count == 0)
+            {
+                return Json(new { success = false, message = "Không tìm thấy nhân viên" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var staffList = staffLists.GroupBy(x => new { x.id, x.full_name, x.date_of_birth, x.email })
+                                          .Select(g => new
+                                          {
+                                              g.Key.id,
+                                              g.Key.full_name,
+                                              staffDate = g.Key.date_of_birth.Value.ToString("yyyy-MM-dd"),
+                                              g.Key.email
+                                          }).ToList();
+                return Json(new { success = true, staffList }, JsonRequestBehavior.AllowGet);
+            }
+            
+        }
+        public string GenerateRandomPassword(int length)
+        {
+            string allowedLetterChars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+            string allowedNumberChars = "0123456789";
+            char[] chars = new char[length];
+            Random rd = new Random();
+            bool useLetter = true;
+            for (int i = 0; i < length; i++)
+            {
+                if (useLetter)
+                {
+                    chars[i] = allowedLetterChars[rd.Next(0, allowedLetterChars.Length)];
+                    useLetter = false;
+                }
+                else
+                {
+                    chars[i] = allowedNumberChars[rd.Next(0, allowedNumberChars.Length)];
+                    useLetter = true;
+                }
+            }
+            return new string(chars);
+        }
     }
 }

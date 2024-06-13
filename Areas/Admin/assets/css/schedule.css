@@ -169,18 +169,6 @@
     margin-bottom: 2rem;
 }
 
-.search-icon {
-    font-size: 15px;
-    font-weight: 500;
-}
-
-.search-btn {
-    border: none;
-    padding-right: 0px;
-    margin-right: 0px;
-    color: #777777;
-    margin-left: 70px;
-}
 
 .login-area {
     display: flex;
@@ -199,7 +187,15 @@
     color: #F26B38;
 }
 
+.account-list li:hover {
+    border-radius: 0;
+    transition: all 0.3s ease;
+    background-color: #fb770b1a;
+    border-left: 4px solid #F26B38;
+}
+
 .account-list a {
+    padding: 10px 4px;
     text-decoration: none;
     color: #000;
     font-size: 14px;
@@ -320,8 +316,7 @@ button:focus {
 
 .getdate {
     display: flex;
-    justify-content: left;
-    padding-left: 6rem;
+    justify-content: center;
     margin-top: 1rem;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -683,6 +678,38 @@ span.flatpickr-weekday {
     cursor: pointer;
 }
 
+.cancelBtn,
+.confirmBtn {
+    height: 2.5rem;
+    width: 8rem;
+    background-color: #F26B38;
+    color: #fff;
+    font-size: 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.option {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+}
+
+.cancelBtn:hover,
+.confirmBtn:hover {
+    cursor: pointer;
+    background-color: #f58020;
+}
+
+/*
 .closeBtn, .confirmBtn {
     color: #fff !important;
     background-color: rgb(245 128 32 / 1) !important;
@@ -692,4 +719,187 @@ span.flatpickr-weekday {
     font-weight: 500;
     letter-spacing: 0.5px;
     padding: 8px 30px;
+}*/
+
+/* toast-mess message */
+.toast-mess {
+    position: fixed;
+    top: 25px;
+    right: 30px;
+    border-radius: 12px;
+    background: #fff;
+    padding: 12px 30px 10px 20px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    border-left: 6px solid #4070f4;
+    overflow: hidden;
+    transform: translateX(calc(100% + 30px));
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+    display: flex !important;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+}
+
+    .toast-mess.active {
+        transform: translateX(0%);
+    }
+
+    .toast-mess .toast-mess-content {
+        display: flex;
+        align-items: center;
+    }
+
+.toast-mess-content .check {
+    display: flex;
+    margin-right: 2rem;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    width: 35px;
+    background-color: #4070f4;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.toast-mess-content .error {
+    display: flex;
+    margin-right: 2rem;
+    align-items: center;
+    justify-content: center;
+    height: 35px;
+    width: 35px;
+    background-color: red;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 900;
+    border-radius: 50%;
+}
+
+.toast-mess-content .message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.message .text {
+    font-size: 15px;
+    font-weight: 400;
+    color: #666666;
+}
+
+    .message .text.text-1 {
+        font-weight: 600;
+        color: #333;
+    }
+
+.toast-mess .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+    .toast-mess .close:hover {
+        opacity: 1;
+    }
+
+.toast-mess .progress-btn {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: #ddd;
+}
+
+    .toast-mess .progress-btn:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #4070f4;
+    }
+
+.progress-btn.active:before {
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    100% {
+        right: 100%;
+    }
+}
+
+.input-box {
+    position: relative;
+    max-width: 55px;
+    width: 100%;
+    margin: 0 40px;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+    .input-box.open {
+        max-width: 350px;
+    }
+
+.input-box input {
+    padding-left: 4rem;
+    position: relative;
+    outline: none;
+    border: none;
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    background-color: #fff;
+}
+
+.search-icon,
+.close-icon {
+    position: absolute;
+    top: 50%;
+    font-size: 30px;
+    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.search-icon {
+    color: #f58020;
+    transform: translateY(-50%) rotate(90deg);
+}
+
+.input-box.open .search-icon {
+    transform: translateY(-50%) rotate(0);
+}
+
+.close-icon {
+    right: -20px;
+    color: #f58028;
+    padding: 5px;
+    margin-right: 1rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.input-box.open .close-icon {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.search-icon:hover {
+    cursor: pointer;
+}
+
+.close-icon:hover {
+    cursor: pointer;
 }

@@ -192,10 +192,62 @@
             </div>
         </div>
     </div>
+
+    <div class="toast-mess">
+        <div class="toast-mess-content">
+            <i class="fas fa-solid fa-check check"></i>
+            <i class="ti-close error"></i>
+            <div class="message">
+                <span class="text text-1"></span>
+                <span class="text text-2"></span>
+            </div>
+        </div>
+
+        <i class="fa-solid fa-xmark close"></i>
+        <div class="progress-btn"></div>
+    </div>
+
     <div class="footer">
     </div>
     @*<script src="~/Areas/User/assets/js/userscripts.js"></script>*@
     <script src="~/Areas/User/assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    let timer1, timer2;
+
+    function showtoastmess(success, message1, message2) {
+        $('.text-1').text(message1);
+        $('.text-2').text(message2);
+        if (success) {
+            $('.check').show();
+            $('.error').hide();
+        } else {
+            $('.check').hide();
+            $('.error').show();
+        }
+        $('.toast-mess').addClass("active");
+        $('.progress-btn').addClass("active");
+
+        timer1 = setTimeout(() => {
+            $('.toast-mess').removeClass("active");
+        }, 5000); // 1s = 1000 milliseconds
+
+        timer2 = setTimeout(() => {
+            $('.progress-btn').removeClass("active");
+        }, 5300);
+    }
+
+    if (sessionStorage.getItem('signupSuccess')) {
+        showtoastmess(true, 'Welcome', 'Đăng ký thành công');
+        sessionStorage.removeItem('signupSuccess');
+    }
+
+    if (sessionStorage.getItem('signinSuccess')) {
+        showtoastmess(true, 'Welcome', 'Đăng nhập thành công');
+        sessionStorage.removeItem('signinSuccess');
+    }
+</script>
 
