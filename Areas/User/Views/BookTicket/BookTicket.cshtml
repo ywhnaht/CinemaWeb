@@ -1093,9 +1093,9 @@
         if (DateId) {
             setTimeout(function () {
                 console.log('Selected Date ID:', DateId);
-                selectDate(DateId, MovieId)
-                //$(".date-time-item a[data-displaydateId='" + DateId + "']").trigger('click');
-               /* $(".date-time-item[data-displaydateId='" + DateId + "']").trigger('click');*/
+                //selectDate(DateId, MovieId)
+                $(".date-time-item a[data-displaydateId='" + DateId + "']").trigger('click');
+                $(".date-time-item[data-displaydateId='" + DateId + "']").trigger('click');
                 localStorage.removeItem('selectedDateId');
             }, 1000); // Đặt độ trễ 500ms (0.5 giây)
         }
@@ -1104,9 +1104,9 @@
             console.log('Selected Schedule ID:', ScheduleId);
             setTimeout(function () {
                 console.log(ScheduleId);
-                selectSchedule(ScheduleId, DateId, MovieId)
-                //$(".time-btn a[data-scheduleId='" + ScheduleId + "']").trigger('click');
-                //$(".time-item[data-scheduleId='" + ScheduleId + "']").trigger('click');
+                //selectSchedule(ScheduleId, DateId, MovieId)
+                $(".time-btn a[data-scheduleId='" + ScheduleId + "']").trigger('click');
+                $(".time-item[data-scheduleId='" + ScheduleId + "']").trigger('click');
                 localStorage.removeItem('selectedScheduleId');
             }, 1500); // Đặt độ trễ 1000ms (1 giây)
         }

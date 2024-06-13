@@ -82,5 +82,19 @@ public static class QuartzConfig
             .Build();
 
         await scheduler.ScheduleJob(removeInvoiceJob, removeInvoiceTrigger);
+
+        IJobDetail setInvoiceUsedJob = JobBuilder.Create<SetInvoiceUsed>()
+            .WithIdentity("setInvoiceUsedJob", "group1")
+            .Build();
+
+        ITrigger setInvoiceUsedTrigger = TriggerBuilder.Create()
+            .WithIdentity("setInvoiceUsedTrigger", "group1")
+            .StartNow()
+            .WithSimpleSchedule(x => x
+                .WithIntervalInHours(5)
+                .RepeatForever())
+            .Build();
+
+        await scheduler.ScheduleJob(setInvoiceUsedJob, setInvoiceUsedTrigger);
     }
 }

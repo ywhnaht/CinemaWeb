@@ -530,7 +530,7 @@
                                     <div class="col-md-2 d">Đạo diễn:</div>
                                     <div class="col-md-10 type">
                                         <button type="button" class="btn">
-                                            <a href="" class="list-item">@ViewBag.movieItem.director.director_name</a>
+                                            <a href="/User/BookTicket/DirectorDetail/@ViewBag.movieItem.director.id" class="list-item">@ViewBag.movieItem.director.director_name</a>
                                         </button>
                                     </div>
                                 </div>
@@ -542,7 +542,7 @@
                                             {
                                                 <li class="list-item">
                                                     <button type="button" class="btn">
-                                                        <a href="" class="list-item">@actor.actor.actor_name</a>
+                                                        <a href="/User/BookTicket/ActorDetail/@actor.actor.id" class="list-item">@actor.actor.actor_name</a>
                                                     </button>
                                                 </li>
                                             }
@@ -1030,6 +1030,9 @@
                     }
                     else if (response.code == -1) {
                         $('.error-mess').text("Bạn đã đánh giá phim này rồi!")
+                    }
+                    else if (response.code == 0) {
+                        $('.error-mess').text("Bạn không thể đánh giá phim này!")
                     }
                 },
                 error: function (error) {

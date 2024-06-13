@@ -32,6 +32,7 @@ namespace CinemaWeb.Models
         public Nullable<System.DateTime> end_date { get; set; }
         public string duration_minutes { get; set; }
         public Nullable<int> country_id { get; set; }
+        public string director_name { get; set; }
         public Nullable<System.DateTime> created_at { get; set; }
         public Nullable<bool> movie_status { get; set; }
         public string url_image { get; set; }
@@ -41,6 +42,8 @@ namespace CinemaWeb.Models
     
         public virtual country country { get; set; }
         public virtual director director { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public List<string> ActorNames { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<movie_actor> movie_actor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,7 +1,7 @@
 @model IEnumerable<CinemaWeb.Models.movy>
 
 @{
-    ViewBag.Title = "Index";
+    var currentAdmin = (CinemaWeb.Models.user)HttpContext.Current.Session["admin"];
 }
 
 <!DOCTYPE html>
@@ -10,87 +10,92 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="icon" href="img/cinema-logo.png" type="image/png">
-    <title>Admin</title>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
-    <link rel="stylesheet" href="~/Admin/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="~/Admin/webfonts/themify-icons/themify-icons.css">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
+    <title>Quản lý phim</title>
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="~/Admin/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="~/Admin/text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <link rel="stylesheet" href="~/Admin/css/movie.css">
-
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/movie.css?v=1">
 </head>
 <body id="reportsPage">
     <div class="header">
-        <div class="container-fluid  p-4">
+        <div class="container-fluid p-4">
             <div class="row align-items-center">
-                <div class="col-md-1"></div>
-                <div class="col-md-2 py-1">
-                    <a href="" class="navbar-brand">
-                        <img src="img/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2 px-4 py-1">
+                    <a href="/Home" class="navbar-brand">
+                        <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
-                <div class="col-md-7">
+
+                <div class="col-md-6" style=" display: flex; justify-content: center; align-items: center;">
                     <ul class="list-gr-1 list-group list-group-horizontal">
                         <li class="list-group-item movie-area">
-                            <a href="homepage.html">
+                            <a href="/Admin/AdminHome">
                                 Trang chủ
                                 <i class="ti-angle-down down-btn"></i>
                             </a>
                         </li>
 
-                        <li class="list-group-item movie-area">
-                            <a href="">
-                                Quản lí rạp chiếu
-                                <i class="ti-angle-down down-btn"></i>
-                                <ul class="sub-list-gr-1 list-group">
-                                    <li><a href="movie.html">Phim</a></li>
-                                    <li><a href="">Suất chiếu</a></li>
-                                </ul>
-                            </a>
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí rạp chiếu
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Movie/AllMovie">Phim</a></li>
+                                <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
+                            </ul>
                         </li>
-                        <li class="list-group-item movie-area">
-                            <a href="dailyreport.html">
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí tài khoản
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Staff/StaffList">Nhân viên</a></li>
+                                <li><a href="/Admin/User/UserList">Khách hàng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item movie-area text-center">
+                            <a href="/Admin/Revenue/OveralRevenue">
                                 Doanh thu
                                 <i class="ti-angle-down down-btn"></i>
                             </a>
                         </li>
-
-                        <li class="list-group-item movie-area">
-                            <a href="">
-                                Quản lí tài khoản
-                                <i class="ti-angle-down down-btn"></i>
-                                <ul class="sub-list-gr-1 list-group">
-                                    <li><a href="staffManagement.html">Nhân viên</a></li>
-                                    <li><a href="usersManagement.html">Khách hàng</a></li>
-                                </ul>
-                            </a>
-                        </li>
                     </ul>
                 </div>
-                <div class="login-area col-md-2">
-                    <div class="account-wrapper">
-                        <img src="img/account.png" alt="" class="img-fluid account-img">
-                        <ul class="list-group account-list">
-                            <li class="list-group-item">
-                                <a href="adminprofile.html">
-                                    <i class="fa-solid fa-id-badge account-icon"></i>
-                                    Tài Khoản
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="" class="js-logout">
-                                    <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
-                                    Đăng Xuất
-                                </a>
-                            </li>
-                        </ul>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="display: flex; align-items: center;">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                @currentAdmin.full_name
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -99,14 +104,14 @@
     <div class="container-fluid wrapper">
         <div class="getdate">
             <div class="input-box">
-                <input type="text" placeholder="Tìm kiếm...">
+                <input id="searchInput" type="text" placeholder="Tìm kiếm...">
                 <span class="icon">
                     <i class="uil uil-search search-icon"></i>
                 </span>
                 <i class="uil uil-times close-icon"></i>
             </div>
-            <a href="">
-                @Html.ActionLink("Create New", "Create")
+            <a class="addBtn" href="/Admin/Movies/Create">
+                Thêm phim
             </a>
         </div>
         <div class="wrapper-content">
@@ -121,7 +126,7 @@
                         <th>Trạng thái</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="movieTableBody">
                     @foreach (var item in Model)
                     {
                         <tr>
@@ -142,20 +147,35 @@
                             </td>
                             <td>
                                 @{
-                                    DateTime currentDate = DateTime.Now.Date; // Lấy ngày hiện tại
-                                    DateTime releaseDate = item.release_date.Value; // Lấy ngày release_date
-                                    DateTime endDate = item.end_date.Value; // Lấy ngày end_date
+                                    string status = "";
+                                    if (item.movie_status != null)
+                                    {
+                                        if (item.movie_status == true)
+                                        {
+                                            status = "Đang chiếu";
+                                        }
+                                        else
+                                        {
+                                            status = "Sắp chiếu";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        status = "Đã kết thúc";
+                                    }
 
-                                    bool isInRange = (currentDate >= releaseDate && currentDate <= endDate); // Kiểm tra nếu nằm trong khoảng
-
-                                    string icon = isInRange ? "Đang chiếu" : "Phim đã kết thúc"; // Chọn biểu tượng dựa trên giá trị
-
-                                    <span>@icon</span> <!-- Hiển thị biểu tượng -->
+                                    <span>@status</span> 
                                 }
                             </td>
                             <td>
-                                @Html.ActionLink("Detail", "Edit", new { id = item.id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                                <a class="detailBtn" href="/Admin/Movies/Edit/@item.id">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a style="text-decoration: none" href="/Admin/Movies/Delete/@item.id">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                     }
@@ -178,3 +198,56 @@
         closeIcon.addEventListener("click", () => inputBox.classList.remove("open"));
     </script>
 </body>
+</html>
+
+<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#searchInput').on('input', function () {
+            var query = $(this).val();
+            $.ajax({
+                url: '/Admin/Movies/SearchMovie',
+                type: 'GET',
+                data: { searchQuery: query },
+                success: function (response) {
+                    $('#movieTableBody').empty();
+                    if (response.success === false) {
+                        $('#movieTableBody').append('<tr><td colspan="7">' + response.message + '</td></tr>');
+                    } else {
+                        response.forEach(function (movie) {
+                            var statusText = '';
+                            if (movie.movie_status === true) {
+                                statusText = 'Đang chiếu';
+                            } else if (movie.movie_status === false) {
+                                statusText = 'Sắp chiếu';
+                            } else {
+                                statusText = 'Đã kết thúc';
+                            }
+
+                            $('#movieTableBody').append(
+                                `<tr>
+                                    <td>${movie.title}</td>
+                                    <td>${movie.country_name}</td>
+                                    <td>${movie.movie_type}</td>
+                                    <td>${movie.release_date}</td>
+                                    <td>${movie.end_date}</td>
+                                    <td><span>${statusText}</span></td>
+                                    <td>
+                                        <a class="detailBtn" href="/Admin/Movies/Edit/${movie.id}">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a style="text-decoration: none" href="/Admin/Movies/Delete/${movie.id}">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>`
+                            );
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>

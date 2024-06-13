@@ -241,7 +241,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminHomeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Admin\Controllers\MoviesController.cs" />
     <Compile Include="Areas\Admin\Controllers\RevenueController.cs" />
     <Compile Include="Areas\Admin\Controllers\ScheduleController.cs" />
@@ -373,9 +372,13 @@
     <Compile Include="SupportFile\NotificationJob.cs" />
     <Compile Include="SupportFile\RemoveInvoiceJob.cs" />
     <Compile Include="SupportFile\RemoveSeatStatusJob.cs" />
+    <Compile Include="SupportFile\SetInvoiceUsed.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\assets\css\addMovie.css" />
+    <Content Include="Areas\Admin\assets\css\movie.css" />
     <Content Include="Areas\Admin\assets\css\revenue.css" />
+    <Content Include="Areas\Admin\assets\css\updateMovie.css" />
     <Content Include="Areas\Admin\assets\css\usermanage.css" />
     <Content Include="Areas\Admin\assets\css\staffmanage.css" />
     <Content Include="Areas\Admin\assets\css\schedule.css" />
@@ -1659,7 +1662,6 @@
     <Content Include="Areas\Admin\assets\webfonts\fa-solid-900.ttf" />
     <Content Include="Areas\Admin\assets\webfonts\fa-solid-900.woff" />
     <Content Include="Areas\Admin\assets\webfonts\fa-solid-900.woff2" />
-    <Content Include="Areas\Admin\Views\AdminHome\InvoiceList.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\ActorList.cshtml" />
     <Content Include="Areas\User\Views\BookTicket\ActorDetail.cshtml" />
     <Content Include="FE_Q\images - Shortcut %282%29.lnk" />
@@ -1689,6 +1691,8 @@
     <Content Include="Areas\Admin\Views\Movies\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Movies\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Movies\Index.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\DirectorDetail.cshtml" />
+    <Content Include="Areas\User\Views\BookTicket\DirectorList.cshtml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\hothanhhuy2004-001-site1 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\thanhhuy2004-001-site1 - Web Deploy.pubxml" />
@@ -2526,12 +2530,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Views\Invoice\" />
     <Folder Include="Areas\Admin\Views\UpLoad\" />
     <Folder Include="Areas\Staff\Data\" />
     <Folder Include="Areas\User\assets\fonts\" />
     <Folder Include="Areas\User\Data\" />
     <Folder Include="Areas\User\Views\Common\" />
+    <Folder Include="uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

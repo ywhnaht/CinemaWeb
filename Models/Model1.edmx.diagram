@@ -65,6 +65,8 @@
         <AssociationConnector Association="CinemaWebModel.users_user_type_id_FK" ManuallyRouted="false" />
         <EntityTypeShape EntityType="CinemaWebModel.notification" Width="1.5" PointX="5.25" PointY="8.375" />
         <AssociationConnector Association="CinemaWebModel.FK_notification_users" />
+        <AssociationConnector Association="CinemaWebModel.FK_director_country" />
+        <AssociationConnector Association="CinemaWebModel.FK_seat_status_users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

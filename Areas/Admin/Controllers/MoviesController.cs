@@ -18,11 +18,70 @@ namespace CinemaWeb.Areas.Admin.Controllers
     {
         private Cinema_Web_Entities db = new Cinema_Web_Entities();
 
+        public void GetMovieStatus(List<movy> movielist)
+        {
+            DateTime currentDate = DateTime.Now;
+            foreach (movy movie in movielist)
+            {
+                if (movie.release_date <= currentDate && movie.end_date >= currentDate)
+                {
+                    movie.movie_status = true; // Đang chiếu
+                }
+                else if (movie.release_date > currentDate)
+                {
+                    movie.movie_status = false; // Sắp chiếu
+                }
+                else
+                {
+                    movie.movie_status = null;
+                }
+            }
+        }
         // GET: Admin/Movies
         public ActionResult Index()
         {
+            List<movy> movielist = db.movies.ToList();
+            GetMovieStatus(movielist);
+            db.SaveChanges();
             var movies = db.movies.Include(m => m.country).Include(m => m.director).Include(m => m.movie_type);
             return View(movies.ToList());
+        }
+
+        [HttpGet]
+        public ActionResult SearchMovie(string searchQuery)
+        {
+            var movies = db.movies
+                .Where(m => m.title.Contains(searchQuery) ||
+                            m.country.country_name.Contains(searchQuery) ||
+                            m.movie_type.movie_type1.Contains(searchQuery))
+                .Select(m => new
+                {
+                    m.id,
+                    m.title,
+                    country_name = m.country.country_name,
+                    movie_type = m.movie_type.movie_type1,
+                    release_date = m.release_date,
+                    end_date = m.end_date,
+                    movie_status = m.movie_status
+                })
+                .ToList();
+
+            if (movies.Any())
+            {
+                var movieList = movies.GroupBy(m => new { m.id, m.title, m.country_name, m.movie_type, m.release_date, m.end_date, m.movie_status })
+                                        .Select(g => new
+                                        {
+                                            g.Key.id,
+                                            g.Key.title,
+                                            g.Key.country_name,
+                                            g.Key.movie_type,
+                                            release_date = g.Key.release_date.Value.ToString("dd/MM/yyyy"),
+                                            end_date = g.Key.end_date.Value.ToString("dd/MM/yyyy"),
+                                            g.Key.movie_status
+                                        }).ToList();
+                return Json(movieList, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false, message = "Không tìm thấy phim" }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Admin/Movies/Details/5
@@ -145,6 +204,26 @@ namespace CinemaWeb.Areas.Admin.Controllers
                             };
                             db.movie_actor.Add(movieActor);
                         }
+                        await db.SaveChangesAsync();
+                    }
+                    var displayDate = new List<display_date>();
+
+                    foreach (var item in db.display_date)
+                    {
+                        if (item.display_date1 >= movie.release_date && item.display_date1 <= movie.end_date)
+                        {
+                            displayDate.Add(item);
+                        }
+                    }
+
+                    foreach (var item in displayDate)
+                    {
+                        var movieDisplayDate = new movie_display_date
+                        {
+                            display_date_id = item.id,
+                            movie_id = movie.id
+                        };
+                        db.movie_display_date.Add(movieDisplayDate);
                         await db.SaveChangesAsync();
                     }
 

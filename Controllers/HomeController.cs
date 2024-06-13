@@ -131,6 +131,17 @@ namespace CinemaWeb.Controllers
                 db.users.Add(newUser);
                 db.SaveChanges();
 
+                DateTime startDate = new DateTime(DateTime.Now.Year, dateofbirth.Month, 1);
+                DateTime endDate = startDate.AddMonths(1).AddDays(-1);
+                var userDiscount = new user_discount
+                {
+                    discount_id = 1,
+                    discount_status = false,
+                    user_id = newUser.id,
+                    start_date = startDate,
+                    end_date = endDate
+                };
+
                 var adminList = db.users.Where(x => x.user_type == 2).ToList();
                 var adminNotice = new notification();
                 foreach (var admin in adminList)

@@ -1,7 +1,7 @@
 @model CinemaWeb.Models.movy
 
 @{
-    ViewBag.Title = "Edit";
+    var currentAdmin = (CinemaWeb.Models.user)HttpContext.Current.Session["admin"];
 }
 
 <!DOCTYPE html>
@@ -10,110 +10,100 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="icon" href="img/cinema-logo.png" type="image/png">
-    <title>Admin</title>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
-    <!-- https://fonts.google.com/specimen/Roboto -->
-    <link rel="stylesheet" href="~/Admin/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="~/Admin/webfonts/themify-icons/themify-icons.css">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
+    <title>Sửa phim</title>
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="~/Admin/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="~/Admin/text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <link rel="stylesheet" href="~/Admin/css/updateMovie.css">
-
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/updateMovie.css?v=1">
 </head>
 <body id="reportsPage">
     <div class="header">
-        <div class="container-fluid  p-4">
+        <div class="container-fluid p-4">
             <div class="row align-items-center">
-                <div class="col-md-1"></div>
-                <div class="col-md-2 py-1">
-                    <a href="" class="navbar-brand">
-                        <img src="img/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2 px-4 py-1">
+                    <a href="/Home" class="navbar-brand">
+                        <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
-                <div class="col-md-7">
+
+                <div class="col-md-6" style=" display: flex; justify-content: center; align-items: center;">
                     <ul class="list-gr-1 list-group list-group-horizontal">
                         <li class="list-group-item movie-area">
-                            <a href="homepage.html">
+                            <a href="/Admin/AdminHome">
                                 Trang chủ
                                 <i class="ti-angle-down down-btn"></i>
                             </a>
                         </li>
 
-                        <li class="list-group-item movie-area">
-                            <a href="">
-                                Quản lí rạp chiếu
-                                <i class="ti-angle-down down-btn"></i>
-                                <ul class="sub-list-gr-1 list-group">
-                                    <li><a href="movie.html">Phim</a></li>
-                                    <li><a href="">Suất chiếu</a></li>
-                                </ul>
-                            </a>
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí rạp chiếu
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Movie/AllMovie">Phim</a></li>
+                                <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
+                            </ul>
                         </li>
-                        <li class="list-group-item movie-area">
-                            <a href="dailyreport.html">
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí tài khoản
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Staff/StaffList">Nhân viên</a></li>
+                                <li><a href="/Admin/User/UserList">Khách hàng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item movie-area text-center">
+                            <a href="/Admin/Revenue/OveralRevenue">
                                 Doanh thu
                                 <i class="ti-angle-down down-btn"></i>
                             </a>
                         </li>
-
-                        <li class="list-group-item movie-area">
-                            <a href="">
-                                Quản lí tài khoản
-                                <i class="ti-angle-down down-btn"></i>
-                                <ul class="sub-list-gr-1 list-group">
-                                    <li><a href="staffManagement.html">Nhân viên</a></li>
-                                    <li><a href="usersManagement.html">Khách hàng</a></li>
-                                </ul>
-                            </a>
-                        </li>
                     </ul>
                 </div>
-                <div class="login-area col-md-2">
-                    <div class="account-wrapper">
-                        <img src="img/account.png" alt="" class="img-fluid account-img">
-                        <ul class="list-group account-list">
-                            <li class="list-group-item">
-                                <a href="adminprofile.html">
-                                    <i class="fa-solid fa-id-badge account-icon"></i>
-                                    Tài Khoản
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="" class="js-logout">
-                                    <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
-                                    Đăng Xuất
-                                </a>
-                            </li>
-                        </ul>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="display: flex; align-items: center;">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                @currentAdmin.full_name
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
     <div class="line-default"></div>
     <div class="container-fluid wrapper">
-        @*<div class="modal" id="delete">
-                <div class="modal-dialog">
-                    <div class="modal-content update-box">
-                        <p>Bạn có chắc chắc muốn xóa phim này?</p>
-                        <img src="img/ohayoucinema.svg" alt="" style="height: 8rem;">
-                        <div class="option">
-                            <button type="submit" value="Delete" class="btn btn-primary addBtn btn-primary-custom">
-                                Xoá phim
-                            </button>
-                            <button class="deleteBtn">Hủy</button>
-                        </div>
-                    </div>
-                </div>
-            </div>*@
-        <div class="container update-box">
-            <p>NHẬP THÔNG TIN PHIM</p>
+        <div class="container update-box" style="max-width: 1140px">
+            <p style="text-align: center">NHẬP THÔNG TIN PHIM</p>
             <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
                 <div class="row tm-edit-product-row">
                     @using (Html.BeginForm("Edit", "Movies", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -155,20 +145,12 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="search-content-item">
-                                        <div class="date">
-                                            <label for="email">Thời lượng(phút)</label>
-                                            <div class="dropdown">
-                                                @Html.EditorFor(model => model.duration_minutes, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.duration_minutes, "", new { @class = "text-danger" })
-                                            </div>
-                                        </div>
-                                        <div class="date">
-                                            <label for="email">Rating phim  </label>
-                                            <div class="dropdown">
-                                                @Html.EditorFor(model => model.rating, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.rating, "", new { @class = "text-danger" })
-                                            </div>
+                                    <div class="subform-group">
+                                        <label for="email">Thời lượng(phút)</label>
+                                        <div class="subform">
+                                            <i class="fa-solid fa-clapperboard sub-icon"></i>
+                                            @Html.EditorFor(model => model.duration_minutes, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.duration_minutes, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="search-content-item">
@@ -194,19 +176,19 @@
                                         <div class="subform">
                                             <i class="fa-solid fa-video sub-icon"></i>
                                             @*@Html.EditorFor(model => model.director.director_name, new { htmlAttributes = new { @class = "form-control datepicker" } })*@
-                                            @Html.DropDownList("director_id", null, htmlAttributes: new { @class = "custom-select tm-select-accounts" })
+                                            @Html.DropDownList("director_id", null, htmlAttributes: new { @class = "director-dropdown tm-select-accounts" })
                                             @Html.ValidationMessageFor(model => model.director_id, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="subform-group">
                                         <label for="actors">Diễn viên</label>
                                         <div class="subform">
-                                            <i class="fa-solid fa-users sub-icon"></i>
                                             @if (ViewBag.Actors != null)
                                             {
                                                 foreach (var actor in ViewBag.Actors as List<string>)
                                                 {
-                                                    <div>
+                                                    <div class="actor-item">
+                                                        <i class="fa-solid fa-users sub-icon"></i>
                                                         @Html.TextBox("actors", actor, new { @class = "form-control", @readonly = "readonly" })
                                                     </div>
                                                 }
@@ -224,6 +206,7 @@
                                             @Html.ValidationMessageFor(model => model.url_trailer, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
+                                    </form>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                                 <div class="mv-img">
@@ -252,18 +235,29 @@
                                 </div>
                             </div>
                             <div class="optionBtn">
-                                <button type="submit" class="btn btn-primary addBtn">Cập nhật</button>
                                 <button type="submit" class="btn btn-primary addBtn btn-primary-custom">
-                                    @Html.ActionLink("Back to List", "Index")
+                                    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn-link-custom" })
                                 </button>
+                                <button type="submit" class="btn btn-primary addBtn">Cập nhật</button>
                             </div>
                         </div>
                     }
-                    </form>
                 </div>
             </div>
         </div>
     </div>
+    <style>
+        .actor-item {
+            position: relative;
+            margin-bottom: 5px;
+        }
+    </style>
+    <style>
+        .btn-link-custom {
+            color: white !important; /* Áp dụng màu chữ trắng */
+            text-decoration: none !important; /* Loại bỏ gạch chân mặc định */
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
@@ -292,18 +286,13 @@
         document.getElementById("add-actor-btn").addEventListener("click", function () {
             var container = document.getElementById("actors-container");
             var newInput = document.createElement("div");
-            newInput.className = "actor-input";
+            newInput.className = "actor-item";
             newInput.innerHTML = `
-                        <i class="fa-solid fa-users sub-icon"></i>
-                        <input type="text" name="ActorNames" class="form-control" placeholder="Nhập tên diễn viên">
-                    `;
+                    <i class="fa-solid fa-users sub-icon"></i>
+                    <input type="text" name="actors" class="form-control" placeholder="Nhập tên diễn viên">
+                `;
             container.appendChild(newInput);
         });
     </script>
 </body>
-
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+</html>

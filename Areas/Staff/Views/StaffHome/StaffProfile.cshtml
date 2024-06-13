@@ -1,9 +1,4 @@
-﻿
-@{
-    Layout = null;
-}
-
-@{
+﻿@{
     CinemaWeb.Models.user currentUser = (CinemaWeb.Models.user)HttpContext.Current.Session["staff"];
 }
 
@@ -18,20 +13,35 @@
     <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/Areas/Staff/assets/css/staffProfile.css">
+    <link rel="stylesheet" href="~/Areas/Staff/assets/css/staffProfile.css?v=1">
 </head>
+
 <body id="reportsPage">
     <div class="header">
         <div class="container-fluid  p-4">
             <div class="row align-items-center">
                 <div class="col-md-1"></div>
                 <div class="col-md-2 px-5 py-1">
-                    <a href="staff.html" class="navbar-brand">
+                    <a href="" class="navbar-brand">
                         <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
-                <div class="col-md-6"></div>
-
+                <div class="col-md-6" style="display: flex; justify-content: center">
+                    <ul class="list-gr-1 list-group list-group-horizontal">
+                        <li class="list-group-item movie-area">
+                            <a href="/Staff/StaffHome">
+                                Trang chủ
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+                        <li class="list-group-item movie-area">
+                            <a href="/Staff/StaffHome/StaffProfile">
+                                Tài khoản
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="login-area col-md-3">
                     <div class="row">
                         <div class="col-auto">
@@ -57,7 +67,7 @@
                         </div>
                         <div class="col-auto" style="align-items: center; display: flex;">
                             <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
-                                @*@currentUser.full_name*@
+                                @currentUser.full_name
                             </div>
                         </div>
                     </div>
@@ -97,7 +107,7 @@
                             <label for="date">Date of birth</label>
                             <div class="form remove">
                                 <i class="far fa-calendar-alt icon"></i>
-                                <input type="text" required placeholder="@currentUser.date_of_birth.Value.ToString("dd/MM/yyyy")">
+                                <input value="@currentUser.date_of_birth.Value.ToString("dd/MM/yyyy")">
                             </div>
                         </div>
                         <div class="form-group">
@@ -114,7 +124,7 @@
                             <div class="modal-dialog">
                                 <div class="modal-content update-box">
                                     <p>NHẬP THÔNG TIN CHỈNH SỬA</p>
-                                    <div class="row user-infor-box">
+                                    <div class="infor-box">
                                         <div class="subform-group">
                                             <label for="name">Name</label>
                                             <div class="subform">
@@ -131,7 +141,7 @@
                                         </div>
                                         <div class="subform-group">
                                             <label for="date">Date of birth</label>
-                                            <div class="subform">
+                                            <div class="subform remove">
                                                 <i class="far fa-calendar-alt sub-icon"></i>
                                                 <input type="text" required placeholder="@currentUser.date_of_birth.Value.ToString("dd/MM/yyyy")">
                                             </div>
@@ -157,7 +167,19 @@
 
             </div>
         </div>
+        <div class="toast-mess">
+            <div class="toast-mess-content">
+                <i class="fas fa-solid fa-check check"></i>
+                <i class="ti-close error"></i>
+                <div class="message">
+                    <span class="text text-1"></span>
+                    <span class="text text-2"></span>
+                </div>
+            </div>
 
+            <i class="fa-solid fa-xmark close"></i>
+            <div class="progress-btn"></div>
+        </div>
     </div>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
 
@@ -166,6 +188,40 @@
 
 <script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+    let timer1, timer2;
+
+    function showtoastmess(success, message1, message2) {
+        $('.text-1').text(message1);
+        $('.text-2').text(message2);
+        if (success) {
+            $('.check').show();
+            $('.error').hide();
+        } else {
+            $('.check').hide();
+            $('.error').show();
+        }
+        $('.toast-mess').addClass("active");
+        $('.progress-btn').addClass("active");
+
+        timer1 = setTimeout(() => {
+            $('.toast-mess').removeClass("active");
+        }, 5000); // 1s = 1000 milliseconds
+
+        timer2 = setTimeout(() => {
+            $('.progress-btn').removeClass("active");
+        }, 5300);
+    }
+
+    if (sessionStorage.getItem('signupSuccess')) {
+        showtoastmess(true, 'Welcome', 'Đăng ký thành công');
+        sessionStorage.removeItem('signupSuccess');
+    }
+
+    if (sessionStorage.getItem('signinSuccess')) {
+        showtoastmess(true, 'Welcome', 'Đăng nhập thành công');
+        sessionStorage.removeItem('signinSuccess');
+    }
+
     $(document).ready(function () {
         $(".subform input").click(function () {
             $(".resonse-mess").text("")
@@ -186,11 +242,24 @@
                 data: { name: name, pass: pass },
                 success: function (response) {
                     if (response.success) {
-                        //var redirectUrl = response.redirectUrl;
-                        $('.resonse-mess').text(response.message)
+                        sessionStorage.setItem('changeSuccess', true);
+                        var redirectUrl = response.redirectUrl;
+                        if (redirectUrl) {
+                            window.location.href = redirectUrl;
+                        }
+                    } else {
+                        $(".error-message").text(response.message);
                     }
                 }
             });
         });
     });
+
+    $(document).ready(function () {
+        if (sessionStorage.getItem('changeSuccess')) {
+            showtoastmess(true, 'Thành công', 'Cập nhật thông tin thành công');
+            sessionStorage.removeItem('changeSuccess');
+        }
+    })
+    
 </script>

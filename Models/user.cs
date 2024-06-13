@@ -25,6 +25,7 @@ namespace CinemaWeb.Models
             this.user_role = new HashSet<user_role>();
             this.user_role1 = new HashSet<user_role>();
             this.notifications = new HashSet<notification>();
+            this.seat_status = new HashSet<seat_status>();
         }
     
         public int id { get; set; }
@@ -55,5 +56,7 @@ namespace CinemaWeb.Models
         public virtual user_type user_type1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notification> notifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<seat_status> seat_status { get; set; }
     }
 }

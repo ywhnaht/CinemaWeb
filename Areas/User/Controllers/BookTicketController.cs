@@ -192,6 +192,20 @@ namespace CinemaWeb.Areas.User.Controllers
         {
             var code = new { success = false, code = -1, averageRating = 0m, ratingCount = 0 };
             var currentUser = (user)Session["user"];
+            var existMovies = db.invoices
+                .Where(x => x.user_id == currentUser.id &&
+                            x.room_schedule_detail.schedule_detail.movie_display_date.movie_id == movieId &&
+                            x.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1 <= DateTime.Now)
+                .ToList();
+
+            var hasWatchedMovie = existMovies.Any(x =>
+                (x.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1.Value.Add((TimeSpan)x.room_schedule_detail.schedule_detail.end_time) <= DateTime.Now));
+
+            if (!hasWatchedMovie)
+            {
+                return Json(new { success = false, code = 0});
+            }
+
             var ratingValue = db.star_rating.FirstOrDefault(x => x.movie_id == movieId && x.user_id == currentUser.id);
             if (ratingValue == null)
             {
@@ -557,7 +571,18 @@ namespace CinemaWeb.Areas.User.Controllers
         {
             var currentUser = (user)Session["user"];
             DateTime currentDate = DateTime.Now;
-            var discountList = db.user_discount.Where(x => x.user_id == currentUser.id && x.start_date.Value.Month == currentDate.Month && x.discount_status == false)
+
+            if (currentUser.created.Value.AddMonths(1) <= currentDate)
+            {
+                var invoice = db.invoices.Where(x => x.user_id == currentUser.id).ToList();
+                var invoicePerYear = invoice
+                    .GroupBy(t => t.day_create.Value.Year)
+                    .Select(g => g.Key)
+                    .ToList();
+
+                if (invoicePerYear.Contains(currentDate.Year))
+                {
+                    var discountList = db.user_discount.Where(x => x.user_id == currentUser.id && x.start_date.Value.Month == currentDate.Month && x.discount_status == false)
                                                .Select(y => new
                                                {
                                                    disId = y.discount_id,
@@ -570,7 +595,17 @@ namespace CinemaWeb.Areas.User.Controllers
                                                })
                                                .ToList();
 
-            return Json(discountList, JsonRequestBehavior.AllowGet);
+                    return Json(discountList, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                return Json(new { success = false}, JsonRequestBehavior.AllowGet);
+            }
         }
 
         public ActionResult MovieReview() 
@@ -652,7 +687,22 @@ namespace CinemaWeb.Areas.User.Controllers
                         notification.status = false;
                         notification.date_create = DateTime.Now;
                         db.notifications.Add(notification);
+
+                        if (invoiceItem.discount != null)
+                        {
+                            var usedDiscount = db.discounts.FirstOrDefault(x => x.id == invoiceItem.id);
+                            foreach (var item in usedDiscount.user_discount)
+                            {
+                                if (invoiceItem.user_id == item.user_id)
+                                {
+                                    item.discount_status = true;
+                                }
+                            }
+                        }
+
                         db.SaveChanges();
+
+                        
 
                         var adminList = db.users.Where(x => x.user_type == 2).ToList();
                         var adminNotice = new notification();
@@ -822,13 +872,14 @@ namespace CinemaWeb.Areas.User.Controllers
                  discountItem = db.discounts.FirstOrDefault(x => x.id == discountId);
 
                 newInvoice.total_money = ((int?)(total_money - discountItem.discount1 * total_money));
-                foreach (var item in discountItem.user_discount)
-                {
-                    if (currentUser.id == item.user_id)
-                    {
-                        item.discount_status = true;
-                    }
-                }
+                newInvoice.discount_id = discountId;
+                //foreach (var item in discountItem.user_discount)
+                //{
+                //    if (currentUser.id == item.user_id)
+                //    {
+                //        item.discount_status = true;
+                //    }
+                //}
             }
             else
             {
@@ -924,21 +975,24 @@ namespace CinemaWeb.Areas.User.Controllers
                                                          x.room_schedule_detail.schedule_detail.movie_display_date.movie_id == movieId)
                                              .ToList();
 
+            var currentUser = (user)Session["user"];
             DateTime holdUntil = DateTime.Now.AddMinutes(5);
             foreach (var seatId in chosenSeats)
            {
                 var seatItem = selectedSeat.FirstOrDefault(x => x.seat_id == seatId);
                 if (seatItem != null)
                 {
-                    if (!(bool)seatItem.is_booked)
+                    if (seatItem.is_booked == false)
                     {
                         seatItem.is_booked = true;
                         seatItem.hold_until = holdUntil;
+                        seatItem.user_id = currentUser.id;
                         db.SaveChanges();
                     }
                     else
                     {
-                        return Json(new { success = false, message = "Ghế đã được chọn. Vui lòng chọn ghế khác!" });
+                        if (seatItem.user_id != currentUser.id)
+                            return Json(new { success = false, message = "Ghế đã được chọn. Vui lòng chọn ghế khác!" });
                     }
                 }
            }

@@ -19,6 +19,7 @@ namespace CinemaWeb.Models
         {
             this.actors = new HashSet<actor>();
             this.movies = new HashSet<movy>();
+            this.directors = new HashSet<director>();
         }
     
         public int id { get; set; }
@@ -28,5 +29,7 @@ namespace CinemaWeb.Models
         public virtual ICollection<actor> actors { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<movy> movies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<director> directors { get; set; }
     }
 }

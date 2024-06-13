@@ -61,6 +61,10 @@ namespace CinemaWeb.Areas.Staff.Controllers
         {
             int id = int.Parse(invoiceId);
             var invoiceItem = db.invoices.FirstOrDefault(x => x.id == id);
+            if (invoiceItem == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy vé!" });
+            }
 
             var currentDateTime = DateTime.Now;
             var displayDate = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1;
@@ -79,19 +83,47 @@ namespace CinemaWeb.Areas.Staff.Controllers
                 db.SaveChanges();
                 return Json(new {success = true, message = "Check In thành công!"});
             }
-            return Json(new { success = false, message = "Check In không thành công!" });
+            return Json(new { success = false, message = "Vé đã được sử dụng!" });
+        }
+
+        [HttpPost]
+        public ActionResult SearchInvoice(string invoiceId)
+        {
+            int id = int.Parse(invoiceId);
+            var invoiceItem = db.invoices.FirstOrDefault(x => x.id == id);
+
+            if (invoiceItem == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy vé!" });
+            }
+
+            var currentDateTime = DateTime.Now;
+            var displayDate = invoiceItem.room_schedule_detail.schedule_detail.movie_display_date.display_date.display_date1;
+            var startTime = invoiceItem.room_schedule_detail.schedule_detail.schedule.schedule_time;
+            var movieStartDateTime = displayDate.Value.Date + startTime.Value;
+            var checkInAllowedTime = movieStartDateTime.AddMinutes(-5);
+
+            if (currentDateTime < checkInAllowedTime)
+            {
+                return Json(new { success = false, message = "Hiện chưa tới giờ Check In!" });
+            }
+
+            if (invoiceItem.is_used == false || invoiceItem.is_used == null)
+            {
+                invoiceItem.is_used = true;
+                db.SaveChanges();
+                return Json(new { success = true, message = "Check In thành công!" });
+            }
+            return Json(new { success = false, message = "Vé đã được sử dụng!" });
         }
 
         public ActionResult StaffProfile()
         {
-            //var currentStaff = (user)Session["staff"];
-            //ViewBag.StaffInfo = currentStaff;
-            //ViewBag.StaffName = currentStaff.full_name;
             return View();
         }
 
         [HttpPost]
-        public ActionResult UpdateInfo(string name, string pass)
+        public ActionResult UpdateInfor(string name, string pass)
         {
             var currentUser = (user)Session["staff"];
             var updateUser = db.users.FirstOrDefault(x => x.id == currentUser.id);
@@ -116,8 +148,8 @@ namespace CinemaWeb.Areas.Staff.Controllers
             }
             db.SaveChanges();
 
-            //var redirectUrl = Url.Action("UserProfile", "UserHome", new { area = "User" });
-            return Json(new { success = true, message = "Cập nhật thông tin thành công" });
+            var redirectUrl = Url.Action("StaffProfile", "StaffHome", new { area = "Staff" });
+            return Json(new { success = true, redirectUrl = redirectUrl, message = "Cập nhật thông tin thành công" });
         }
 
         public ActionResult SignOut()

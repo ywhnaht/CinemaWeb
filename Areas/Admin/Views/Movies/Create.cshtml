@@ -1,6 +1,9 @@
 @model CinemaWeb.Models.movy
 
 @{
+    var currentAdmin = (CinemaWeb.Models.user)HttpContext.Current.Session["admin"];
+}
+@{ 
     ViewBag.Title = "Create";
 }
 
@@ -10,27 +13,102 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="icon" href="img/cinema-logo.png" type="image/png">
-    <title>Admin - Add Movie</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
-    <link rel="stylesheet" href="~/Admin/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="~/Admin/webfonts/themify-icons/themify-icons.css">
+    <link rel="icon" href="~/assets/images/logo/cinema-logo.png" type="image/png">
+    <title>Thêm phim</title>
+    <link rel="stylesheet" href="~/assets/font/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="~/Admin/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="~/Admin/text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <link rel="stylesheet" href="~/Areas/Admin/assets/css/addMovie.css">
+    <link rel="stylesheet" href="~/Areas/Admin/assets/css/addMovie.css?v=1">
 </head>
 
 <body id="reportsPage">
     <div class="header">
+        <div class="container-fluid p-4">
+            <div class="row align-items-center">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2 px-4 py-1">
+                    <a href="/Home" class="navbar-brand">
+                        <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
+                    </a>
+                </div>
+
+                <div class="col-md-6" style=" display: flex; justify-content: center; align-items: center;">
+                    <ul class="list-gr-1 list-group list-group-horizontal">
+                        <li class="list-group-item movie-area">
+                            <a href="/Admin/AdminHome">
+                                Trang chủ
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí rạp chiếu
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Movie/AllMovie">Phim</a></li>
+                                <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item cinema-corner text-center">
+                            Quản lí tài khoản
+                            <i class="ti-angle-down down-btn"></i>
+                            <ul class="sub-list-gr-1 list-group">
+                                <li><a href="/Admin/Staff/StaffList">Nhân viên</a></li>
+                                <li><a href="/Admin/User/UserList">Khách hàng</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="list-group-item movie-area text-center">
+                            <a href="/Admin/Revenue/OveralRevenue">
+                                Doanh thu
+                                <i class="ti-angle-down down-btn"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="login-area col-md-3">
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="show-login js-show-login">
+                                <div class="account-wrapper">
+                                    <img src="~/assets/images/subimg/account.png" alt="" class="img-fluid account-img">
+                                    <ul class="list-group account-list">
+                                        <li class="list-group-item">
+                                            <a href="/User/UserHome/UserProfile">
+                                                <i class="fa-solid fa-id-badge account-icon"></i>
+                                                Tài Khoản
+                                            </a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/Home/SignOut" class="js-logout">
+                                                <i class="fa-solid fa-arrow-right-from-bracket account-icon"></i>
+                                                Đăng Xuất
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto" style="display: flex; align-items: center;">
+                            <div class="user_name  row1 " style="font-weight: 600; font-size: small;">
+                                @currentAdmin.full_name
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="line-default"></div>
 
     <div class="container-fluid wrapper">
-        <div class="container update-box">
-            <h2>NHẬP THÔNG TIN PHIM</h2>
+        <div class="container update-box" style="max-width: 1140px !important">
+            <h2 style="text-align: center">NHẬP THÔNG TIN PHIM</h2>
             @using (Html.BeginForm("Create", "Movies", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
@@ -68,37 +146,38 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="search-content-item">
-                            <div class="date">
-                                <label for="email">Thời lượng (phút)</label>
-                                <div class="dropdown">
-                                    @Html.EditorFor(model => model.duration_minutes, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.duration_minutes, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="date">
-                                <label for="email">Rating phim</label>
-                                <div class="dropdown">
-                                    @Html.EditorFor(model => model.rating, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.rating, "", new { @class = "text-danger" })
-                                </div>
+                        <div class="subform-group">
+                            <label for="email">Thời lượng</label>
+                            <div class="subform">
+                                <i class="fa-solid fa-clapperboard sub-icon"></i>
+                                @Html.EditorFor(model => model.duration_minutes, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.duration_minutes, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        @*<div class="search-content-item">
+                                <div class="date">
+                                    <label for="email">Thời lượng (phút)</label>
+                                    <div class="dropdown">
+                                        @Html.EditorFor(model => model.duration_minutes, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.duration_minutes, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>*@
                         <div class="search-content-item">
                             <div class="date">
-                                <label for="email">Ngày công chiếu</label>
+                                <label for="release_date">Ngày công chiếu</label>
                                 <div class="dropdown">
                                     <i class="far fa-calendar-alt sub-icon"></i>
-                                    @Html.EditorFor(model => model.release_date, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                    @Html.TextBoxFor(model => model.release_date, new { @class = "form-control datepicker" })
                                     @Html.ValidationMessageFor(model => model.release_date, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="date">
-                                <label for="email">Ngày kết thúc</label>
+                                <label for="end_date">Ngày kết thúc</label>
                                 <div class="dropdown">
                                     <i class="far fa-calendar-alt sub-icon"></i>
-                                    @Html.EditorFor(model => model.end_date, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                    @Html.TextBoxFor(model => model.end_date, new { @class = "form-control datepicker" })
                                     @Html.ValidationMessageFor(model => model.end_date, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -159,8 +238,11 @@
 
                 </div>
                 <div class="optionBtn">
+                    <button type="submit" class="btn btn-primary addBtn btn-primary-custom">
+                        @Html.ActionLink("Trở lại", "Index", null, new { @class = "btn-link-custom" })
+                    </button>
                     <button type="submit" value="Create" class="btn btn-primary addBtn btn-primary-custom">
-                        Tạo phim mới
+                        Thêm phim
                     </button>
 
                 </div>
@@ -168,11 +250,44 @@
         </div>
     </div>
 
+    <style>
+        .actor-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+            .actor-input .form-control {
+                flex-grow: 1;
+            }
+
+        .remove-actor {
+            margin-left: 10px;
+            cursor: pointer;
+            color: #f58020;
+        }
+
+        .sub-icon {
+            margin-right: 10px;
+        }
+
+        .btn-link-custom {
+            color: white !important;
+            text-decoration: none !important;
+        }
+    </style>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         flatpickr(".datepicker", {
             dateFormat: "Y-m-d",
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            var datePickers = document.querySelectorAll(".datepicker");
+            datePickers.forEach(function (datePicker) {
+                datePicker.removeAttribute("readonly");
+            });
         });
     </script>
     <script>
@@ -202,11 +317,17 @@
             var newInput = document.createElement("div");
             newInput.className = "actor-input";
             newInput.innerHTML = `
-                    <i class="fa-solid fa-users sub-icon"></i>
-                    <input type="text" name="ActorNames" class="form-control" placeholder="Nhập tên diễn viên">
-                `;
+            <i class="fa-solid fa-users sub-icon1"></i>
+            <input type="text" name="ActorNames" class="form-control" placeholder="Nhập tên diễn viên">
+            <i class="fa-solid fa-trash remove-actor" onclick="removeActor(this)"></i>
+        `;
             container.appendChild(newInput);
         });
+
+        function removeActor(element) {
+            var actorInput = element.parentElement;
+            actorInput.remove();
+        }
     </script>
 
 </body>

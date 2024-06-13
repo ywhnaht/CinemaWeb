@@ -26,7 +26,7 @@
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-2 px-4 py-1">
-                    <a href="/User/UserHome/" class="navbar-brand">
+                    <a href="/Home" class="navbar-brand">
                         <img src="~/assets/images/logo/cinema-logo.png" alt="Ohayou Cinema" class="img-fluid">
                     </a>
                 </div>
@@ -44,7 +44,7 @@
                             Quản lí rạp chiếu
                             <i class="ti-angle-down down-btn"></i>
                             <ul class="sub-list-gr-1 list-group">
-                                <li><a href="/Admin/Movie/AllMovie">Phim</a></li>
+                                <li><a href="/Admin/Movies/Index">Phim</a></li>
                                 <li><a href="/Admin/Schedule/Index">Suất chiếu</a></li>
                             </ul>
                         </li>
@@ -197,7 +197,7 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                stepSize: 100000,
+                                stepSize: 500000,
                                 callback: function (value) {
                                     return value === 0 ? '0' : (value / 1000) + 'k'; 
                                 }
@@ -218,7 +218,7 @@
                             enabled: true,
                             callbacks: {
                                 label: function (context) {
-                                    return `Doanh thu: ${context.parsed.y.toLocaleString()} nghìn đồng`;
+                                    return `Doanh thu: ${context.parsed.y.toLocaleString()} VNĐ`;
                                 }
                             }
                         }
@@ -246,7 +246,7 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
-                                stepSize: 100000,
+                                stepSize: 1000000,
                                 callback: function (value) {
                                     return value === 0 ? '0' : (value / 1000) + 'k'; 
                                 }
@@ -267,7 +267,7 @@
                             enabled: true,
                             callbacks: {
                                 label: function (context) {
-                                    return `Doanh thu: ${context.parsed.y.toLocaleString()} nghìn đồng`;
+                                    return `Doanh thu: ${context.parsed.y.toLocaleString()} VNĐ`;
                                 }
                             }
                         }
